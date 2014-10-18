@@ -1,0 +1,17 @@
+---
+layout: releasenotes
+permalink: /releasenotes/
+---
+
+<ul class="post-list">
+  {% for post in site.posts %}
+    <li>
+      <h2>
+          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a> - {{ post.date | date_to_string }}
+    </h2>
+
+    {{ post.content }}
+
+    </li>
+  {% endfor %}
+</ul>

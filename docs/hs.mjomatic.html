@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.mjomatic module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.mjomatic</h1>
+      <p>tmuxomatic-like window management</p>
+
+<p>Usage:</p>
+
+<pre lang="lua"><code>local mjomatic = require &quot;hs.mjomatic&quot;
+</code></pre>
+
+    </header>
+    
+    <section id="go">
+      <a name="//apple_ref/cpp/Function/go" class="dashAnchor"></a>
+      <h3><a href="#go">go</a></h3>
+      <code>hs.mjomatic.go(cfg)</code>
+      <p>takes a config as a list of strings, configures your windows as stated.</p>
+
+<p>Example:</p>
+
+<pre lang="lua"><code>mjomatic.go({
+&quot;CCCCCCCCCCCCCiiiiiiiiiii      # &lt;-- The windowgram, it defines the shapes and positions of windows&quot;,
+&quot;CCCCCCCCCCCCCiiiiiiiiiii&quot;,
+&quot;SSSSSSSSSSSSSiiiiiiiiiii&quot;,
+&quot;SSSSSSSSSSSSSYYYYYYYYYYY&quot;,
+&quot;SSSSSSSSSSSSSYYYYYYYYYYY&quot;,
+&quot;&quot;,
+&quot;C Google Chrome            # &lt;-- window C has application():title() &#39;Google Chrome&#39;&quot;,
+&quot;i iTerm&quot;,
+&quot;Y YoruFukurou&quot;,
+&quot;S Sublime Text 2&quot;})
+</code></pre>
+
+    </section>
+    
+  </body>
+</html>

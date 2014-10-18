@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.notify module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.notify</h1>
+      <p>Home: <a href="https://github.com/asmagill/mjolnir_asm._asm">https://github.com/asmagill/mjolnir_asm._asm</a></p>
+
+<p>Apple&#39;s built-in notifications system.</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="register">
+      <a name="//apple_ref/cpp/Function/register" class="dashAnchor"></a>
+      <h3><a href="#register">register</a></h3>
+      <code>hs.notify.register(tag, fn) -> id</code>
+      <p>Registers a function to be called when an Apple notification with the given tag is clicked.</p>
+
+    </section>
+    
+    <section id="registry">
+      <a name="//apple_ref/cpp/Variable/registry" class="dashAnchor"></a>
+      <h3><a href="#registry">registry</a></h3>
+      <code>hs.notify.registry[]</code>
+      <p>This table contains the list of registered tags and their functions.  It should not be modified directly, but instead by the hs.notify.register(tag, fn) and hs.notify.unregister(id) functions.</p>
+
+    </section>
+    
+    <section id="show">
+      <a name="//apple_ref/cpp/Function/show" class="dashAnchor"></a>
+      <h3><a href="#show">show</a></h3>
+      <code>hs.notify.show(title, subtitle, text, tag)</code>
+      <p>Show an Apple notification. Tag is a unique string that identifies this notification; any functions registered for the given tag will be called if the notification is clicked. None of the strings are optional, though they may each be blank.</p>
+
+    </section>
+    
+    <section id="unregister">
+      <a name="//apple_ref/cpp/Function/unregister" class="dashAnchor"></a>
+      <h3><a href="#unregister">unregister</a></h3>
+      <code>hs.notify.unregister(id)</code>
+      <p>Unregisters a function to no longer be called when an Apple notification with the given tag is clicked.</p>
+
+    </section>
+    
+    <section id="unregisterall">
+      <a name="//apple_ref/cpp/Function/unregisterall" class="dashAnchor"></a>
+      <h3><a href="#unregisterall">unregisterall</a></h3>
+      <code>hs.notify.unregisterall()</code>
+      <p>Unregisters all functions registered for notification-clicks; called automatically when user config reloads.</p>
+
+    </section>
+    
+    <section id="withdraw_all">
+      <a name="//apple_ref/cpp/Function/withdraw_all" class="dashAnchor"></a>
+      <h3><a href="#withdraw_all">withdraw_all</a></h3>
+      <code>hs.notify.withdraw_all()</code>
+      <p>Withdraw all posted notifications.  This is called automatically during a reload to prevent crashes upon user activation of a notification, so you should seldom need to use this directly.</p>
+
+    </section>
+    
+  </body>
+</html>

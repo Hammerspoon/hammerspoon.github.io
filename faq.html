@@ -1,0 +1,16 @@
+---
+layout: default
+title: Hammerspoon FAQ
+permalink: /faq/
+---
+
+<h1>FAQ</h1>
+
+<h2>Accessibility issues</h2>
+Hammerspoon depends on access to the OS X accessibility stack to interact with the desktop, and due to the security requirements in OS X, the user is required to manually allow Hammerspoon access to the accessibility features.
+
+OS X manages the list of applications with access to accessibility features in System Preferences. Click on the `Security & Privacy` icon, then the `Privacy` tab and then `Accessibility` from the list. You should ensure that Hammerspoon is present in this list and is ticked.
+
+<h3>I can't add Hammerspoon to the list, or enable it</h3>
+
+It is unlikely, but possible, that the database controlling access to accessibility features, has become de-syncronised from reality. There is a guide to how to recover from this situation, at http://mizage.clarify-it.com/d/6ervmn (replace 'divvy' in the SQL query, with 'hammerspoon')

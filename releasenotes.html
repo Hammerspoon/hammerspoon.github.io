@@ -3,14 +3,16 @@ layout: releasenotes
 permalink: /releasenotes/
 ---
 
+<h1>Release Notes</h1>
+
 <ul class="post-list">
   {% for post in site.posts %}
     <li>
       <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a> - {{ post.date | date_to_string }}
-    </h2>
+        <a class="post-link" href="{{ post.url | prepend: site.url }}">{{ post.title }}</a> - {{ post.date | date_to_string }}
+      </h2>
 
-    {{ post.content }}
+      {{ post.content }}
 
     </li>
   {% endfor %}

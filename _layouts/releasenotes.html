@@ -1,7 +1,22 @@
 ---
 layout: default
+title: Relase Notes
 ---
 
-
-          {{ content }}
-
+  <div class="row">
+    <div class="col-md-9">
+      {{ content }}
+    </div>
+    <div class="col-md-3">
+      <h4>Latest Releases</h4>
+      <ul class="post-list">
+        {% for post in site.posts limit: 5 %}
+          <li>
+            <h4>
+              <a class="post-link" href="{{ post.url | prepend: site.url }}">{{ post.title }}</a> - {{ post.date | date_to_string }}
+            </h4>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>

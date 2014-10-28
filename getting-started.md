@@ -35,7 +35,7 @@ Then click on the Hammerspoon menubar icon and click `Reload Config`. You should
 
 What is happening here is that we're telling Hammerspoon to bind an anonymous function to a particular hotkey. The hotkey is specified by a table of modifier keys (cmd, alt and ctrl in this case) and a normal key (W). An anonymous function is simply one that doesn't have a name. We could have defined the alert function separately with a name and passed that name to `hs.hotkey.bind()`, but Lua makes it easy to define the functions inline.
 
-### Window movement
+### Introduction to window movement
 
 One of the most useful things you can do with Hammerspoon is to manipulate the windows on your screen. We'll start off with a simple example and build up to something more complicated.
 
@@ -51,7 +51,7 @@ Add the following to your `init.lua`:
 
 This will now cause `cmd+alt+ctrl+H` to make move the currently focused window 10 pixels to the left. You can see that we fetch the currently focused window and then obtain its frame. This describes the location and size of the window. We can then modify the frame and apply it back to the window using `setframe()`.
 
-#### A quick aside on colon syntax
+### A quick aside on colon syntax
 
 You might have noticed that sometimes we're using dots in function calls, and sometimes we're using colons. The colon syntax is a shorthand. The two following calls are identical:
 
@@ -59,3 +59,83 @@ You might have noticed that sometimes we're using dots in function calls, and so
     hs.window.frame(win)
 
 It's up to you if you want to use the colon syntax or not, but it can save a lot of typing!
+
+### More complex window movement
+
+We can build on the simple window movement example to implement a set of keyboard shortcuts that allow us to move a window in all directions, using the `nethack` movement keys:
+
+    y   k   u
+    h       l
+    b   j   n
+
+To do this, we simply need to repeat the previous `hs.hotkey.bind()` call with slightly different frame modifications:
+
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Y", function()
+      local win = hs.window.focusedwindow()
+      local f = win:frame()
+      
+      f.x = f.x - 10
+      f.y = f.y - 10
+      win:setframe(f)
+    end)
+    
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "K", function()
+      local win = hs.window.focusedwindow()
+      local f = win:frame()
+      
+      f.y = f.y - 10
+      win:setframe(f)
+    end)
+    
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "U", function()
+      local win = hs.window.focusedwindow()
+      local f = win:frame()
+      
+      f.x = f.x + 10
+      f.y = f.y - 10
+      win:setframe(f)
+    end)
+    
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
+      local win = hs.window.focusedwindow()
+      local f = win:frame()
+      
+      f.x = f.x - 10
+      win:setframe(f)
+    end)
+    
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "L", function()
+      local win = hs.window.focusedwindow()
+      local f = win:frame()
+    
+      f.x = f.x + 10
+      win:setframe(f)
+    end)
+    
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "B", function()
+      local win = hs.window.focusedwindow()
+      local f = win:frame()
+    
+      f.x = f.x - 10
+      f.y = f.y + 10
+      win:setframe(f)
+    end)
+    
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "J", function()
+      local win = hs.window.focusedwindow()
+      local f = win:frame()
+    
+      f.y = f.y + 10
+      win:setframe(f)
+    end)
+    
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "N", function()
+      local win = hs.window.focusedwindow()
+      local f = win:frame()
+    
+      f.x = f.x + 10
+      f.y = f.y + 10
+      win:setframe(f)
+    end)
+
+Try it out!

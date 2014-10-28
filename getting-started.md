@@ -18,8 +18,8 @@ Lua is a simple programming language. If you've never programmed in Lua before, 
 
  * Download the latest release of Hammerspoon from [here](http://www.hammerspoon.org/) and drag it to your `/Applications` folder.
  * Run Hammerspoon.app and follow the prompts to enable Accessibility access for the app
- * Make a directory in your home directory called `.hammerspoon` (note the dot at the front of the name).
- * Fire up your favourite text editor and create a file called `.hammerspoon/init.lua`
+ * Click on the Hammerspoon menu bar icon and choose `Open Config` from the menu
+ * Open the Hammerspoon [API docs](http://www.hammerspoon.org/docs/) in your browser, to explore the extensions/functions available to you
 
 ## Contents
 
@@ -149,3 +149,38 @@ To do this, we simply need to repeat the previous `hs.hotkey.bind()` call with s
 Try it out!
 
 ### <a name="winresize"></a>Window sizing
+
+In this section we'll implement the common window management feature of moving a window so it occupies either the left or right half of the screen, allowing you to tile two windows next to each other for Productivity™.
+
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
+      local win = hs.window.focusedwindow()
+      local f = win:frame()
+      local screen = win:screen()
+      local max = screen:frame()
+      
+      f.x = max.x
+      f.y = max.y
+      f.w = max.w / 2
+      f.h = max.h
+      win:setframe(f)
+    end)
+
+Here we are binding `cmd+alt+ctrl+Left` (as in the left cursor key) to a function that will fetch the focused window, then fetch the screen that the focused window is on, fetch the frame of the screen (note that `hs.screen.frame()` does not include the menubar and dock, see `hs.screen.fullframe()` if you need that) and set the frame of the window to occupy the left half of the screen.
+
+To round that out, we'll add a function to move the window to the right half of the screen:
+
+    hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
+      local win = hs.window.focusedwindow()
+      local f = win:frame()
+      local screen = win:screen()
+      local max = screen:frame()
+      
+      f.x = max.x + (max.w / 2)
+      f.y = max.y
+      f.w = max.w / 2
+      f.h = max.h
+      win:setframe(f)
+    end)
+
+A good exercise here would be to see if you can now write functions for yourself that bind the Up/Down cursor keys to resizing windows to the top/bottom half of the screen, respectively.
+

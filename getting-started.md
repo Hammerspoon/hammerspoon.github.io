@@ -21,7 +21,15 @@ Lua is a simple programming language. If you've never programmed in Lua before, 
  * Make a directory in your home directory called `.hammerspoon` (note the dot at the front of the name).
  * Fire up your favourite text editor and create a file called `.hammerspoon/init.lua`
 
-### Hello World
+## Contents
+
+ * [Hello World](#helloworld)
+ * [Introduction to window movement](#winmoveintro)
+ * [A quick aside on colon syntax](#colonsyntax)
+ * [More complex window movement](#winmovenethack)
+ * [Window resizing](#winresize)
+
+### <a name="helloworld"></a>Hello World
 
 All good programming tutorials start with a Hello World example of some kind, so we'll use Hammerspoon's ability to bind keyboard hotkeys to demonstrate saying Hello World with a simple notification.
 
@@ -35,7 +43,7 @@ Then click on the Hammerspoon menubar icon and click `Reload Config`. You should
 
 What is happening here is that we're telling Hammerspoon to bind an anonymous function to a particular hotkey. The hotkey is specified by a table of modifier keys (cmd, alt and ctrl in this case) and a normal key (W). An anonymous function is simply one that doesn't have a name. We could have defined the alert function separately with a name and passed that name to `hs.hotkey.bind()`, but Lua makes it easy to define the functions inline.
 
-### Introduction to window movement
+### <a name="winmoveintro"></a>Introduction to window movement
 
 One of the most useful things you can do with Hammerspoon is to manipulate the windows on your screen. We'll start off with a simple example and build up to something more complicated.
 
@@ -51,7 +59,7 @@ Add the following to your `init.lua`:
 
 This will now cause `cmd+alt+ctrl+H` to make move the currently focused window 10 pixels to the left. You can see that we fetch the currently focused window and then obtain its frame. This describes the location and size of the window. We can then modify the frame and apply it back to the window using `setframe()`.
 
-### A quick aside on colon syntax
+### <a name="colonsyntax"></a>A quick aside on colon syntax
 
 You might have noticed that sometimes we're using dots in function calls, and sometimes we're using colons. The colon syntax is a shorthand. The two following calls are identical:
 
@@ -60,7 +68,7 @@ You might have noticed that sometimes we're using dots in function calls, and so
 
 It's up to you if you want to use the colon syntax or not, but it can save a lot of typing!
 
-### More complex window movement
+### <a name="winmovenethack"></a>More complex window movement
 
 We can build on the simple window movement example to implement a set of keyboard shortcuts that allow us to move a window in all directions, using the `nethack` movement keys:
 
@@ -139,3 +147,5 @@ To do this, we simply need to repeat the previous `hs.hotkey.bind()` call with s
     end)
 
 Try it out!
+
+### <a name="winresize"></a>Window sizing

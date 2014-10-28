@@ -1,0 +1,124 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.caffeinate module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.caffeinate</h1>
+      <p>Prevent various kinds of sleep activities in OSX</p>
+
+<p><strong>NOTE</strong>: Any sleep preventions will be removed when hs.reload() is called. A future version of the module will save/restore state across reloads.</p>
+
+    </header>
+    
+    <section id="get">
+      <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
+      <h3><a href="#get">get</a></h3>
+      <code>hs.caffeinate.get(sleepType) -> bool or nil</code>
+      <p>Queries whether a particular sleep type is being prevented by hs.<br>
+<strong>Arguments:</strong></p>
+
+<ul>
+<li>sleepType (string): (see <a href="#set">set</a> for information about these values)
+
+<ul>
+<li>DisplayIdle</li>
+<li>SystemIdle</li>
+<li>System</li>
+</ul></li>
+</ul>
+
+<p><strong>Returns:</strong></p>
+
+<ul>
+<li>true - if the specified sleepType is currently being prevented.</li>
+<li>false - if the specified sleepType is not currenly being prevented.</li>
+<li>nil - if an invalid sleepType is specified.</li>
+</ul>
+
+    </section>
+    
+    <section id="set">
+      <a name="//apple_ref/cpp/Function/set" class="dashAnchor"></a>
+      <h3><a href="#set">set</a></h3>
+      <code>hs.caffeinate.set(sleepType, aValue, AC_and_battery)</code>
+      <p>Configures the sleep prevention settings.<br>
+<strong>Arguments:</strong></p>
+
+<ul>
+<li>sleepType (string):
+
+<ul>
+<li>DisplayIdle - Controls whether the screen will be allowed to sleep (and also the system) if the user is idle.</li>
+<li>SystemIdle - Controls whether the system will be allowed to sleep if the user is idle (display may still sleep).</li>
+<li>System - Controls whether the system will be allowed to sleep for any reason.</li>
+</ul></li>
+<li>aValue (boolean):
+
+<ul>
+<li>True - The specified sleep type should be prevented.</li>
+<li>False - The specified sleep type should be allowed.</li>
+</ul></li>
+<li>acAndBattery (boolean):
+
+<ul>
+<li>True - System should not sleep when on AC or battery.</li>
+<li>False - System should not sleep only when on AC.</li>
+</ul></li>
+</ul>
+
+<p><strong>NOTES:</strong></p>
+
+<ul>
+<li>These calls are not guaranteed to prevent the system sleep behaviours described above. The OS may override them if it feels it must (e.g. if your CPU temperature becomes dangerously high).</li>
+<li>The acAndBattery argument only applies to the &quot;System&quot; sleep type.</li>
+<li>You can toggle the acAndBattery state by calling set() again and altering the AC_and_battery value.</li>
+</ul>
+
+    </section>
+    
+    <section id="system_sleep">
+      <a name="//apple_ref/cpp/Function/system_sleep" class="dashAnchor"></a>
+      <h3><a href="#system_sleep">system_sleep</a></h3>
+      <code>hs.caffeinate.system_sleep() -> nil</code>
+      <p>Requests the system to sleep immediately</p>
+
+    </section>
+    
+    <section id="toggle">
+      <a name="//apple_ref/cpp/Function/toggle" class="dashAnchor"></a>
+      <h3><a href="#toggle">toggle</a></h3>
+      <code>hs.caffeinate.toggle(sleepType) -> bool or nil</code>
+      <p>Toggles the current state of the specified sleepType.<br>
+<strong>Arguments:</strong></p>
+
+<ul>
+<li>sleepType (string): (see <a href="#set">set</a> for information about these values)
+
+<ul>
+<li>DisplayIdle</li>
+<li>SystemIdle</li>
+<li>System</li>
+</ul></li>
+</ul>
+
+<p><strong>Returns:</strong></p>
+
+<ul>
+<li>true - if the new state of sleepType is prevention.</li>
+<li>false - if the new state of sleepType is allowance.</li>
+<li>nil - if an invalid sleepType is specified.</li>
+</ul>
+
+<p><strong>NOTE:</strong> If SystemIdle is toggled to on, it will apply to AC only.</p>
+
+    </section>
+    
+  </body>
+</html>

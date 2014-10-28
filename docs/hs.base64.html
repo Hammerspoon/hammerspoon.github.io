@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.base64 module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.base64</h1>
+      <p>This module provides base64 encoding and decoding for Mjolnir.</p>
+
+<p>Portions sourced from (<a href="https://gist.github.com/shpakovski/1902994">https://gist.github.com/shpakovski/1902994</a>).</p>
+
+    </header>
+    
+    <section id="decode">
+      <a name="//apple_ref/cpp/Function/decode" class="dashAnchor"></a>
+      <h3><a href="#decode">decode</a></h3>
+      <code>hs.base64.decode(str) -> val</code>
+      <p>Returns a Lua string representing the given base64 string.</p>
+
+    </section>
+    
+    <section id="encode">
+      <a name="//apple_ref/cpp/Function/encode" class="dashAnchor"></a>
+      <h3><a href="#encode">encode</a></h3>
+      <code>hs.base64.encode(val[,width]) -> str</code>
+      <p>Returns the base64 encoding of the string provided, optionally split into lines of <code>width</code> characters per line. Common widths seem to be 64 and 76 characters per line (except for the last line, which may be less), but as this is not standard or even required in all cases, we allow an arbitrary number to be chosen to fit your application&#39;s requirements.</p>
+
+    </section>
+    
+  </body>
+</html>

@@ -51,6 +51,8 @@ Add the following to your `init.lua`:
 
 This will now cause `cmd+alt+ctrl+H` to make move the currently focused window 10 pixels to the left. You can see that we fetch the currently focused window and then obtain its frame. This describes the location and size of the window. We can then modify the frame and apply it back to the window using `setframe()`.
 
+#### A quick aside on colon syntax
+
 You might have noticed that sometimes we're using dots in function calls, and sometimes we're using colons. The colon syntax is a shorthand. The two following calls are identical:
 
     win:frame()

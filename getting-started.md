@@ -4,6 +4,8 @@ title: Getting Started
 permalink: /go/
 ---
 
+NOTE: This guide is still a work in progress.
+
 # Getting Started with Hammerspoon
 
 ## What is Hammerspoon?
@@ -184,3 +186,6 @@ To round that out, we'll add a function to move the window to the right half of 
 
 A good exercise here would be to see if you can now write functions for yourself that bind the Up/Down cursor keys to resizing windows to the top/bottom half of the screen, respectively.
 
+# Credits
+
+This guide owes a huge debt to Joseph Holsten and his [Mjolnir guide](http://blog.josephholsten.com/post/scripting-your-mac-getting-started)

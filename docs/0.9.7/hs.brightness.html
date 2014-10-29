@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hammerspoon docs: hs.mouse module</title>
+    <title>Hammerspoon docs: hs.brightness module</title>
     <style type="text/css">
       a { text-decoration: none; }
       a:hover { text-decoration: underline; }
@@ -10,8 +10,10 @@
   </head>
   <body>
     <header>
-      <h1>hs.mouse</h1>
-      <p>Functions for getting and setting the position of the mouse pointer.</p>
+      <h1>hs.brightness</h1>
+      <p>Home: <a href="https://github.com/asmagill/mjolnir_asm.sys">https://github.com/asmagill/mjolnir_asm.sys</a></p>
+
+<p>Functions for manipulating display brightness.</p>
 
 <p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
 
@@ -20,16 +22,16 @@
     <section id="get">
       <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
       <h3><a href="#get">get</a></h3>
-      <code>hs.mouse.get() -> point</code>
-      <p>Returns the current location of the mouse on the current screen as a point.</p>
+      <code>hs.brightness.get() -> number</code>
+      <p>Returns the current brightness of the display.</p>
 
     </section>
     
     <section id="set">
       <a name="//apple_ref/cpp/Function/set" class="dashAnchor"></a>
       <h3><a href="#set">set</a></h3>
-      <code>hs.mouse.set(point)</code>
-      <p>Moves the mouse to the given location on the current screen.</p>
+      <code>hs.brightness.set(number) -> boolean</code>
+      <p>Sets the display brightness. Number should be between 0 and 100.</p>
 
     </section>
     

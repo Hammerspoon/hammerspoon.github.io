@@ -18,10 +18,10 @@ Lua is a simple programming language. If you've never programmed in Lua before, 
 
 ## Let's go!
 
- * Download the latest release of Hammerspoon from [here](http://www.hammerspoon.org/) and drag it to your `/Applications` folder.
+ * [Download the latest release of Hammerspoon](http://www.hammerspoon.org/) and drag it to your `/Applications` folder
  * Run Hammerspoon.app and follow the prompts to enable Accessibility access for the app
  * Click on the Hammerspoon menu bar icon and choose `Open Config` from the menu
- * Open the Hammerspoon [API docs](http://www.hammerspoon.org/docs/) in your browser, to explore the extensions/functions available to you
+ * Open the Hammerspoon [API docs](http://www.hammerspoon.org/docs/) in your browser, to explore the extensions we provide, and the functions they offer
 
 ## Contents
 

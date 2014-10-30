@@ -12,17 +12,15 @@ What gives Hammerspoon its power is a set of extensions that expose specific pie
 
 ## How do I install it?
 
-Grab the latest release from [here](https://github.com/Hammerspoon/hammerspoon/releases/latest) and then drag the application to `/Applications/`.
+[Download the latest release](https://github.com/Hammerspoon/hammerspoon/releases/latest) and then drag the application to `/Applications/`.
 
 ## How do I use it?
 
-Hammerspoon is controlled by the config you write in `~/.hammerspoon/init.lua`. You can place any Lua script you like in there, using the APIs that Hammerspoon provides.
+Out of the box, Hammerspoon does nothing. You will need to create a Lua script in  `~/.hammerspoon/init.lua` using our APIs and standard Lua APIs.
 
-If you are new to Hammerspoon, read the [Getting Started Guide](/go/)
+If you are new to Hammerspoon, read the [Getting Started Guide](/go/) with reference to the [full API documentation](/docs/).
 
-A full API reference can be found [here](/docs/).
-
-If you need a reference for the Lua scripting language, see [lua.org](http://www.lua.org/docs.html).
+You can learn more about the Lua scripting language at [lua.org](http://www.lua.org/docs.html).
 
 ## How can I contribute?
 
@@ -35,3 +33,7 @@ You can usually get a quick answer in #hammerspoon on Freenode.
 We have a Google Group mailing list [here](https://groups.google.com/forum/#!forum/hammerspoon/)
 
 If you find a bug, or have a suggestion, you can also file an issue on the [issue tracker](https://github.com/Hammerspoon/hammerspoon/issues).
+
+## Who made this?
+
+Lots of people! You can find out more on our [Contributors](/contributors.html) page.

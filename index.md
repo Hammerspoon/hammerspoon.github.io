@@ -16,7 +16,11 @@ Grab the latest release from [here](https://github.com/Hammerspoon/hammerspoon/r
 
 ## How do I use it?
 
-Hammerspoon is controlled by the config you write in `~/.hammerspoon/init.lua`. You can place any Lua script you like in there, using the APIs that Hammerspoon provides. A full API reference can be found [here](http://hammerspoon.org/docs).
+Hammerspoon is controlled by the config you write in `~/.hammerspoon/init.lua`. You can place any Lua script you like in there, using the APIs that Hammerspoon provides.
+
+If you are new to Hammerspoon, read the [Getting Started Guide](/go/)
+
+A full API reference can be found [here](/docs/).
 
 If you need a reference for the Lua scripting language, see [lua.org](http://www.lua.org/docs.html).
 
@@ -28,4 +32,6 @@ More extensions will always be a huge benefit to Hammerspoon. They can either be
 
 You can usually get a quick answer in #hammerspoon on Freenode.
 
-You can also file an issue on the [issue tracker](https://github.com/Hammerspoon/hammerspoon/issues).
+We have a Google Group mailing list [here](https://groups.google.com/forum/#!forum/hammerspoon/)
+
+If you find a bug, or have a suggestion, you can also file an issue on the [issue tracker](https://github.com/Hammerspoon/hammerspoon/issues).

@@ -30,6 +30,8 @@ Lua is a simple programming language. If you've never programmed in Lua before, 
  * [A quick aside on colon syntax](#colonsyntax)
  * [More complex window movement](#winmovenethack)
  * [Window resizing](#winresize)
+ * [Simple config reloading](#simplereload)
+ * [Fancy config reloading](#fancyreload)
 
 ### <a name="helloworld"></a>Hello World
 
@@ -159,7 +161,7 @@ In this section we'll implement the common window management feature of moving a
       local f = win:frame()
       local screen = win:screen()
       local max = screen:frame()
-      
+
       f.x = max.x
       f.y = max.y
       f.w = max.w / 2
@@ -171,12 +173,12 @@ Here we are binding `cmd+alt+ctrl+Left` (as in the left cursor key) to a functio
 
 To round that out, we'll add a function to move the window to the right half of the screen:
 
-    hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
       local win = hs.window.focusedwindow()
       local f = win:frame()
       local screen = win:screen()
       local max = screen:frame()
-      
+
       f.x = max.x + (max.w / 2)
       f.y = max.y
       f.w = max.w / 2
@@ -185,6 +187,37 @@ To round that out, we'll add a function to move the window to the right half of 
     end)
 
 A good exercise here would be to see if you can now write functions for yourself that bind the Up/Down cursor keys to resizing windows to the top/bottom half of the screen, respectively.
+
+### <a name="simplereload"></a>Simple configuration reloading
+
+You may have noticed that while you're editing the config, it's a little bit annoying to have to keep choosing the `Reload Config` menu item every time you make a change. We can fix that by adding a keyboard shortcut to reload the config:
+
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
+      hs.alert.show("reloading config")
+      hs.reload()
+    end)
+
+We've now bound `cmd+alt+ctrl+R` to a function that will reload the config and display a simple alert banner on the screen for a couple of seconds.
+
+One important detail to call out here is that `hs.reload()` destroys the current Lua interpreter and creates a new one, so any code you place after it in this function, won't ever get executed.
+
+### <a name="fancyreload"></a>Fancy configuration reloading
+
+So we can now manually force a reload, but why should we even have to do that when the computer could do it for us‽
+
+The following snippet introduces another new extension, `pathwatcher` which will allow us to automatically reload the config whenever the file changes:
+
+    function reload_config(files)
+        hs.alert.show("reloading config")
+        hs.reload()
+    end
+    hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reload_config):start()
+
+There are several things worth breaking down about this example. Firstly, we're using a Lua function called `os.getenv()` to fetch the `HOME` variable from your system's environment. This will tell us where your home directory is. We then use Lua's `..` operator to join that string to the part of the config file's path that we do know, the `/.hammerspoon/` part. This gives us the full path of Hammerspoon's configuration directory.
+
+We then create a new path watcher using this path, and tell it to call our `reload_config` function whenever something changes in the `.hammerspoon` directory. We then immediately call `start()` on the path watcher object, so it begins its work.
+
+Note that we didn't have to use a separate function to pass to `hs.pathwatcher.new()`, we're just doing that to show how it can be done if you want to keep things a little more separated, or be able to re-use functions in multiple places.
 
 # Credits
 

@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.wifi.watcher module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.wifi.watcher</h1>
+      <p>Watch for changes to the associated wifi network</p>
+
+    </header>
+    
+    <section id="new">
+      <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+      <h3><a href="#new">new</a></h3>
+      <code>hs.wifi.watcher.new(fn) -> watcher</code>
+      <p>Creates a new ssid-watcher that can be started; fn will be called when your ssid changes</p>
+
+<p>Note that fn will be called both when you join and leave a network. You can identify which<br>
+type of event is happening, with hs.wifi.current_network(), which will return nil if you<br>
+have just left a network (and note further that switching from one network to another will<br>
+therefore trigger two calls to fn, one when leaving the current network and one when joining<br>
+the new one).</p>
+
+<p>You would be advised to retain a variable somewhere with the &quot;last associated network&quot;, thus<br>
+allowing you to determine which network has been left, if that is something you wish to react<br>
+to.</p>
+
+    </section>
+    
+    <section id="start">
+      <a name="//apple_ref/cpp/Function/start" class="dashAnchor"></a>
+      <h3><a href="#start">start</a></h3>
+      <code>hs.wifi.watcher:start() -> watcher</code>
+      <p>Starts the ssid watcher, making it so fn is called each time the ssid changes</p>
+
+    </section>
+    
+    <section id="stop">
+      <a name="//apple_ref/cpp/Function/stop" class="dashAnchor"></a>
+      <h3><a href="#stop">stop</a></h3>
+      <code>hs.wifi.watcher:stop() -> watcher</code>
+      <p>Stops the ssid watcher&#39;s fn from getting called until started again.</p>
+
+    </section>
+    
+  </body>
+</html>

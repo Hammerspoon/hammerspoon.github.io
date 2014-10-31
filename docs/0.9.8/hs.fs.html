@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.fs module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.fs</h1>
+      <p>Home: <a href="http://keplerproject.github.io/luafilesystem/">http://keplerproject.github.io/luafilesystem/</a></p>
+
+<p>Functions for accessing and inspecting the local filesystem.</p>
+
+<p>This module is produced by the Kepler Project under the name &quot;Lua File System&quot;</p>
+
+    </header>
+    
+    <section id="attributes">
+      <a name="//apple_ref/cpp/Function/attributes" class="dashAnchor"></a>
+      <h3><a href="#attributes">attributes</a></h3>
+      <code>hs.fs.attributes(filepath [, aname]) -> table or nil</code>
+      <p>Returns a table with the file attributes corresponding to filepath (or nil followed by an error message in case of error). If the second optional argument is given, then only the value of the named attribute is returned (this use is equivalent to lfs.attributes(filepath).aname, but the table is not created and only one attribute is retrieved from the O.S.). The attributes are described as follows; attribute mode is a string, all the others are numbers, and the time related attributes use the same time reference of os.time:</p>
+
+<ul>
+<li>dev - on Unix systems, this represents the device that the inode resides on. On Windows systems, represents the drive number of the disk containing the file</li>
+<li>ino - on Unix systems, this represents the inode number. On Windows systems this has no meaning</li>
+<li>mode - string representing the associated protection mode (the values could be file, directory, link, socket, named pipe, char device, block device or other)</li>
+<li>nlink - number of hard links to the file</li>
+<li>uid - user-id of owner (Unix only, always 0 on Windows)</li>
+<li>gid - group-id of owner (Unix only, always 0 on Windows)</li>
+<li>rdev - on Unix systems, represents the device type, for special file inodes. On Windows systems represents the same as dev</li>
+<li>access - time of last access modification time of last data modification</li>
+<li>change - time of last file status change</li>
+<li>size - file size, in bytes</li>
+<li>blocks - block allocated for file; (Unix only)</li>
+<li>blksize - optimal file system I/O blocksize; (Unix only)
+This function uses stat internally thus if the given filepath is a symbolic link, it is followed (if it points to another link the chain is followed recursively) and the information is about the file it refers to. To obtain information about the link itself, see function lfs.symlinkattributes.</li>
+</ul>
+
+    </section>
+    
+    <section id="chdir">
+      <a name="//apple_ref/cpp/Function/chdir" class="dashAnchor"></a>
+      <h3><a href="#chdir">chdir</a></h3>
+      <code>hs.fs.chdir (path) -> true or nil,error</code>
+      <p>Changes the current working directory to the given path.</p>
+
+<p>Returns true in case of success or nil plus an error string.</p>
+
+    </section>
+    
+    <section id="currentdir">
+      <a name="//apple_ref/cpp/Function/currentdir" class="dashAnchor"></a>
+      <h3><a href="#currentdir">currentdir</a></h3>
+      <code>hs.fs.currentdir () -> string or nil,error</code>
+      <p>Returns a string with the current working directory or nil plus an error string.</p>
+
+    </section>
+    
+    <section id="dir">
+      <a name="//apple_ref/cpp/Function/dir" class="dashAnchor"></a>
+      <h3><a href="#dir">dir</a></h3>
+      <code>hs.fs.dir (path) -> iter_fn, dir_obj</code>
+      <p>Returns a Lua iterator function and an object representing the path.</p>
+
+<p>Each time the iterator is called with dir_obj it returns a directory entry&#39;s name as a string, or nil if there are no more entries. You can also iterate by calling dir_obj:next(), and explicitly close the directory before the iteration finished with dir_obj:close(). Raises an error if path is not a directory.</p>
+
+    </section>
+    
+    <section id="link">
+      <a name="//apple_ref/cpp/Function/link" class="dashAnchor"></a>
+      <h3><a href="#link">link</a></h3>
+      <code>hs.fs.link (old, new[, symlink]) -> FIXME</code>
+      <p>Creates a link. The first argument is the object to link to and the second is the name of the link. If the optional third argument is true, the link will by a symbolic link (by default, a hard link is created).</p>
+
+    </section>
+    
+    <section id="lock">
+      <a name="//apple_ref/cpp/Function/lock" class="dashAnchor"></a>
+      <h3><a href="#lock">lock</a></h3>
+      <code>hs.fs.lock (filehandle, mode[, start[, length]]) -> true or nil,error</code>
+      <p>Locks a file or a part of it. This function works on open files; the file handle should be specified as the first argument. The string mode could be either r (for a read/shared lock) or w (for a write/exclusive lock). The optional arguments start and length can be used to specify a starting point and its length; both should be numbers.<br>
+Returns true if the operation was successful; in case of error, it returns nil plus an error string.</p>
+
+    </section>
+    
+    <section id="lock_dir">
+      <a name="//apple_ref/cpp/Function/lock_dir" class="dashAnchor"></a>
+      <h3><a href="#lock_dir">lock_dir</a></h3>
+      <code>hs.fs.lock_dir(path, [seconds_stale]) -> lock or nil,error</code>
+      <p>Creates a lockfile (called lockfile.lfs) in path if it does not exist and returns the lock. If the lock already exists checks if it&#39;s stale, using the second parameter (default for the second parameter is INT_MAX, which in practice means the lock will never be stale. To free the the lock call lock:free(). <br>
+In case of any errors it returns nil and the error message. In particular, if the lock exists and is not stale it returns the &quot;File exists&quot; message.</p>
+
+    </section>
+    
+    <section id="mkdir">
+      <a name="//apple_ref/cpp/Function/mkdir" class="dashAnchor"></a>
+      <h3><a href="#mkdir">mkdir</a></h3>
+      <code>hs.fs.mkdir (dirname) -> true or nil,error</code>
+      <p>Creates a new directory. The argument is the name of the new directory.</p>
+
+<p>Returns true if the operation was successful; in case of error, it returns nil plus an error string.</p>
+
+    </section>
+    
+    <section id="rmdir">
+      <a name="//apple_ref/cpp/Function/rmdir" class="dashAnchor"></a>
+      <h3><a href="#rmdir">rmdir</a></h3>
+      <code>hs.fs.rmdir (dirname) -> true or nil,error</code>
+      <p>Removes an existing directory. The argument is the name of the directory.</p>
+
+<p>Returns true if the operation was successful; in case of error, it returns nil plus an error string.</p>
+
+    </section>
+    
+    <section id="symlinkattributes">
+      <a name="//apple_ref/cpp/Function/symlinkattributes" class="dashAnchor"></a>
+      <h3><a href="#symlinkattributes">symlinkattributes</a></h3>
+      <code>hs.fs.symlinkattributes (filepath [, aname]) -> table</code>
+      <p>Identical to hs.fs.attributes except that it obtains information about the link itself (not the file it refers to).</p>
+
+    </section>
+    
+    <section id="touch">
+      <a name="//apple_ref/cpp/Function/touch" class="dashAnchor"></a>
+      <h3><a href="#touch">touch</a></h3>
+      <code>hs.fs.touch (filepath [, atime [, mtime]]) -> true or nil,error</code>
+      <p>Set access and modification times of a file. This function is a bind to utime function. The first argument is the filename, the second argument (atime) is the access time, and the third argument (mtime) is the modification time. Both times are provided in seconds (which should be generated with Lua standard function os.time). If the modification time is omitted, the access time provided is used; if both times are omitted, the current time is used.</p>
+
+<p>Returns true if the operation was successful; in case of error, it returns nil plus an error string.</p>
+
+    </section>
+    
+    <section id="unlock">
+      <a name="//apple_ref/cpp/Function/unlock" class="dashAnchor"></a>
+      <h3><a href="#unlock">unlock</a></h3>
+      <code>hs.fs.unlock (filehandle[, start[, length]]) -> true or nil,error</code>
+      <p>Unlocks a file or a part of it. This function works on open files; the file handle should be specified as the first argument. The optional arguments start and length can be used to specify a starting point and its length; both should be numbers.</p>
+
+<p>Returns true if the operation was successful; in case of error, it returns nil plus an error string.</p>
+
+    </section>
+    
+  </body>
+</html>

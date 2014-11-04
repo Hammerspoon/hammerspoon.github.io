@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.eventtap module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.eventtap</h1>
+      <p>For tapping into input events (mouse, keyboard, trackpad) for observation and possibly overriding them. This module requires <code>hs.eventtap.event</code>.</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="new">
+      <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+      <h3><a href="#new">new</a></h3>
+      <code>hs.eventtap.new(types, fn) -> eventtap</code>
+      <p>Returns a new event tap with the given function as the callback for the given event types; the eventtap not started automatically. The types param is a table which may contain values from table <code>hs.eventtap.event.types</code>. The event types are specified as bit-fields and are exclusively-or&#39;ed together (see {&quot;all&quot;} below for why this is done.  This means { ...keyup, ...keydown, ...keyup }  is equivalent to { ...keydown }.</p>
+
+<p>The callback function takes an event object as its only parameter. It can optionally return two values: if the first one is truthy, this event is deleted from the system input event stream and not seen by any other app; if the second one is a table of events, they will each be posted along with this event.</p>
+
+<p>e.g. callback(obj) -&gt; bool[, table]</p>
+
+<p>If you specify the argument <code>types</code> as the special table {&quot;all&quot;[, events to ignore]}, then <em>all</em> events (except those you optionally list <em>after</em> the &quot;all&quot; string) will trigger a callback, even events which are not defined in the <a href="https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/Reference/reference.html">Quartz Event Reference</a>.</p>
+
+    </section>
+    
+    <section id="start">
+      <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+      <h3><a href="#start">start</a></h3>
+      <code>hs.eventtap:start()</code>
+      <p>Starts an event tap; must be in stopped state.</p>
+
+    </section>
+    
+    <section id="stop">
+      <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+      <h3><a href="#stop">stop</a></h3>
+      <code>hs.eventtap:stop()</code>
+      <p>Stops an event tap; must be in started state.</p>
+
+    </section>
+    
+  </body>
+</html>

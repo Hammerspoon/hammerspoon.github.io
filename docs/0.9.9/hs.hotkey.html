@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.hotkey module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.hotkey</h1>
+      <p>Create and manage global hotkeys.</p>
+
+    </header>
+    
+    <section id="bind">
+      <a name="//apple_ref/cpp/Constructor/bind" class="dashAnchor"></a>
+      <h3><a href="#bind">bind</a></h3>
+      <code>hs.hotkey.bind(mods, key, pressedfn, releasedfn) -> hotkey</code>
+      <p>Shortcut for: return hs.hotkey.new(mods, key, pressedfn, releasedfn):enable()</p>
+
+    </section>
+    
+    <section id="new">
+      <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+      <h3><a href="#new">new</a></h3>
+      <code>hs.hotkey.new(mods, key, pressedfn, releasedfn = nil) -> hotkey</code>
+      <p>Creates a new hotkey that can be enabled.</p>
+
+<p>The <code>mods</code> parameter is case-insensitive and may contain any of the following strings: &quot;cmd&quot;, &quot;ctrl&quot;, &quot;alt&quot;, or &quot;shift&quot;.</p>
+
+<p>The <code>key</code> parameter is case-insensitive and may be any string value found in <a href="hs.keycodes.html#map">hs.keycodes.map</a></p>
+
+<p>The <code>pressedfn</code> parameter is the function that will be called when this hotkey is pressed.</p>
+
+<p>The <code>releasedfn</code> parameter is the function that will be called when this hotkey is released; this field is optional (i.e. may be nil or omitted).</p>
+
+    </section>
+    
+    <section id="disable">
+      <a name="//apple_ref/cpp/Method/disable" class="dashAnchor"></a>
+      <h3><a href="#disable">disable</a></h3>
+      <code>hs.hotkey:disable() -> self</code>
+      <p>Disables the given hotkey; does not remove it from hs.hotkey.keys.</p>
+
+    </section>
+    
+    <section id="enable">
+      <a name="//apple_ref/cpp/Method/enable" class="dashAnchor"></a>
+      <h3><a href="#enable">enable</a></h3>
+      <code>hs.hotkey:enable() -> self</code>
+      <p>Registers the hotkey&#39;s fn as the callback when the user presses key while holding mods.</p>
+
+    </section>
+    
+  </body>
+</html>

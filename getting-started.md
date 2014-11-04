@@ -32,6 +32,7 @@ Lua is a simple programming language. If you've never programmed in Lua before, 
  * [Window resizing](#winresize)
  * [Simple config reloading](#simplereload)
  * [Fancy config reloading](#fancyreload)
+ * [Interacting with application menus](#appmenus)
 
 ### <a name="helloworld"></a>Hello World
 
@@ -218,6 +219,45 @@ There are several things worth breaking down about this example. Firstly, we're 
 We then create a new path watcher using this path, and tell it to call our `reload_config` function whenever something changes in the `.hammerspoon` directory. We then immediately call `start()` on the path watcher object, so it begins its work.
 
 Note that we didn't have to use a separate function to pass to `hs.pathwatcher.new()`, we're just doing that to show how it can be done if you want to keep things a little more separated, or be able to re-use functions in multiple places.
+
+### <a name="appmenus"></a>Interacting with application menus
+
+Sometimes the only way to automate something is to interact with the GUI of an application, which is not ideal, but is often necessary to get something done.
+
+To illustrate this, we're going to build a hotkey that cycles Safari between multiple User Agent strings (i.e. how it identifies itself to web servers). To do this, you'll need to have the Safari `Develop` menu enabled, which you can do by ticking `Show Develop menu in menu bar` in `Preferences→Advanced`.
+
+    function cycle_safari_agents()
+        hs.application.launchorfocus("Safari")
+        local safari = hs.appfinder.app_from_name("Safari")
+
+        local str_default = {"Develop", "User Agent", "Default (Automatically Chosen)"}
+        local str_ie10 = {"Develop", "User Agent", "Internet Explorer 10.0"}
+        local str_chrome = {"Develop", "User Agent", "Google Chrome — Windows"}
+
+        local default = safari:findmenuitem(str_default)
+        local ie10 = safari:findmenuitem(str_ie10)
+        local chrome = safari:findmenuitem(str_chrome)
+
+        if (default and default["ticked"]) then
+            safari:selectmenuitem(str_ie10)
+            hs.alert.show("IE10")
+        end
+        if (ie10 and ie10["ticked"]) then
+            safari:selectmenuitem(str_chrome)
+            hs.alert.show("Chrome")
+        end
+        if (chrome and chrome["ticked"]) then
+            safari:selectmenuitem(str_default)
+            hs.alert.show("Safari")
+        end
+    end
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, '7', cycle_safari_agents)
+
+What we are doing here is first launching Safari or bringing it to the front if it is already running. This is an important step in any menu interaction - menus for apps that are not currently focused, will usually be disabled.
+
+We then get a reference to Safari itself using hs.appfinder.app_from_name(). Using this object we can search the available menu items and interact with them. Specifically, we are looking for the current state of three of the User Agent strings in `Develop→User Agent`. We then check to see which of them is ticked, and then select the next one.
+
+Thus, pressing `cmd+alt+ctrl+7` repeatedly will cycle between the default user agent string, an IE10 user agent, and a Chrome user agent. Each time, we display a simple on-screen alert with the name of the user agent we have cycled to.
 
 # Credits
 

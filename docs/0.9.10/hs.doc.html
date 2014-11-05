@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.doc module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.doc</h1>
+      <p>Create doc objects which can be access from within the command line tool or the Hammerspoon console for module documentation.</p>
+
+<p>e.g. <code>doc = hs.doc.from_json_file(&#39;path-to-docs.json&#39;)</code></p>
+
+<p>You can use the <code>hs.docstrings_json_file</code> constant, e.g. <code>doc = hs.doc.from_json_file(hs.docstrings_json_file)</code></p>
+
+    </header>
+    
+    <section id="debugging_modes">
+      <a name="//apple_ref/cpp/Flags/debugging_modes" class="dashAnchor"></a>
+      <h3><a href="#debugging_modes">debugging_modes</a></h3>
+      <code>hs.doc.debugging_modes -> debug loading and parsing</code>
+      <p>Mostly only have an affect on <code>hs.doc.from_array</code> and <code>hs.doc.from_package_loaded</code>.</p>
+
+<p>Set the flag in the global namespace one of these ways:<br>
+    _G[&quot;debug.docs.module&quot;] = &quot;build&quot;       -- building metatables for return<br>
+    _G[&quot;debug.docs.module&quot;] = &quot;genjson&quot;     -- creating items in genjson<br>
+    _G[&quot;debug.docs.module&quot;] = &quot;load&quot;        -- which files are being loaded<br>
+    _G[&quot;debug.docs.module&quot;] = &quot;sort&quot;        -- sorting module namespaces for item attachment</p>
+
+<pre><code>Setting it to any of these, or even just `true` causes the global arrays
+    doc_module_json and doc_module_array to be created for further review.
+</code></pre>
+
+    </section>
+    
+    <section id="from_array">
+      <a name="//apple_ref/cpp/Function/from_array" class="dashAnchor"></a>
+      <h3><a href="#from_array">from_array</a></h3>
+      <code>hs.doc.from_array(array) -> doc-array</code>
+      <p>Builds a doc array construct from the lua files of the modules listed in the provided array.  Useful for creating doc objects for in progress modules or local files.</p>
+
+    </section>
+    
+    <section id="from_json_file">
+      <a name="//apple_ref/cpp/Function/from_json_file" class="dashAnchor"></a>
+      <h3><a href="#from_json_file">from_json_file</a></h3>
+      <code>hs.doc.from_json_file(jsonfile) -> doc-array</code>
+      <p>Builds a doc array construct from the json file provided.  Usually this will be the json file provided with the Hammerspoon application, but this json file will only contain the documentation for modules recognized by the Hammerspoon builders and the built in modules and not modules from other sources.  For those, use <code>hs.doc.from_array</code> and <code>hs.doc.from_package_loaded</code>.</p>
+
+    </section>
+    
+    <section id="from_package_loaded">
+      <a name="//apple_ref/cpp/Function/from_package_loaded" class="dashAnchor"></a>
+      <h3><a href="#from_package_loaded">from_package_loaded</a></h3>
+      <code>hs.doc.from_package_loaded([bool]) -> doc-array</code>
+      <p>Builds a doc array construct from the lua files of all modules currently tracked in <code>package.loaded</code>, which is where Lua stores modules which have been loaded by <code>require</code>.  If the optional boolean value provided is true, then the doc array will be refreshed everytime a new module is loaded via <code>require</code>.</p>
+
+    </section>
+    
+  </body>
+</html>

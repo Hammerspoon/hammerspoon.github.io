@@ -1,0 +1,186 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.application module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.application</h1>
+      <p>Manipulate running applications.</p>
+
+    </header>
+    
+    <section id="applicationforpid">
+      <a name="//apple_ref/cpp/Constructor/applicationforpid" class="dashAnchor"></a>
+      <h3><a href="#applicationforpid">applicationforpid</a></h3>
+      <code>hs.application.applicationforpid(pid) -> app or nil</code>
+      <p>Returns the running app for the given pid, if it exists.</p>
+
+    </section>
+    
+    <section id="applicationsforbundleid">
+      <a name="//apple_ref/cpp/Constructor/applicationsforbundleid" class="dashAnchor"></a>
+      <h3><a href="#applicationsforbundleid">applicationsforbundleid</a></h3>
+      <code>hs.application.applicationsforbundleid(bundleid) -> app[]</code>
+      <p>Returns any running apps that have the given bundleid.</p>
+
+    </section>
+    
+    <section id="launchorfocus">
+      <a name="//apple_ref/cpp/Function/launchorfocus" class="dashAnchor"></a>
+      <h3><a href="#launchorfocus">launchorfocus</a></h3>
+      <code>hs.application.launchorfocus(name) -> bool</code>
+      <p>Launches the app with the given name, or activates it if it&#39;s already running.<br>
+Returns true if it launched or was already launched; otherwise false (presumably only if the app doesn&#39;t exist).</p>
+
+    </section>
+    
+    <section id="runningapplications">
+      <a name="//apple_ref/cpp/Constructor/runningapplications" class="dashAnchor"></a>
+      <h3><a href="#runningapplications">runningapplications</a></h3>
+      <code>hs.application.runningapplications() -> app[]</code>
+      <p>Returns all running apps.</p>
+
+    </section>
+    
+    <section id="activate">
+      <a name="//apple_ref/cpp/Method/activate" class="dashAnchor"></a>
+      <h3><a href="#activate">activate</a></h3>
+      <code>hs.application:activate(allwindows = false) -> bool</code>
+      <p>Tries to activate the app (make its key window focused) and returns whether it succeeded; if allwindows is true, all windows of the application are brought forward as well.</p>
+
+    </section>
+    
+    <section id="allwindows">
+      <a name="//apple_ref/cpp/Method/allwindows" class="dashAnchor"></a>
+      <h3><a href="#allwindows">allwindows</a></h3>
+      <code>hs.application:allwindows() -> window[]</code>
+      <p>Returns all open windows owned by the given app.</p>
+
+    </section>
+    
+    <section id="bundleid">
+      <a name="//apple_ref/cpp/Method/bundleid" class="dashAnchor"></a>
+      <h3><a href="#bundleid">bundleid</a></h3>
+      <code>hs.application:bundleid() -> string</code>
+      <p>Returns the bundle identifier of the app.</p>
+
+    </section>
+    
+    <section id="findmenuitem">
+      <a name="//apple_ref/cpp/Method/findmenuitem" class="dashAnchor"></a>
+      <h3><a href="#findmenuitem">findmenuitem</a></h3>
+      <code>hs.application:findmenuitem(menuitem) -> table or nil</code>
+      <p>Returns nil if the menu item cannot be found. If it does exist, returns a table with two keys:<br>
+ enabled - whether the menu item can be selected/ticked. This will always be false if the application is not currently focussed<br>
+ ticked - whether the menu item is ticked or not (obviously this value is meaningless for menu items that can&#39;t be ticked)</p>
+
+<p>The <code>menuitem</code> argument can be one of two things:</p>
+
+<ul>
+<li>string representing a single menu item. The full menu hierarchy of the application will be searched until a menu item matching that name is found. There is no way to predict what will happen if the application has multiple menu items with the same name. Probably the first one will be returned, but we don&#39;t guarantee that.</li>
+<li>table representing a hierarchical menu path, e.g. {&quot;File&quot;, &quot;Share&quot;, &quot;Messages&quot;} will only look in the File menu and then only look for a submenu called Share, and then only look for a menu item called Messages. If any part of the path search fails, the whole search fails.</li>
+</ul>
+
+<p>NOTE: This can only search for menu items that don&#39;t have children - i.e. you can&#39;t search for the name of a submenu</p>
+
+    </section>
+    
+    <section id="hide">
+      <a name="//apple_ref/cpp/Method/hide" class="dashAnchor"></a>
+      <h3><a href="#hide">hide</a></h3>
+      <code>hs.application:hide() -> success</code>
+      <p>Hides the app (and all its windows).</p>
+
+    </section>
+    
+    <section id="ishidden">
+      <a name="//apple_ref/cpp/Method/ishidden" class="dashAnchor"></a>
+      <h3><a href="#ishidden">ishidden</a></h3>
+      <code>hs.application:ishidden() -> bool</code>
+      <p>Returns whether the app is currently hidden.</p>
+
+    </section>
+    
+    <section id="kill">
+      <a name="//apple_ref/cpp/Method/kill" class="dashAnchor"></a>
+      <h3><a href="#kill">kill</a></h3>
+      <code>hs.application:kill()</code>
+      <p>Tries to terminate the app.</p>
+
+    </section>
+    
+    <section id="kill9">
+      <a name="//apple_ref/cpp/Method/kill9" class="dashAnchor"></a>
+      <h3><a href="#kill9">kill9</a></h3>
+      <code>hs.application:kill9()</code>
+      <p>Assuredly terminates the app.</p>
+
+    </section>
+    
+    <section id="kind">
+      <a name="//apple_ref/cpp/Method/kind" class="dashAnchor"></a>
+      <h3><a href="#kind">kind</a></h3>
+      <code>hs.application:kind() -> number</code>
+      <p>Returns 1 if the app is in the dock, 0 if not, and -1 if it can&#39;t even have GUI elements if it wanted to.</p>
+
+    </section>
+    
+    <section id="mainwindow">
+      <a name="//apple_ref/cpp/Method/mainwindow" class="dashAnchor"></a>
+      <h3><a href="#mainwindow">mainwindow</a></h3>
+      <code>hs.application:mainwindow() -> window</code>
+      <p>Returns the main window of the given app, or nil.</p>
+
+    </section>
+    
+    <section id="pid">
+      <a name="//apple_ref/cpp/Method/pid" class="dashAnchor"></a>
+      <h3><a href="#pid">pid</a></h3>
+      <code>hs.application:pid() -> number</code>
+      <p>Returns the app&#39;s process identifier.</p>
+
+    </section>
+    
+    <section id="selectmenuitem">
+      <a name="//apple_ref/cpp/Method/selectmenuitem" class="dashAnchor"></a>
+      <h3><a href="#selectmenuitem">selectmenuitem</a></h3>
+      <code>hs.application:selectmenuitem(menuitem) -> true or nil</code>
+      <p>Selects a menu item provided as <code>menuitem</code>. This can be either a string or a table, in the same format as hs.application:findmenuitem()</p>
+
+<p>Depending on the type of menu item involved, this will either activate or tick/untick the menu item<br>
+Returns true if the menu item was found and selected, or nil if it wasn&#39;t (e.g. because the menu item couldn&#39;t be found)</p>
+
+    </section>
+    
+    <section id="title">
+      <a name="//apple_ref/cpp/Method/title" class="dashAnchor"></a>
+      <h3><a href="#title">title</a></h3>
+      <code>hs.application:title() -> string</code>
+      <p>Returns the localized name of the app (in UTF8).</p>
+
+    </section>
+    
+    <section id="unhide">
+      <a name="//apple_ref/cpp/Method/unhide" class="dashAnchor"></a>
+      <h3><a href="#unhide">unhide</a></h3>
+      <code>hs.application:unhide() -> success</code>
+      <p>Unhides the app (and all its windows) if it&#39;s hidden.</p>
+
+    </section>
+    
+    <section id="visiblewindows">
+      <a name="//apple_ref/cpp/Method/visiblewindows" class="dashAnchor"></a>
+      <h3><a href="#visiblewindows">visiblewindows</a></h3>
+      <code>hs.application:visiblewindows() -> win[]</code>
+      <p>Returns only the app&#39;s windows that are visible.</p>
+
+    </section>
+    
+  </body>
+</html>

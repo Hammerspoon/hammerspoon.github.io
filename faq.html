@@ -15,6 +15,13 @@ OS X manages the list of applications with access to accessibility features in S
 
 It is unlikely, but possible, that the database controlling access to accessibility features, has become de-syncronised from reality. There is a guide to how to recover from this situation, at <a href="http://mizage.clarify-it.com/d/6ervmn">http://mizage.clarify-it.com/d/6ervmn</a> (replace 'divvy' in the SQL query, with 'hammerspoon')
 
-<h2>Finding/selecting menu items</h2>
+<h2>hs.application issues</h2>
 
-If you find that `hs.application:{find,select}menuitem()` are unable to find the menu items you are looking for, you may need to check that the application object you are using is valid. For example, Microsoft Office for Mac applications are named "Microsoft Word", "Microsoft Excel", etc. instead of "Word", "Excel", etc.
+<h3>Application names aren't what I expect</h3>
+If you are trying to find Microsoft Office applications (e.g. using `hs.appfinder.app_from_name("Word")`), they present a different application name to the OS than they display in the system menu bar. Use "Microsoft Word", "Microsoft Excel", etc. instead.
+
+You can get a list of the real names of all running applications in the Hammerspoon Console with the following snippet:
+
+```lua
+hs.fnutils.each(apps, function(app) print(app:title()) end)
+```

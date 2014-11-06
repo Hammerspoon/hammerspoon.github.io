@@ -56,6 +56,7 @@ One of the most useful things you can do with Hammerspoon is to manipulate the w
 
 Add the following to your `init.lua`:
 
+```lua
     hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
       local win = hs.window.focusedwindow()
       local f = win:frame()
@@ -63,6 +64,7 @@ Add the following to your `init.lua`:
       f.x = f.x - 10
       win:setframe(f)
     end)
+```
 
 This will now cause `cmd+alt+ctrl+H` to make move the currently focused window 10 pixels to the left. You can see that we fetch the currently focused window and then obtain its frame. This describes the location and size of the window. We can then modify the frame and apply it back to the window using `setframe()`.
 

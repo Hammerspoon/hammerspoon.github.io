@@ -18,10 +18,10 @@ It is unlikely, but possible, that the database controlling access to accessibil
 <h2>hs.application issues</h2>
 
 <h3>Application names aren't what I expect</h3>
-If you are trying to find Microsoft Office applications (e.g. using `hs.appfinder.app_from_name("Word")`), they present a different application name to the OS than they display in the system menu bar. Use "Microsoft Word", "Microsoft Excel", etc. instead.
+<p>If you are trying to find Microsoft Office applications (e.g. using hs.appfinder.app_from_name("Word")), they present a different application name to the OS than they display in the system menu bar. Use "Microsoft Word", "Microsoft Excel", etc. instead.
 
-You can get a list of the real names of all running applications in the Hammerspoon Console with the following snippet:
+<p>You can get a list of the real names of all running applications in the Hammerspoon Console with the following snippet:
 
-```lua
+<pre>
 hs.fnutils.each(apps, function(app) print(app:title()) end)
-```
+</pre>

@@ -214,7 +214,7 @@ end)
 
 We've now bound `cmd+alt+ctrl+R` to a function that will reload the config and display a simple alert banner on the screen for a couple of seconds.
 
-One important detail to call out here is that `hs.reload()` destroys the current Lua interpreter and creates a new one, so any code you place after it in this function, won't ever get executed.
+One important detail to call out here is that `hs.reload()` destroys the current Lua interpreter and creates a new one. If we had any code after `hs.reload()` in this function, it would not be called.
 
 ### <a name="fancyreload"></a>Fancy configuration reloading
 
@@ -234,13 +234,13 @@ There are several things worth breaking down about this example. Firstly, we're 
 
 We then create a new path watcher using this path, and tell it to call our `reload_config` function whenever something changes in the `.hammerspoon` directory. We then immediately call `start()` on the path watcher object, so it begins its work.
 
-Note that we didn't have to use a separate function to pass to `hs.pathwatcher.new()`, we're just doing that to show how it can be done if you want to keep things a little more separated, or be able to re-use functions in multiple places.
+In this example we've implemented the config reloading function as a separate, named function, which we pass as an argument to `hs.pathwatcher.new()`. It's entirely up to you whether you pass around named functions, or use anonymous ones in-line.
 
 ### <a name="appmenus"></a>Interacting with application menus
 
 Sometimes the only way to automate something is to interact with the GUI of an application, which is not ideal, but is often necessary to get something done.
 
-To illustrate this, we're going to build a hotkey that cycles Safari between multiple User Agent strings (i.e. how it identifies itself to web servers). To do this, you'll need to have the Safari `Develop` menu enabled, which you can do by ticking `Show Develop menu in menu bar` in `Preferences→Advanced`.
+To illustrate this, we're going to build a hotkey that cycles Safari between multiple User Agent strings (i.e. how it identifies itself to web servers). To do this, you'll need to have the Safari `Develop` menu enabled, which you can do by ticking `Show Develop menu in menu bar` in `Safari→Preferences→Advanced`.
 
 ```lua
 function cycle_safari_agents()
@@ -273,7 +273,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, '7', cycle_safari_agents)
 
 What we are doing here is first launching Safari or bringing it to the front if it is already running. This is an important step in any menu interaction - menus for apps that are not currently focused, will usually be disabled.
 
-We then get a reference to Safari itself using hs.appfinder.app_from_name(). Using this object we can search the available menu items and interact with them. Specifically, we are looking for the current state of three of the User Agent strings in `Develop→User Agent`. We then check to see which of them is ticked, and then select the next one.
+We then get a reference to Safari itself using `hs.appfinder.app_from_name()`. Using this object we can search the available menu items and interact with them. Specifically, we are looking for the current state of three of the User Agent strings in `Develop→User Agent`. We then check to see which of them is ticked, and then select the next one.
 
 Thus, pressing `cmd+alt+ctrl+7` repeatedly will cycle between the default user agent string, an IE10 user agent, and a Chrome user agent. Each time, we display a simple on-screen alert with the name of the user agent we have cycled to.
 

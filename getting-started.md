@@ -46,7 +46,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
 end)
 ```
 
-Then click on the Hammerspoon menubar icon and click `Reload Config`. You should now find that pressing `cmd+alt+ctrl+W` will display a Hello World notification on your screen.
+Then click on the Hammerspoon menubar icon and click `Reload Config`. You should now find that pressing <kbd>⌘</kbd><kbd>⌥</kbd><kbd>ctrl</kbd><kbd>W</kbd>`cmd+alt+ctrl+W` will display a Hello World notification on your screen.
 
 What is happening here is that we're telling Hammerspoon to bind an anonymous function to a particular hotkey. The hotkey is specified by a table of modifier keys (cmd, alt and ctrl in this case) and a normal key (W). An anonymous function is simply one that doesn't have a name. We could have defined the alert function separately with a name and passed that name to `hs.hotkey.bind()`, but Lua makes it easy to define the functions inline.
 

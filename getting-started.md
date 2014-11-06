@@ -40,9 +40,11 @@ All good programming tutorials start with a Hello World example of some kind, so
 
 In your `init.lua` place the following:
 
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
-      hs.alert.show("Hello World!")
-    end)
+```lua
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
+  hs.alert.show("Hello World!")
+end)
+```
 
 Then click on the Hammerspoon menubar icon and click `Reload Config`. You should now find that pressing `cmd+alt+ctrl+W` will display a Hello World notification on your screen.
 

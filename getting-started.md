@@ -57,13 +57,13 @@ One of the most useful things you can do with Hammerspoon is to manipulate the w
 Add the following to your `init.lua`:
 
 ```lua
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
 
-      f.x = f.x - 10
-      win:setframe(f)
-    end)
+  f.x = f.x - 10
+  win:setframe(f)
+end)
 ```
 
 This will now cause `cmd+alt+ctrl+H` to make move the currently focused window 10 pixels to the left. You can see that we fetch the currently focused window and then obtain its frame. This describes the location and size of the window. We can then modify the frame and apply it back to the window using `setframe()`.
@@ -72,8 +72,10 @@ This will now cause `cmd+alt+ctrl+H` to make move the currently focused window 1
 
 You might have noticed that sometimes we're using dots in function calls, and sometimes we're using colons. The colon syntax is a shorthand. The two following calls are identical:
 
-    win:frame()
-    hs.window.frame(win)
+```lua
+win:frame()
+hs.window.frame(win)
+```
 
 It's up to you if you want to use the colon syntax or not, but it can save a lot of typing!
 
@@ -87,73 +89,75 @@ We can build on the simple window movement example to implement a set of keyboar
 
 To do this, we simply need to repeat the previous `hs.hotkey.bind()` call with slightly different frame modifications:
 
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Y", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
-      
-      f.x = f.x - 10
-      f.y = f.y - 10
-      win:setframe(f)
-    end)
-    
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "K", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
-      
-      f.y = f.y - 10
-      win:setframe(f)
-    end)
-    
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "U", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
-      
-      f.x = f.x + 10
-      f.y = f.y - 10
-      win:setframe(f)
-    end)
-    
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
-      
-      f.x = f.x - 10
-      win:setframe(f)
-    end)
-    
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "L", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
-    
-      f.x = f.x + 10
-      win:setframe(f)
-    end)
-    
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "B", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
-    
-      f.x = f.x - 10
-      f.y = f.y + 10
-      win:setframe(f)
-    end)
-    
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "J", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
-    
-      f.y = f.y + 10
-      win:setframe(f)
-    end)
-    
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "N", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
-    
-      f.x = f.x + 10
-      f.y = f.y + 10
-      win:setframe(f)
-    end)
+```lua
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Y", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
+
+  f.x = f.x - 10
+  f.y = f.y - 10
+  win:setframe(f)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "K", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
+
+  f.y = f.y - 10
+  win:setframe(f)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "U", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
+
+  f.x = f.x + 10
+  f.y = f.y - 10
+  win:setframe(f)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
+
+  f.x = f.x - 10
+  win:setframe(f)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "L", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
+
+  f.x = f.x + 10
+  win:setframe(f)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "B", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
+
+  f.x = f.x - 10
+  f.y = f.y + 10
+  win:setframe(f)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "J", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
+
+  f.y = f.y + 10
+  win:setframe(f)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "N", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
+
+  f.x = f.x + 10
+  f.y = f.y + 10
+  win:setframe(f)
+end)
+```
 
 Try it out!
 
@@ -161,35 +165,39 @@ Try it out!
 
 In this section we'll implement the common window management feature of moving a window so it occupies either the left or right half of the screen, allowing you to tile two windows next to each other for Productivity™.
 
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
-      local screen = win:screen()
-      local max = screen:frame()
+```lua
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
 
-      f.x = max.x
-      f.y = max.y
-      f.w = max.w / 2
-      f.h = max.h
-      win:setframe(f)
-    end)
+  f.x = max.x
+  f.y = max.y
+  f.w = max.w / 2
+  f.h = max.h
+  win:setframe(f)
+end)
+```
 
 Here we are binding `cmd+alt+ctrl+Left` (as in the left cursor key) to a function that will fetch the focused window, then fetch the screen that the focused window is on, fetch the frame of the screen (note that `hs.screen.frame()` does not include the menubar and dock, see `hs.screen.fullframe()` if you need that) and set the frame of the window to occupy the left half of the screen.
 
 To round that out, we'll add a function to move the window to the right half of the screen:
 
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
-      local win = hs.window.focusedwindow()
-      local f = win:frame()
-      local screen = win:screen()
-      local max = screen:frame()
+```lua
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
+  local win = hs.window.focusedwindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
 
-      f.x = max.x + (max.w / 2)
-      f.y = max.y
-      f.w = max.w / 2
-      f.h = max.h
-      win:setframe(f)
-    end)
+  f.x = max.x + (max.w / 2)
+  f.y = max.y
+  f.w = max.w / 2
+  f.h = max.h
+  win:setframe(f)
+end)
+```
 
 A good exercise here would be to see if you can now write functions for yourself that bind the Up/Down cursor keys to resizing windows to the top/bottom half of the screen, respectively.
 
@@ -197,10 +205,12 @@ A good exercise here would be to see if you can now write functions for yourself
 
 You may have noticed that while you're editing the config, it's a little bit annoying to have to keep choosing the `Reload Config` menu item every time you make a change. We can fix that by adding a keyboard shortcut to reload the config:
 
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
-      hs.alert.show("reloading config")
-      hs.reload()
-    end)
+```lua
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
+  hs.alert.show("reloading config")
+  hs.reload()
+end)
+```
 
 We've now bound `cmd+alt+ctrl+R` to a function that will reload the config and display a simple alert banner on the screen for a couple of seconds.
 
@@ -212,11 +222,13 @@ So we can now manually force a reload, but why should we even have to do that wh
 
 The following snippet introduces another new extension, `pathwatcher` which will allow us to automatically reload the config whenever the file changes:
 
-    function reload_config(files)
-        hs.alert.show("reloading config")
-        hs.reload()
-    end
-    hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reload_config):start()
+```lua
+function reload_config(files)
+    hs.alert.show("reloading config")
+    hs.reload()
+end
+hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reload_config):start()
+```
 
 There are several things worth breaking down about this example. Firstly, we're using a Lua function called `os.getenv()` to fetch the `HOME` variable from your system's environment. This will tell us where your home directory is. We then use Lua's `..` operator to join that string to the part of the config file's path that we do know, the `/.hammerspoon/` part. This gives us the full path of Hammerspoon's configuration directory.
 
@@ -230,32 +242,34 @@ Sometimes the only way to automate something is to interact with the GUI of an a
 
 To illustrate this, we're going to build a hotkey that cycles Safari between multiple User Agent strings (i.e. how it identifies itself to web servers). To do this, you'll need to have the Safari `Develop` menu enabled, which you can do by ticking `Show Develop menu in menu bar` in `Preferences→Advanced`.
 
-    function cycle_safari_agents()
-        hs.application.launchorfocus("Safari")
-        local safari = hs.appfinder.app_from_name("Safari")
+```lua
+function cycle_safari_agents()
+    hs.application.launchorfocus("Safari")
+    local safari = hs.appfinder.app_from_name("Safari")
 
-        local str_default = {"Develop", "User Agent", "Default (Automatically Chosen)"}
-        local str_ie10 = {"Develop", "User Agent", "Internet Explorer 10.0"}
-        local str_chrome = {"Develop", "User Agent", "Google Chrome — Windows"}
+    local str_default = {"Develop", "User Agent", "Default (Automatically Chosen)"}
+    local str_ie10 = {"Develop", "User Agent", "Internet Explorer 10.0"}
+    local str_chrome = {"Develop", "User Agent", "Google Chrome — Windows"}
 
-        local default = safari:findmenuitem(str_default)
-        local ie10 = safari:findmenuitem(str_ie10)
-        local chrome = safari:findmenuitem(str_chrome)
+    local default = safari:findmenuitem(str_default)
+    local ie10 = safari:findmenuitem(str_ie10)
+    local chrome = safari:findmenuitem(str_chrome)
 
-        if (default and default["ticked"]) then
-            safari:selectmenuitem(str_ie10)
-            hs.alert.show("IE10")
-        end
-        if (ie10 and ie10["ticked"]) then
-            safari:selectmenuitem(str_chrome)
-            hs.alert.show("Chrome")
-        end
-        if (chrome and chrome["ticked"]) then
-            safari:selectmenuitem(str_default)
-            hs.alert.show("Safari")
-        end
+    if (default and default["ticked"]) then
+        safari:selectmenuitem(str_ie10)
+        hs.alert.show("IE10")
     end
-    hs.hotkey.bind({"cmd", "alt", "ctrl"}, '7', cycle_safari_agents)
+    if (ie10 and ie10["ticked"]) then
+        safari:selectmenuitem(str_chrome)
+        hs.alert.show("Chrome")
+    end
+    if (chrome and chrome["ticked"]) then
+        safari:selectmenuitem(str_default)
+        hs.alert.show("Safari")
+    end
+end
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, '7', cycle_safari_agents)
+```
 
 What we are doing here is first launching Safari or bringing it to the front if it is already running. This is an important step in any menu interaction - menus for apps that are not currently focused, will usually be disabled.
 

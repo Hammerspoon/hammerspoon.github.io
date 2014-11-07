@@ -25,3 +25,7 @@ It is unlikely, but possible, that the database controlling access to accessibil
 <pre>
 hs.fnutils.each(apps, function(app) print(app:title()) end)
 </pre>
+
+<h3>I can't make :findmenuitem() or :selectmenuitem() work in the Hammerspoon Console</h3>
+
+Many OS X applications (e.g. Emacs, IBM Notes, Adium) mark their menus as disabled when their windows lose focus, so you may find that you can't play with them from the Hammerspoon Console. Your only option here is to encode the actions in your init.lua or bind them to events (such as hotkeys) from the console, then transfer focus back to the application window.

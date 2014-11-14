@@ -26,8 +26,12 @@
 <ul>
 <li>ip - IP address of the MiLight WiFi bridge device. For convenience this can be the broadcast address of your network
     (e.g. 192.168.0.255)</li>
-<li>port - UDP port to talk to the bridge on. Defaults to 8899
-Returns:</li>
+<li>port - UDP port to talk to the bridge on. Defaults to 8899</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
 <li>bridge object to use with other API methods</li>
 </ul>
 
@@ -42,8 +46,12 @@ Returns:</li>
 <p>Parameters:</p>
 
 <ul>
-<li>zone - 0 for all zones, 1-4 for zones one through four
-Returns:</li>
+<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
 <li>True if the command was sent correctly, false if not</li>
 </ul>
 
@@ -58,8 +66,12 @@ Returns:</li>
 <p>Parameters:</p>
 
 <ul>
-<li>zone - 0 for all zones, 1-4 for zones one through four
-Returns:</li>
+<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
 <li>True if the command was sent correctly, false if not</li>
 </ul>
 
@@ -74,8 +86,12 @@ Returns:</li>
 <p>Parameters:</p>
 
 <ul>
-<li>zone - 0 for all zones, 1-4 for zones one through four
-Returns:</li>
+<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
 <li>True if the command was sent correctly, false if not</li>
 </ul>
 
@@ -88,8 +104,9 @@ Returns:</li>
       <p>Deletes a bridge object</p>
 
 <p>Parameters:<br>
- None<br>
-Returns:<br>
+ None</p>
+
+<p>Returns:<br>
  None</p>
 
     </section>
@@ -103,8 +120,12 @@ Returns:<br>
 <p>Parameters:</p>
 
 <ul>
-<li>None
-Returns:</li>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
 <li>True if the command was sent correctly, false if not</li>
 </ul>
 
@@ -121,8 +142,12 @@ Note: This is a low level command, you typically should use a specific method fo
 
 <ul>
 <li>cmd - A command from the hs.milight.cmd table</li>
-<li>value - An optional value, if appropriate for the command (defaults to 0x00)
-Returns:</li>
+<li>value - An optional value, if appropriate for the command (defaults to 0x00)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
 <li>True if the command was sent, false if an error occurred</li>
 </ul>
 
@@ -138,8 +163,12 @@ Returns:</li>
 
 <ul>
 <li>zone - 0 for all zones, 1-4 for zones one through four</li>
-<li>value - Brightness level to set, between 0 and 25
-Returns:</li>
+<li>value - Brightness level to set, between 0 and 25</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
 <li>The value that was sent to the WiFi bridge, or -1 if an error occurred</li>
 </ul>
 
@@ -155,8 +184,12 @@ Returns:</li>
 
 <ul>
 <li>zone - 0 for all zones, 1-4 for zones one through four</li>
-<li>value - RGB color value between 0 and 255
-Returns:</li>
+<li>value - RGB color value between 0 and 255</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
 <li>True if the command was sent correctly, false if not</li>
 </ul>
 

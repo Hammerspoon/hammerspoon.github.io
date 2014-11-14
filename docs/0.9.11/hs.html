@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs</h1>
+      <p>Core Hammerspoon functionality.</p>
+
+    </header>
+    
+    <section id="configdir">
+      <a name="//apple_ref/cpp/Constant/configdir" class="dashAnchor"></a>
+      <h3><a href="#configdir">configdir</a></h3>
+      <code>hs.configdir = "~/.hammerspoon/"</code>
+      <p>The user&#39;s Hammerspoon config directory. Modules may use it, assuming<br>
+they&#39;ve worked out a contract with the user about how to use it.</p>
+
+    </section>
+    
+    <section id="docstrings_json_file">
+      <a name="//apple_ref/cpp/Constant/docstrings_json_file" class="dashAnchor"></a>
+      <h3><a href="#docstrings_json_file">docstrings_json_file</a></h3>
+      <code>hs.docstrings_json_file</code>
+      <p>This is the full path to the docs.json file shipped with Hammerspoon.<br>
+It contains the same documentation used to generate the full Hammerspoon<br>
+API documentation, in JSON form.<br>
+You can load, parse and access this information using the hs.doc extension</p>
+
+    </section>
+    
+    <section id="focus">
+      <a name="//apple_ref/cpp/Function/focus" class="dashAnchor"></a>
+      <h3><a href="#focus">focus</a></h3>
+      <code>hs.focus()</code>
+      <p>Makes Hammerspoon the foreground app.</p>
+
+    </section>
+    
+    <section id="openconsole">
+      <a name="//apple_ref/cpp/Function/openconsole" class="dashAnchor"></a>
+      <h3><a href="#openconsole">openconsole</a></h3>
+      <code>hs.openconsole()</code>
+      <p>Opens the Hammerspoon Console window and focuses it.</p>
+
+    </section>
+    
+    <section id="rawprint">
+      <a name="//apple_ref/cpp/Function/rawprint" class="dashAnchor"></a>
+      <h3><a href="#rawprint">rawprint</a></h3>
+      <code>hs.rawprint = print</code>
+      <p>The original print function, before hammerspoon overrides it.</p>
+
+    </section>
+    
+    <section id="reload">
+      <a name="//apple_ref/cpp/Function/reload" class="dashAnchor"></a>
+      <h3><a href="#reload">reload</a></h3>
+      <code>hs.reload()</code>
+      <p>Reloads your init-file in a fresh Lua environment.</p>
+
+    </section>
+    
+    <section id="showerror">
+      <a name="//apple_ref/cpp/Function/showerror" class="dashAnchor"></a>
+      <h3><a href="#showerror">showerror</a></h3>
+      <code>hs.showerror(err)</code>
+      <p>Presents an error to the user via Hammerspoon&#39;s GUI. The default<br>
+implementation prints the error, focuses Hammerspoon, and opens<br>
+Hammerspoon&#39;s console.</p>
+
+<p>Users can override this with a new function that shows errors in a<br>
+custom way.</p>
+
+<p>Modules can call this in the event of an error, e.g. in callbacks<br>
+from the user:</p>
+
+<pre><code>local ok, err = xpcall(callbackfn, debug.traceback)
+if not ok then hs.showerror(err) end
+</code></pre>
+
+    </section>
+    
+    <section id="system_sounds">
+      <a name="//apple_ref/cpp/Function/system_sounds" class="dashAnchor"></a>
+      <h3><a href="#system_sounds">system_sounds</a></h3>
+      <code>hs.system_sounds() -> table</code>
+      <p>Returns an array of defined system sounds. You can request these sounds by using <code>hs.sound.get_byname</code>. These are compatible sound files located in one of the following directories:<br>
+    ~/Library/Sounds<br>
+    /Library/Sounds<br>
+    /Network/Library/Sounds<br>
+    /System/Library/Sounds</p>
+
+    </section>
+    
+  </body>
+</html>

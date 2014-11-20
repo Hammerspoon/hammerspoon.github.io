@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.screen.watcher module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.screen.watcher</h1>
+      <p>Watch for screen layout changes in Hammerspoon. This could be the addition or removal of a monitor, a screen resolution change, movement of a monitor in the Display preferences pane, etc.</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="new">
+      <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+      <h3><a href="#new">new</a></h3>
+      <code>hs.screen.watcher.new(fn) -> watcher</code>
+      <p>Creates a new screen-watcher that can be started; fn will be called when your screen layout changes in any way, whether by adding, removing, or moving a display device.</p>
+
+    </section>
+    
+    <section id="start">
+      <a name="//apple_ref/cpp/Function/start" class="dashAnchor"></a>
+      <h3><a href="#start">start</a></h3>
+      <code>hs.screen.watcher:start() -> watcher</code>
+      <p>Starts the screen watcher, making it so fn is called each time the screen arrangement changes.</p>
+
+    </section>
+    
+    <section id="stop">
+      <a name="//apple_ref/cpp/Function/stop" class="dashAnchor"></a>
+      <h3><a href="#stop">stop</a></h3>
+      <code>hs.screen.watcher:stop() -> watcher</code>
+      <p>Stops the screen watcher&#39;s fn from getting called until started again.</p>
+
+    </section>
+    
+  </body>
+</html>

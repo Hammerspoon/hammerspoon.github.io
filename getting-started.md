@@ -58,15 +58,15 @@ Add the following to your `init.lua`:
 
 ```lua
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
 
   f.x = f.x - 10
-  win:setframe(f)
+  win:setFrame(f)
 end)
 ```
 
-This will now cause <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>ctrl</kbd>+<kbd>H</kbd> to make move the currently focused window 10 pixels to the left. You can see that we fetch the currently focused window and then obtain its frame. This describes the location and size of the window. We can then modify the frame and apply it back to the window using `setframe()`.
+This will now cause <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>ctrl</kbd>+<kbd>H</kbd> to make move the currently focused window 10 pixels to the left. You can see that we fetch the currently focused window and then obtain its frame. This describes the location and size of the window. We can then modify the frame and apply it back to the window using `setFrame()`.
 
 ### <a name="colonsyntax"></a>A quick aside on colon syntax
 
@@ -91,71 +91,71 @@ To do this, we simply need to repeat the previous `hs.hotkey.bind()` call with s
 
 ```lua
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Y", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
 
   f.x = f.x - 10
   f.y = f.y - 10
-  win:setframe(f)
+  win:setFrame(f)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "K", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
 
   f.y = f.y - 10
-  win:setframe(f)
+  win:setFrame(f)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "U", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
 
   f.x = f.x + 10
   f.y = f.y - 10
-  win:setframe(f)
+  win:setFrame(f)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
 
   f.x = f.x - 10
-  win:setframe(f)
+  win:setFrame(f)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "L", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
 
   f.x = f.x + 10
-  win:setframe(f)
+  win:setFrame(f)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "B", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
 
   f.x = f.x - 10
   f.y = f.y + 10
-  win:setframe(f)
+  win:setFrame(f)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "J", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
 
   f.y = f.y + 10
-  win:setframe(f)
+  win:setFrame(f)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "N", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
 
   f.x = f.x + 10
   f.y = f.y + 10
-  win:setframe(f)
+  win:setFrame(f)
 end)
 ```
 
@@ -167,7 +167,7 @@ In this section we'll implement the common window management feature of moving a
 
 ```lua
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
@@ -176,7 +176,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
   f.y = max.y
   f.w = max.w / 2
   f.h = max.h
-  win:setframe(f)
+  win:setFrame(f)
 end)
 ```
 
@@ -186,7 +186,7 @@ To round that out, we'll add a function to move the window to the right half of 
 
 ```lua
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
-  local win = hs.window.focusedwindow()
+  local win = hs.window.focusedWindow()
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
@@ -195,7 +195,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
   f.y = max.y
   f.w = max.w / 2
   f.h = max.h
-  win:setframe(f)
+  win:setFrame(f)
 end)
 ```
 
@@ -244,27 +244,27 @@ To illustrate this, we're going to build a hotkey that cycles Safari between mul
 
 ```lua
 function cycle_safari_agents()
-    hs.application.launchorfocus("Safari")
-    local safari = hs.appfinder.app_from_name("Safari")
+    hs.application.launchOrFocus("Safari")
+    local safari = hs.appfinder.appFromName("Safari")
 
     local str_default = {"Develop", "User Agent", "Default (Automatically Chosen)"}
     local str_ie10 = {"Develop", "User Agent", "Internet Explorer 10.0"}
     local str_chrome = {"Develop", "User Agent", "Google Chrome — Windows"}
 
-    local default = safari:findmenuitem(str_default)
-    local ie10 = safari:findmenuitem(str_ie10)
-    local chrome = safari:findmenuitem(str_chrome)
+    local default = safari:findMenuItem(str_default)
+    local ie10 = safari:findMenuItem(str_ie10)
+    local chrome = safari:findMenuItem(str_chrome)
 
     if (default and default["ticked"]) then
-        safari:selectmenuitem(str_ie10)
+        safari:selectMenuItem(str_ie10)
         hs.alert.show("IE10")
     end
     if (ie10 and ie10["ticked"]) then
-        safari:selectmenuitem(str_chrome)
+        safari:selectMenuItem(str_chrome)
         hs.alert.show("Chrome")
     end
     if (chrome and chrome["ticked"]) then
-        safari:selectmenuitem(str_default)
+        safari:selectMenuItem(str_default)
         hs.alert.show("Safari")
     end
 end
@@ -273,7 +273,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, '7', cycle_safari_agents)
 
 What we are doing here is first launching Safari or bringing it to the front if it is already running. This is an important step in any menu interaction - menus for apps that are not currently focused, will usually be disabled.
 
-We then get a reference to Safari itself using `hs.appfinder.app_from_name()`. Using this object we can search the available menu items and interact with them. Specifically, we are looking for the current state of three of the User Agent strings in `Develop→User Agent`. We then check to see which of them is ticked, and then select the next one.
+We then get a reference to Safari itself using `hs.appfinder.appFromName()`. Using this object we can search the available menu items and interact with them. Specifically, we are looking for the current state of three of the User Agent strings in `Develop→User Agent`. We then check to see which of them is ticked, and then select the next one.
 
 Thus, pressing `cmd+alt+ctrl+7` repeatedly will cycle between the default user agent string, an IE10 user agent, and a Chrome user agent. Each time, we display a simple on-screen alert with the name of the user agent we have cycled to.
 

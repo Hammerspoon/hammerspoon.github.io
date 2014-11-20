@@ -18,7 +18,7 @@ It is unlikely, but possible, that the database controlling access to accessibil
 <h2>hs.application issues</h2>
 
 <h3>Application names aren't what I expect</h3>
-<p>If you are trying to find Microsoft Office applications (e.g. using hs.appfinder.app_from_name("Word")), they present a different application name to the OS than they display in the system menu bar. Use "Microsoft Word", "Microsoft Excel", etc. instead.
+<p>If you are trying to find Microsoft Office applications (e.g. using hs.appfinder.appFromName("Word")), they present a different application name to the OS than they display in the system menu bar. Use "Microsoft Word", "Microsoft Excel", etc. instead.
 
 <p>You can get a list of the real names of all running applications in the Hammerspoon Console with the following snippet:
 
@@ -26,6 +26,6 @@ It is unlikely, but possible, that the database controlling access to accessibil
 hs.fnutils.each(apps, function(app) print(app:title()) end)
 </pre>
 
-<h3>I can't make :findmenuitem() or :selectmenuitem() work in the Hammerspoon Console</h3>
+<h3>I can't make :findMenuItem() or :selectMenuItem() work in the Hammerspoon Console</h3>
 
 Many OS X applications (e.g. Emacs, IBM Notes, Adium) mark their menus as disabled when their windows lose focus, so you may find that you can't play with them from the Hammerspoon Console. Your only option here is to encode the actions in your init.lua or bind them to events (such as hotkeys) from the console, then transfer focus back to the application window.

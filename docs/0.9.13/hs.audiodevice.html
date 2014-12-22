@@ -1,0 +1,118 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.audiodevice module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.audiodevice</h1>
+      <p>Manipulate the system&#39;s audio devices.</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="allOutputDevices">
+      <a name="//apple_ref/cpp/Function/allOutputDevices" class="dashAnchor"></a>
+      <h3><a href="#allOutputDevices">allOutputDevices</a></h3>
+      <code>hs.audiodevice.allOutputDevices() -> audio[]</code>
+      <p>Returns a list of all connected output devices.</p>
+
+    </section>
+    
+    <section id="current">
+      <a name="//apple_ref/cpp/Function/current" class="dashAnchor"></a>
+      <h3><a href="#current">current</a></h3>
+      <code>hs.audiodevice.current() -> table</code>
+      <p>Convenience function which returns a table with the following keys and values:</p>
+
+<pre lang="lua"><code>    {
+        name = defaultOutputDevice():name(),
+        uid = module.defaultOutputDevice():uid(),
+        muted = defaultOutputDevice():muted(),
+        volume = defaultOutputDevice():volume(),
+        device = defaultOutputDevice(),
+    }
+</code></pre>
+
+    </section>
+    
+    <section id="defaultOutputDevice">
+      <a name="//apple_ref/cpp/Function/defaultOutputDevice" class="dashAnchor"></a>
+      <h3><a href="#defaultOutputDevice">defaultOutputDevice</a></h3>
+      <code>hs.audiodevice.defaultOutputDevice() -> audio or nil</code>
+      <p>Gets the system&#39;s default audio device, or nil, it it does not exist.</p>
+
+    </section>
+    
+    <section id="findOutputByName">
+      <a name="//apple_ref/cpp/Function/findOutputByName" class="dashAnchor"></a>
+      <h3><a href="#findOutputByName">findOutputByName</a></h3>
+      <code>hs.audiodevice.findOutputByName(name) -> device or nil</code>
+      <p>Convenience function which returns an audiodevice based on its name, or nil if it can&#39;t be found</p>
+
+    </section>
+    
+    <section id="muted">
+      <a name="//apple_ref/cpp/Method/muted" class="dashAnchor"></a>
+      <h3><a href="#muted">muted</a></h3>
+      <code>hs.audiodevice:muted() -> bool or nil</code>
+      <p>Returns true/false if the audio device is muted, or nil if it does not support being muted.</p>
+
+    </section>
+    
+    <section id="name">
+      <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+      <h3><a href="#name">name</a></h3>
+      <code>hs.audiodevice:name() -> string or nil</code>
+      <p>Returns the name of the audio device, or nil if it does not have a name.</p>
+
+    </section>
+    
+    <section id="setDefaultOutputDevice">
+      <a name="//apple_ref/cpp/Method/setDefaultOutputDevice" class="dashAnchor"></a>
+      <h3><a href="#setDefaultOutputDevice">setDefaultOutputDevice</a></h3>
+      <code>hs.audiodevice:setDefaultOutputDevice() -> bool</code>
+      <p>Sets the system&#39;s default audio device to this device. Returns true if the audio device was successfully set.</p>
+
+    </section>
+    
+    <section id="setMuted">
+      <a name="//apple_ref/cpp/Method/setMuted" class="dashAnchor"></a>
+      <h3><a href="#setMuted">setMuted</a></h3>
+      <code>hs.audiodevice:setMuted(bool) -> bool</code>
+      <p>Returns true if the the device&#39;s muted status was set, or false if it does not support being muted.</p>
+
+    </section>
+    
+    <section id="setVolume">
+      <a name="//apple_ref/cpp/Method/setVolume" class="dashAnchor"></a>
+      <h3><a href="#setVolume">setVolume</a></h3>
+      <code>hs.audiodevice:setVolume(level) -> bool</code>
+      <p>Returns true if the volume was set, or false if the audio device does not support setting a volume level. Level is a percentage between 0 and 100.</p>
+
+    </section>
+    
+    <section id="uid">
+      <a name="//apple_ref/cpp/Method/uid" class="dashAnchor"></a>
+      <h3><a href="#uid">uid</a></h3>
+      <code>hs.audiodevice:uid() -> string or nil</code>
+      <p>Returns the Unique Identifier of the audio device, or nil if it does not have a uid.</p>
+
+    </section>
+    
+    <section id="volume">
+      <a name="//apple_ref/cpp/Method/volume" class="dashAnchor"></a>
+      <h3><a href="#volume">volume</a></h3>
+      <code>hs.audiodevice:volume() -> number or bool</code>
+      <p>Returns a number between 0 and 100 inclusive, representing the volume percentage. Or nil, if the audio device does not have a volume level.</p>
+
+    </section>
+    
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.wifi module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.wifi</h1>
+      <p>Discover WiFi networks and watch changes in associated network.<br>
+NOTE: This extension assumes that you have one and only one WiFi interface on your Mac. If you have more than one, behaviour is undefined.</p>
+
+    </header>
+    
+    <section id="availableNetworks">
+      <a name="//apple_ref/cpp/Function/availableNetworks" class="dashAnchor"></a>
+      <h3><a href="#availableNetworks">availableNetworks</a></h3>
+      <code>hs.wifi.availableNetworks() -> table</code>
+      <p>Returns a list of available WiFi networks<br>
+WARNING: This function will block all Lua execution until the scan has completed. It&#39;s probably not<br>
+very sensible to use this function very much, if at all.</p>
+
+    </section>
+    
+    <section id="currentNetwork">
+      <a name="//apple_ref/cpp/Function/currentNetwork" class="dashAnchor"></a>
+      <h3><a href="#currentNetwork">currentNetwork</a></h3>
+      <code>hs.wifi.currentNetwork() -> string or nil</code>
+      <p>Returns the SSID of the currently associated WiFi network, or nil if no network is associated</p>
+
+    </section>
+    
+  </body>
+</html>

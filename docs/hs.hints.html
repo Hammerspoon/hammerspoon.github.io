@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.hints module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.hints</h1>
+      <p>Switch focus with a transient per-application hotkey</p>
+
+    </header>
+    
+    <section id="hintChars">
+      <a name="//apple_ref/cpp/Variable/hintChars" class="dashAnchor"></a>
+      <h3><a href="#hintChars">hintChars</a></h3>
+      <code>hs.hints.hintChars</code>
+      <p>This controls the set of characters that will be used for window hints. They must be characters found in hs.keycodes.map<br>
+The default is the letters A-Z, the numbers 0-9, and the punctuation characters: -=[];&#39;\,./`</p>
+
+    </section>
+    
+    <section id="windowHints">
+      <a name="//apple_ref/cpp/Function/windowHints" class="dashAnchor"></a>
+      <h3><a href="#windowHints">windowHints</a></h3>
+      <code>hs.hints.windowHints()</code>
+      <p>Displays a keyboard hint for switching focus to each window</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If there are more windows open than there are characters available in hs.hints.hintChars, not all windows will receive a hint, and an error will be logged to the Hammerspoon Console</li>
+</ul>
+
+    </section>
+    
+  </body>
+</html>

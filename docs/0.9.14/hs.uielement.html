@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.uielement module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.uielement</h1>
+      <p>A generalized framework for working with OSX UI elements.</p>
+
+    </header>
+    
+    <section id="isApplication">
+      <a name="//apple_ref/cpp/Returns whether the UI element represents an application./isApplication" class="dashAnchor"></a>
+      <h3><a href="#isApplication">isApplication</a></h3>
+      <code>hs.uielement:isApplication() -> bool</code>
+      
+    </section>
+    
+    <section id="isWindow">
+      <a name="//apple_ref/cpp/Returns whether the UI element represents a window./isWindow" class="dashAnchor"></a>
+      <h3><a href="#isWindow">isWindow</a></h3>
+      <code>hs.uielement:isWindow() -> bool</code>
+      
+    </section>
+    
+    <section id="newWatcher">
+      <a name="//apple_ref/cpp/Method/newWatcher" class="dashAnchor"></a>
+      <h3><a href="#newWatcher">newWatcher</a></h3>
+      <code>hs.uielement:newWatcher(handler[, userData]) -> hs.uielement.watcher</code>
+      <p>Creates a new watcher for the element represented by self.</p>
+
+<p>You must pass a handler function. The args passed are as follows:</p>
+
+<ul>
+<li>element: The element the event occurred on. Note this is not always the element being watched.</li>
+<li>event: The name of the event that occurred.</li>
+<li>watcher: The watcher object being created.</li>
+<li>userData: The userData you included, if any.</li>
+</ul>
+
+    </section>
+    
+    <section id="role">
+      <a name="//apple_ref/cpp/Method/role" class="dashAnchor"></a>
+      <h3><a href="#role">role</a></h3>
+      <code>hs.uielement:role() -> string</code>
+      <p>Returns the role of the element.</p>
+
+    </section>
+    
+  </body>
+</html>

@@ -33,6 +33,7 @@ Lua is a simple programming language. If you've never programmed in Lua before, 
  * [Simple config reloading](#simplereload)
  * [Fancy config reloading](#fancyreload)
  * [Interacting with application menus](#appmenus)
+ * [Reacting to application events](#appevents)
 
 ### <a name="helloworld"></a>Hello World
 
@@ -276,6 +277,31 @@ What we are doing here is first launching Safari or bringing it to the front if 
 We then get a reference to Safari itself using `hs.appfinder.appFromName()`. Using this object we can search the available menu items and interact with them. Specifically, we are looking for the current state of three of the User Agent strings in `Develop→User Agent`. We then check to see which of them is ticked, and then select the next one.
 
 Thus, pressing `cmd+alt+ctrl+7` repeatedly will cycle between the default user agent string, an IE10 user agent, and a Chrome user agent. Each time, we display a simple on-screen alert with the name of the user agent we have cycled to.
+
+### <a name="appevents"></a>Reacting to application events
+
+Using the ```hs.application.watcher``` callback we can react to various application level events, such as applications being launched, exiting, hiding, and activating.
+
+We can demonstrate this by creating a very simple callback which will make sure that when you activate the Finder application, all of its windows will be brought to the front of the display.
+
+```lua
+function applicationWatcher(appName, eventType, appObject)
+    if (eventType == hs.application.watcher.activated) then
+        if (appName == "Finder") then
+            -- Bring all Finder windows forward when one gets activated
+            appObject:selectMenuItem({"Window", "Bring All to Front"})
+        end
+    end
+end
+local appWatcher = hs.application.watcher.new(applicationWatcher)
+appWatcher:start()
+```
+
+To start with, we define a callback function which accepts three parameters and in it we check if the type of event that triggers the function, is an application being activated. Then we check if the application being activated is Finder. If it is, we select its menu item to bring all of its windows to the front.
+
+We then create an application watcher object that will call our function, and tell it to start.
+
+Note that we kept a reference to the watcher object, rather than simply calling ```hs.application.watcher.new(applicationWatcher):start()```. The reason for this is so that we can call ```:stop()``` on the watcher later if we need to (for example in a function that reloads our config - see the Fancy Config Reloading example for information on how to reload Hammerspoon's configuration automatically).
 
 # Credits
 

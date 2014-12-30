@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.inspect module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.inspect</h1>
+      <p>Inspect Lua values, particularly tables</p>
+
+<p>This extension is based on inspect.lua by Enrique García Cota<br>
+<a href="https://github.com/kikito/inspect.lua">https://github.com/kikito/inspect.lua</a></p>
+
+    </header>
+    
+    <section id="inspect">
+      <a name="//apple_ref/cpp/Function/inspect" class="dashAnchor"></a>
+      <h3><a href="#inspect">inspect</a></h3>
+      <code>hs.inspect.inspect(variable, options) -> string</code>
+      <p>Returns a human readable version of the supplied Lua variable.</p>
+
+<p>NOTE: For convenience, you can call this function as hs.inspect(variable)</p>
+
+<p>The <code>options</code> argument is an optional table which can be used to influence the inspector via the following keys:</p>
+
+<ul>
+<li>depth - maximum depth to recurse into <code>variable</code>. Data below that depth will be displayed as <code>{...}</code></li>
+<li>newline - string to use for line breaks. Default is <code>\n</code></li>
+<li>indent - string to use for indentation. Default is <code></code> (two spaces)</li>
+<li>process - a function that will be called for each item, in the form: <code>function(item, path)</code>. It should return the processed item, or <code>nil</code> to remove the item.</li>
+</ul>
+
+<p>For more information on the options, and some examples, see <a href="https://github.com/kikito/inspect.lua">the upstream docs</a></p>
+
+    </section>
+    
+  </body>
+</html>

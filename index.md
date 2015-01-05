@@ -10,6 +10,14 @@ title: Hammerspoon
 This is a tool for powerful automation of OS X. At its core, Hammerspoon is just a bridge between the operating system and a Lua scripting engine.
 What gives Hammerspoon its power is a set of extensions that expose specific pieces of system functionality, to the user.
 
+## What can it do for me?
+
+This is very hard to describe succinctly. You can write Lua code that interacts with OS X APIs for applications, windows, mouse pointers, filesystem objects, audio devices, batteries, screens, low-level keyboard/mouse events, clipboards, location services, wifi, and more.
+
+Typically you would write a configuration file in Lua that connects events to actions. You might want to bind a keyboard shortcut to a series of window operations, or an applescript. You might want to run a series of commands when your wifi interface connects to your home network. You might want to display an alert when your battery drops below a certain percentage. You might want to do something crazy like have iTunes automatically start playing when your Mac detects you are in Paris.
+
+If you want to explore the options Hammerspoon offers, check out the [Getting Started Guide](/go/) and the [full API documentation](/docs/).
+
 ## How do I install it?
 
 [Download the latest release](https://github.com/Hammerspoon/hammerspoon/releases/latest) and then drag the application to `/Applications/`.

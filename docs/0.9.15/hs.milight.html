@@ -1,0 +1,215 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.milight module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.milight</h1>
+      <p>Simple controls for the MiLight LED WiFi bridge (also known as LimitlessLED and EasyBulb)</p>
+
+    </header>
+    
+    <section id="maxBrightness">
+      <a name="//apple_ref/cpp/Constant/maxBrightness" class="dashAnchor"></a>
+      <h3><a href="#maxBrightness">maxBrightness</a></h3>
+      <code>hs.milight.maxBrightness</code>
+      <p>Specifies the maximum brightness value that can be used</p>
+
+    </section>
+    
+    <section id="minBrightness">
+      <a name="//apple_ref/cpp/Constant/minBrightness" class="dashAnchor"></a>
+      <h3><a href="#minBrightness">minBrightness</a></h3>
+      <code>hs.milight.minBrightness</code>
+      <p>Specifies the minimum brightness value that can be used</p>
+
+    </section>
+    
+    <section id="new">
+      <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+      <h3><a href="#new">new</a></h3>
+      <code>hs.milight.new(ip[, port]) -> bridge</code>
+      <p>Creates a new bridge object, which will be connected to the supplied IP address and port</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>ip - IP address of the MiLight WiFi bridge device. For convenience this can be the broadcast address of your network
+    (e.g. 192.168.0.255)</li>
+<li>port - UDP port to talk to the bridge on. Defaults to 8899</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>bridge object to use with other API methods</li>
+</ul>
+
+    </section>
+    
+    <section id="zoneOff">
+      <a name="//apple_ref/cpp/Method/zoneOff" class="dashAnchor"></a>
+      <h3><a href="#zoneOff">zoneOff</a></h3>
+      <code>hs.milight.zoneOff(zone) -> bool</code>
+      <p>Turns off the specified zone</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the command was sent correctly, false if not</li>
+</ul>
+
+    </section>
+    
+    <section id="zoneOn">
+      <a name="//apple_ref/cpp/Method/zoneOn" class="dashAnchor"></a>
+      <h3><a href="#zoneOn">zoneOn</a></h3>
+      <code>hs.milight.zoneOn(zone) -> bool</code>
+      <p>Turns on the specified zone</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the command was sent correctly, false if not</li>
+</ul>
+
+    </section>
+    
+    <section id="zoneWhite">
+      <a name="//apple_ref/cpp/Method/zoneWhite" class="dashAnchor"></a>
+      <h3><a href="#zoneWhite">zoneWhite</a></h3>
+      <code>hs.milight.zoneWhite(zone) -> bool</code>
+      <p>Sets the specified zone to white</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the command was sent correctly, false if not</li>
+</ul>
+
+    </section>
+    
+    <section id="delete">
+      <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+      <h3><a href="#delete">delete</a></h3>
+      <code>hs.milight:delete()</code>
+      <p>Deletes a bridge object</p>
+
+<p>Parameters:<br>
+ None</p>
+
+<p>Returns:<br>
+ None</p>
+
+    </section>
+    
+    <section id="disco">
+      <a name="//apple_ref/cpp/Method/disco" class="dashAnchor"></a>
+      <h3><a href="#disco">disco</a></h3>
+      <code>hs.milight:disco() -> bool</code>
+      <p>Cycles through the disco modes</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the command was sent correctly, false if not</li>
+</ul>
+
+    </section>
+    
+    <section id="send">
+      <a name="//apple_ref/cpp/Method/send" class="dashAnchor"></a>
+      <h3><a href="#send">send</a></h3>
+      <code>hs.milight:send(cmd, value) -> bool</code>
+      <p>Sends a command to the bridge.<br>
+Note: This is a low level command, you typically should use a specific method for the operation you want to perform</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>cmd - A command from the hs.milight.cmd table</li>
+<li>value - An optional value, if appropriate for the command (defaults to 0x00)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the command was sent, false if an error occurred</li>
+</ul>
+
+    </section>
+    
+    <section id="zoneBrightness">
+      <a name="//apple_ref/cpp/Method/zoneBrightness" class="dashAnchor"></a>
+      <h3><a href="#zoneBrightness">zoneBrightness</a></h3>
+      <code>hs.milight:zoneBrightness(zone, value) -> integer</code>
+      <p>Sets brightness for the specified zone</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+<li>value - Brightness level to set, between 0 and 25</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The value that was sent to the WiFi bridge, or -1 if an error occurred</li>
+</ul>
+
+    </section>
+    
+    <section id="zoneColor">
+      <a name="//apple_ref/cpp/Method/zoneColor" class="dashAnchor"></a>
+      <h3><a href="#zoneColor">zoneColor</a></h3>
+      <code>hs.milight:zoneColor(zone, value) -> bool</code>
+      <p>Sets RGB color for the specified zone</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+<li>value - RGB color value between 0 and 255</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the command was sent correctly, false if not</li>
+</ul>
+
+    </section>
+    
+  </body>
+</html>

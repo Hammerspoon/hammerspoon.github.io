@@ -1,0 +1,165 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.battery module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.battery</h1>
+      <p>Functions for getting battery info. All functions here may return nil, if the information requested is not available.</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="amperage">
+      <a name="//apple_ref/cpp/Function/amperage" class="dashAnchor"></a>
+      <h3><a href="#amperage">amperage</a></h3>
+      <code>hs.battery.amperage() -> number</code>
+      <p>Returns the amperage of the battery in mA. (will be negative if battery is discharging)</p>
+
+    </section>
+    
+    <section id="capacity">
+      <a name="//apple_ref/cpp/Function/capacity" class="dashAnchor"></a>
+      <h3><a href="#capacity">capacity</a></h3>
+      <code>hs.battery.capacity() -> number</code>
+      <p>Returns the current capacity of the battery in mAh.</p>
+
+    </section>
+    
+    <section id="cycles">
+      <a name="//apple_ref/cpp/Function/cycles" class="dashAnchor"></a>
+      <h3><a href="#cycles">cycles</a></h3>
+      <code>hs.battery.cycles() -> number</code>
+      <p>Returns the number of cycles the connected battery has went through.</p>
+
+    </section>
+    
+    <section id="designCapacity">
+      <a name="//apple_ref/cpp/Function/designCapacity" class="dashAnchor"></a>
+      <h3><a href="#designCapacity">designCapacity</a></h3>
+      <code>hs.battery.designCapacity() -> number</code>
+      <p>Returns the design capacity of the battery in mAh.</p>
+
+    </section>
+    
+    <section id="getAll">
+      <a name="//apple_ref/cpp/Function/getAll" class="dashAnchor"></a>
+      <h3><a href="#getAll">getAll</a></h3>
+      <code>hs.battery.getAll() -> table</code>
+      <p>Iterates through all informational functions defined in this module and returns a table containing the current information.  Useful if you want more than one piece of information at a given time.</p>
+
+    </section>
+    
+    <section id="health">
+      <a name="//apple_ref/cpp/Function/health" class="dashAnchor"></a>
+      <h3><a href="#health">health</a></h3>
+      <code>hs.battery.health() -> string</code>
+      <p>Returns the health status of the battery. One of {Good, Fair, Poor}</p>
+
+    </section>
+    
+    <section id="healthCondition">
+      <a name="//apple_ref/cpp/Function/healthCondition" class="dashAnchor"></a>
+      <h3><a href="#healthCondition">healthCondition</a></h3>
+      <code>hs.battery.healthCondition() -> string</code>
+      <p>Returns the health condition status of the battery. One of {Check Battery, Permanent Battery Failure}. Nil if there is no health condition set.</p>
+
+    </section>
+    
+    <section id="isCharged">
+      <a name="//apple_ref/cpp/Function/isCharged" class="dashAnchor"></a>
+      <h3><a href="#isCharged">isCharged</a></h3>
+      <code>hs.battery.isCharged() -> boolean</code>
+      <p>Returns true if battery is charged.</p>
+
+    </section>
+    
+    <section id="isCharging">
+      <a name="//apple_ref/cpp/Function/isCharging" class="dashAnchor"></a>
+      <h3><a href="#isCharging">isCharging</a></h3>
+      <code>hs.battery.isCharging() -> boolean</code>
+      <p>Returns true if the battery is charging.</p>
+
+    </section>
+    
+    <section id="isFinishingCharge">
+      <a name="//apple_ref/cpp/Function/isFinishingCharge" class="dashAnchor"></a>
+      <h3><a href="#isFinishingCharge">isFinishingCharge</a></h3>
+      <code>hs.battery.isFinishingCharge() -> boolean</code>
+      <p>Returns true if battery is finishing charge.</p>
+
+    </section>
+    
+    <section id="maxCapacity">
+      <a name="//apple_ref/cpp/Function/maxCapacity" class="dashAnchor"></a>
+      <h3><a href="#maxCapacity">maxCapacity</a></h3>
+      <code>hs.battery.maxCapacity() -> number</code>
+      <p>Returns the current maximum capacity of the battery in mAh.</p>
+
+    </section>
+    
+    <section id="name">
+      <a name="//apple_ref/cpp/Function/name" class="dashAnchor"></a>
+      <h3><a href="#name">name</a></h3>
+      <code>hs.battery.name() -> string</code>
+      <p>Returns the name of the battery.</p>
+
+    </section>
+    
+    <section id="percentage">
+      <a name="//apple_ref/cpp/Function/percentage" class="dashAnchor"></a>
+      <h3><a href="#percentage">percentage</a></h3>
+      <code>hs.battery.percentage() -> number</code>
+      <p>Returns the current percentage of the battery between 0 and 100.</p>
+
+    </section>
+    
+    <section id="powerSource">
+      <a name="//apple_ref/cpp/Function/powerSource" class="dashAnchor"></a>
+      <h3><a href="#powerSource">powerSource</a></h3>
+      <code>hs.battery.powerSource() -> boolean</code>
+      <p>Returns current source of power. One of {AC Power, Battery Power, Off Line}.</p>
+
+    </section>
+    
+    <section id="timeRemaining">
+      <a name="//apple_ref/cpp/Function/timeRemaining" class="dashAnchor"></a>
+      <h3><a href="#timeRemaining">timeRemaining</a></h3>
+      <code>hs.battery.timeRemaining() -> number</code>
+      <p>Returns the time remaining in minutes. Or a negative value: -1 = calculating time remaining, -2 = unlimited (i.e. you&#39;re charging, or apple has somehow discovered an infinite power source.)</p>
+
+    </section>
+    
+    <section id="timeToFullCharge">
+      <a name="//apple_ref/cpp/Function/timeToFullCharge" class="dashAnchor"></a>
+      <h3><a href="#timeToFullCharge">timeToFullCharge</a></h3>
+      <code>hs.battery.timeToFullCharge() -> number</code>
+      <p>Returns the time remaining to a full charge in minutes. Or a negative value, -1 = calculating time remaining.</p>
+
+    </section>
+    
+    <section id="voltage">
+      <a name="//apple_ref/cpp/Function/voltage" class="dashAnchor"></a>
+      <h3><a href="#voltage">voltage</a></h3>
+      <code>hs.battery.voltage() -> number</code>
+      <p>Returns the voltage flow of the battery in mV.</p>
+
+    </section>
+    
+    <section id="watts">
+      <a name="//apple_ref/cpp/Function/watts" class="dashAnchor"></a>
+      <h3><a href="#watts">watts</a></h3>
+      <code>hs.battery.watts() -> number</code>
+      <p>Returns the watts into or out of the battery in Watt (will be negative if battery is discharging)</p>
+
+    </section>
+    
+  </body>
+</html>

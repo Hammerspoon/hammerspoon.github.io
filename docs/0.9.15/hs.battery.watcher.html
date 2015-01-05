@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.battery.watcher module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.battery.watcher</h1>
+      <p>Functions for watching battery state changes.</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="new">
+      <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+      <h3><a href="#new">new</a></h3>
+      <code>hs.battery.watcher.new(fn) -> watcher</code>
+      <p>Creates a battery watcher that can be started. When started, fn will be called each time a battery attribute changes.</p>
+
+    </section>
+    
+    <section id="start">
+      <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+      <h3><a href="#start">start</a></h3>
+      <code>hs.battery.watcher:start() -> self</code>
+      <p>Starts the battery watcher, making it so fn is called each time a battery attribute changes.</p>
+
+    </section>
+    
+    <section id="stop">
+      <a name="//apple_ref/cpp/Function/stop" class="dashAnchor"></a>
+      <h3><a href="#stop">stop</a></h3>
+      <code>hs.battery.watcher:stop() -> self</code>
+      <p>Stops the battery watcher&#39;s fn from getting called until started again.</p>
+
+    </section>
+    
+  </body>
+</html>

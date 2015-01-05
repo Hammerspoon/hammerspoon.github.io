@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.hotkey.modal module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.hotkey.modal</h1>
+      <p>For conveniently binding modal hotkeys.</p>
+
+<p>This would be a simple example usage:</p>
+
+<pre><code>k = hs.hotkey.modal.new({&quot;cmd&quot;, &quot;shift&quot;}, &quot;d&quot;)
+
+function k:entered() hs.alert.show(&#39;Entered mode&#39;) end
+function k:exited()  hs.alert.show(&#39;Exited mode&#39;)  end
+
+k:bind({}, &#39;escape&#39;, function() k:exit() end)
+k:bind({}, &#39;J&#39;, function() hs.alert.show(&quot;Pressed J&quot;) end)
+</code></pre>
+
+    </header>
+    
+    <section id="new">
+      <a name="//apple_ref/cpp/Creates a new modal hotkey and enables it./new" class="dashAnchor"></a>
+      <h3><a href="#new">new</a></h3>
+      <code>hs.hotkey.modal.new(mods, key) -> modal</code>
+      <p>When mods and key are pressed, all keys bound via <code>modal:bind</code> will be enabled.<br>
+They are disabled when the &quot;mode&quot; is exited via <code>modal:exit()</code><br>
+If mods and key are both nil, the modal state will be created with no top-level hotkey to enter the modal state. This is useful where you want a modal state to exist, but be entered programatically.</p>
+
+    </section>
+    
+    <section id="bind">
+      <a name="//apple_ref/cpp/Registers a new hotkey that will be bound when the modal is enabled./bind" class="dashAnchor"></a>
+      <h3><a href="#bind">bind</a></h3>
+      <code>hs.hotkey.modal:bind(mods, key, pressedfn, releasedfn)</code>
+      
+    </section>
+    
+    <section id="enter">
+      <a name="//apple_ref/cpp/Enables all hotkeys created via `modal:bind` and disables the modal itself./enter" class="dashAnchor"></a>
+      <h3><a href="#enter">enter</a></h3>
+      <code>hs.hotkey.modal:enter()</code>
+      <p>Called automatically when the modal&#39;s hotkey is pressed.</p>
+
+    </section>
+    
+    <section id="entered">
+      <a name="//apple_ref/cpp/Optional callback for when a modal is entered; default implementation does nothing./entered" class="dashAnchor"></a>
+      <h3><a href="#entered">entered</a></h3>
+      <code>hs.hotkey.modal:entered()</code>
+      
+    </section>
+    
+    <section id="exit">
+      <a name="//apple_ref/cpp/Disables all hotkeys created via `modal:bind` and re-enables the modal itself./exit" class="dashAnchor"></a>
+      <h3><a href="#exit">exit</a></h3>
+      <code>hs.hotkey.modal:exit()</code>
+      
+    </section>
+    
+    <section id="exited">
+      <a name="//apple_ref/cpp/Optional callback for when a modal is exited; default implementation does nothing./exited" class="dashAnchor"></a>
+      <h3><a href="#exited">exited</a></h3>
+      <code>hs.hotkey.modal:exited()</code>
+      
+    </section>
+    
+  </body>
+</html>

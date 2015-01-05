@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.pathwatcher module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.pathwatcher</h1>
+      <p>Watch paths recursively for changes.</p>
+
+<p>This simple example watches your Hammerspoon directory for changes, and when it sees a change, reloads your configs:</p>
+
+<pre><code>hs.pathwatcher.new(os.getenv(&quot;HOME&quot;) .. &quot;/.Hammerspoon/&quot;, hs.reload):start()
+</code></pre>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="new">
+      <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+      <h3><a href="#new">new</a></h3>
+      <code>hs.pathwatcher.new(path, fn) -> watcher</code>
+      <p>Returns a new watcher.path that can be started and stopped.  The function registered receives as it&#39;s argument, a table containing a list of the files which have changed since it was last invoked.</p>
+
+    </section>
+    
+    <section id="start">
+      <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+      <h3><a href="#start">start</a></h3>
+      <code>hs.pathwatcher:start()</code>
+      <p>Registers watcher&#39;s fn as a callback for when watcher&#39;s path or any descendent changes.</p>
+
+    </section>
+    
+    <section id="stop">
+      <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+      <h3><a href="#stop">stop</a></h3>
+      <code>hs.pathwatcher:stop()</code>
+      <p>Unregisters watcher&#39;s fn so it won&#39;t be called again until the watcher is restarted.</p>
+
+    </section>
+    
+  </body>
+</html>

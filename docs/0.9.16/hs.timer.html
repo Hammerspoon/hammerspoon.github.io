@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.timer module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.timer</h1>
+      <p>Execute functions with various timing rules.</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="days">
+      <a name="//apple_ref/cpp/Returns the number of days in seconds./days" class="dashAnchor"></a>
+      <h3><a href="#days">days</a></h3>
+      <code>hs.timer.days(n) -> sec</code>
+      
+    </section>
+    
+    <section id="doAfter">
+      <a name="//apple_ref/cpp/Function/doAfter" class="dashAnchor"></a>
+      <h3><a href="#doAfter">doAfter</a></h3>
+      <code>hs.timer.doAfter(sec, fn)</code>
+      <p>Runs the function after sec seconds.</p>
+
+    </section>
+    
+    <section id="hours">
+      <a name="//apple_ref/cpp/Returns the number of hours in seconds./hours" class="dashAnchor"></a>
+      <h3><a href="#hours">hours</a></h3>
+      <code>hs.timer.hours(n) -> sec</code>
+      
+    </section>
+    
+    <section id="minutes">
+      <a name="//apple_ref/cpp/Returns the number of minutes in seconds./minutes" class="dashAnchor"></a>
+      <h3><a href="#minutes">minutes</a></h3>
+      <code>hs.timer.minutes(n) -> sec</code>
+      
+    </section>
+    
+    <section id="new">
+      <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+      <h3><a href="#new">new</a></h3>
+      <code>hs.timer.new(interval, fn) -> timer</code>
+      <p>Creates a new timer that can be started; interval is specified in seconds as a decimal number.</p>
+
+    </section>
+    
+    <section id="seconds">
+      <a name="//apple_ref/cpp/Returns the number of seconds in seconds./seconds" class="dashAnchor"></a>
+      <h3><a href="#seconds">seconds</a></h3>
+      <code>hs.timer.seconds(n) -> sec</code>
+      
+    </section>
+    
+    <section id="weeks">
+      <a name="//apple_ref/cpp/Returns the number of weeks in seconds./weeks" class="dashAnchor"></a>
+      <h3><a href="#weeks">weeks</a></h3>
+      <code>hs.timer.weeks(n) -> sec</code>
+      
+    </section>
+    
+    <section id="start">
+      <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+      <h3><a href="#start">start</a></h3>
+      <code>hs.timer:start() -> self</code>
+      <p>Begins to execute hs.timer.fn every N seconds, as defined when the timer was created; calling this does not cause an initial firing of the timer immediately.</p>
+
+    </section>
+    
+    <section id="stop">
+      <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+      <h3><a href="#stop">stop</a></h3>
+      <code>hs.timer:stop() -> self</code>
+      <p>Stops the timer&#39;s fn from getting called until started again.</p>
+
+    </section>
+    
+  </body>
+</html>

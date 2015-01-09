@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.location module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.location</h1>
+      <p>Determine the machine&#39;s location</p>
+
+    </header>
+    
+    <section id="distance">
+      <a name="//apple_ref/cpp/Function/distance" class="dashAnchor"></a>
+      <h3><a href="#distance">distance</a></h3>
+      <code>hs.location.distance(from, to) -> meters</code>
+      <p>Returns the distance in meters between the two locations by tracing a line between them that follows the curvature of the Earth. The resulting arc is a smooth curve and does not take into account specific altitude changes between the two locations.  From and To should be tables including at least longitude and latitude; the table returned by <code>hs.location.get</code> is supported.</p>
+
+    </section>
+    
+    <section id="get">
+      <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
+      <h3><a href="#get">get</a></h3>
+      <code>hs.location.get() -> table or nil</code>
+      <p>Returns a table representing the current location, with the keys:<br>
+ latitude - The latitude in degrees. Positive values indicate latitudes north of the equator. Negative values indicate latitudes south of the equator<br>
+ longitude - The longitude in degrees. Measurements are relative to the zero meridian, with positive values extending east of the meridian and negative values extending west of the meridian<br>
+ altitude - The altitude measured in meters<br>
+ timestamp - The time at which this location was determined, in seconds from the first instant of 1 January 1970, GMT<br>
+ horizontalAccuracy - The radius of uncertainty for the location, measured in meters<br>
+ verticalAccuracy - The accuracy of the altitude value in meters</p>
+
+<p>Note that there is a small lag between calling hs.location.start() and this function returning useful data, and it may never return data if the user has denied access to Location Services.<br>
+Rather than poll this function in a loop, consider using hs.timer.doAfter() to continue your work after a reasonable delay.</p>
+
+    </section>
+    
+    <section id="register">
+      <a name="//apple_ref/cpp/Function/register" class="dashAnchor"></a>
+      <h3><a href="#register">register</a></h3>
+      <code>hs.location.register(tag, fn[, distance])</code>
+      <p>Register a callback function with the specified tag to be invoked when hs.location receives an updated location.  The optional distance argument is a number representing the distance in meters that the location must change by before invoking the callback again.  If it is not present, then all updates to the current location will invoke the callback.  The callback function will be called with the result of <code>hs.location.get</code> as it&#39;s argument.</p>
+
+    </section>
+    
+    <section id="services_enabled">
+      <a name="//apple_ref/cpp/Function/services_enabled" class="dashAnchor"></a>
+      <h3><a href="#services_enabled">services_enabled</a></h3>
+      <code>hs.location.services_enabled() -> bool</code>
+      <p>Returns true or false if OS X Location Services are enabled</p>
+
+    </section>
+    
+    <section id="start">
+      <a name="//apple_ref/cpp/Function/start" class="dashAnchor"></a>
+      <h3><a href="#start">start</a></h3>
+      <code>hs.location.start() -> boolean</code>
+      <p>Begins location monitoring using OS X&#39;s Location Services.<br>
+The first time you call this, you may be prompted to authorise Hammerspoon to use Location Services.</p>
+
+    </section>
+    
+    <section id="stop">
+      <a name="//apple_ref/cpp/Function/stop" class="dashAnchor"></a>
+      <h3><a href="#stop">stop</a></h3>
+      <code>hs.location.stop()</code>
+      <p>Stops location monitoring</p>
+
+    </section>
+    
+    <section id="unregister">
+      <a name="//apple_ref/cpp/Function/unregister" class="dashAnchor"></a>
+      <h3><a href="#unregister">unregister</a></h3>
+      <code>hs.location.unregister(tag)</code>
+      <p>Unregisters the callback function with the specified tag.</p>
+
+    </section>
+    
+  </body>
+</html>

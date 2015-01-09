@@ -1,0 +1,250 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.audiodevice module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.audiodevice</h1>
+      <p>Manipulate the system&#39;s audio devices.</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="allOutputDevices">
+      <a name="//apple_ref/cpp/Function/allOutputDevices" class="dashAnchor"></a>
+      <h3><a href="#allOutputDevices">allOutputDevices</a></h3>
+      <code>hs.audiodevice.allOutputDevices() -> audio[]</code>
+      <p>Returns a list of all connected output devices.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table of zero or more audio output devices connected to the system</li>
+</ul>
+
+    </section>
+    
+    <section id="current">
+      <a name="//apple_ref/cpp/Function/current" class="dashAnchor"></a>
+      <h3><a href="#current">current</a></h3>
+      <code>hs.audiodevice.current() -> table</code>
+      <p>Fetch various metadata about the current audio output device</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table with the following contents:</li>
+</ul>
+
+<pre lang="lua"><code>    {
+        name = defaultOutputDevice():name(),
+        uid = module.defaultOutputDevice():uid(),
+        muted = defaultOutputDevice():muted(),
+        volume = defaultOutputDevice():volume(),
+        device = defaultOutputDevice(),
+    }
+</code></pre>
+
+    </section>
+    
+    <section id="defaultOutputDevice">
+      <a name="//apple_ref/cpp/Function/defaultOutputDevice" class="dashAnchor"></a>
+      <h3><a href="#defaultOutputDevice">defaultOutputDevice</a></h3>
+      <code>hs.audiodevice.defaultOutputDevice() -> audio or nil</code>
+      <p>Get the currently selected audio output device</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An hs.audiodevice object, or nil if no suitable device could be found</li>
+</ul>
+
+    </section>
+    
+    <section id="findOutputByName">
+      <a name="//apple_ref/cpp/Function/findOutputByName" class="dashAnchor"></a>
+      <h3><a href="#findOutputByName">findOutputByName</a></h3>
+      <code>hs.audiodevice.findOutputByName(name) -> device or nil</code>
+      <p>Find audio output devices by name</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - A string containing the name of an audio output device to search for</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An hs.audiodevice object or nil if the device could not be found</li>
+</ul>
+
+    </section>
+    
+    <section id="muted">
+      <a name="//apple_ref/cpp/Method/muted" class="dashAnchor"></a>
+      <h3><a href="#muted">muted</a></h3>
+      <code>hs.audiodevice:muted() -> bool or nil</code>
+      <p>Get the mutedness state of the audio device</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the audio device is muted, False if it is not muted, nil if it does not support muting</li>
+</ul>
+
+    </section>
+    
+    <section id="name">
+      <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+      <h3><a href="#name">name</a></h3>
+      <code>hs.audiodevice:name() -> string or nil</code>
+      <p>Get the name of the audio device</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the name of the audio device, or nil if it has no name</li>
+</ul>
+
+    </section>
+    
+    <section id="setDefaultOutputDevice">
+      <a name="//apple_ref/cpp/Method/setDefaultOutputDevice" class="dashAnchor"></a>
+      <h3><a href="#setDefaultOutputDevice">setDefaultOutputDevice</a></h3>
+      <code>hs.audiodevice:setDefaultOutputDevice() -> bool</code>
+      <p>Selects this device as the system&#39;s audio output device</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the audio device was successfully selected, otherwise false.</li>
+</ul>
+
+    </section>
+    
+    <section id="setMuted">
+      <a name="//apple_ref/cpp/Method/setMuted" class="dashAnchor"></a>
+      <h3><a href="#setMuted">setMuted</a></h3>
+      <code>hs.audiodevice:setMuted(state) -> bool</code>
+      <p>Set the mutedness state of the audio device</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>state - A boolean value. True to mute the device, False to unmute it</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the device&#39;s mutedness state was set, or False if it does not support muting</li>
+</ul>
+
+    </section>
+    
+    <section id="setVolume">
+      <a name="//apple_ref/cpp/Method/setVolume" class="dashAnchor"></a>
+      <h3><a href="#setVolume">setVolume</a></h3>
+      <code>hs.audiodevice:setVolume(level) -> bool</code>
+      <p>Set the volume of this audio device</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>level - A number between 0 and 100, representing the volume as a percentage</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the volume was set, false if the audio device does not support setting a volume level.</li>
+</ul>
+
+    </section>
+    
+    <section id="uid">
+      <a name="//apple_ref/cpp/Method/uid" class="dashAnchor"></a>
+      <h3><a href="#uid">uid</a></h3>
+      <code>hs.audiodevice:uid() -> string or nil</code>
+      <p>Get the unique identifier of the audio device</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the UID of the audio device, or nil if it has no UID.</li>
+</ul>
+
+    </section>
+    
+    <section id="volume">
+      <a name="//apple_ref/cpp/Method/volume" class="dashAnchor"></a>
+      <h3><a href="#volume">volume</a></h3>
+      <code>hs.audiodevice:volume() -> number or bool</code>
+      <p>Get the current volume of this audio device</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number between 0 and 100, representing the volume percentage, or nil if the audio device does not support volume levels</li>
+</ul>
+
+    </section>
+    
+  </body>
+</html>

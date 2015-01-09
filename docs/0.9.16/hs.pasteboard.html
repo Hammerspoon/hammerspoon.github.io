@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.pasteboard module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.pasteboard</h1>
+      <p>This is a module provides access to the OS X clipboard from within Hammerspoon</p>
+
+<p>This module is based partially on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="changeCount">
+      <a name="//apple_ref/cpp/Function/changeCount" class="dashAnchor"></a>
+      <h3><a href="#changeCount">changeCount</a></h3>
+      <code>hs.pasteboard.changeCount() -> number</code>
+      <p>The number of times the pasteboard owner changed (useful to see if the pasteboard was updated, by seeing if the value of this function changes).</p>
+
+    </section>
+    
+    <section id="getContents">
+      <a name="//apple_ref/cpp/Function/getContents" class="dashAnchor"></a>
+      <h3><a href="#getContents">getContents</a></h3>
+      <code>hs.pasteboard.getContents() -> string</code>
+      <p>Returns the contents of the pasteboard as a string, or nil if it can&#39;t be done</p>
+
+    </section>
+    
+    <section id="setContents">
+      <a name="//apple_ref/cpp/Function/setContents" class="dashAnchor"></a>
+      <h3><a href="#setContents">setContents</a></h3>
+      <code>hs.pasteboard.setContents(string) -> boolean</code>
+      <p>Sets the contents of the pasteboard to the string value passed in. Returns success status as true or false.</p>
+
+    </section>
+    
+  </body>
+</html>

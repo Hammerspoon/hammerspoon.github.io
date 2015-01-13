@@ -34,6 +34,7 @@ Lua is a simple programming language. If you've never programmed in Lua before, 
  * [Fancy config reloading](#fancyreload)
  * [Interacting with application menus](#appmenus)
  * [Reacting to application events](#appevents)
+ * [Creating a simple menubar item](#simplemenubar)
 
 ### <a name="helloworld"></a>Hello World
 
@@ -302,6 +303,35 @@ To start with, we define a callback function which accepts three parameters and 
 We then create an application watcher object that will call our function, and tell it to start.
 
 Note that we kept a reference to the watcher object, rather than simply calling ```hs.application.watcher.new(applicationWatcher):start()```. The reason for this is so that we can call ```:stop()``` on the watcher later if we need to (for example in a function that reloads our config - see the Fancy Config Reloading example for information on how to reload Hammerspoon's configuration automatically).
+
+### <a name="simplemenubar"></a>Creating a simple menubar item
+
+Lots of Mac utilities place a small icon in the system menubar to display their status and let you interact with them. We're going to use two of Hammerspoon's extensions to whip up a very simple replacement for the popular utility `Caffeine`.
+
+```lua
+-- NOTE: If you have a function set up to reload your config, you should call caffeine:delete() there
+local caffeine = hs.menubar.new()
+function setCaffeineDisplay(state)
+    if state then
+        caffeine:setTitle("AWAKE")
+    else
+        caffeine:setTitle("SLEEPY")
+    end
+end
+
+function caffeineClicked()
+    setCaffeineDisplay(hs.caffeinate.toggle("displayIdle"))
+end
+
+if caffeine then
+    caffeine:setClickCallback(caffeineClicked)
+    setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
+end
+```
+
+This code snippet will create a menubar item that displays either the text `SLEEPY` if your machine is allowed to go to sleep when you're not using it, or `AWAKE` if it will refuse to sleep. The `hs.caffeine` extension provides the ability to prevent the display from sleeping, but `hs.menubar` is providing the menubar item.
+
+In this case we create the menubar item and connect a callback (in this case `caffeineClicked()`) to click events on the menubar item. You can also use icons instead of text, by placing small image files in `~/.hammerspoon/` and using the `:setIcon()` method on your menubar object. See the full API docs for `hs.menubar` for more information about this.
 
 # Credits
 

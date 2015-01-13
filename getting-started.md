@@ -234,7 +234,7 @@ The fifth item is a rect that will be given to `hs.window:setFrame()` and should
 
 The sixth item is similar to the fifth, except it does take the OS menubar and dock into account. This is shown in our example above, which will place the iTunes Mini Player window at the very bottom left of the screen, even if the dock is there.
 
-This may seem like a fairly complex set of options, but it's worth spending some time learning, as it allows for extremely powerful window layouts, particularly in reaction to system events (such as the number of screens changing when you plug in a monitor).
+This may seem like a fairly complex set of options, but it's worth spending some time learning, as it allows for extremely powerful window layouts, particularly in reaction to system events (such as the number of screens changing when you plug in a monitor, or even just press a particular hotkey to restore sanity to your windows).
 
 ### <a name="simplereload"></a>Simple configuration reloading
 

@@ -4,8 +4,6 @@ title: Getting Started
 permalink: /go/
 ---
 
-NOTE: This guide is still a work in progress.
-
 # Getting Started with Hammerspoon
 
 ## What is Hammerspoon?
@@ -30,6 +28,7 @@ Lua is a simple programming language. If you've never programmed in Lua before, 
  * [A quick aside on colon syntax](#colonsyntax)
  * [More complex window movement](#winmovenethack)
  * [Window resizing](#winresize)
+ * [Multi-window layouts](#winlayout)
  * [Simple config reloading](#simplereload)
  * [Fancy config reloading](#fancyreload)
  * [Interacting with application menus](#appmenus)
@@ -203,6 +202,39 @@ end)
 ```
 
 A good exercise here would be to see if you can now write functions for yourself that bind the Up/Down cursor keys to resizing windows to the top/bottom half of the screen, respectively.
+
+### <a name="winlayout"></a>Multi-window layouts
+
+When you want to keep several apps open all the time, and have their windows arranged in a particular way, you can use the `hs.layout` extension:
+
+```lua
+    local laptopScreen = "Color LCD"
+    local windowLayout = {
+        {"Safari",  nil,          laptopScreen, hs.layout.left50,    nil, nil},
+        {"Mail",    nil,          laptopScreen, hs.layout.right50,   nil, nil},
+        {"iTunes",  "iTunes",     laptopScreen, hs.layout.maximized, nil, nil},
+        {"iTunes",  "MiniPlayer", laptopScreen, nil, nil, hs.geometry.rect(0, -48, 400, 48)},
+    }
+    hs.layout.apply(windowLayout)
+```
+
+To break this down a little, we start off by creating a variable with the name of the main screen on a Mac. You can find these names with the `:name()` method on an `hs.screen` object (e.g. typing `hs.screen.allScreens()[1]:name()` in the Hammerspoon Console).
+
+We then create a table that describes the layout we want. Each entry in the `windowLayout` table is another table that selects the windows we are interested in, and specifies their desired position and size.
+
+The first item in the table is the name of an app we wish to affect, and the second item is the title of a window we wish to affect. Either of these items can be `nil`, but not both. If the application name is `nil` then we will match the given window title across all applications. If the window title item is `nil` then we will match all windows of the given application.
+
+The third item is the name of the screen to place the window on, as described above.
+
+The fourth, fifth and sixth items are used to describe the layout of matched windows, in different ways. Only one of these items can have a value, and that value should be a table containing four items, `x`, `y`, `w` and `h` (horizontal position, vertical position, width and height, respectively).
+
+The fourth item is a rect that will be given to `hs.window:moveToUnit()`. The `x`, `y`, `w`, and `h` values of this rect, are values between `0.0` and `1.0`, allowing you to position windows as fractions of the display, without having to be concerned about the precise resolution of the display (e.g. `hs.layout.left50` is a pre-defined rect of `hs.geometry.rect(0, 0, 0.5, 1)`).
+
+The fifth item is a rect that will be given to `hs.window:setFrame()` and should specify the position/size values as pixel positions on the screen, but without the OS menubar and dock.
+
+The sixth item is similar to the fifth, except it does take the OS menubar and dock into account. This is shown in our example above, which will place the iTunes Mini Player window at the very bottom left of the screen, even if the dock is there.
+
+This may seem like a fairly complex set of options, but it's worth spending some time learning, as it allows for extremely powerful window layouts, particularly in reaction to system events (such as the number of screens changing when you plug in a monitor).
 
 ### <a name="simplereload"></a>Simple configuration reloading
 

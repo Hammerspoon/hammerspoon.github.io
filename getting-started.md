@@ -35,6 +35,7 @@ Lua is a simple programming language. If you've never programmed in Lua before, 
  * [Interacting with application menus](#appmenus)
  * [Reacting to application events](#appevents)
  * [Creating a simple menubar item](#simplemenubar)
+ * [Reacting to wifi events](#wifievents)
 
 ### <a name="helloworld"></a>Hello World
 
@@ -332,6 +333,36 @@ end
 This code snippet will create a menubar item that displays either the text `SLEEPY` if your machine is allowed to go to sleep when you're not using it, or `AWAKE` if it will refuse to sleep. The `hs.caffeine` extension provides the ability to prevent the display from sleeping, but `hs.menubar` is providing the menubar item.
 
 In this case we create the menubar item and connect a callback (in this case `caffeineClicked()`) to click events on the menubar item. You can also use icons instead of text, by placing small image files in `~/.hammerspoon/` and using the `:setIcon()` method on your menubar object. See the full API docs for `hs.menubar` for more information about this.
+
+### <a name="wifievents"></a>Reacting to wifi events
+
+If you use a MacBook then you probably have a WiFi network at home. It's very simple with Hammerspoon to trigger events when you are either arriving home and joining your WiFi network, or departing home and leaving the network. In this case we'll do something simple and adjust the audio volume of the MacBook such that it's at zero when you're away from home (protecting you from the shame of opening your MacBook in a coffee shop and blaring out the music you had playing at home!)
+
+```lua
+local wifiWatcher = nil
+local homeSSID = "MyHomeNetwork"
+local lastSSID = hs.wifi.currentNetwork()
+
+function ssidChangedCallback()
+    newSSID = hs.wifi.currentNetwork()
+
+    if newSSID == homeSSID and lastSSID ~= homeSSID then
+        -- We just joined our home WiFi network
+        hs.audiodevice.defaultOutputDevice():setVolume(25)
+    elseif newSSID ~= homeSSID and lastSSID == homeSSID then
+        -- We just departed our home WiFi network
+        hs.audiodevice.defaultOutputDevice():setVolume(0)
+    end
+
+    lastSSID = newSSID
+end
+
+-- NOTE: If you have a function set up to reload your config, you should call wifiWatcher:stop() there
+wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
+wifiWatcher:start()
+```
+
+Here we have created a callback function that compares the current WiFi network's name to the previous network's name and examines whether we have moved from our pre-defined home network to something else, or vice versa, and then uses `hs.audiodevice` to adjust the system volume.
 
 # Credits
 

@@ -23,7 +23,7 @@ It is unlikely, but possible, that the database controlling access to accessibil
 <p>You can get a list of the real names of all running applications in the Hammerspoon Console with the following snippet:
 
 <pre>
-hs.fnutils.each(apps, function(app) print(app:title()) end)
+hs.fnutils.each(hs.application.runningApplications(), function(app) print(app:title()) end)
 </pre>
 
 <h3>I can't make :findMenuItem() or :selectMenuItem() work in the Hammerspoon Console</h3>

@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.applescript module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.applescript</h1>
+      <p>Functions for executing AppleScript from within Hammerspoon.</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="_applescript">
+      <a name="//apple_ref/cpp/Function/_applescript" class="dashAnchor"></a>
+      <h3><a href="#_applescript">_applescript</a></h3>
+      <code>hs.applescript._applescript(string) -> bool, result</code>
+      <p>Runs AppleScript code</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>string - Some AppleScript code to execute</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean value indicating whether the code succeeded or not</li>
+<li>A string containing the output of the code and/or its errors</li>
+</ul>
+
+    </section>
+    
+    <section id="applescript">
+      <a name="//apple_ref/cpp/Function/applescript" class="dashAnchor"></a>
+      <h3><a href="#applescript">applescript</a></h3>
+      <code>hs.applescript.applescript(string) -> bool, result</code>
+      <p>Runs AppleScript code</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>string - Some AppleScript code to execute</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean value indicating whether the code succeeded or not</li>
+<li>If the code succeeded, the output of the code string. If the code failed, a table containing an error dictionary</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Use hs.applescript._applescript(string) if you always want the result as a string, even when a failure occurs.</li>
+</ul>
+
+    </section>
+    
+  </body>
+</html>

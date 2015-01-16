@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.crash module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.crash</h1>
+      <p>Force Hammerspoon to crash (for testing purposes)</p>
+
+    </header>
+    
+    <section id="crash">
+      <a name="//apple_ref/cpp/Function/crash" class="dashAnchor"></a>
+      <h3><a href="#crash">crash</a></h3>
+      <code>hs.crash.crash()</code>
+      <p>Causes Hammerspoon to immediately crash.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is for testing purposes only, you are extremely unlikely to need this in normal Hammerspoon usage</li>
+</ul>
+
+    </section>
+    
+    <section id="isMainThread">
+      <a name="//apple_ref/cpp/Function/isMainThread" class="dashAnchor"></a>
+      <h3><a href="#isMainThread">isMainThread</a></h3>
+      <code>hs.crash.isMainThread() -> bool</code>
+      <p>Tells you whether you are executing Lua on the main thread.</p>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is for testing purposes only, you are extremely unlikely to need this in normal Hammerspoon usage</li>
+<li><p>When developing a new extension, especially one that involves handlers for outside events, this function<br>
+can be used to make sure your event handling happens on the main thread. You can use this Lua code<br>
+to make Hammerspoon abort if anything happens on a different thread:</p>
+
+<pre lang="lua"><code>local function crashifnotmain(reason)
+  print(&quot;crashifnotmain called with reason&quot;, reason) -- may want to remove this, very verbose otherwise
+  if not hs.crash.isMainThread() then
+    print(&quot;not in main thread, crashing&quot;)
+    hs.crash.crash()
+  end
+end
+
+debug.sethook(crashifnotmain, &#39;c&#39;)
+</code></pre></li>
+</ul>
+
+    </section>
+    
+  </body>
+</html>

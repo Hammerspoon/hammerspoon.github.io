@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.eventtap module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 50px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.eventtap</h1>
+      <p>For tapping into input events (mouse, keyboard, trackpad) for observation and possibly overriding them.<br>
+It also provides convenience wrappers for sending mouse and keyboard events. If you need to construct finely controlled mouse/keyboard events, see hs.eventtap.event</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+    </header>
+    
+    <section id="keyStrokes">
+      <a name="//apple_ref/cpp/Function/keyStrokes" class="dashAnchor"></a>
+      <h3><a href="#keyStrokes">keyStrokes</a></h3>
+      <code>hs.eventtap.keyStrokes(modifiers, string)</code>
+      <p>Generates keystrokes for the supplied keyboard modifiers and string<br>
+The modifiers should be a table, containing any/several/all/none of &quot;fn&quot;, &quot;ctrl&quot;, &quot;alt&quot;, &quot;cmd&quot;, &quot;shift&quot; or &quot;fn&quot; (or their Unicode equivalents ⌃, ⌥, ⌘, ⇧)<br>
+The string can be a single character or many (e.g. if you want to simulate typing of a block of text)</p>
+
+    </section>
+    
+    <section id="leftClick">
+      <a name="//apple_ref/cpp/Function/leftClick" class="dashAnchor"></a>
+      <h3><a href="#leftClick">leftClick</a></h3>
+      <code>hs.eventtap.leftClick(point)</code>
+      <p>Generates a left mouse click event at the specified point</p>
+
+<ul>
+<li>point is a table with keys {x,y} (e.g. {x=0,y=0})</li>
+</ul>
+
+<p>(Note: this is a wrapper around hs.eventtap.event.newMouseEvent that sends leftmousedown and leftmouseup events)</p>
+
+    </section>
+    
+    <section id="middleClick">
+      <a name="//apple_ref/cpp/Function/middleClick" class="dashAnchor"></a>
+      <h3><a href="#middleClick">middleClick</a></h3>
+      <code>hs.eventtap.middleClick(point)</code>
+      <p>Generates a middle mouse click event at the specified point</p>
+
+<ul>
+<li>point is a table with keys {x,y} (e.g. {x=0,y=0})</li>
+</ul>
+
+<p>(Note: this is a wrapper around hs.eventtap.event.newMouseEvent that sends middlemousedown and middlemouseup events)</p>
+
+    </section>
+    
+    <section id="new">
+      <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+      <h3><a href="#new">new</a></h3>
+      <code>hs.eventtap.new(types, fn) -> eventtap</code>
+      <p>Returns a new event tap with the given function as the callback for the given event types; the eventtap not started automatically. The types param is a table which may contain values from table <code>hs.eventtap.event.types</code>. The event types are specified as bit-fields and are exclusively-or&#39;ed together (see {&quot;all&quot;} below for why this is done.  This means { ...keyup, ...keydown, ...keyup }  is equivalent to { ...keydown }.</p>
+
+<p>The callback function takes an event object as its only parameter. It can optionally return two values: if the first one is truthy, this event is deleted from the system input event stream and not seen by any other app; if the second one is a table of events, they will each be posted along with this event.</p>
+
+<p>e.g. callback(obj) -&gt; bool[, table]</p>
+
+<p>If you specify the argument <code>types</code> as the special table {&quot;all&quot;[, events to ignore]}, then <em>all</em> events (except those you optionally list <em>after</em> the &quot;all&quot; string) will trigger a callback, even events which are not defined in the <a href="https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/Reference/reference.html">Quartz Event Reference</a>.</p>
+
+    </section>
+    
+    <section id="rightClick">
+      <a name="//apple_ref/cpp/Function/rightClick" class="dashAnchor"></a>
+      <h3><a href="#rightClick">rightClick</a></h3>
+      <code>hs.eventtap.rightClick(point)</code>
+      <p>Generates a right mouse click event at the specified point</p>
+
+<ul>
+<li>point is a table with keys {x,y} (e.g. {x=0,y=0})</li>
+</ul>
+
+<p>(Note: this is a wrapper around hs.eventtap.event.newMouseEvent that sends rightmousedown and rightmouseup events)</p>
+
+    </section>
+    
+    <section id="start">
+      <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+      <h3><a href="#start">start</a></h3>
+      <code>hs.eventtap:start()</code>
+      <p>Starts an event tap; must be in stopped state.</p>
+
+    </section>
+    
+    <section id="stop">
+      <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+      <h3><a href="#stop">stop</a></h3>
+      <code>hs.eventtap:stop()</code>
+      <p>Stops an event tap; must be in started state.</p>
+
+    </section>
+    
+  </body>
+</html>

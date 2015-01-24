@@ -1,0 +1,1307 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.window module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.window</h1>
+      <p>Inspect/manipulate windows</p>
+
+<p>To get windows, see <code>hs.window.focusedWindow</code> and <code>hs.window.visibleWindows</code>.</p>
+
+<p>To get window geometrical attributes, see <code>hs.window.{frame,size,topLeft}</code>.</p>
+
+<p>To move and resize windows, see <code>hs.window.set{frame,size,topLeft}</code>.</p>
+
+<p>It may be handy to get a window&#39;s app or screen via <code>hs.window.application</code> and <code>hs.window.screen</code>.</p>
+
+<p>See the <code>screen</code> module for detailed explanation of how Hammerspoon uses window/screen coordinates.</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Variables</li>
+                    <ul>
+                
+        <li><a href="#animationDuration">animationDuration</a></li>
+        
+                </ul>
+                
+                <li>Functions</li>
+                    <ul>
+                
+        <li><a href="#allWindows">allWindows</a></li>
+        
+        <li><a href="#orderedWindows">orderedWindows</a></li>
+        
+        <li><a href="#visibleWindows">visibleWindows</a></li>
+        
+        <li><a href="#windowForID">windowForID</a></li>
+        
+                </ul>
+                
+                <li>Constructors</li>
+                    <ul>
+                
+        <li><a href="#focusedWindow">focusedWindow</a></li>
+        
+                </ul>
+                
+                <li>Methods</li>
+                    <ul>
+                
+        <li><a href="#application">application</a></li>
+        
+        <li><a href="#becomeMain">becomeMain</a></li>
+        
+        <li><a href="#close">close</a></li>
+        
+        <li><a href="#ensureIsInScreenBounds">ensureIsInScreenBounds</a></li>
+        
+        <li><a href="#focus">focus</a></li>
+        
+        <li><a href="#focusWindowEast">focusWindowEast</a></li>
+        
+        <li><a href="#focusWindowNorth">focusWindowNorth</a></li>
+        
+        <li><a href="#focusWindowSouth">focusWindowSouth</a></li>
+        
+        <li><a href="#focusWindowWest">focusWindowWest</a></li>
+        
+        <li><a href="#frame">frame</a></li>
+        
+        <li><a href="#id">id</a></li>
+        
+        <li><a href="#isFullScreen">isFullScreen</a></li>
+        
+        <li><a href="#isMinimized">isMinimized</a></li>
+        
+        <li><a href="#isStandard">isStandard</a></li>
+        
+        <li><a href="#isVisible">isVisible</a></li>
+        
+        <li><a href="#maximize">maximize</a></li>
+        
+        <li><a href="#minimize">minimize</a></li>
+        
+        <li><a href="#moveOneScreenEast">moveOneScreenEast</a></li>
+        
+        <li><a href="#moveOneScreenNorth">moveOneScreenNorth</a></li>
+        
+        <li><a href="#moveOneScreenSouth">moveOneScreenSouth</a></li>
+        
+        <li><a href="#moveOneScreenWest">moveOneScreenWest</a></li>
+        
+        <li><a href="#moveToScreen">moveToScreen</a></li>
+        
+        <li><a href="#moveToUnit">moveToUnit</a></li>
+        
+        <li><a href="#otherWindowsAllScreens">otherWindowsAllScreens</a></li>
+        
+        <li><a href="#otherWindowsSameScreen">otherWindowsSameScreen</a></li>
+        
+        <li><a href="#role">role</a></li>
+        
+        <li><a href="#screen">screen</a></li>
+        
+        <li><a href="#setFrame">setFrame</a></li>
+        
+        <li><a href="#setFullScreen">setFullScreen</a></li>
+        
+        <li><a href="#setSize">setSize</a></li>
+        
+        <li><a href="#setTopLeft">setTopLeft</a></li>
+        
+        <li><a href="#size">size</a></li>
+        
+        <li><a href="#subrole">subrole</a></li>
+        
+        <li><a href="#title">title</a></li>
+        
+        <li><a href="#toggleFullScreen">toggleFullScreen</a></li>
+        
+        <li><a href="#toggleZoom">toggleZoom</a></li>
+        
+        <li><a href="#topLeft">topLeft</a></li>
+        
+        <li><a href="#unminimize">unminimize</a></li>
+        
+        <li><a href="#windowsToEast">windowsToEast</a></li>
+        
+        <li><a href="#windowsToNorth">windowsToNorth</a></li>
+        
+        <li><a href="#windowsToSouth">windowsToSouth</a></li>
+        
+        <li><a href="#windowsToWest">windowsToWest</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Variables</h3>
+                
+
+    <section id="animationDuration">
+    <a name="//apple_ref/cpp/Variable/animationDuration" class="dashAnchor"></a>
+    <h3><a href="#animationDuration">animationDuration</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window.animationDuration (boolean)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>This is the default duration for animations. Set to 0 to disable animations.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Functions</h3>
+                
+
+    <section id="allWindows">
+    <a name="//apple_ref/cpp/Function/allWindows" class="dashAnchor"></a>
+    <h3><a href="#allWindows">allWindows</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window.allWindows() -> win[]</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns all windows</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="orderedWindows">
+    <a name="//apple_ref/cpp/Function/orderedWindows" class="dashAnchor"></a>
+    <h3><a href="#orderedWindows">orderedWindows</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window.orderedWindows() -> win[]</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns all visible windows, ordered from front to back.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="visibleWindows">
+    <a name="//apple_ref/cpp/Function/visibleWindows" class="dashAnchor"></a>
+    <h3><a href="#visibleWindows">visibleWindows</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window.visibleWindows() -> win[]</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get all windows on all screens that match window.isVisible.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="windowForID">
+    <a name="//apple_ref/cpp/Function/windowForID" class="dashAnchor"></a>
+    <h3><a href="#windowForID">windowForID</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window.windowForID() -> win or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the window for the given id, or nil if it&#39;s an invalid id.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Constructors</h3>
+                
+
+    <section id="focusedWindow">
+    <a name="//apple_ref/cpp/Constructor/focusedWindow" class="dashAnchor"></a>
+    <h3><a href="#focusedWindow">focusedWindow</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window.focusedWindow() -> window</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the focused window, or nil.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Methods</h3>
+                
+
+    <section id="application">
+    <a name="//apple_ref/cpp/Method/application" class="dashAnchor"></a>
+    <h3><a href="#application">application</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:application() -> app</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the app that the window belongs to; may be nil.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="becomeMain">
+    <a name="//apple_ref/cpp/Method/becomeMain" class="dashAnchor"></a>
+    <h3><a href="#becomeMain">becomeMain</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:becomeMain() -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Make this window the main window of the given application; deos not implicitly focus the app.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="close">
+    <a name="//apple_ref/cpp/Method/close" class="dashAnchor"></a>
+    <h3><a href="#close">close</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:close() -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Closes the window</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the operation succeeded, false if not</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="ensureIsInScreenBounds">
+    <a name="//apple_ref/cpp/Method/ensureIsInScreenBounds" class="dashAnchor"></a>
+    <h3><a href="#ensureIsInScreenBounds">ensureIsInScreenBounds</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:ensureIsInScreenBounds([duration])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Moves and resizes the window to fit into the screen it is currently on. If the window is partially out of the<br>
+screen it is moved and resized to be completely visible on the window&#39;s current screen.<br>
+duration is an optional animation duration that overrides hs.window.animationDuration<br>
+Example: win:ensureIsInScreenBounds() -- ensure window is in the boundaries of the screen</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="focus">
+    <a name="//apple_ref/cpp/Method/focus" class="dashAnchor"></a>
+    <h3><a href="#focus">focus</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:focus() -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Try to make this window focused.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="focusWindowEast">
+    <a name="//apple_ref/cpp/Method/focusWindowEast" class="dashAnchor"></a>
+    <h3><a href="#focusWindowEast">focusWindowEast</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:focusWindowEast()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Focus the first focus-able window to the east of this one.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="focusWindowNorth">
+    <a name="//apple_ref/cpp/Method/focusWindowNorth" class="dashAnchor"></a>
+    <h3><a href="#focusWindowNorth">focusWindowNorth</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:focusWindowNorth()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Focus the first focus-able window to the north of this one.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="focusWindowSouth">
+    <a name="//apple_ref/cpp/Method/focusWindowSouth" class="dashAnchor"></a>
+    <h3><a href="#focusWindowSouth">focusWindowSouth</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:focusWindowSouth()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Focus the first focus-able window to the south of this one.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="focusWindowWest">
+    <a name="//apple_ref/cpp/Method/focusWindowWest" class="dashAnchor"></a>
+    <h3><a href="#focusWindowWest">focusWindowWest</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:focusWindowWest()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Focus the first focus-able window to the west of this one.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="frame">
+    <a name="//apple_ref/cpp/Method/frame" class="dashAnchor"></a>
+    <h3><a href="#frame">frame</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:frame() -> rect</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get the frame of the window in absolute coordinates.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="id">
+    <a name="//apple_ref/cpp/Method/id" class="dashAnchor"></a>
+    <h3><a href="#id">id</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:id() -> number, sometimes nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a unique number identifying this window.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="isFullScreen">
+    <a name="//apple_ref/cpp/Method/isFullScreen" class="dashAnchor"></a>
+    <h3><a href="#isFullScreen">isFullScreen</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:isFullScreen() -> bool or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns whether the window is full screen, or nil if asking that question fails.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="isMinimized">
+    <a name="//apple_ref/cpp/Method/isMinimized" class="dashAnchor"></a>
+    <h3><a href="#isMinimized">isMinimized</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:isMinimized() -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>True if the window is currently minimized in the dock.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="isStandard">
+    <a name="//apple_ref/cpp/Method/isStandard" class="dashAnchor"></a>
+    <h3><a href="#isStandard">isStandard</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:isStandard() -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>True if the window&#39;s subrole indicates it&#39;s &#39;a standard window&#39;.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="isVisible">
+    <a name="//apple_ref/cpp/Method/isVisible" class="dashAnchor"></a>
+    <h3><a href="#isVisible">isVisible</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:isVisible() -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>True if the app is not hidden and the window is not minimized.<br>
+NOTE: some apps (e.g. in Adobe Creative Cloud) have literally-invisible windows and also like to put them very far offscreen; this method may return true for such windows.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="maximize">
+    <a name="//apple_ref/cpp/Method/maximize" class="dashAnchor"></a>
+    <h3><a href="#maximize">maximize</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:maximize([duration])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Make this window fill the whole screen its on, without covering the dock or menu. If the duration argument is present, it will override hs.window.animationDuration</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="minimize">
+    <a name="//apple_ref/cpp/Method/minimize" class="dashAnchor"></a>
+    <h3><a href="#minimize">minimize</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:minimize()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Minimizes the window.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="moveOneScreenEast">
+    <a name="//apple_ref/cpp/Method/moveOneScreenEast" class="dashAnchor"></a>
+    <h3><a href="#moveOneScreenEast">moveOneScreenEast</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:moveOneScreenEast([duration])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Move window one screen east (right), keeping its relative proportion/position.<br>
+duration is an optional animation duration that will override hs.window.animationDuration</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="moveOneScreenNorth">
+    <a name="//apple_ref/cpp/Method/moveOneScreenNorth" class="dashAnchor"></a>
+    <h3><a href="#moveOneScreenNorth">moveOneScreenNorth</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:moveOneScreenNorth([duration])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Move window one screen north (up), keeping its relative proportion/position.<br>
+duration is an optional animation duration that will override hs.window.animationDuration</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="moveOneScreenSouth">
+    <a name="//apple_ref/cpp/Method/moveOneScreenSouth" class="dashAnchor"></a>
+    <h3><a href="#moveOneScreenSouth">moveOneScreenSouth</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:moveOneScreenSouth([duration])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Move window one screen south (down), keeping its relative proportion/position.<br>
+duration is an optional animation duration that will override hs.window.animationDuration</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="moveOneScreenWest">
+    <a name="//apple_ref/cpp/Method/moveOneScreenWest" class="dashAnchor"></a>
+    <h3><a href="#moveOneScreenWest">moveOneScreenWest</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:moveOneScreenWest([duration])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Move window one screen west (left), keeping its relative proportion/position.<br>
+duration is an optional animation duration that will override hs.window.animationDuration</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="moveToScreen">
+    <a name="//apple_ref/cpp/Method/moveToScreen" class="dashAnchor"></a>
+    <h3><a href="#moveToScreen">moveToScreen</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:moveToScreen(screen[, duration])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>move window to the the given screen, keeping the relative proportion and position window to the original screen.<br>
+duration is an optional animation duration that will override hs.window.animationDuration<br>
+Example: win:moveToScreen(win:screen():next()) -- move window to next screen</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="moveToUnit">
+    <a name="//apple_ref/cpp/Method/moveToUnit" class="dashAnchor"></a>
+    <h3><a href="#moveToUnit">moveToUnit</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:moveToUnit(rect[, duration])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Moves and resizes the window to fit on the given portion of the screen.<br>
+The first argument is a rect with each key being between 0.0 and 1.0. The second is an optional animation duration, which will override hs.window.animationDuration<br>
+Example: win:moveToUnit(x=0, y=0, w=0.5, h=0.5) -- window now fills top-left quarter of screen</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="otherWindowsAllScreens">
+    <a name="//apple_ref/cpp/Method/otherWindowsAllScreens" class="dashAnchor"></a>
+    <h3><a href="#otherWindowsAllScreens">otherWindowsAllScreens</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:otherWindowsAllScreens() -> win[]</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get every window except this one.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="otherWindowsSameScreen">
+    <a name="//apple_ref/cpp/Method/otherWindowsSameScreen" class="dashAnchor"></a>
+    <h3><a href="#otherWindowsSameScreen">otherWindowsSameScreen</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:otherWindowsSameScreen() -> win[]</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get other windows on the same screen as self.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="role">
+    <a name="//apple_ref/cpp/Method/role" class="dashAnchor"></a>
+    <h3><a href="#role">role</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:role() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the role of the window, whatever that means.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="screen">
+    <a name="//apple_ref/cpp/Method/screen" class="dashAnchor"></a>
+    <h3><a href="#screen">screen</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:screen()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get the screen which most contains this window (by area).</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setFrame">
+    <a name="//apple_ref/cpp/Method/setFrame" class="dashAnchor"></a>
+    <h3><a href="#setFrame">setFrame</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:setFrame(rect, duration)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Set the frame of the window in absolute coordinates.</p>
+
+<p>The window will be animated to its new position and the animation will run for &#39;duration&#39; seconds.</p>
+
+<p>If you don&#39;t specify a value for the duration, the default is whatever is in hs.window.animationDuration.<br>
+If you specify 0 as the value of duration, the window will be immediately snapped to its new location<br>
+with no animation.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setFullScreen">
+    <a name="//apple_ref/cpp/Method/setFullScreen" class="dashAnchor"></a>
+    <h3><a href="#setFullScreen">setFullScreen</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:setFullScreen(bool) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets whether the window is full screen; returns whether it succeeded.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setSize">
+    <a name="//apple_ref/cpp/Method/setSize" class="dashAnchor"></a>
+    <h3><a href="#setSize">setSize</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:setSize(size)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Resizes the window.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setTopLeft">
+    <a name="//apple_ref/cpp/Method/setTopLeft" class="dashAnchor"></a>
+    <h3><a href="#setTopLeft">setTopLeft</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:setTopLeft(point)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Moves the window to the given point in absolute coordinate.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="size">
+    <a name="//apple_ref/cpp/Method/size" class="dashAnchor"></a>
+    <h3><a href="#size">size</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:size() -> size</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The size of the window.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="subrole">
+    <a name="//apple_ref/cpp/Method/subrole" class="dashAnchor"></a>
+    <h3><a href="#subrole">subrole</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:subrole() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the subrole of the window, whatever that means.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="title">
+    <a name="//apple_ref/cpp/Method/title" class="dashAnchor"></a>
+    <h3><a href="#title">title</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:title() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the title of the window (as UTF8).</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="toggleFullScreen">
+    <a name="//apple_ref/cpp/Method/toggleFullScreen" class="dashAnchor"></a>
+    <h3><a href="#toggleFullScreen">toggleFullScreen</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:toggleFullScreen()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Toggle the fullscreen state of this window.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="toggleZoom">
+    <a name="//apple_ref/cpp/Method/toggleZoom" class="dashAnchor"></a>
+    <h3><a href="#toggleZoom">toggleZoom</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:toggleZoom() -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Toggles the zoom state of the window (this is effectively equivalent to clicking the green maximize/fullscreen button at the top left of a window)</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the operation succeeded, false if not</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="topLeft">
+    <a name="//apple_ref/cpp/Method/topLeft" class="dashAnchor"></a>
+    <h3><a href="#topLeft">topLeft</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:topLeft() -> point</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The top-left corner of the window in absolute coordinates.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="unminimize">
+    <a name="//apple_ref/cpp/Method/unminimize" class="dashAnchor"></a>
+    <h3><a href="#unminimize">unminimize</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:unminimize()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Un-minimizes the window.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="windowsToEast">
+    <a name="//apple_ref/cpp/Method/windowsToEast" class="dashAnchor"></a>
+    <h3><a href="#windowsToEast">windowsToEast</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:windowsToEast()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get all windows east of this one, ordered by closeness.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="windowsToNorth">
+    <a name="//apple_ref/cpp/Method/windowsToNorth" class="dashAnchor"></a>
+    <h3><a href="#windowsToNorth">windowsToNorth</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:windowsToNorth()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get all windows north of this one, ordered by closeness.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="windowsToSouth">
+    <a name="//apple_ref/cpp/Method/windowsToSouth" class="dashAnchor"></a>
+    <h3><a href="#windowsToSouth">windowsToSouth</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:windowsToSouth()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get all windows south of this one, ordered by closeness.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="windowsToWest">
+    <a name="//apple_ref/cpp/Method/windowsToWest" class="dashAnchor"></a>
+    <h3><a href="#windowsToWest">windowsToWest</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.window:windowsToWest()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get all windows west of this one, ordered by closeness.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

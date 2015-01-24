@@ -1,0 +1,580 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.grid module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.grid</h1>
+      <p>Move/resize windows within a grid</p>
+
+<p>Usage: local grid = require &quot;hs.grid&quot;</p>
+
+<p>The grid is an partition of your screen; by default it is 3x3, i.e. 3 cells wide by 3 cells tall.</p>
+
+<p>Grid cells are just a table with keys: x, y, w, h</p>
+
+<p>For a grid of 2x2:</p>
+
+<ul>
+<li>a cell {x=0, y=0, w=1, h=1} will be in the upper-left corner</li>
+<li>a cell {x=1, y=0, w=1, h=1} will be in the upper-right corner</li>
+<li>and so on...</li>
+</ul>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Variables</li>
+                    <ul>
+                
+        <li><a href="#GRIDHEIGHT">GRIDHEIGHT</a></li>
+        
+        <li><a href="#GRIDWIDTH">GRIDWIDTH</a></li>
+        
+        <li><a href="#MARGINX">MARGINX</a></li>
+        
+        <li><a href="#MARGINY">MARGINY</a></li>
+        
+                </ul>
+                
+                <li>Functions</li>
+                    <ul>
+                
+        <li><a href="#adjustFocusedWindow">adjustFocusedWindow</a></li>
+        
+        <li><a href="#adjustHeight">adjustHeight</a></li>
+        
+        <li><a href="#adjustWidth">adjustWidth</a></li>
+        
+        <li><a href="#get">get</a></li>
+        
+        <li><a href="#maximizeWindow">maximizeWindow</a></li>
+        
+        <li><a href="#pushWindowDown">pushWindowDown</a></li>
+        
+        <li><a href="#pushWindowLeft">pushWindowLeft</a></li>
+        
+        <li><a href="#pushWindowNextScreen">pushWindowNextScreen</a></li>
+        
+        <li><a href="#pushWindowPrevScreen">pushWindowPrevScreen</a></li>
+        
+        <li><a href="#pushWindowRight">pushWindowRight</a></li>
+        
+        <li><a href="#pushWindowUp">pushWindowUp</a></li>
+        
+        <li><a href="#resizeWindowShorter">resizeWindowShorter</a></li>
+        
+        <li><a href="#resizeWindowTaller">resizeWindowTaller</a></li>
+        
+        <li><a href="#resizeWindowThinner">resizeWindowThinner</a></li>
+        
+        <li><a href="#resizeWindowWider">resizeWindowWider</a></li>
+        
+        <li><a href="#set">set</a></li>
+        
+        <li><a href="#snap">snap</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Variables</h3>
+                
+
+    <section id="GRIDHEIGHT">
+    <a name="//apple_ref/cpp/Variable/GRIDHEIGHT" class="dashAnchor"></a>
+    <h3><a href="#GRIDHEIGHT">GRIDHEIGHT</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.GRIDHEIGHT = 3</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The number of cells high the grid is.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="GRIDWIDTH">
+    <a name="//apple_ref/cpp/Variable/GRIDWIDTH" class="dashAnchor"></a>
+    <h3><a href="#GRIDWIDTH">GRIDWIDTH</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.GRIDWIDTH = 3</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The number of cells wide the grid is.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="MARGINX">
+    <a name="//apple_ref/cpp/Variable/MARGINX" class="dashAnchor"></a>
+    <h3><a href="#MARGINX">MARGINX</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.MARGINX = 5</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The margin between each window horizontally.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="MARGINY">
+    <a name="//apple_ref/cpp/Variable/MARGINY" class="dashAnchor"></a>
+    <h3><a href="#MARGINY">MARGINY</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.MARGINY = 5</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The margin between each window vertically.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Functions</h3>
+                
+
+    <section id="adjustFocusedWindow">
+    <a name="//apple_ref/cpp/Function/adjustFocusedWindow" class="dashAnchor"></a>
+    <h3><a href="#adjustFocusedWindow">adjustFocusedWindow</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.adjustFocusedWindow(fn)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Passes the focused window&#39;s cell to fn and uses the result as its new cell.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="adjustHeight">
+    <a name="//apple_ref/cpp/Function/adjustHeight" class="dashAnchor"></a>
+    <h3><a href="#adjustHeight">adjustHeight</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.adjustHeight(by)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Increases the grid by the given number of cells; may be negative</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="adjustWidth">
+    <a name="//apple_ref/cpp/Function/adjustWidth" class="dashAnchor"></a>
+    <h3><a href="#adjustWidth">adjustWidth</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.adjustWidth(by)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Widens the grid by the given number of cells; may be negative</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="get">
+    <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
+    <h3><a href="#get">get</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.get(win)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the cell this window is on</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="maximizeWindow">
+    <a name="//apple_ref/cpp/Function/maximizeWindow" class="dashAnchor"></a>
+    <h3><a href="#maximizeWindow">maximizeWindow</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.maximizeWindow()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Maximizes the focused window along the given cell.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pushWindowDown">
+    <a name="//apple_ref/cpp/Function/pushWindowDown" class="dashAnchor"></a>
+    <h3><a href="#pushWindowDown">pushWindowDown</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.pushWindowDown()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Moves the focused window to the bottom half of the screen.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pushWindowLeft">
+    <a name="//apple_ref/cpp/Function/pushWindowLeft" class="dashAnchor"></a>
+    <h3><a href="#pushWindowLeft">pushWindowLeft</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.pushWindowLeft()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Moves the focused window one cell to the left.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pushWindowNextScreen">
+    <a name="//apple_ref/cpp/Function/pushWindowNextScreen" class="dashAnchor"></a>
+    <h3><a href="#pushWindowNextScreen">pushWindowNextScreen</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.pushWindowNextScreen()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Moves the focused window to the next screen, using its current cell on that screen.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pushWindowPrevScreen">
+    <a name="//apple_ref/cpp/Function/pushWindowPrevScreen" class="dashAnchor"></a>
+    <h3><a href="#pushWindowPrevScreen">pushWindowPrevScreen</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.pushWindowPrevScreen()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Moves the focused window to the previous screen, using its current cell on that screen.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pushWindowRight">
+    <a name="//apple_ref/cpp/Function/pushWindowRight" class="dashAnchor"></a>
+    <h3><a href="#pushWindowRight">pushWindowRight</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.pushWindowRight()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Moves the focused window one cell to the right.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pushWindowUp">
+    <a name="//apple_ref/cpp/Function/pushWindowUp" class="dashAnchor"></a>
+    <h3><a href="#pushWindowUp">pushWindowUp</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.pushWindowUp()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Moves the focused window to the top half of the screen.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="resizeWindowShorter">
+    <a name="//apple_ref/cpp/Function/resizeWindowShorter" class="dashAnchor"></a>
+    <h3><a href="#resizeWindowShorter">resizeWindowShorter</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.resizeWindowShorter()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Resizes the focused window so its height is 1 grid count less.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="resizeWindowTaller">
+    <a name="//apple_ref/cpp/Function/resizeWindowTaller" class="dashAnchor"></a>
+    <h3><a href="#resizeWindowTaller">resizeWindowTaller</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.resizeWindowTaller()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Resizes the focused window so its height is 1 grid count higher.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="resizeWindowThinner">
+    <a name="//apple_ref/cpp/Function/resizeWindowThinner" class="dashAnchor"></a>
+    <h3><a href="#resizeWindowThinner">resizeWindowThinner</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.resizeWindowThinner()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Resizes the focused window&#39;s right side to be one cell thinner.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="resizeWindowWider">
+    <a name="//apple_ref/cpp/Function/resizeWindowWider" class="dashAnchor"></a>
+    <h3><a href="#resizeWindowWider">resizeWindowWider</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.resizeWindowWider()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Resizes the focused window&#39;s right side to be one cell wider.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="set">
+    <a name="//apple_ref/cpp/Function/set" class="dashAnchor"></a>
+    <h3><a href="#set">set</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.set(win, grid, screen)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the cell this window should be on</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="snap">
+    <a name="//apple_ref/cpp/Function/snap" class="dashAnchor"></a>
+    <h3><a href="#snap">snap</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.grid.snap(win)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Snaps the window into a cell</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

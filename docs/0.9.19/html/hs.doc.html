@@ -1,0 +1,174 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.doc module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.doc</h1>
+      <p>Create documentation objects for interactive help within Hammerspoon</p>
+
+<p>e.g. <code>doc = hs.doc.fromJSONFile(&#39;path-to-docs.json&#39;)</code></p>
+
+<p>You can use the <code>hs.docstrings_json_file</code> constant, e.g. <code>doc = hs.doc.fromJSONFile(hs.docstrings_json_file)</code></p>
+
+<p>Debugging modes:<br>
+Mostly only have an affect on <code>hs.doc.fromArray</code> and <code>hs.doc.fromPackageLoaded</code>.</p>
+
+<p>Set the flag in the global namespace one of these ways:<br>
+    _G[&quot;debug.docs.module&quot;] = &quot;build&quot;       -- building metatables for return<br>
+    _G[&quot;debug.docs.module&quot;] = &quot;genjson&quot;     -- creating items in genjson<br>
+    _G[&quot;debug.docs.module&quot;] = &quot;load&quot;        -- which files are being loaded<br>
+    _G[&quot;debug.docs.module&quot;] = &quot;sort&quot;        -- sorting module namespaces for item attachment</p>
+
+<pre><code>Setting it to any of these, or even just `true` causes the global arrays
+    doc_module_json and doc_module_array to be created for further review.
+</code></pre>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions</li>
+                    <ul>
+                
+        <li><a href="#fromArray">fromArray</a></li>
+        
+        <li><a href="#fromJSONFile">fromJSONFile</a></li>
+        
+        <li><a href="#fromPackageLoaded">fromPackageLoaded</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="fromArray">
+    <a name="//apple_ref/cpp/Function/fromArray" class="dashAnchor"></a>
+    <h3><a href="#fromArray">fromArray</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.doc.fromArray(array) -> doc-array</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Builds a doc array construct from the lua files of the modules listed in the provided array</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>array - A table containing the locations of files</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the documentation data loaded from the files</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is useful for creating doc objects for in progress modules or local files.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="fromJSONFile">
+    <a name="//apple_ref/cpp/Function/fromJSONFile" class="dashAnchor"></a>
+    <h3><a href="#fromJSONFile">fromJSONFile</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.doc.fromJSONFile(jsonfile) -> doc-array</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Builds a doc array construct from the json file provided.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>jsonfile - A string containing the location of a json file</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the documentation data loaded from the json file</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Usually this will be the json file provided with the Hammerspoon application, but this json file will only contain the documentation for modules recognized by the Hammerspoon builders and the built in modules and not modules from other sources.  For those, use <code>hs.doc.fromArray</code> and <code>hs.doc.fromPackageLoaded</code>.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="fromPackageLoaded">
+    <a name="//apple_ref/cpp/Function/fromPackageLoaded" class="dashAnchor"></a>
+    <h3><a href="#fromPackageLoaded">fromPackageLoaded</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.doc.fromPackageLoaded([refreshOnRequire]) -> doc-array</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Builds a doc array construct from the lua files of all modules currently tracked in <code>package.loaded</code></p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>refreshOnRequire - An optional boolean indicating whether the doc array should be refreshed every time <code>require()</code> is called. Defaults to false</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the documentation data loaded from the files</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

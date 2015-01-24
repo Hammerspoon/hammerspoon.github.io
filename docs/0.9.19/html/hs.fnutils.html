@@ -1,0 +1,562 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.fnutils module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.fnutils</h1>
+      <p>Functional programming utility functions</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions</li>
+                    <ul>
+                
+        <li><a href="#concat">concat</a></li>
+        
+        <li><a href="#contains">contains</a></li>
+        
+        <li><a href="#copy">copy</a></li>
+        
+        <li><a href="#each">each</a></li>
+        
+        <li><a href="#filter">filter</a></li>
+        
+        <li><a href="#find">find</a></li>
+        
+        <li><a href="#indexOf">indexOf</a></li>
+        
+        <li><a href="#map">map</a></li>
+        
+        <li><a href="#mapCat">mapCat</a></li>
+        
+        <li><a href="#reduce">reduce</a></li>
+        
+                </ul>
+                
+                <li>Constructors</li>
+                    <ul>
+                
+        <li><a href="#cycle">cycle</a></li>
+        
+        <li><a href="#partial">partial</a></li>
+        
+        <li><a href="#sequence">sequence</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="concat">
+    <a name="//apple_ref/cpp/Function/concat" class="dashAnchor"></a>
+    <h3><a href="#concat">concat</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.concat(table1, table2)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Join two tables together</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table1 - A table containing some sort of data</li>
+<li>table2 - A table containing some sort of data</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>table1, with all of table2&#39;s elements added to the end of it</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>table2 cannot be a sparse table, see <a href="http://www.luafaq.org/gotchas.html#T6.4">http://www.luafaq.org/gotchas.html#T6.4</a></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="contains">
+    <a name="//apple_ref/cpp/Function/contains" class="dashAnchor"></a>
+    <h3><a href="#contains">contains</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.contains(table, element) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Determine if a table contains a given object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table containing some sort of data</li>
+<li>element - An object to search the table for</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the element could be found in the table, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="copy">
+    <a name="//apple_ref/cpp/Function/copy" class="dashAnchor"></a>
+    <h3><a href="#copy">copy</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.copy(table) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Copy a table using <code>pairs()</code></p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table containing some sort of data</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A new table containing the same data as the input table</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="each">
+    <a name="//apple_ref/cpp/Function/each" class="dashAnchor"></a>
+    <h3><a href="#each">each</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.each(table, fn)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Execute a function across a table and discard the results</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table containing some sort of data</li>
+<li>fn - A function taht accepts a single parameter</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="filter">
+    <a name="//apple_ref/cpp/Function/filter" class="dashAnchor"></a>
+    <h3><a href="#filter">filter</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.filter(table, fn) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Filter a table using a function</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table containing some sort of data</li>
+<li>fn - A function that accepts a single parameter and returns a boolean value, true if the parameter should be kept, false if it should be discarded</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the elements of the table for which fn(element) returns true</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="find">
+    <a name="//apple_ref/cpp/Function/find" class="dashAnchor"></a>
+    <h3><a href="#find">find</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.find(table, fn) -> element</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Execute a function across a table and return the first element where that function returns true</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table containing some sort of data</li>
+<li>fn - A function that takes one parameter and returns a boolean value</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The element of the supplied table that first caused fn to return true</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="indexOf">
+    <a name="//apple_ref/cpp/Function/indexOf" class="dashAnchor"></a>
+    <h3><a href="#indexOf">indexOf</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.indexOf(table, element) -> number or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Determine the location in a table of a given object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table containing some sort of data</li>
+<li>element - An object to search the table for</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the index of the element in the table, or nil if it could not be found</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="map">
+    <a name="//apple_ref/cpp/Function/map" class="dashAnchor"></a>
+    <h3><a href="#map">map</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.map(table, fn) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Execute a function across a table and collect the results</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table containing some sort of data</li>
+<li>fn - A function that accepts a single parameter. Whatever this function returns, will be collected and returned</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the results of calling the function on every element in the table</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="mapCat">
+    <a name="//apple_ref/cpp/Function/mapCat" class="dashAnchor"></a>
+    <h3><a href="#mapCat">mapCat</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.mapCat(table, fn) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Execute, across a table, a function that outputs tables, and concatenate all of those tables together</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table containing some sort of data</li>
+<li>fn - A function that takes a single parameter and returns a table</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the concatenated results of calling fn(element) for every element in the supplied table</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="reduce">
+    <a name="//apple_ref/cpp/Function/reduce" class="dashAnchor"></a>
+    <h3><a href="#reduce">reduce</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.reduce(table, fn) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Reduce a table to a single element, using a function</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table containing some sort of data</li>
+<li>fn - A function that takes two parameters, which will be elements of the supplied table. It should choose one of these elements and return it</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The element of the supplied table that was chosen by the iterative reducer function</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>table cannot be a sparse table, see <a href="http://www.luafaq.org/gotchas.html#T6.4">http://www.luafaq.org/gotchas.html#T6.4</a></li>
+<li>The first iteration of the reducer will call fn with the first and second elements of the table. The second iteration will call fn with the result of the first iteration, and the third element. This repeats until there is only one element left</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Constructors</h3>
+                
+
+    <section id="cycle">
+    <a name="//apple_ref/cpp/Constructor/cycle" class="dashAnchor"></a>
+    <h3><a href="#cycle">cycle</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.cycle(table) -> fn()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a function that repeatedly iterates a table</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table containing some sort of data</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A function that, when called repeatedly, will return all of the elements of the supplied table, repeating indefinitely</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>table cannot be a sparse table, see <a href="http://www.luafaq.org/gotchas.html#T6.4">http://www.luafaq.org/gotchas.html#T6.4</a></li>
+<li>An example usage:
+<code>lua
+f = cycle({4, 5, 6})
+{f(), f(), f(), f(), f(), f(), f()} == {4, 5, 6, 4, 5, 6, 4}
+</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="partial">
+    <a name="//apple_ref/cpp/Constructor/partial" class="dashAnchor"></a>
+    <h3><a href="#partial">partial</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.partial(fn, ...) -> fn'</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns fn partially applied to arg (...)</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>fn - A function</li>
+<li>... - A number of things</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A function</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The documentation for this function is currently insufficient. Please submit an improvement if you can!</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="sequence">
+    <a name="//apple_ref/cpp/Constructor/sequence" class="dashAnchor"></a>
+    <h3><a href="#sequence">sequence</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.fnutils.sequence(...) -> fn</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a function that will collect the result of a series of functions into a table</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>... - A number of functions, passed as different arguments. They should accept zero parameters, and return something</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A function that, when called, will call all of the functions passed to this constructor. The output of these functions will be collected together and returned.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

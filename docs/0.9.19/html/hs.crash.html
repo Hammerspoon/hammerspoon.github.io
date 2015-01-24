@@ -1,0 +1,135 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.crash module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.crash</h1>
+      <p>Force Hammerspoon to crash (for development/testing purposes)</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions</li>
+                    <ul>
+                
+        <li><a href="#crash">crash</a></li>
+        
+        <li><a href="#isMainThread">isMainThread</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="crash">
+    <a name="//apple_ref/cpp/Function/crash" class="dashAnchor"></a>
+    <h3><a href="#crash">crash</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.crash.crash()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Causes Hammerspoon to immediately crash.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is for testing purposes only, you are extremely unlikely to need this in normal Hammerspoon usage</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="isMainThread">
+    <a name="//apple_ref/cpp/Function/isMainThread" class="dashAnchor"></a>
+    <h3><a href="#isMainThread">isMainThread</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.crash.isMainThread() -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Determine if Lua execution is happening on the main thread</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if you are on the main thread, false if not</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is for testing purposes only, you are extremely unlikely to need this in normal Hammerspoon usage</li>
+<li>When developing a new extension, especially one that involves handlers for outside events, this function
+can be used to make sure your event handling happens on the main thread. It is extremely important that Lua
+execution happen only on the main thread of Hammerspoon</li>
+<li><p>You can use this Lua code to make Hammerspoon abort if anything happens on a different thread:</p>
+
+<pre lang="lua"><code>local function crashifnotmain(reason)
+  print(&quot;crashifnotmain called with reason&quot;, reason) -- may want to remove this, very verbose otherwise
+  if not hs.crash.isMainThread() then
+    print(&quot;not in main thread, crashing&quot;)
+    hs.crash.crash()
+  end
+end
+
+debug.sethook(crashifnotmain, &#39;c&#39;)
+</code></pre></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

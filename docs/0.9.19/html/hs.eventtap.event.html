@@ -1,0 +1,482 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.eventtap.event module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.eventtap.event</h1>
+      <p>Create, modify and inspect events for <code>hs.eventtap</code></p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Variables</li>
+                    <ul>
+                
+        <li><a href="#properties">properties</a></li>
+        
+        <li><a href="#types">types</a></li>
+        
+                </ul>
+                
+                <li>Constructors</li>
+                    <ul>
+                
+        <li><a href="#copy">copy</a></li>
+        
+        <li><a href="#newKeyEvent">newKeyEvent</a></li>
+        
+        <li><a href="#newMouseEvent">newMouseEvent</a></li>
+        
+                </ul>
+                
+                <li>Methods</li>
+                    <ul>
+                
+        <li><a href="#getButtonState">getButtonState</a></li>
+        
+        <li><a href="#getFlags">getFlags</a></li>
+        
+        <li><a href="#getKeyCode">getKeyCode</a></li>
+        
+        <li><a href="#getProperty">getProperty</a></li>
+        
+        <li><a href="#getType">getType</a></li>
+        
+        <li><a href="#post">post</a></li>
+        
+        <li><a href="#setFlags">setFlags</a></li>
+        
+        <li><a href="#setKeyCode">setKeyCode</a></li>
+        
+        <li><a href="#setProperty">setProperty</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Variables</h3>
+                
+
+    <section id="properties">
+    <a name="//apple_ref/cpp/Variable/properties" class="dashAnchor"></a>
+    <h3><a href="#properties">properties</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event.properties -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>For use with hs.eventtap.event:{get,set}property; contains the following keys:</p>
+
+<ul>
+<li>MouseEventNumber</li>
+<li>MouseEventClickState</li>
+<li>MouseEventPressure</li>
+<li>MouseEventButtonNumber</li>
+<li>MouseEventDeltaX</li>
+<li>MouseEventDeltaY</li>
+<li>MouseEventInstantMouser</li>
+<li>MouseEventSubtype</li>
+<li>KeyboardEventAutorepeat</li>
+<li>KeyboardEventKeycode</li>
+<li>KeyboardEventKeyboardType</li>
+<li>ScrollWheelEventDeltaAxis1</li>
+<li>ScrollWheelEventDeltaAxis2</li>
+<li>ScrollWheelEventDeltaAxis3</li>
+<li>ScrollWheelEventFixedPtDeltaAxis1</li>
+<li>ScrollWheelEventFixedPtDeltaAxis2</li>
+<li>ScrollWheelEventFixedPtDeltaAxis3</li>
+<li>ScrollWheelEventPointDeltaAxis1</li>
+<li>ScrollWheelEventPointDeltaAxis2</li>
+<li>ScrollWheelEventPointDeltaAxis3</li>
+<li>ScrollWheelEventInstantMouser</li>
+<li>TabletEventPointX</li>
+<li>TabletEventPointY</li>
+<li>TabletEventPointZ</li>
+<li>TabletEventPointButtons</li>
+<li>TabletEventPointPressure</li>
+<li>TabletEventTiltX</li>
+<li>TabletEventTiltY</li>
+<li>TabletEventRotation</li>
+<li>TabletEventTangentialPressure</li>
+<li>TabletEventDeviceID</li>
+<li>TabletEventVendor1</li>
+<li>TabletEventVendor2</li>
+<li>TabletEventVendor3</li>
+<li>TabletProximityEventVendorID</li>
+<li>TabletProximityEventTabletID</li>
+<li>TabletProximityEventPointerID</li>
+<li>TabletProximityEventDeviceID</li>
+<li>TabletProximityEventSystemTabletID</li>
+<li>TabletProximityEventVendorPointerType</li>
+<li>TabletProximityEventVendorPointerSerialNumber</li>
+<li>TabletProximityEventVendorUniqueID</li>
+<li>TabletProximityEventCapabilityMask</li>
+<li>TabletProximityEventPointerType</li>
+<li>TabletProximityEventEnterProximity</li>
+<li>EventTargetProcessSerialNumber</li>
+<li>EventTargetUnixProcessID</li>
+<li>EventSourceUnixProcessID</li>
+<li>EventSourceUserData</li>
+<li>EventSourceUserID</li>
+<li>EventSourceGroupID</li>
+<li>EventSourceStateID</li>
+<li>ScrollWheelEventIsContinuous</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="types">
+    <a name="//apple_ref/cpp/Variable/types" class="dashAnchor"></a>
+    <h3><a href="#types">types</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event.types -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Table for use with <code>hs.eventtap.new</code>, with the following keys:<br>
+   keydown, keyup,<br>
+   leftmousedown, leftmouseup, leftmousedragged,<br>
+   rightmousedown, rightmouseup, rightmousedragged,<br>
+   middlemousedown, middlemouseup, middlemousedragged,<br>
+   mousemoved, flagschanged, scrollwheel,<br>
+   tabletpointer, tabletproximity,<br>
+   nullevent, tapdisabledbytimeout, tapdisabledbyuserinput</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Constructors</h3>
+                
+
+    <section id="copy">
+    <a name="//apple_ref/cpp/Constructor/copy" class="dashAnchor"></a>
+    <h3><a href="#copy">copy</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:copy() -> event</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a duplicate of the event for further modification or injection.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="newKeyEvent">
+    <a name="//apple_ref/cpp/Constructor/newKeyEvent" class="dashAnchor"></a>
+    <h3><a href="#newKeyEvent">newKeyEvent</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event.newKeyEvent(mods, key, isdown) -> event</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a keyboard event.</p>
+
+<ul>
+<li>mods is a table with any of: {&#39;ctrl&#39;, &#39;alt&#39;, &#39;cmd&#39;, &#39;shift&#39;, &#39;fn&#39;}</li>
+<li>key has the same meaning as in the <code>hotkey</code> module</li>
+<li>isdown is a boolean. <code>true</code> will create a key-down event, <code>false</code> will create a key-up event.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="newMouseEvent">
+    <a name="//apple_ref/cpp/Constructor/newMouseEvent" class="dashAnchor"></a>
+    <h3><a href="#newMouseEvent">newMouseEvent</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event.newMouseEvent(eventtype, point) -> event</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new mouse event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>eventtype - One of the values from <code>hs.eventtap.event.types</code></li>
+<li>point - A table with keys <code>{x, y}</code> indicating the location where the mouse event should occur</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.eventtap</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Methods</h3>
+                
+
+    <section id="getButtonState">
+    <a name="//apple_ref/cpp/Method/getButtonState" class="dashAnchor"></a>
+    <h3><a href="#getButtonState">getButtonState</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:getButtonState(#) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the state of the numbered mouse button (0-31) as down (true) or up (false). The left mouse button corresponds to 0, the right to 1, and the center to 2.  The remaining buttons are specified in USB order using the integers 3 to 31.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getFlags">
+    <a name="//apple_ref/cpp/Method/getFlags" class="dashAnchor"></a>
+    <h3><a href="#getFlags">getFlags</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:getFlags() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a table with any of the strings {&quot;cmd&quot;, &quot;alt&quot;, &quot;shift&quot;, &quot;ctrl&quot;, &quot;fn&quot;} as keys pointing to the value <code>true</code></p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getKeyCode">
+    <a name="//apple_ref/cpp/Method/getKeyCode" class="dashAnchor"></a>
+    <h3><a href="#getKeyCode">getKeyCode</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:getKeyCode() -> keycode</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the keycode for the given event; only applicable for key-related events. The keycode is a numeric value from the <code>hs.keycodes.map</code> table.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getProperty">
+    <a name="//apple_ref/cpp/Method/getProperty" class="dashAnchor"></a>
+    <h3><a href="#getProperty">getProperty</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:getProperty(prop) -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the given property of the given event; prop is one of the values in the <code>hs.eventtap.event.properties</code> table; return value is a number defined here: <a href="https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/Reference/reference.html#//apple_ref/c/tdef/CGEventField">https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/Reference/reference.html#//apple_ref/c/tdef/CGEventField</a></p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getType">
+    <a name="//apple_ref/cpp/Method/getType" class="dashAnchor"></a>
+    <h3><a href="#getType">getType</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:getType() -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the type of the given event; return value will be one of the values in the <code>hs.eventtap.event.types</code> table.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="post">
+    <a name="//apple_ref/cpp/Method/post" class="dashAnchor"></a>
+    <h3><a href="#post">post</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:post(app = nil)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Posts the event to the system as if the user did it manually. If app is a valid application instance, posts this event only to that application (I think).</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setFlags">
+    <a name="//apple_ref/cpp/Method/setFlags" class="dashAnchor"></a>
+    <h3><a href="#setFlags">setFlags</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:setFlags(table)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The table may have any of the strings {&quot;cmd&quot;, &quot;alt&quot;, &quot;shift&quot;, &quot;ctrl&quot;, &quot;fn&quot;} as keys pointing to the value <code>true</code></p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setKeyCode">
+    <a name="//apple_ref/cpp/Method/setKeyCode" class="dashAnchor"></a>
+    <h3><a href="#setKeyCode">setKeyCode</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:setKeyCode(keycode)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the keycode for the given event; only applicable for key-related events. The keycode is a numeric value from the <code>hs.keycodes.map</code> table.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setProperty">
+    <a name="//apple_ref/cpp/Method/setProperty" class="dashAnchor"></a>
+    <h3><a href="#setProperty">setProperty</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:setProperty(prop, value)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the given property of the given event; prop is one of the values in the <code>hs.eventtap.event.properties</code> table; value is a number defined here: <a href="https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/Reference/reference.html#//apple_ref/c/tdef/CGEventField">https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/Reference/reference.html#//apple_ref/c/tdef/CGEventField</a></p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

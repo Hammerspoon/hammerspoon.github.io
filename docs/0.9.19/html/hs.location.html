@@ -1,0 +1,311 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.location module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.location</h1>
+      <p>Determine the machine&#39;s location and useful information about that location</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions</li>
+                    <ul>
+                
+        <li><a href="#distance">distance</a></li>
+        
+        <li><a href="#get">get</a></li>
+        
+        <li><a href="#register">register</a></li>
+        
+        <li><a href="#services_enabled">services_enabled</a></li>
+        
+        <li><a href="#start">start</a></li>
+        
+        <li><a href="#stop">stop</a></li>
+        
+        <li><a href="#sunrise">sunrise</a></li>
+        
+        <li><a href="#sunset">sunset</a></li>
+        
+        <li><a href="#unregister">unregister</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="distance">
+    <a name="//apple_ref/cpp/Function/distance" class="dashAnchor"></a>
+    <h3><a href="#distance">distance</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.location.distance(from, to) -> meters</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the distance in meters between the two locations by tracing a line between them that follows the curvature of the Earth. The resulting arc is a smooth curve and does not take into account specific altitude changes between the two locations.  From and To should be tables including at least longitude and latitude; the table returned by <code>hs.location.get</code> is supported.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="get">
+    <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
+    <h3><a href="#get">get</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.location.get() -> table or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a table representing the current location, with the keys:<br>
+ latitude - The latitude in degrees. Positive values indicate latitudes north of the equator. Negative values indicate latitudes south of the equator<br>
+ longitude - The longitude in degrees. Measurements are relative to the zero meridian, with positive values extending east of the meridian and negative values extending west of the meridian<br>
+ altitude - The altitude measured in meters<br>
+ timestamp - The time at which this location was determined, in seconds from the first instant of 1 January 1970, GMT<br>
+ horizontalAccuracy - The radius of uncertainty for the location, measured in meters<br>
+ verticalAccuracy - The accuracy of the altitude value in meters</p>
+
+<p>Note that there is a small lag between calling hs.location.start() and this function returning useful data, and it may never return data if the user has denied access to Location Services.<br>
+Rather than poll this function in a loop, consider using hs.timer.doAfter() to continue your work after a reasonable delay.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="register">
+    <a name="//apple_ref/cpp/Function/register" class="dashAnchor"></a>
+    <h3><a href="#register">register</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.location.register(tag, fn[, distance])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Register a callback function with the specified tag to be invoked when hs.location receives an updated location.  The optional distance argument is a number representing the distance in meters that the location must change by before invoking the callback again.  If it is not present, then all updates to the current location will invoke the callback.  The callback function will be called with the result of <code>hs.location.get</code> as it&#39;s argument.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="services_enabled">
+    <a name="//apple_ref/cpp/Function/services_enabled" class="dashAnchor"></a>
+    <h3><a href="#services_enabled">services_enabled</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.location.services_enabled() -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns true or false if OS X Location Services are enabled</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="start">
+    <a name="//apple_ref/cpp/Function/start" class="dashAnchor"></a>
+    <h3><a href="#start">start</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.location.start() -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Begins location monitoring using OS X&#39;s Location Services.<br>
+The first time you call this, you may be prompted to authorise Hammerspoon to use Location Services.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stop">
+    <a name="//apple_ref/cpp/Function/stop" class="dashAnchor"></a>
+    <h3><a href="#stop">stop</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.location.stop()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Stops location monitoring</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="sunrise">
+    <a name="//apple_ref/cpp/Function/sunrise" class="dashAnchor"></a>
+    <h3><a href="#sunrise">sunrise</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.location.sunrise(latitude, longitude, offset[, date]) -> number or string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the time of official sunrise for the supplied location</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>latitude - A number containing a latitude</li>
+<li>longitude - A number containing a longitude</li>
+<li>offset - A number containing the offset from UTC (in hours) for the given latitude/longitude</li>
+<li>date - An optional table containing date information (equivalent to the output of <code>os.date(&quot;*t&quot;)</code>). Defaults to the current date</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the time of sunrise (represented as seconds since the epoch) for the given date. If no date is given, the current date is used. If the sun doesn&#39;t rise on the given day, the string &quot;N/R&quot; is returned.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>You can turn the return value into a more useful structure, with <code>os.date(&quot;*t&quot;, returnvalue)</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="sunset">
+    <a name="//apple_ref/cpp/Function/sunset" class="dashAnchor"></a>
+    <h3><a href="#sunset">sunset</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.location.sunset(latitude, longitude, offset[, date]) -> number or string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the time of official sunset for the supplied location</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>latitude - A number containing a latitude</li>
+<li>longitude - A number containing a longitude</li>
+<li>offset - A number containing the offset from UTC (in hours) for the given latitude/longitude</li>
+<li>date - An optional table containing date information (equivalent to the output of <code>os.date(&quot;*t&quot;)</code>). Defaults to the current date</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the time of sunset (represented as seconds since the epoch) for the given date. If no date is given, the current date is used. If the sun doesn&#39;t set on the given day, the string &quot;N/S&quot; is returned.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>You can turn the return value into a more useful structure, with <code>os.date(&quot;*t&quot;, returnvalue)</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="unregister">
+    <a name="//apple_ref/cpp/Function/unregister" class="dashAnchor"></a>
+    <h3><a href="#unregister">unregister</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.location.unregister(tag)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Unregisters the callback function with the specified tag.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

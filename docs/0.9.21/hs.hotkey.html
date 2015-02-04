@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.hotkey module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.hotkey</h1>
+      <p>Create and manage global keyboard shortcuts</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#bind">bind</a></li>
+        
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#disable">disable</a></li>
+        
+        <li><a href="#enable">enable</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Constructors</h3>
+                
+
+    <section id="bind">
+    <a name="//apple_ref/cpp/Constructor/bind" class="dashAnchor"></a>
+    <h3><a href="#bind">bind</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hotkey.bind(mods, key, pressedfn, releasedfn) -> hotkey</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Shortcut for: return hs.hotkey.new(mods, key, pressedfn, releasedfn):enable()</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+    <h3><a href="#new">new</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hotkey.new(mods, key, pressedfn, releasedfn = nil) -> hotkey</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new hotkey that can be enabled.</p>
+
+<p>The <code>mods</code> parameter is case-insensitive and may contain any of the following strings: &quot;cmd&quot;, &quot;ctrl&quot;, &quot;alt&quot;, or &quot;shift&quot;.</p>
+
+<p>The <code>key</code> parameter is case-insensitive and may be any string value found in <a href="hs.keycodes.html#map">hs.keycodes.map</a></p>
+
+<p>The <code>pressedfn</code> parameter is the function that will be called when this hotkey is pressed.</p>
+
+<p>The <code>releasedfn</code> parameter is the function that will be called when this hotkey is released; this field is optional (i.e. may be nil or omitted).</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Methods</h3>
+                
+
+    <section id="disable">
+    <a name="//apple_ref/cpp/Method/disable" class="dashAnchor"></a>
+    <h3><a href="#disable">disable</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hotkey:disable() -> self</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Disables the given hotkey; does not remove it from hs.hotkey.keys.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="enable">
+    <a name="//apple_ref/cpp/Method/enable" class="dashAnchor"></a>
+    <h3><a href="#enable">enable</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hotkey:enable() -> self</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Registers the hotkey&#39;s fn as the callback when the user presses key while holding mods.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

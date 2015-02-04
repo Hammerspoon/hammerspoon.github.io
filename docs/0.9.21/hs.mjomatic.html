@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.mjomatic module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.mjomatic</h1>
+      <p>tmuxomatic-like window management</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#go">go</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="go">
+    <a name="//apple_ref/cpp/Function/go" class="dashAnchor"></a>
+    <h3><a href="#go">go</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.mjomatic.go(cfg)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>takes a config as a list of strings, configures your windows as stated.</p>
+
+<p>Example:</p>
+
+<pre lang="lua"><code>mjomatic.go({
+&quot;CCCCCCCCCCCCCiiiiiiiiiii      # &lt;-- The windowgram, it defines the shapes and positions of windows&quot;,
+&quot;CCCCCCCCCCCCCiiiiiiiiiii&quot;,
+&quot;SSSSSSSSSSSSSiiiiiiiiiii&quot;,
+&quot;SSSSSSSSSSSSSYYYYYYYYYYY&quot;,
+&quot;SSSSSSSSSSSSSYYYYYYYYYYY&quot;,
+&quot;&quot;,
+&quot;C Google Chrome            # &lt;-- window C has application():title() &#39;Google Chrome&#39;&quot;,
+&quot;i iTerm&quot;,
+&quot;Y YoruFukurou&quot;,
+&quot;S Sublime Text 2&quot;})
+</code></pre>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

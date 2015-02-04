@@ -1,0 +1,466 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.sound module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.sound</h1>
+      <p>Load/play/manipulate sound files</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#get_byfile">get_byfile</a></li>
+        
+        <li><a href="#get_byname">get_byname</a></li>
+        
+        <li><a href="#soundFileTypes">soundFileTypes</a></li>
+        
+        <li><a href="#soundTypes">soundTypes</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#currentTime">currentTime</a></li>
+        
+        <li><a href="#device">device</a></li>
+        
+        <li><a href="#duration">duration</a></li>
+        
+        <li><a href="#function">function</a></li>
+        
+        <li><a href="#isPlaying">isPlaying</a></li>
+        
+        <li><a href="#loopSound">loopSound</a></li>
+        
+        <li><a href="#name">name</a></li>
+        
+        <li><a href="#pause">pause</a></li>
+        
+        <li><a href="#play">play</a></li>
+        
+        <li><a href="#resume">resume</a></li>
+        
+        <li><a href="#stop">stop</a></li>
+        
+        <li><a href="#stopOnReload">stopOnReload</a></li>
+        
+        <li><a href="#volume">volume</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="get_byfile">
+    <a name="//apple_ref/cpp/Function/get_byfile" class="dashAnchor"></a>
+    <h3><a href="#get_byfile">get_byfile</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound.get_byfile(string) -> sound</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Attempts to locate and load the sound file at the location specified and return an NSSound object for the sound file.  Returns <code>nil</code> if it is unable to load the file.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="get_byname">
+    <a name="//apple_ref/cpp/Function/get_byname" class="dashAnchor"></a>
+    <h3><a href="#get_byname">get_byname</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound.get_byname(string) -> sound</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Attempts to locate and load a named sound.  By default, the only named sounds are the System Sounds (found in ~/Library/Sounds, /Library/Sounds, /Network/Library/Sounds, and /System/Library/Sounds. You can also name sounds you&#39;ve previously loaded with this module and this name will persist as long as Hammerspoon is running.  If the name specified cannot be found, this function returns <code>nil</code>.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="soundFileTypes">
+    <a name="//apple_ref/cpp/Function/soundFileTypes" class="dashAnchor"></a>
+    <h3><a href="#soundFileTypes">soundFileTypes</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound.soundFileTypes() -> array</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns an array of the file extensions for file types supported by this module for sound playback.  Note that this uses a method which has been deprecated since 10.5, so while it apparently sticks around, it may be removed in the future. The preferred method is to use the UTI values returned via <code>hs.sound.soundTypes</code> for determination.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="soundTypes">
+    <a name="//apple_ref/cpp/Function/soundTypes" class="dashAnchor"></a>
+    <h3><a href="#soundTypes">soundTypes</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound.soundTypes() -> array</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns an array of the UTI formats supported by this module for sound playback.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Methods</h3>
+                
+
+    <section id="currentTime">
+    <a name="//apple_ref/cpp/Method/currentTime" class="dashAnchor"></a>
+    <h3><a href="#currentTime">currentTime</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:currentTime([seconds]) -> seconds</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>If a number argument is provided it is used to set the playback location to the number of seconds specified.  Returns the current position in seconds.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="device">
+    <a name="//apple_ref/cpp/Method/device" class="dashAnchor"></a>
+    <h3><a href="#device">device</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:device([string]) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>If a string argument is provided it is used to set name the playback device for the sound. Returns the current name, if defined or nil if it hasn&#39;t been changed from the System default.  Note that this name is not the same as the name returned by the <code>name</code> method of <code>hs.audiodevice</code>.  Use the <code>uid</code> method to get the proper device name for this method.  Setting this to <code>nil</code> will use the system default device.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="duration">
+    <a name="//apple_ref/cpp/Method/duration" class="dashAnchor"></a>
+    <h3><a href="#duration">duration</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:duration() -> seconds</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the duration of the sound in seconds.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="function">
+    <a name="//apple_ref/cpp/Method/function" class="dashAnchor"></a>
+    <h3><a href="#function">function</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:function([fn|nil]) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>If no argument is provided, returns whether or not the sound has an assigned callback function to invoke when the sound playback has completed.  If you provide a function as the argument, this function will be invoked when playback completes with an argument indicating whether playback ended normally (at the end of the song) or if ended abnormally (stopped via the <code>stop</code> method, for example).  If <code>nil</code> is provided, then any existing callback function will be removed.  This is called with <code>nil</code> during garbage collection (during a reload of Hammerspoon) to prevent invoking a callback that no longer exists if playback isn&#39;t stopped at reload.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="isPlaying">
+    <a name="//apple_ref/cpp/Method/isPlaying" class="dashAnchor"></a>
+    <h3><a href="#isPlaying">isPlaying</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:isPlaying() -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns boolean value indicating whether or not the sound is currently playing.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="loopSound">
+    <a name="//apple_ref/cpp/Method/loopSound" class="dashAnchor"></a>
+    <h3><a href="#loopSound">loopSound</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:loopSound([bool]) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>If a boolean argument is provided it is used to set whether the sound will loop upon completion.  Returns the current status of this attribute.  Note that if a sound is looped, it will not call the callback function (if defined) upon completion of playback.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="name">
+    <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+    <h3><a href="#name">name</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:name([string]) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>If a string argument is provided it is used to set name the sound. Returns the current name, if defined.  This name can be used to reselect a sound with <code>get_byname</code> as long as Hammerspoon has not been exited since the sound was named.  Returns <code>nil</code> if no name has been assigned.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pause">
+    <a name="//apple_ref/cpp/Method/pause" class="dashAnchor"></a>
+    <h3><a href="#pause">pause</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:pause() -> sound, bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Attempts to pause the loaded sound.  Returns the sound object and true or false indicating success or failure.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="play">
+    <a name="//apple_ref/cpp/Method/play" class="dashAnchor"></a>
+    <h3><a href="#play">play</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:play() -> sound, bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Attempts to play the loaded sound and return control to Hammerspoon.  Returns the sound object and true or false indicating success or failure.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="resume">
+    <a name="//apple_ref/cpp/Method/resume" class="dashAnchor"></a>
+    <h3><a href="#resume">resume</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:resume() -> sound, bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Attempts to resume a paused sound.  Returns the sound object and true or false indicating success or failure.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stop">
+    <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+    <h3><a href="#stop">stop</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:stop() -> sound, bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Attempts to stop a playing sound.  Returns the sound object and true or false indicating success or failure.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stopOnReload">
+    <a name="//apple_ref/cpp/Method/stopOnReload" class="dashAnchor"></a>
+    <h3><a href="#stopOnReload">stopOnReload</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:stopOnReload([bool]) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>If a boolean argument is provided it is used to set whether the sound will be stopped when the configuration for Hammerspoon is reloaded.  Returns the current status of this attribute.  Defaults to <code>true</code>.  This can only be changed if you&#39;ve assigned a name to the sound; otherwise, it becomes possible to have a sound you can&#39;t access running in the background.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="volume">
+    <a name="//apple_ref/cpp/Method/volume" class="dashAnchor"></a>
+    <h3><a href="#volume">volume</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.sound:volume([number]) -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>If a number argument is provided it is used to set the playback volume relative to the system volume.  Returns the current playback volume relative to the current system volume.  The number will be between 0.0 and 1.0.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

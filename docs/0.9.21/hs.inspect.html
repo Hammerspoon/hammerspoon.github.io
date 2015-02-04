@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.inspect module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.inspect</h1>
+      <p>Produce human-readable representations of Lua variables (particularly tables)</p>
+
+<p>This extension is based on inspect.lua by Enrique García Cota<br>
+<a href="https://github.com/kikito/inspect.lua">https://github.com/kikito/inspect.lua</a></p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#inspect">inspect</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="inspect">
+    <a name="//apple_ref/cpp/Function/inspect" class="dashAnchor"></a>
+    <h3><a href="#inspect">inspect</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.inspect.inspect(variable, options) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a human readable version of the supplied Lua variable.</p>
+
+<p>NOTE: For convenience, you can call this function as hs.inspect(variable)</p>
+
+<p>The <code>options</code> argument is an optional table which can be used to influence the inspector via the following keys:</p>
+
+<ul>
+<li>depth - maximum depth to recurse into <code>variable</code>. Data below that depth will be displayed as <code>{...}</code></li>
+<li>newline - string to use for line breaks. Default is <code>\n</code></li>
+<li>indent - string to use for indentation. Default is <code></code> (two spaces)</li>
+<li>process - a function that will be called for each item, in the form: <code>function(item, path)</code>. It should return the processed item, or <code>nil</code> to remove the item.</li>
+</ul>
+
+<p>For more information on the options, and some examples, see <a href="https://github.com/kikito/inspect.lua">the upstream docs</a></p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

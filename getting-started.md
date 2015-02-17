@@ -12,16 +12,16 @@ Hammerspoon is a desktop automation tool for OS X. It bridges various system lev
 
 ## What is Lua?
 
-Lua is a simple programming language. If you've never programmed in Lua before, you may want to run through [Learn Lua in Y minutes](http://learnxinyminutes.com/docs/lua/) before you begin.
+Lua is a simple programming language. If you have never programmed in Lua before, you may want to run through [Learn Lua in Y minutes](http://learnxinyminutes.com/docs/lua/) before you begin.
 
-## Let's go!
+## Setup
 
  * [Download the latest release of Hammerspoon](http://www.hammerspoon.org/) and drag it to your `/Applications` folder
  * Run Hammerspoon.app and follow the prompts to enable Accessibility access for the app
  * Click on the Hammerspoon menu bar icon and choose `Open Config` from the menu
  * Open the Hammerspoon [API docs](http://www.hammerspoon.org/docs/) in your browser, to explore the extensions we provide, and the functions they offer
 
-## Contents
+## Table of Contents
 
  * [Hello World](#helloworld)
  * [Introduction to window movement](#winmoveintro)
@@ -38,7 +38,7 @@ Lua is a simple programming language. If you've never programmed in Lua before, 
 
 ### <a name="helloworld"></a>Hello World
 
-All good programming tutorials start with a Hello World example of some kind, so we'll use Hammerspoon's ability to bind keyboard hotkeys to demonstrate saying Hello World with a simple notification.
+All good programming tutorials start with a Hello World example of some kind, so we will use Hammerspoon's ability to bind keyboard hotkeys to demonstrate saying Hello World with a simple notification.
 
 In your `init.lua` place the following:
 
@@ -224,11 +224,11 @@ We then create a table that describes the layout we want. Each entry in the `win
 
 The first item in the table is the name of an app we wish to affect, and the second item is the title of a window we wish to affect. Either of these items can be `nil`, but not both. If the application name is `nil` then we will match the given window title across all applications. If the window title item is `nil` then we will match all windows of the given application.
 
-The third item is the name of the screen to place the window on, as described above.
+The third item is the name of the screen to place the window on, as described above (see the [http://www.hammerspoon.org/docs/](API docs) for more ways to specify the screen).
 
 The fourth, fifth and sixth items are used to describe the layout of matched windows, in different ways. Only one of these items can have a value, and that value should be a table containing four items, `x`, `y`, `w` and `h` (horizontal position, vertical position, width and height, respectively).
 
-The fourth item is a rect that will be given to `hs.window:moveToUnit()`. The `x`, `y`, `w`, and `h` values of this rect, are values between `0.0` and `1.0`, allowing you to position windows as fractions of the display, without having to be concerned about the precise resolution of the display (e.g. `hs.layout.left50` is a pre-defined rect of `{x=0, y=0, w=0.5, h=1`).
+The fourth item is a rect that will be given to `hs.window:moveToUnit()`. The `x`, `y`, `w`, and `h` values of this rect, are values between `0.0` and `1.0`, allowing you to position windows as fractions of the display, without having to be concerned about the precise resolution of the display (e.g. `hs.layout.left50` is a pre-defined rect of `{x=0, y=0, w=0.5, h=1}`).
 
 The fifth item is a rect that will be given to `hs.window:setFrame()` and should specify the position/size values as pixel positions on the screen, but without the OS menubar and dock taken into account.
 
@@ -247,7 +247,7 @@ end)
 hs.alert.show("Config loaded")
 ```
 
-We've now bound `cmd+alt+ctrl+R` to a function that will reload the config and display a simple alert banner on the screen for a couple of seconds.
+We have now bound <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>⌃</kbd>+<kbd>R</kbd> to a function that will reload the config and display a simple alert banner on the screen for a couple of seconds.
 
 One important detail to call out here is that `hs.reload()` destroys the current Lua interpreter and creates a new one. If we had any code after `hs.reload()` in this function, it would not be called.
 
@@ -310,7 +310,7 @@ What we are doing here is first launching Safari or bringing it to the front if 
 
 We then get a reference to Safari itself using `hs.appfinder.appFromName()`. Using this object we can search the available menu items and interact with them. Specifically, we are looking for the current state of three of the User Agent strings in `Develop→User Agent`. We then check to see which of them is ticked, and then select the next one.
 
-Thus, pressing `cmd+alt+ctrl+7` repeatedly will cycle between the default user agent string, an IE10 user agent, and a Chrome user agent. Each time, we display a simple on-screen alert with the name of the user agent we have cycled to.
+Thus, pressing <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>⌃</kbd>+<kbd>7</kbd> repeatedly will cycle between the default user agent string, an IE10 user agent, and a Chrome user agent. Each time, we display a simple on-screen alert with the name of the user agent we have cycled to.
 
 ### <a name="simplemenubar"></a>Creating a simple menubar item
 

@@ -51,9 +51,25 @@ NOTE: This extension assumes that you have one and only one WiFi interface on yo
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns a list of available WiFi networks<br>
-WARNING: This function will block all Lua execution until the scan has completed. It&#39;s probably not<br>
-very sensible to use this function very much, if at all.</p>
+                <p>Gets a list of available WiFi networks</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the names of all visible WiFi networks</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>WARNING: This function will block all Lua execution until the scan has completed. It&#39;s probably not very sensible to use this function very much, if at all.</li>
+</ul>
 
             </td>
         </tr>
@@ -76,7 +92,19 @@ very sensible to use this function very much, if at all.</p>
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns the SSID of the currently associated WiFi network, or nil if no network is associated</p>
+                <p>Gets the name of the current WiFi network</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the SSID of the WiFi network currently joined, or nil if no there is no WiFi connection</li>
+</ul>
 
             </td>
         </tr>

@@ -33,8 +33,6 @@
         
         <li><a href="#minutes">minutes</a></li>
         
-        <li><a href="#seconds">seconds</a></li>
-        
         <li><a href="#weeks">weeks</a></li>
         
                 </ul>
@@ -76,7 +74,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns the number of days in seconds.</p>
+                <p>Converts days to seconds</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>n - A number of days</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The number of seconds in n days</li>
+</ul>
 
             </td>
         </tr>
@@ -90,7 +100,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.doAfter(sec, fn)</code></td>
+            <td><code>hs.timer.doAfter(sec, fn) -> timer</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -99,7 +109,20 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Runs the function after sec seconds.</p>
+                <p>Calls a function after a delay</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>sec - A number of seconds to wait before calling the function</li>
+<li>fn - The function to call</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
 
             </td>
         </tr>
@@ -113,7 +136,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.hours(n) -> sec</code></td>
+            <td><code>hs.timer.hours(n) -> seconds</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -122,7 +145,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns the number of hours in seconds.</p>
+                <p>Converts hours to seconds</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>n - A number of hours</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The number of seconds in n hours</li>
+</ul>
 
             </td>
         </tr>
@@ -136,7 +171,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.minutes(n) -> sec</code></td>
+            <td><code>hs.timer.minutes(n) -> seconds</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -145,30 +180,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns the number of minutes in seconds.</p>
+                <p>Converts minutes to seconds</p>
 
-            </td>
-        </tr>
-    </table>
-    </section>
+<p>Parameters:</p>
 
+<ul>
+<li>n - A number of minutes</li>
+</ul>
 
-    <section id="seconds">
-    <a name="//apple_ref/cpp/Function/seconds" class="dashAnchor"></a>
-    <h3><a href="#seconds">seconds</a></h3>
-    <table>
-        <tr>
-            <th>Signature</td>
-            <td><code>hs.timer.seconds(n) -> sec</code></td>
-        </tr>
-        <tr>
-            <th>Type</td>
-            <td>Function</td>
-        </tr>
-        <tr>
-            <th>Description</td>
-            <td>
-                <p>Returns the number of seconds in seconds.</p>
+<p>Returns:</p>
+
+<ul>
+<li>The number of seconds in n minutes</li>
+</ul>
 
             </td>
         </tr>
@@ -191,7 +215,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns the number of weeks in seconds.</p>
+                <p>Converts weeks to seconds</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>n - A number of weeks</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The number of seconds in n weeks</li>
+</ul>
 
             </td>
         </tr>
@@ -216,7 +252,26 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Creates a new timer that can be started; interval is specified in seconds as a decimal number.</p>
+                <p>Creates a new <code>hs.timer</code> object for repeating interval callbacks</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>interval - A number of seconds between triggers</li>
+<li>fn - A function to call every time the timer triggers</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.timer</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The returned object does not start its timer until its <code>:start()</code> method is called</li>
+</ul>
 
             </td>
         </tr>
@@ -232,7 +287,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer:start() -> self</code></td>
+            <td><code>hs.timer:start() -> timer</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -241,7 +296,25 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Begins to execute hs.timer.fn every N seconds, as defined when the timer was created; calling this does not cause an initial firing of the timer immediately.</p>
+                <p>Starts an <code>hs.timer</code> object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.timer</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The timer will not call the callback immediately, it waits until the first trigger of the timer</li>
+</ul>
 
             </td>
         </tr>
@@ -255,7 +328,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer:stop() -> self</code></td>
+            <td><code>hs.timer:stop() -> timer</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -264,7 +337,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Stops the timer&#39;s fn from getting called until started again.</p>
+                <p>Stops an <code>hs.timer</code> object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.timer</code> object</li>
+</ul>
 
             </td>
         </tr>

@@ -25,6 +25,12 @@
                 
         <li><a href="#displayCurrentTrack">displayCurrentTrack</a></li>
         
+        <li><a href="#getCurrentAlbum">getCurrentAlbum</a></li>
+        
+        <li><a href="#getCurrentArtist">getCurrentArtist</a></li>
+        
+        <li><a href="#getCurrentTrack">getCurrentTrack</a></li>
+        
         <li><a href="#next">next</a></li>
         
         <li><a href="#pause">pause</a></li>
@@ -47,7 +53,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.spotify.displayCurrentTrack() -> nil</code></td>
+            <td><code>hs.spotify.displayCurrentTrack()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -56,7 +62,124 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Displays information for current track</p>
+                <p>Displays information for current track on screen</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getCurrentAlbum">
+    <a name="//apple_ref/cpp/Function/getCurrentAlbum" class="dashAnchor"></a>
+    <h3><a href="#getCurrentAlbum">getCurrentAlbum</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.spotify.getCurrentAlbum()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the name of the album of the current track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the Album of the current track</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getCurrentArtist">
+    <a name="//apple_ref/cpp/Function/getCurrentArtist" class="dashAnchor"></a>
+    <h3><a href="#getCurrentArtist">getCurrentArtist</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.spotify.getCurrentArtist()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the name of the artist of the current track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the Artist of the current track</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getCurrentTrack">
+    <a name="//apple_ref/cpp/Function/getCurrentTrack" class="dashAnchor"></a>
+    <h3><a href="#getCurrentTrack">getCurrentTrack</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.spotify.getCurrentTrack()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the name of the current track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the name of the current track</li>
+</ul>
 
             </td>
         </tr>
@@ -70,7 +193,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.spotify.next() -> nil</code></td>
+            <td><code>hs.spotify.next()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -80,6 +203,18 @@
             <th>Description</td>
             <td>
                 <p>Skips to the next spotify track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
 
             </td>
         </tr>
@@ -93,7 +228,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.spotify.pause() -> nil</code></td>
+            <td><code>hs.spotify.pause()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -103,6 +238,18 @@
             <th>Description</td>
             <td>
                 <p>Pauses of current spotify track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
 
             </td>
         </tr>
@@ -116,7 +263,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.spotify.play() -> nil</code></td>
+            <td><code>hs.spotify.play()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -126,6 +273,18 @@
             <th>Description</td>
             <td>
                 <p>Toggles play/pause of current spotify track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
 
             </td>
         </tr>
@@ -139,7 +298,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.spotify.previous() -> nil</code></td>
+            <td><code>hs.spotify.previous()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -149,6 +308,18 @@
             <th>Description</td>
             <td>
                 <p>Skips to previous spotify track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
 
             </td>
         </tr>

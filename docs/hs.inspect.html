@@ -42,7 +42,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.inspect.inspect(variable, options) -> string</code></td>
+            <td><code>hs.inspect.inspect(variable[, options]) -> string</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -51,20 +51,34 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns a human readable version of the supplied Lua variable.</p>
+                <p>Gets a human readable version of the supplied Lua variable</p>
 
-<p>NOTE: For convenience, you can call this function as hs.inspect(variable)</p>
-
-<p>The <code>options</code> argument is an optional table which can be used to influence the inspector via the following keys:</p>
+<p>Parameters:</p>
 
 <ul>
-<li>depth - maximum depth to recurse into <code>variable</code>. Data below that depth will be displayed as <code>{...}</code></li>
-<li>newline - string to use for line breaks. Default is <code>\n</code></li>
-<li>indent - string to use for indentation. Default is <code></code> (two spaces)</li>
-<li>process - a function that will be called for each item, in the form: <code>function(item, path)</code>. It should return the processed item, or <code>nil</code> to remove the item.</li>
+<li>variable - A lua variable of some kind</li>
+<li>options - An optional table which can be used to influence the inspector. Valid keys are as follows:
+
+<ul>
+<li>depth - A number representing the maximum depth to recurse into <code>variable</code>. Below that depth, data will be displayed as <code>{...}</code></li>
+<li>newline - A string to use for line breaks. Defaults to <code>\n</code></li>
+<li>indent - A string to use for indentation. Defaults to <code></code> (two spaces)</li>
+<li>process - A function that will be called for each item. It should accept two arguments, <code>item</code> (the current item being processed) and <code>path</code> (the item&#39;s position in the variable being inspected. The function should either return a processed form of the variable, the original variable itself if it requires no processing, or <code>nil</code> to remove the item from the inspected output.</li>
+</ul></li>
 </ul>
 
-<p>For more information on the options, and some examples, see <a href="https://github.com/kikito/inspect.lua">the upstream docs</a></p>
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the human readable version of <code>variable</code></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>For convenience, you can call this function as <code>hs.inspect(variable)</code></li>
+<li>For more information on the options, and some examples, see <a href="https://github.com/kikito/inspect.lua">the upstream docs</a></li>
+</ul>
 
             </td>
         </tr>

@@ -43,7 +43,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.json.decode(str) -> val</code></td>
+            <td><code>hs.json.decode(jsonString) -> table</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -52,9 +52,25 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns a Lua value representing the given JSON string.</p>
+                <p>Decodes JSON into a table</p>
 
-<p>Useful for retrieving some of the more complex lua table structures as a persistent setting.</p>
+<p>Parameters:</p>
+
+<ul>
+<li>jsonString - A string containing some JSON data</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table representing the supplied JSON data</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is useful for retrieving some of the more complex lua table structures as a persistent setting (see <code>hs.settings</code>)</li>
+</ul>
 
             </td>
         </tr>
@@ -68,7 +84,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.json.encode(val[, prettyprint?]) -> str</code></td>
+            <td><code>hs.json.encode(val[, prettyprint]) -> string</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -77,9 +93,26 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns a JSON string representing the given value; if prettyprint is true, the resulting string will formatted for readability.  Value must be a table.</p>
+                <p>Encodes a table as JSON</p>
 
-<p>Useful for storing some of the more complex lua table structures as a persistent setting.</p>
+<p>Parameters:</p>
+
+<ul>
+<li>val - A table containing data to be encoded as JSON</li>
+<li>prettyprint - An optional boolean, true to format the JSON for human readability, false to format the JSON for size efficiency. Defaults to false</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing a JSON representation of the supplied table</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is useful for storing some of the more complex lua table structures as a persistent setting (see <code>hs.settings</code>)</li>
+</ul>
 
             </td>
         </tr>

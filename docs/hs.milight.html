@@ -78,7 +78,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Specifies the maximum brightness value that can be used</p>
+                <p>Specifies the maximum brightness value that can be used. Defaults to 25</p>
 
             </td>
         </tr>
@@ -101,7 +101,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Specifies the minimum brightness value that can be used</p>
+                <p>Specifies the minimum brightness value that can be used. Defaults to 0</p>
 
             </td>
         </tr>
@@ -131,15 +131,20 @@
 <p>Parameters:</p>
 
 <ul>
-<li>ip - IP address of the MiLight WiFi bridge device. For convenience this can be the broadcast address of your network
-    (e.g. 192.168.0.255)</li>
-<li>port - UDP port to talk to the bridge on. Defaults to 8899</li>
+<li>ip - A string containing the IP address of the MiLight WiFi bridge device. For convenience this can be the broadcast address of your network (e.g. 192.168.0.255)</li>
+<li>port - An optional number containing the UDP port to talk to the bridge on. Defaults to 8899</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>bridge object to use with other API methods</li>
+<li>An <code>hs.milight</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>You can not use 255.255.255.255 as the IP address, to do so requires elevated privileges for the Hammerspoon process</li>
 </ul>
 
             </td>
@@ -165,13 +170,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Deletes a bridge object</p>
+                <p>Deletes an <code>hs.milight</code> object</p>
 
-<p>Parameters:<br>
- None</p>
+<p>Parameters:</p>
 
-<p>Returns:<br>
- None</p>
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
 
             </td>
         </tr>
@@ -205,7 +216,7 @@
 <p>Returns:</p>
 
 <ul>
-<li>True if the command was sent correctly, false if not</li>
+<li>True if the command was sent correctly, otherwise false</li>
 </ul>
 
             </td>
@@ -220,7 +231,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.milight:send(cmd, value) -> bool</code></td>
+            <td><code>hs.milight:send(cmd[, value]) -> bool</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -229,20 +240,25 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Sends a command to the bridge.<br>
-Note: This is a low level command, you typically should use a specific method for the operation you want to perform</p>
+                <p>Sends a command to the bridge</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>cmd - A command from the hs.milight.cmd table</li>
+<li>cmd - A command from the <code>hs.milight.cmd</code> table</li>
 <li>value - An optional value, if appropriate for the command (defaults to 0x00)</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>True if the command was sent, false if an error occurred</li>
+<li>True if the command was sent, otherwise false</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is a low level command, you typically should use a specific method for the operation you want to perform</li>
 </ul>
 
             </td>
@@ -271,14 +287,14 @@ Note: This is a low level command, you typically should use a specific method fo
 <p>Parameters:</p>
 
 <ul>
-<li>zone - 0 for all zones, 1-4 for zones one through four</li>
-<li>value - Brightness level to set, between 0 and 25</li>
+<li>zone - A number specifying which zone to operate on. 0 for all zones, 1-4 for zones one through four</li>
+<li>value - A number containing the brightness level to set, between <code>hs.milight.minBrightness</code> and <code>hs.milight.maxBrightness</code></li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>The value that was sent to the WiFi bridge, or -1 if an error occurred</li>
+<li>A number containing the value that was sent to the WiFi bridge, or -1 if an error occurred</li>
 </ul>
 
             </td>
@@ -307,14 +323,14 @@ Note: This is a low level command, you typically should use a specific method fo
 <p>Parameters:</p>
 
 <ul>
-<li>zone - 0 for all zones, 1-4 for zones one through four</li>
-<li>value - RGB color value between 0 and 255</li>
+<li>zone - A number specifying which zone to operate on. 0 for all zones, 1-4 for zones one through four</li>
+<li>value - A number containing an RGB color value between 0 and 255</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>True if the command was sent correctly, false if not</li>
+<li>True if the command was sent correctly, otherwise false</li>
 </ul>
 
             </td>
@@ -329,7 +345,7 @@ Note: This is a low level command, you typically should use a specific method fo
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.milight.zoneOff(zone) -> bool</code></td>
+            <td><code>hs.milight:zoneOff(zone) -> bool</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -343,13 +359,13 @@ Note: This is a low level command, you typically should use a specific method fo
 <p>Parameters:</p>
 
 <ul>
-<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+<li>zone - A number specifying which zone to operate on. 0 for all zones, 1-4 for zones one through four</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>True if the command was sent correctly, false if not</li>
+<li>True if the command was sent correctly, otherwise false</li>
 </ul>
 
             </td>
@@ -364,7 +380,7 @@ Note: This is a low level command, you typically should use a specific method fo
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.milight.zoneOn(zone) -> bool</code></td>
+            <td><code>hs.milight:zoneOn(zone) -> bool</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -378,13 +394,13 @@ Note: This is a low level command, you typically should use a specific method fo
 <p>Parameters:</p>
 
 <ul>
-<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+<li>zone - A number specifying which zone to operate on. 0 for all zones, 1-4 for zones one through four</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>True if the command was sent correctly, false if not</li>
+<li>True if the command was sent correctly, otherwise false</li>
 </ul>
 
             </td>
@@ -399,7 +415,7 @@ Note: This is a low level command, you typically should use a specific method fo
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.milight.zoneWhite(zone) -> bool</code></td>
+            <td><code>hs.milight:zoneWhite(zone) -> bool</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -413,13 +429,13 @@ Note: This is a low level command, you typically should use a specific method fo
 <p>Parameters:</p>
 
 <ul>
-<li>zone - 0 for all zones, 1-4 for zones one through four</li>
+<li>zone - A number specifying which zone to operate on. 0 for all zones, 1-4 for zones one through four</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>True if the command was sent correctly, false if not</li>
+<li>True if the command was sent correctly, otherwise false</li>
 </ul>
 
             </td>

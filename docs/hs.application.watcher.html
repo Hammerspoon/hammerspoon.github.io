@@ -22,11 +22,35 @@
       <h2>API Overview</h2>
       <ul>
     
-                <li>Functions - API calls offered directly by the extension</li>
+                <li>Constants - Useful values which cannot be changed</li>
+                    <ul>
+                
+        <li><a href="#activated">activated</a></li>
+        
+        <li><a href="#deactivated">deactivated</a></li>
+        
+        <li><a href="#hidden">hidden</a></li>
+        
+        <li><a href="#launched">launched</a></li>
+        
+        <li><a href="#launching">launching</a></li>
+        
+        <li><a href="#terminated">terminated</a></li>
+        
+        <li><a href="#unhidden">unhidden</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
                     <ul>
                 
         <li><a href="#new">new</a></li>
         
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
         <li><a href="#start">start</a></li>
         
         <li><a href="#stop">stop</a></li>
@@ -36,11 +60,174 @@
     </ul>
     <h2>API Documentation</h2>
     
-                <h3>Functions</h3>
+                <h3>Constants</h3>
+                
+
+    <section id="activated">
+    <a name="//apple_ref/cpp/Constant/activated" class="dashAnchor"></a>
+    <h3><a href="#activated">activated</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.application.watcher.activated</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>An application has been activated (i.e. given keyboard/mouse focus)</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="deactivated">
+    <a name="//apple_ref/cpp/Constant/deactivated" class="dashAnchor"></a>
+    <h3><a href="#deactivated">deactivated</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.application.watcher.deactivated</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>An application has been deactivated (i.e. lost keyboard/mouse focus)</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hidden">
+    <a name="//apple_ref/cpp/Constant/hidden" class="dashAnchor"></a>
+    <h3><a href="#hidden">hidden</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.application.watcher.hidden</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>An application has been hidden</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="launched">
+    <a name="//apple_ref/cpp/Constant/launched" class="dashAnchor"></a>
+    <h3><a href="#launched">launched</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.application.watcher.launched</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>An application has been launched</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="launching">
+    <a name="//apple_ref/cpp/Constant/launching" class="dashAnchor"></a>
+    <h3><a href="#launching">launching</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.application.watcher.launching</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>An application is in the process of being launched</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="terminated">
+    <a name="//apple_ref/cpp/Constant/terminated" class="dashAnchor"></a>
+    <h3><a href="#terminated">terminated</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.application.watcher.terminated</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>An application has been terminated</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="unhidden">
+    <a name="//apple_ref/cpp/Constant/unhidden" class="dashAnchor"></a>
+    <h3><a href="#unhidden">unhidden</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.application.watcher.unhidden</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>An application has been unhidden</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Constructors</h3>
                 
 
     <section id="new">
-    <a name="//apple_ref/cpp/Function/new" class="dashAnchor"></a>
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
     <h3><a href="#new">new</a></h3>
     <table>
         <tr>
@@ -49,35 +236,47 @@
         </tr>
         <tr>
             <th>Type</td>
-            <td>Function</td>
+            <td>Constructor</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>Creates an application watcher that is able to capture application events.</p>
+                <p>Creates an application event watcher</p>
 
-<p>The parameter fn has to be a function accepting three parameters. The first parameter passed to<br>
-the function is the application name as string, the second parameter is the event type, and the<br>
-third is an application object. Note that if the application has been terminated, the<br>
-application object will only be useful for getting the PID and the first parameter will be nil.</p>
+<p>Parameters:</p>
 
-<p>The event type parameter can be one of the following values:<br>
-hs.application.watcher.launching    -- The application will launch.<br>
-hs.application.watcher.launched     -- The application has launched.<br>
-hs.application.watcher.terminated   -- The application terminated.<br>
-hs.application.watcher.hidden       -- The application was hidden.<br>
-hs.application.watcher.unhidden     -- The application was unhidden.<br>
-hs.application.watcher.activated    -- The application was activated.<br>
-hs.application.watcher.deactivated  -- The application was deactivated.</p>
+<ul>
+<li>fn - A function that will be called when application events happen. It should accept three parameters:
+
+<ul>
+<li>A string containing the name of the application</li>
+<li>An event type (see the constants defined above)</li>
+<li>An <code>hs.application</code> object representing the application</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.application.watcher</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If the function is called with an event type of <code>hs.application.watcher.terminated</code> then the application name parameter will be <code>nil</code> and the <code>hs.application</code> parameter, will only be useful for getting the UNIX process ID (i.e. the PID) of the application</li>
+</ul>
 
             </td>
         </tr>
     </table>
     </section>
 
+                <h3>Methods</h3>
+                
 
     <section id="start">
-    <a name="//apple_ref/cpp/Function/start" class="dashAnchor"></a>
+    <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
     <h3><a href="#start">start</a></h3>
     <table>
         <tr>
@@ -86,13 +285,24 @@ hs.application.watcher.deactivated  -- The application was deactivated.</p>
         </tr>
         <tr>
             <th>Type</td>
-            <td>Function</td>
+            <td>Method</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>Starts the application watcher, making it so fn is called each time an application event is<br>
-triggered.</p>
+                <p>Starts the application watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
 
             </td>
         </tr>
@@ -101,7 +311,7 @@ triggered.</p>
 
 
     <section id="stop">
-    <a name="//apple_ref/cpp/Function/stop" class="dashAnchor"></a>
+    <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
     <h3><a href="#stop">stop</a></h3>
     <table>
         <tr>
@@ -110,12 +320,24 @@ triggered.</p>
         </tr>
         <tr>
             <th>Type</td>
-            <td>Function</td>
+            <td>Method</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>Stops the application watcher&#39;s fn from getting called until started again.</p>
+                <p>Stops the application watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
 
             </td>
         </tr>

@@ -54,7 +54,25 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>The number of times the pasteboard owner changed (useful to see if the pasteboard was updated, by seeing if the value of this function changes).</p>
+                <p>Gets the number of times the pasteboard owner has changed</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing a count of the times the pasteboard owner has changed</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is useful for seeing if the pasteboard has been updated by another process</li>
+</ul>
 
             </td>
         </tr>
@@ -68,7 +86,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.pasteboard.getContents() -> string</code></td>
+            <td><code>hs.pasteboard.getContents() -> string or nil</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -77,7 +95,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns the contents of the pasteboard as a string, or nil if it can&#39;t be done</p>
+                <p>Gets the contents of the pasteboard</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the contents of the pasteboard, or nil if an error occurred</li>
+</ul>
 
             </td>
         </tr>
@@ -91,7 +121,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.pasteboard.setContents(string) -> boolean</code></td>
+            <td><code>hs.pasteboard.setContents(contents) -> boolean</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -100,7 +130,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Sets the contents of the pasteboard to the string value passed in. Returns success status as true or false.</p>
+                <p>Sets the contents of the pasteboard</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>contents - A string to be placed in the pasteboard</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the operation succeeded, otherwise false</li>
+</ul>
 
             </td>
         </tr>

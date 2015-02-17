@@ -23,7 +23,7 @@ Settings must have a string key and must be made up of serializable Lua objects 
       <h2>API Overview</h2>
       <ul>
     
-                <li>Variables - Configurable values</li>
+                <li>Constants - Useful values which cannot be changed</li>
                     <ul>
                 
         <li><a href="#bundleID">bundleID</a></li>
@@ -52,11 +52,11 @@ Settings must have a string key and must be made up of serializable Lua objects 
     </ul>
     <h2>API Documentation</h2>
     
-                <h3>Variables</h3>
+                <h3>Constants</h3>
                 
 
     <section id="bundleID">
-    <a name="//apple_ref/cpp/Variable/bundleID" class="dashAnchor"></a>
+    <a name="//apple_ref/cpp/Constant/bundleID" class="dashAnchor"></a>
     <h3><a href="#bundleID">bundleID</a></h3>
     <table>
         <tr>
@@ -65,12 +65,12 @@ Settings must have a string key and must be made up of serializable Lua objects 
         </tr>
         <tr>
             <th>Type</td>
-            <td>Variable</td>
+            <td>Constant</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>The string representing the bundle id where our settings are stored. You can use this with <code>defaults</code> or other tools which allow access to the <code>User Defaults</code> of other applications to access these outside of Hammerspoon.</p>
+                <p>A string representing the ID of the bundle Hammerspoon&#39;s settings are stored in . You can use this with the command line tool <code>defaults</code> or other tools which allow access to the <code>User Defaults</code> of applications, to access these outside of Hammerspoon</p>
 
             </td>
         </tr>
@@ -79,7 +79,7 @@ Settings must have a string key and must be made up of serializable Lua objects 
 
 
     <section id="dateFormat">
-    <a name="//apple_ref/cpp/Variable/dateFormat" class="dashAnchor"></a>
+    <a name="//apple_ref/cpp/Constant/dateFormat" class="dashAnchor"></a>
     <h3><a href="#dateFormat">dateFormat</a></h3>
     <table>
         <tr>
@@ -88,12 +88,12 @@ Settings must have a string key and must be made up of serializable Lua objects 
         </tr>
         <tr>
             <th>Type</td>
-            <td>Variable</td>
+            <td>Constant</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>The string representing the expected format of date and time when presenting the date and time as a string to <code>hs.setDate</code>.  e.g. <code>os.date(hs.settings.dateFormat)</code>.</p>
+                <p>A string representing the expected format of date and time when presenting the date and time as a string to <code>hs.setDate()</code>.  e.g. <code>os.date(hs.settings.dateFormat)</code></p>
 
             </td>
         </tr>
@@ -118,7 +118,19 @@ Settings must have a string key and must be made up of serializable Lua objects 
         <tr>
             <th>Description</td>
             <td>
-                <p>Attempts to remove the given string key from storage, returning <code>true</code> on success or <code>false</code> on failure (e.g. <code>key</code> does not exist or is administratively managed).</p>
+                <p>Deletes a setting</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>key - A string containing the name of a setting</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the setting was deleted, otherwise false</li>
+</ul>
 
             </td>
         </tr>
@@ -132,7 +144,7 @@ Settings must have a string key and must be made up of serializable Lua objects 
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.settings.get(key) -> val</code></td>
+            <td><code>hs.settings.get(key) -> string or boolean or number or nil or table or binary data</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -141,7 +153,25 @@ Settings must have a string key and must be made up of serializable Lua objects 
         <tr>
             <th>Description</td>
             <td>
-                <p>Gets the Lua value for the given string key.  This function can retrieve NSUserDefault types of Data and Date, as well as serializable Lua types.</p>
+                <p>Loads a setting</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>key - A string containing the name of the setting</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The value of the setting</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function can load all of the datatypes supported by <code>hs.settings.set()</code>, <code>hs.settings.setData()</code> and <code>hs.settings.setDate()</code></li>
+</ul>
 
             </td>
         </tr>
@@ -155,7 +185,7 @@ Settings must have a string key and must be made up of serializable Lua objects 
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.settings.getKeys() -> []</code></td>
+            <td><code>hs.settings.getKeys() -> table</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -164,7 +194,26 @@ Settings must have a string key and must be made up of serializable Lua objects 
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns a table of all defined keys within the Hammerspoon user defaults, as an array and as a list of keys.  Use <code>ipairs(settings.getKeys())</code> to iterate through the list of all settings which have been defined or <code>settings.getKeys()[&quot;key&quot;]</code> to test for the existence of a key.</p>
+                <p>Gets all of the previously stored setting names</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing all of the settings keys in Hammerspoon&#39;s settings</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Use <code>ipairs(hs.settings.getKeys())</code> to iterate over all available settings</li>
+<li>Use <code>hs.settings.getKeys()[&quot;someKey&quot;]</code> to test for the existance of a particular key</li>
+</ul>
 
             </td>
         </tr>
@@ -187,7 +236,34 @@ Settings must have a string key and must be made up of serializable Lua objects 
         <tr>
             <th>Description</td>
             <td>
-                <p>Saves the given value for the given string key; value must be a string, number, boolean, nil, or a table of any of these, recursively.  This function cannot set NSUserDefault types of Data or Date.  See <code>settings.setData</code> and <code>settings.setDate</code>.</p>
+                <p>Saves a setting with common datatypes</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>key - A string containing the name of the setting</li>
+<li>val - A value for the setting. Valid datatypes are:
+
+<ul>
+<li>string</li>
+<li>number</li>
+<li>boolean</li>
+<li>nil</li>
+<li>table (which may contain any of the same valid datatypes)</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function cannot set dates or raw data types, see <code>hs.settings.setDate()</code> and <code>hs.settings.setData()</code></li>
+</ul>
 
             </td>
         </tr>
@@ -210,7 +286,20 @@ Settings must have a string key and must be made up of serializable Lua objects 
         <tr>
             <th>Description</td>
             <td>
-                <p>Saves the given value as raw binary data for the string key.  A raw binary string differs from a traditional string in that it may contain embedded null values and other unprintable bytes (characters) which might otherwise be lost or mangled if treated as a traditional C-Style (null terminated) string.</p>
+                <p>Saves a setting with raw binary data</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>key - A string containing the name of the setting</li>
+<li>val - Some raw binary data</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
 
             </td>
         </tr>
@@ -233,7 +322,26 @@ Settings must have a string key and must be made up of serializable Lua objects 
         <tr>
             <th>Description</td>
             <td>
-                <p>Saves the given value as a date for the given string key.  If val is a number, then it represents the number of seconds since 1970-01-01 00:00:00 +0000 (e.g. <code>os.time()</code>).  If it is a string, it should be in rfc3339 format:  &#39;YYYY-MM-DD[T]HH:MM:SS[Z]&#39; (e.g. see <code>hs.settings.dateFormat</code>).</p>
+                <p>Saves a setting with a date</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>key - A string containing the name of the setting</li>
+<li>val - A number representing seconds since <code>1970-01-01 00:00:00 +0000</code> (e.g. <code>os.time()</code>), or a string containing a date in RFC3339 format (<code>YYYY-MM-DD[T]HH:MM:SS[Z]</code>)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>See <code>hs.settings.dateFormat</code> for a convenient representation of the RFC3339 format, to use with other time/date related functions</li>
+</ul>
 
             </td>
         </tr>

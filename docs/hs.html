@@ -34,6 +34,8 @@
                 
         <li><a href="#focus">focus</a></li>
         
+        <li><a href="#help">help</a></li>
+        
         <li><a href="#openConsole">openConsole</a></li>
         
         <li><a href="#rawprint">rawprint</a></li>
@@ -42,7 +44,7 @@
         
         <li><a href="#showError">showError</a></li>
         
-        <li><a href="#system_sounds">system_sounds</a></li>
+        <li><a href="#systemSounds">systemSounds</a></li>
         
         <li><a href="#toggleConsole">toggleConsole</a></li>
         
@@ -60,7 +62,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.configdir = "~/.hammerspoon/"</code></td>
+            <td><code>hs.configdir</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -69,8 +71,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>The user&#39;s Hammerspoon config directory. Modules may use it, assuming<br>
-they&#39;ve worked out a contract with the user about how to use it.</p>
+                <p>A string containing Hammerspoon&#39;s configuration directory. Typically <code>~/.hammerspoon/</code></p>
 
             </td>
         </tr>
@@ -93,10 +94,7 @@ they&#39;ve worked out a contract with the user about how to use it.</p>
         <tr>
             <th>Description</td>
             <td>
-                <p>This is the full path to the docs.json file shipped with Hammerspoon.<br>
-It contains the same documentation used to generate the full Hammerspoon<br>
-API documentation, in JSON form.<br>
-You can load, parse and access this information using the hs.doc extension</p>
+                <p>A string containing the full path to the <code>docs.json</code> file inside Hammerspoon&#39;s app bundle. This contains the full Hammerspoon API documentation and can be accessed in the Console using <code>help(&quot;someAPI&quot;)</code>. It can also be loaded and processed by the <code>hs.doc</code> extension</p>
 
             </td>
         </tr>
@@ -122,6 +120,48 @@ You can load, parse and access this information using the hs.doc extension</p>
             <th>Description</td>
             <td>
                 <p>Makes Hammerspoon the foreground app.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="help">
+    <a name="//apple_ref/cpp/Function/help" class="dashAnchor"></a>
+    <h3><a href="#help">help</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.help(identifier)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Prints the documentation for some part of Hammerspoon&#39;s API</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>identifier - A string containing the signature of some part of Hammerspoon&#39;s API (e.g. <code>&quot;hs.reload&quot;</code>)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function is mainly for runtime API help while using Hammerspoon&#39;s Console</li>
+<li>You can also just use <code>help()</code> directly</li>
+</ul>
 
             </td>
         </tr>
@@ -158,7 +198,7 @@ You can load, parse and access this information using the hs.doc extension</p>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.rawprint = print</code></td>
+            <td><code>hs.rawprint(aString)</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -167,7 +207,25 @@ You can load, parse and access this information using the hs.doc extension</p>
         <tr>
             <th>Description</td>
             <td>
-                <p>The original print function, before hammerspoon overrides it.</p>
+                <p>The original Lua print() function</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>aString - A string to be printed</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Hammerspoon overrides Lua&#39;s print() function, but this is a reference we retain to is, should you need it for any reason</li>
+</ul>
 
             </td>
         </tr>
@@ -213,19 +271,29 @@ You can load, parse and access this information using the hs.doc extension</p>
         <tr>
             <th>Description</td>
             <td>
-                <p>Presents an error to the user via Hammerspoon&#39;s GUI. The default<br>
-implementation prints the error, focuses Hammerspoon, and opens<br>
-Hammerspoon&#39;s console.</p>
+                <p>Shows an error to the user, using Hammerspoon&#39;s Console</p>
 
-<p>Users can override this with a new function that shows errors in a<br>
-custom way.</p>
+<p>Parameters:</p>
 
-<p>Modules can call this in the event of an error, e.g. in callbacks<br>
-from the user:</p>
+<ul>
+<li>err - A string containing an error message</li>
+</ul>
 
-<pre><code>local ok, err = xpcall(callbackfn, debug.traceback)
-if not ok then hs.showError(err) end
-</code></pre>
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>You can override this function if you wish to route errors differently</li>
+<li><p>Modules can call this in the event of an error, e.g. in callbacks from the user:</p>
+
+<p><code>local ok, err = xpcall(callbackfn, debug.traceback)<br>
+if not ok then hs.showError(err) end</code></p></li>
+</ul>
 
             </td>
         </tr>
@@ -233,13 +301,13 @@ if not ok then hs.showError(err) end
     </section>
 
 
-    <section id="system_sounds">
-    <a name="//apple_ref/cpp/Function/system_sounds" class="dashAnchor"></a>
-    <h3><a href="#system_sounds">system_sounds</a></h3>
+    <section id="systemSounds">
+    <a name="//apple_ref/cpp/Function/systemSounds" class="dashAnchor"></a>
+    <h3><a href="#systemSounds">systemSounds</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.system_sounds() -> table</code></td>
+            <td><code>hs.systemSounds() -> table</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -248,11 +316,25 @@ if not ok then hs.showError(err) end
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns an array of defined system sounds. You can request these sounds by using <code>hs.sound.get_byname</code>. These are compatible sound files located in one of the following directories:<br>
-    ~/Library/Sounds<br>
-    /Library/Sounds<br>
-    /Network/Library/Sounds<br>
-    /System/Library/Sounds</p>
+                <p>Gets a table of available system sounds</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing all of the available sound files (i.e. those found in ~/Library/Sounds, /Library/Sounds, /Network/Library/Sounds and /System/Library/Sounds)</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The sounds listed by this function can be loaded using <code>hs.sound.getByName()</code></li>
+</ul>
 
             </td>
         </tr>
@@ -277,9 +359,6 @@ if not ok then hs.showError(err) end
             <td>
                 <p>Toggles the visibility of the console</p>
 
-<p>If the console is not currently open, it will be opened. If it is open and not the focused window, it will be brought forward and focused.<br>
-If the console is focused, it will be closed.</p>
-
 <p>Parameters:</p>
 
 <ul>
@@ -290,6 +369,13 @@ If the console is focused, it will be closed.</p>
 
 <ul>
 <li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If the console is not currently open, it will be opened. If it is open and not the focused window, it will be brought forward and focused.</li>
+<li>If the console is focused, it will be closed.</li>
 </ul>
 
             </td>

@@ -1,0 +1,360 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.timer module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.timer</h1>
+      <p>Execute functions with various timing rules</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#days">days</a></li>
+        
+        <li><a href="#doAfter">doAfter</a></li>
+        
+        <li><a href="#hours">hours</a></li>
+        
+        <li><a href="#minutes">minutes</a></li>
+        
+        <li><a href="#weeks">weeks</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#start">start</a></li>
+        
+        <li><a href="#stop">stop</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="days">
+    <a name="//apple_ref/cpp/Function/days" class="dashAnchor"></a>
+    <h3><a href="#days">days</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.timer.days(n) -> sec</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Converts days to seconds</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>n - A number of days</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The number of seconds in n days</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="doAfter">
+    <a name="//apple_ref/cpp/Function/doAfter" class="dashAnchor"></a>
+    <h3><a href="#doAfter">doAfter</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.timer.doAfter(sec, fn) -> timer</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Calls a function after a delay</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>sec - A number of seconds to wait before calling the function</li>
+<li>fn - The function to call</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hours">
+    <a name="//apple_ref/cpp/Function/hours" class="dashAnchor"></a>
+    <h3><a href="#hours">hours</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.timer.hours(n) -> seconds</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Converts hours to seconds</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>n - A number of hours</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The number of seconds in n hours</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="minutes">
+    <a name="//apple_ref/cpp/Function/minutes" class="dashAnchor"></a>
+    <h3><a href="#minutes">minutes</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.timer.minutes(n) -> seconds</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Converts minutes to seconds</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>n - A number of minutes</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The number of seconds in n minutes</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="weeks">
+    <a name="//apple_ref/cpp/Function/weeks" class="dashAnchor"></a>
+    <h3><a href="#weeks">weeks</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.timer.weeks(n) -> sec</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Converts weeks to seconds</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>n - A number of weeks</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The number of seconds in n weeks</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Constructors</h3>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+    <h3><a href="#new">new</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.timer.new(interval, fn) -> timer</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new <code>hs.timer</code> object for repeating interval callbacks</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>interval - A number of seconds between triggers</li>
+<li>fn - A function to call every time the timer triggers</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.timer</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The returned object does not start its timer until its <code>:start()</code> method is called</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Methods</h3>
+                
+
+    <section id="start">
+    <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+    <h3><a href="#start">start</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.timer:start() -> timer</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Starts an <code>hs.timer</code> object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.timer</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The timer will not call the callback immediately, it waits until the first trigger of the timer</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stop">
+    <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+    <h3><a href="#stop">stop</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.timer:stop() -> timer</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Stops an <code>hs.timer</code> object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.timer</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

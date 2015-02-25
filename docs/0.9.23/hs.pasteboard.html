@@ -1,0 +1,153 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.pasteboard module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.pasteboard</h1>
+      <p>Inspect/manipulate the system clipboard</p>
+
+<p>This module is based partially on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#changeCount">changeCount</a></li>
+        
+        <li><a href="#getContents">getContents</a></li>
+        
+        <li><a href="#setContents">setContents</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="changeCount">
+    <a name="//apple_ref/cpp/Function/changeCount" class="dashAnchor"></a>
+    <h3><a href="#changeCount">changeCount</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.changeCount() -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the number of times the pasteboard owner has changed</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing a count of the times the pasteboard owner has changed</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is useful for seeing if the pasteboard has been updated by another process</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getContents">
+    <a name="//apple_ref/cpp/Function/getContents" class="dashAnchor"></a>
+    <h3><a href="#getContents">getContents</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.getContents() -> string or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the contents of the pasteboard</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the contents of the pasteboard, or nil if an error occurred</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setContents">
+    <a name="//apple_ref/cpp/Function/setContents" class="dashAnchor"></a>
+    <h3><a href="#setContents">setContents</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.setContents(contents) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the contents of the pasteboard</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>contents - A string to be placed in the pasteboard</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the operation succeeded, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.brightness module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.brightness</h1>
+      <p>Inspect/manipulate display brightness</p>
+
+<p>Home: <a href="https://github.com/asmagill/mjolnir_asm.sys">https://github.com/asmagill/mjolnir_asm.sys</a></p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#get">get</a></li>
+        
+        <li><a href="#set">set</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="get">
+    <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
+    <h3><a href="#get">get</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.brightness.get() -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the current brightness of the display</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the brightness of the display, between 0 and 100</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="set">
+    <a name="//apple_ref/cpp/Function/set" class="dashAnchor"></a>
+    <h3><a href="#set">set</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.brightness.set(brightness) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the display brightness</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>brightness - A number between 0 and 100</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the brightness was set, false if not</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

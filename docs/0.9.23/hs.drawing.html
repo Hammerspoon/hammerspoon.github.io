@@ -1,0 +1,744 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.drawing module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.drawing</h1>
+      <p>Primitives for drawing on the screen in various ways</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Constants - Useful values which cannot be changed</li>
+                    <ul>
+                
+        <li><a href="#color">color</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#circle">circle</a></li>
+        
+        <li><a href="#line">line</a></li>
+        
+        <li><a href="#text">text</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#bringToFront">bringToFront</a></li>
+        
+        <li><a href="#delete">delete</a></li>
+        
+        <li><a href="#hide">hide</a></li>
+        
+        <li><a href="#sendToBack">sendToBack</a></li>
+        
+        <li><a href="#setFill">setFill</a></li>
+        
+        <li><a href="#setFillColor">setFillColor</a></li>
+        
+        <li><a href="#setStroke">setStroke</a></li>
+        
+        <li><a href="#setStrokeColor">setStrokeColor</a></li>
+        
+        <li><a href="#setStrokeWidth">setStrokeWidth</a></li>
+        
+        <li><a href="#setText">setText</a></li>
+        
+        <li><a href="#setTextColor">setTextColor</a></li>
+        
+        <li><a href="#setTextSize">setTextSize</a></li>
+        
+        <li><a href="#show">show</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Constants</h3>
+                
+
+    <section id="color">
+    <a name="//apple_ref/cpp/Constant/color" class="dashAnchor"></a>
+    <h3><a href="#color">color</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing.color</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>This table contains various useful pre-defined colors:</p>
+
+<ul>
+<li>osx_red - The same red used for OS X window close buttons</li>
+<li>osx_green - The same green used for OS X window zoom buttons</li>
+<li>osx_yellow - The same yellow used for OS X window minimize buttons</li>
+</ul>
+
+<p>Please feel free to submit additional useful colors :)</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Constructors</h3>
+                
+
+    <section id="circle">
+    <a name="//apple_ref/cpp/Constructor/circle" class="dashAnchor"></a>
+    <h3><a href="#circle">circle</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing.circle(sizeRect) -> drawingObject or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new circle object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>sizeRect - A rect-table containing the location/size of the circle</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.drawing</code> circle object, or nil if an error occurs</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="line">
+    <a name="//apple_ref/cpp/Constructor/line" class="dashAnchor"></a>
+    <h3><a href="#line">line</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing.line(originPoint, endPoint) -> drawingObject or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new line object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>originPoint - A point-table containing the co-ordinates of the starting point of the line</li>
+<li>endPoint - A point-table containing the co-ordinates of the end point of the line</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.drawing</code> line object, or nil if an error occurs</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="text">
+    <a name="//apple_ref/cpp/Constructor/text" class="dashAnchor"></a>
+    <h3><a href="#text">text</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing.text(sizeRect, message) -> drawingObject or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new text object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>sizeRect - A rect-table containing the location/size of the text</li>
+<li>message - A string containing the text to be displayed</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.drawing</code> text object, or nil if an error occurs</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Methods</h3>
+                
+
+    <section id="bringToFront">
+    <a name="//apple_ref/cpp/Method/bringToFront" class="dashAnchor"></a>
+    <h3><a href="#bringToFront">bringToFront</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:bringToFront()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Places the drawing object on top of normal windows</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="delete">
+    <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+    <h3><a href="#delete">delete</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:delete()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Destroys the drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hide">
+    <a name="//apple_ref/cpp/Method/hide" class="dashAnchor"></a>
+    <h3><a href="#hide">hide</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:hide()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Hides the drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="sendToBack">
+    <a name="//apple_ref/cpp/Method/sendToBack" class="dashAnchor"></a>
+    <h3><a href="#sendToBack">sendToBack</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:sendToBack()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Places the drawing object behind normal windows, between the desktop wallpaper and desktop icons</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setFill">
+    <a name="//apple_ref/cpp/Method/setFill" class="dashAnchor"></a>
+    <h3><a href="#setFill">setFill</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:setFill(doFill)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets whether or not to fill a drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>doFill - A boolean, true to fill the drawing object, false to not fill</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be used on line and circle drawing objects</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setFillColor">
+    <a name="//apple_ref/cpp/Method/setFillColor" class="dashAnchor"></a>
+    <h3><a href="#setFillColor">setFillColor</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:setFillColor(color)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the fill color of a drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>color - A table containing color component values between 0.0 and 1.0 for each of the keys:
+
+<ul>
+<li>red</li>
+<li>green</li>
+<li>blue</li>
+<li>alpha</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be used on line and circle drawing objects</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setStroke">
+    <a name="//apple_ref/cpp/Method/setStroke" class="dashAnchor"></a>
+    <h3><a href="#setStroke">setStroke</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:setStroke(doStroke)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets whether or not to stroke a drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>doStroke - A boolean, true to stroke the drawing object, false to not stroke</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be used on line and circle drawing objects</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setStrokeColor">
+    <a name="//apple_ref/cpp/Method/setStrokeColor" class="dashAnchor"></a>
+    <h3><a href="#setStrokeColor">setStrokeColor</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:setStrokeColor(color)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the stroke color of a drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>color - A table containing color component values between 0.0 and 1.0 for each of the keys:
+
+<ul>
+<li>red</li>
+<li>green</li>
+<li>blue</li>
+<li>alpha</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be used on line and circle drawing objects</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setStrokeWidth">
+    <a name="//apple_ref/cpp/Method/setStrokeWidth" class="dashAnchor"></a>
+    <h3><a href="#setStrokeWidth">setStrokeWidth</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:setStrokeWidth(width)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the stroke width of a drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>width - A number containing the width in points to stroke a drawing object</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be used on line and circle drawing objects</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setText">
+    <a name="//apple_ref/cpp/Method/setText" class="dashAnchor"></a>
+    <h3><a href="#setText">setText</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:setText(message)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the text of a drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>message - A string containing the text to display</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be used on text drawing objects</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setTextColor">
+    <a name="//apple_ref/cpp/Method/setTextColor" class="dashAnchor"></a>
+    <h3><a href="#setTextColor">setTextColor</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:setTextColor(color)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the text color of a drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>color - A table containing color component values between 0.0 and 1.0 for each of the keys:
+
+<ul>
+<li>red</li>
+<li>green</li>
+<li>blue</li>
+<li>alpha</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be called on text drawing objects</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setTextSize">
+    <a name="//apple_ref/cpp/Method/setTextSize" class="dashAnchor"></a>
+    <h3><a href="#setTextSize">setTextSize</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:setTextSize(size)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the text size of a drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>size - A number containing the font size to use</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be used on text drawing objects</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="show">
+    <a name="//apple_ref/cpp/Method/show" class="dashAnchor"></a>
+    <h3><a href="#show">show</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.drawing:show()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Displays the drawing object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

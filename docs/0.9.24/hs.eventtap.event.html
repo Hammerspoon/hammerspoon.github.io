@@ -1,0 +1,665 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.eventtap.event module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.eventtap.event</h1>
+      <p>Create, modify and inspect events for <code>hs.eventtap</code></p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Constants - Useful values which cannot be changed</li>
+                    <ul>
+                
+        <li><a href="#properties">properties</a></li>
+        
+        <li><a href="#types">types</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#copy">copy</a></li>
+        
+        <li><a href="#newKeyEvent">newKeyEvent</a></li>
+        
+        <li><a href="#newMouseEvent">newMouseEvent</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#getButtonState">getButtonState</a></li>
+        
+        <li><a href="#getFlags">getFlags</a></li>
+        
+        <li><a href="#getKeyCode">getKeyCode</a></li>
+        
+        <li><a href="#getProperty">getProperty</a></li>
+        
+        <li><a href="#getType">getType</a></li>
+        
+        <li><a href="#post">post</a></li>
+        
+        <li><a href="#setFlags">setFlags</a></li>
+        
+        <li><a href="#setKeyCode">setKeyCode</a></li>
+        
+        <li><a href="#setProperty">setProperty</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Constants</h3>
+                
+
+    <section id="properties">
+    <a name="//apple_ref/cpp/Constant/properties" class="dashAnchor"></a>
+    <h3><a href="#properties">properties</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event.properties -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A table for use with <code>hs.eventtap.event:getProperty()</code> and <code>hs.eventtap.event:setProperty()</code>; contains the following keys:</p>
+
+<ul>
+<li>MouseEventNumber</li>
+<li>MouseEventClickState</li>
+<li>MouseEventPressure</li>
+<li>MouseEventButtonNumber</li>
+<li>MouseEventDeltaX</li>
+<li>MouseEventDeltaY</li>
+<li>MouseEventInstantMouser</li>
+<li>MouseEventSubtype</li>
+<li>KeyboardEventAutorepeat</li>
+<li>KeyboardEventKeycode</li>
+<li>KeyboardEventKeyboardType</li>
+<li>ScrollWheelEventDeltaAxis1</li>
+<li>ScrollWheelEventDeltaAxis2</li>
+<li>ScrollWheelEventDeltaAxis3</li>
+<li>ScrollWheelEventFixedPtDeltaAxis1</li>
+<li>ScrollWheelEventFixedPtDeltaAxis2</li>
+<li>ScrollWheelEventFixedPtDeltaAxis3</li>
+<li>ScrollWheelEventPointDeltaAxis1</li>
+<li>ScrollWheelEventPointDeltaAxis2</li>
+<li>ScrollWheelEventPointDeltaAxis3</li>
+<li>ScrollWheelEventInstantMouser</li>
+<li>TabletEventPointX</li>
+<li>TabletEventPointY</li>
+<li>TabletEventPointZ</li>
+<li>TabletEventPointButtons</li>
+<li>TabletEventPointPressure</li>
+<li>TabletEventTiltX</li>
+<li>TabletEventTiltY</li>
+<li>TabletEventRotation</li>
+<li>TabletEventTangentialPressure</li>
+<li>TabletEventDeviceID</li>
+<li>TabletEventVendor1</li>
+<li>TabletEventVendor2</li>
+<li>TabletEventVendor3</li>
+<li>TabletProximityEventVendorID</li>
+<li>TabletProximityEventTabletID</li>
+<li>TabletProximityEventPointerID</li>
+<li>TabletProximityEventDeviceID</li>
+<li>TabletProximityEventSystemTabletID</li>
+<li>TabletProximityEventVendorPointerType</li>
+<li>TabletProximityEventVendorPointerSerialNumber</li>
+<li>TabletProximityEventVendorUniqueID</li>
+<li>TabletProximityEventCapabilityMask</li>
+<li>TabletProximityEventPointerType</li>
+<li>TabletProximityEventEnterProximity</li>
+<li>EventTargetProcessSerialNumber</li>
+<li>EventTargetUnixProcessID</li>
+<li>EventSourceUnixProcessID</li>
+<li>EventSourceUserData</li>
+<li>EventSourceUserID</li>
+<li>EventSourceGroupID</li>
+<li>EventSourceStateID</li>
+<li>ScrollWheelEventIsContinuous</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="types">
+    <a name="//apple_ref/cpp/Constant/types" class="dashAnchor"></a>
+    <h3><a href="#types">types</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event.types -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A table for use with <code>hs.eventtap.new()</code>, containing the following keys:<br>
+   keydown, keyup,<br>
+   leftmousedown, leftmouseup, leftmousedragged,<br>
+   rightmousedown, rightmouseup, rightmousedragged,<br>
+   middlemousedown, middlemouseup, middlemousedragged,<br>
+   mousemoved, flagschanged, scrollwheel,<br>
+   tabletpointer, tabletproximity,<br>
+   nullevent, tapdisabledbytimeout, tapdisabledbyuserinput</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Constructors</h3>
+                
+
+    <section id="copy">
+    <a name="//apple_ref/cpp/Constructor/copy" class="dashAnchor"></a>
+    <h3><a href="#copy">copy</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:copy() -> event</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Duplicateis an <code>hs.eventtap.event</code> event for further modification or injection</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A new <code>hs.eventtap.event</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="newKeyEvent">
+    <a name="//apple_ref/cpp/Constructor/newKeyEvent" class="dashAnchor"></a>
+    <h3><a href="#newKeyEvent">newKeyEvent</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event.newKeyEvent(mods, key, isdown) -> event</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a keyboard event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>mods - A table containing zero or more of the following keys, with a corresponding value of true:
+
+<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul></li>
+<li>key - A string containing the name of a key (see <code>hs.hotkey</code> for more information)</li>
+<li>isdown - A boolean, true if the event should be a key-down, false if it should be a key-up</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.eventtap.event</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="newMouseEvent">
+    <a name="//apple_ref/cpp/Constructor/newMouseEvent" class="dashAnchor"></a>
+    <h3><a href="#newMouseEvent">newMouseEvent</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event.newMouseEvent(eventtype, point) -> event</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new mouse event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>eventtype - One of the values from <code>hs.eventtap.event.types</code></li>
+<li>point - A table with keys <code>{x, y}</code> indicating the location where the mouse event should occur</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.eventtap</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Methods</h3>
+                
+
+    <section id="getButtonState">
+    <a name="//apple_ref/cpp/Method/getButtonState" class="dashAnchor"></a>
+    <h3><a href="#getButtonState">getButtonState</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:getButtonState(button) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the state of a mouse button in the event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>button - A number between 0 and 31. The left mouse button is 0, the right mouse button is 1 and the middle mouse button is 2. The meaning of the remaining buttons varies by hardware, and their functionality varies by application (typically they are not present on a mouse and have no effect in an application)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the specified mouse button is to be clicked by the event</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be called on mouse events</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getFlags">
+    <a name="//apple_ref/cpp/Method/getFlags" class="dashAnchor"></a>
+    <h3><a href="#getFlags">getFlags</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:getFlags() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the keyboard modifiers of an event</p>
+
+<p>Parametes:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the keyboard modifiers that present in the event - i.e. zero or more of the following keys, each with a value of <code>true</code>:
+
+<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getKeyCode">
+    <a name="//apple_ref/cpp/Method/getKeyCode" class="dashAnchor"></a>
+    <h3><a href="#getKeyCode">getKeyCode</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:getKeyCode() -> keycode</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the raw keycode for the event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the raw keycode, taken from <code>hs.keycodes.map</code></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be used on keyboard events</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getProperty">
+    <a name="//apple_ref/cpp/Method/getProperty" class="dashAnchor"></a>
+    <h3><a href="#getProperty">getProperty</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:getProperty(prop) -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets a property of the event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>prop - A value taken from <code>hs.eventtap.event.properties</code></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the value of the requested property</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The properties are <code>CGEventField</code> values, as documented at <a href="https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/index.html#//apple_ref/c/tdef/CGEventField">https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/index.html#//apple_ref/c/tdef/CGEventField</a></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getType">
+    <a name="//apple_ref/cpp/Method/getType" class="dashAnchor"></a>
+    <h3><a href="#getType">getType</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:getType() -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the type of the event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the type of the event, taken from <code>hs.eventtap.event.types</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="post">
+    <a name="//apple_ref/cpp/Method/post" class="dashAnchor"></a>
+    <h3><a href="#post">post</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:post([app])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Posts the event to the OS - i.e. emits the keyboard/mouse input defined by the event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>app - An optional <code>hs.application</code> object. If specified, the event will only be sent to that application</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setFlags">
+    <a name="//apple_ref/cpp/Method/setFlags" class="dashAnchor"></a>
+    <h3><a href="#setFlags">setFlags</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:setFlags(table)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the keyboard modifiers of an event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>A table containing the keyboard modifiers to be sent with the event - i.e. zero or more of the following keys, each with a value of <code>true</code>:
+
+<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setKeyCode">
+    <a name="//apple_ref/cpp/Method/setKeyCode" class="dashAnchor"></a>
+    <h3><a href="#setKeyCode">setKeyCode</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:setKeyCode(keycode)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the raw keycode for the event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>keycode - A number containing a raw keycode, taken from <code>hs.keycodes.map</code></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method should only be used on keyboard events</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setProperty">
+    <a name="//apple_ref/cpp/Method/setProperty" class="dashAnchor"></a>
+    <h3><a href="#setProperty">setProperty</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.event:setProperty(prop, value)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets a property of the event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>prop - A value from <code>hs.eventtap.event.properties</code></li>
+<li>value - A number containing the value of the specified property</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The properties are <code>CGEventField</code> values, as documented at <a href="https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/index.html#//apple_ref/c/tdef/CGEventField">https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/index.html#//apple_ref/c/tdef/CGEventField</a></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

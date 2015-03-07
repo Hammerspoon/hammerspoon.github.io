@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hammerspoon docs: hs.timer module</title>
+    <title>Hammerspoon docs: hs.application.watcher module</title>
     <style type="text/css">
       a { text-decoration: none; }
       a:hover { text-decoration: underline; }
@@ -13,8 +13,8 @@
   </head>
   <body>
     <header>
-      <h1>hs.timer</h1>
-      <p>Execute functions with various timing rules</p>
+      <h1>hs.application.watcher</h1>
+      <p>Watch for application launch/terminate events</p>
 
 <p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
 
@@ -22,20 +22,22 @@
       <h2>API Overview</h2>
       <ul>
     
-                <li>Functions - API calls offered directly by the extension</li>
+                <li>Constants - Useful values which cannot be changed</li>
                     <ul>
                 
-        <li><a href="#days">days</a></li>
+        <li><a href="#activated">activated</a></li>
         
-        <li><a href="#doAfter">doAfter</a></li>
+        <li><a href="#deactivated">deactivated</a></li>
         
-        <li><a href="#hours">hours</a></li>
+        <li><a href="#hidden">hidden</a></li>
         
-        <li><a href="#minutes">minutes</a></li>
+        <li><a href="#launched">launched</a></li>
         
-        <li><a href="#usleep">usleep</a></li>
+        <li><a href="#launching">launching</a></li>
         
-        <li><a href="#weeks">weeks</a></li>
+        <li><a href="#terminated">terminated</a></li>
+        
+        <li><a href="#unhidden">unhidden</a></li>
         
                 </ul>
                 
@@ -58,37 +60,25 @@
     </ul>
     <h2>API Documentation</h2>
     
-                <h3>Functions</h3>
+                <h3>Constants</h3>
                 
 
-    <section id="days">
-    <a name="//apple_ref/cpp/Function/days" class="dashAnchor"></a>
-    <h3><a href="#days">days</a></h3>
+    <section id="activated">
+    <a name="//apple_ref/cpp/Constant/activated" class="dashAnchor"></a>
+    <h3><a href="#activated">activated</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.days(n) -> sec</code></td>
+            <td><code>hs.application.watcher.activated</code></td>
         </tr>
         <tr>
             <th>Type</td>
-            <td>Function</td>
+            <td>Constant</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>Converts days to seconds</p>
-
-<p>Parameters:</p>
-
-<ul>
-<li>n - A number of days</li>
-</ul>
-
-<p>Returns:</p>
-
-<ul>
-<li>The number of seconds in n days</li>
-</ul>
+                <p>An application has been activated (i.e. given keyboard/mouse focus)</p>
 
             </td>
         </tr>
@@ -96,35 +86,22 @@
     </section>
 
 
-    <section id="doAfter">
-    <a name="//apple_ref/cpp/Function/doAfter" class="dashAnchor"></a>
-    <h3><a href="#doAfter">doAfter</a></h3>
+    <section id="deactivated">
+    <a name="//apple_ref/cpp/Constant/deactivated" class="dashAnchor"></a>
+    <h3><a href="#deactivated">deactivated</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.doAfter(sec, fn) -> timer</code></td>
+            <td><code>hs.application.watcher.deactivated</code></td>
         </tr>
         <tr>
             <th>Type</td>
-            <td>Function</td>
+            <td>Constant</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>Calls a function after a delay</p>
-
-<p>Parameters:</p>
-
-<ul>
-<li>sec - A number of seconds to wait before calling the function</li>
-<li>fn - The function to call</li>
-</ul>
-
-<p>Returns:</p>
-
-<ul>
-<li>None</li>
-</ul>
+                <p>An application has been deactivated (i.e. lost keyboard/mouse focus)</p>
 
             </td>
         </tr>
@@ -132,34 +109,22 @@
     </section>
 
 
-    <section id="hours">
-    <a name="//apple_ref/cpp/Function/hours" class="dashAnchor"></a>
-    <h3><a href="#hours">hours</a></h3>
+    <section id="hidden">
+    <a name="//apple_ref/cpp/Constant/hidden" class="dashAnchor"></a>
+    <h3><a href="#hidden">hidden</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.hours(n) -> seconds</code></td>
+            <td><code>hs.application.watcher.hidden</code></td>
         </tr>
         <tr>
             <th>Type</td>
-            <td>Function</td>
+            <td>Constant</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>Converts hours to seconds</p>
-
-<p>Parameters:</p>
-
-<ul>
-<li>n - A number of hours</li>
-</ul>
-
-<p>Returns:</p>
-
-<ul>
-<li>The number of seconds in n hours</li>
-</ul>
+                <p>An application has been hidden</p>
 
             </td>
         </tr>
@@ -167,34 +132,22 @@
     </section>
 
 
-    <section id="minutes">
-    <a name="//apple_ref/cpp/Function/minutes" class="dashAnchor"></a>
-    <h3><a href="#minutes">minutes</a></h3>
+    <section id="launched">
+    <a name="//apple_ref/cpp/Constant/launched" class="dashAnchor"></a>
+    <h3><a href="#launched">launched</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.minutes(n) -> seconds</code></td>
+            <td><code>hs.application.watcher.launched</code></td>
         </tr>
         <tr>
             <th>Type</td>
-            <td>Function</td>
+            <td>Constant</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>Converts minutes to seconds</p>
-
-<p>Parameters:</p>
-
-<ul>
-<li>n - A number of minutes</li>
-</ul>
-
-<p>Returns:</p>
-
-<ul>
-<li>The number of seconds in n minutes</li>
-</ul>
+                <p>An application has been launched</p>
 
             </td>
         </tr>
@@ -202,40 +155,22 @@
     </section>
 
 
-    <section id="usleep">
-    <a name="//apple_ref/cpp/Function/usleep" class="dashAnchor"></a>
-    <h3><a href="#usleep">usleep</a></h3>
+    <section id="launching">
+    <a name="//apple_ref/cpp/Constant/launching" class="dashAnchor"></a>
+    <h3><a href="#launching">launching</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.usleep(microsecs)</code></td>
+            <td><code>hs.application.watcher.launching</code></td>
         </tr>
         <tr>
             <th>Type</td>
-            <td>Function</td>
+            <td>Constant</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>Blocks Lua execution for the specified time</p>
-
-<p>Parameters:</p>
-
-<ul>
-<li>microsecs - A number containing a time in microseconds to block for</li>
-</ul>
-
-<p>Returns:</p>
-
-<ul>
-<li>None</li>
-</ul>
-
-<p>Notes:</p>
-
-<ul>
-<li>Use of this function is strongly discouraged, as it blocks all main-thread execution in Hammerspoon. This means no hotkeys or events will be processed in that time. This is only provided as a last resort, or for extremely short sleeps. For all other purposes, you really should be splitting up your code into multiple functions and calling <code>hs.timer.doAfter()</code></li>
-</ul>
+                <p>An application is in the process of being launched</p>
 
             </td>
         </tr>
@@ -243,34 +178,45 @@
     </section>
 
 
-    <section id="weeks">
-    <a name="//apple_ref/cpp/Function/weeks" class="dashAnchor"></a>
-    <h3><a href="#weeks">weeks</a></h3>
+    <section id="terminated">
+    <a name="//apple_ref/cpp/Constant/terminated" class="dashAnchor"></a>
+    <h3><a href="#terminated">terminated</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.weeks(n) -> sec</code></td>
+            <td><code>hs.application.watcher.terminated</code></td>
         </tr>
         <tr>
             <th>Type</td>
-            <td>Function</td>
+            <td>Constant</td>
         </tr>
         <tr>
             <th>Description</td>
             <td>
-                <p>Converts weeks to seconds</p>
+                <p>An application has been terminated</p>
 
-<p>Parameters:</p>
+            </td>
+        </tr>
+    </table>
+    </section>
 
-<ul>
-<li>n - A number of weeks</li>
-</ul>
 
-<p>Returns:</p>
-
-<ul>
-<li>The number of seconds in n weeks</li>
-</ul>
+    <section id="unhidden">
+    <a name="//apple_ref/cpp/Constant/unhidden" class="dashAnchor"></a>
+    <h3><a href="#unhidden">unhidden</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.application.watcher.unhidden</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>An application has been unhidden</p>
 
             </td>
         </tr>
@@ -286,7 +232,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.new(interval, fn) -> timer</code></td>
+            <td><code>hs.application.watcher.new(fn) -> watcher</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -295,25 +241,30 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Creates a new <code>hs.timer</code> object for repeating interval callbacks</p>
+                <p>Creates an application event watcher</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>interval - A number of seconds between triggers</li>
-<li>fn - A function to call every time the timer triggers</li>
+<li>fn - A function that will be called when application events happen. It should accept three parameters:
+
+<ul>
+<li>A string containing the name of the application</li>
+<li>An event type (see the constants defined above)</li>
+<li>An <code>hs.application</code> object representing the application</li>
+</ul></li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>An <code>hs.timer</code> object</li>
+<li>An <code>hs.application.watcher</code> object</li>
 </ul>
 
 <p>Notes:</p>
 
 <ul>
-<li>The returned object does not start its timer until its <code>:start()</code> method is called</li>
+<li>If the function is called with an event type of <code>hs.application.watcher.terminated</code> then the application name parameter will be <code>nil</code> and the <code>hs.application</code> parameter, will only be useful for getting the UNIX process ID (i.e. the PID) of the application</li>
 </ul>
 
             </td>
@@ -330,7 +281,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer:start() -> timer</code></td>
+            <td><code>hs.application.watcher:start()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -339,7 +290,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Starts an <code>hs.timer</code> object</p>
+                <p>Starts the application watcher</p>
 
 <p>Parameters:</p>
 
@@ -350,13 +301,7 @@
 <p>Returns:</p>
 
 <ul>
-<li>The <code>hs.timer</code> object</li>
-</ul>
-
-<p>Notes:</p>
-
-<ul>
-<li>The timer will not call the callback immediately, it waits until the first trigger of the timer</li>
+<li>None</li>
 </ul>
 
             </td>
@@ -371,7 +316,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer:stop() -> timer</code></td>
+            <td><code>hs.application.watcher:stop()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -380,7 +325,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Stops an <code>hs.timer</code> object</p>
+                <p>Stops the application watcher</p>
 
 <p>Parameters:</p>
 
@@ -391,7 +336,7 @@
 <p>Returns:</p>
 
 <ul>
-<li>The <code>hs.timer</code> object</li>
+<li>None</li>
 </ul>
 
             </td>

@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hammerspoon docs: hs.timer module</title>
+    <title>Hammerspoon docs: hs.eventtap module</title>
     <style type="text/css">
       a { text-decoration: none; }
       a:hover { text-decoration: underline; }
@@ -13,8 +13,9 @@
   </head>
   <body>
     <header>
-      <h1>hs.timer</h1>
-      <p>Execute functions with various timing rules</p>
+      <h1>hs.eventtap</h1>
+      <p>Tap into input events (mouse, keyboard, trackpad) for observation and possibly overriding them<br>
+It also provides convenience wrappers for sending mouse and keyboard events. If you need to construct finely controlled mouse/keyboard events, see hs.eventtap.event</p>
 
 <p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
 
@@ -25,17 +26,13 @@
                 <li>Functions - API calls offered directly by the extension</li>
                     <ul>
                 
-        <li><a href="#days">days</a></li>
+        <li><a href="#keyStrokes">keyStrokes</a></li>
         
-        <li><a href="#doAfter">doAfter</a></li>
+        <li><a href="#leftClick">leftClick</a></li>
         
-        <li><a href="#hours">hours</a></li>
+        <li><a href="#middleClick">middleClick</a></li>
         
-        <li><a href="#minutes">minutes</a></li>
-        
-        <li><a href="#usleep">usleep</a></li>
-        
-        <li><a href="#weeks">weeks</a></li>
+        <li><a href="#rightClick">rightClick</a></li>
         
                 </ul>
                 
@@ -61,13 +58,13 @@
                 <h3>Functions</h3>
                 
 
-    <section id="days">
-    <a name="//apple_ref/cpp/Function/days" class="dashAnchor"></a>
-    <h3><a href="#days">days</a></h3>
+    <section id="keyStrokes">
+    <a name="//apple_ref/cpp/Function/keyStrokes" class="dashAnchor"></a>
+    <h3><a href="#keyStrokes">keyStrokes</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.days(n) -> sec</code></td>
+            <td><code>hs.eventtap.keyStrokes(modifiers, text)</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -76,48 +73,13 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Converts days to seconds</p>
+                <p>Generates and emits keystroke events for the supplied keyboard modifiers and text</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>n - A number of days</li>
-</ul>
-
-<p>Returns:</p>
-
-<ul>
-<li>The number of seconds in n days</li>
-</ul>
-
-            </td>
-        </tr>
-    </table>
-    </section>
-
-
-    <section id="doAfter">
-    <a name="//apple_ref/cpp/Function/doAfter" class="dashAnchor"></a>
-    <h3><a href="#doAfter">doAfter</a></h3>
-    <table>
-        <tr>
-            <th>Signature</td>
-            <td><code>hs.timer.doAfter(sec, fn) -> timer</code></td>
-        </tr>
-        <tr>
-            <th>Type</td>
-            <td>Function</td>
-        </tr>
-        <tr>
-            <th>Description</td>
-            <td>
-                <p>Calls a function after a delay</p>
-
-<p>Parameters:</p>
-
-<ul>
-<li>sec - A number of seconds to wait before calling the function</li>
-<li>fn - The function to call</li>
+<li>modifiers - A table containing the keyboard modifiers to apply (&quot;fn&quot;, &quot;ctrl&quot;, &quot;alt&quot;, &quot;cmd&quot;, &quot;shift&quot;, &quot;fn&quot;, or their Unicode equivalents)</li>
+<li>text - A string containing the text that should be broken down into individual keystroke events. This can be a single character, or many</li>
 </ul>
 
 <p>Returns:</p>
@@ -132,13 +94,13 @@
     </section>
 
 
-    <section id="hours">
-    <a name="//apple_ref/cpp/Function/hours" class="dashAnchor"></a>
-    <h3><a href="#hours">hours</a></h3>
+    <section id="leftClick">
+    <a name="//apple_ref/cpp/Function/leftClick" class="dashAnchor"></a>
+    <h3><a href="#leftClick">leftClick</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.hours(n) -> seconds</code></td>
+            <td><code>hs.eventtap.leftClick(point)</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -147,82 +109,12 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Converts hours to seconds</p>
+                <p>Generates a left mouse click event at the specified point</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>n - A number of hours</li>
-</ul>
-
-<p>Returns:</p>
-
-<ul>
-<li>The number of seconds in n hours</li>
-</ul>
-
-            </td>
-        </tr>
-    </table>
-    </section>
-
-
-    <section id="minutes">
-    <a name="//apple_ref/cpp/Function/minutes" class="dashAnchor"></a>
-    <h3><a href="#minutes">minutes</a></h3>
-    <table>
-        <tr>
-            <th>Signature</td>
-            <td><code>hs.timer.minutes(n) -> seconds</code></td>
-        </tr>
-        <tr>
-            <th>Type</td>
-            <td>Function</td>
-        </tr>
-        <tr>
-            <th>Description</td>
-            <td>
-                <p>Converts minutes to seconds</p>
-
-<p>Parameters:</p>
-
-<ul>
-<li>n - A number of minutes</li>
-</ul>
-
-<p>Returns:</p>
-
-<ul>
-<li>The number of seconds in n minutes</li>
-</ul>
-
-            </td>
-        </tr>
-    </table>
-    </section>
-
-
-    <section id="usleep">
-    <a name="//apple_ref/cpp/Function/usleep" class="dashAnchor"></a>
-    <h3><a href="#usleep">usleep</a></h3>
-    <table>
-        <tr>
-            <th>Signature</td>
-            <td><code>hs.timer.usleep(microsecs)</code></td>
-        </tr>
-        <tr>
-            <th>Type</td>
-            <td>Function</td>
-        </tr>
-        <tr>
-            <th>Description</td>
-            <td>
-                <p>Blocks Lua execution for the specified time</p>
-
-<p>Parameters:</p>
-
-<ul>
-<li>microsecs - A number containing a time in microseconds to block for</li>
+<li>point - A table with keys <code>{x, y}</code> indicating the location where the mouse event should occur</li>
 </ul>
 
 <p>Returns:</p>
@@ -234,7 +126,7 @@
 <p>Notes:</p>
 
 <ul>
-<li>Use of this function is strongly discouraged, as it blocks all main-thread execution in Hammerspoon. This means no hotkeys or events will be processed in that time. This is only provided as a last resort, or for extremely short sleeps. For all other purposes, you really should be splitting up your code into multiple functions and calling <code>hs.timer.doAfter()</code></li>
+<li>This is a wrapper around <code>hs.eventtap.event.newMouseEvent</code> that sends <code>leftmousedown</code> and <code>leftmouseup</code> events)</li>
 </ul>
 
             </td>
@@ -243,13 +135,13 @@
     </section>
 
 
-    <section id="weeks">
-    <a name="//apple_ref/cpp/Function/weeks" class="dashAnchor"></a>
-    <h3><a href="#weeks">weeks</a></h3>
+    <section id="middleClick">
+    <a name="//apple_ref/cpp/Function/middleClick" class="dashAnchor"></a>
+    <h3><a href="#middleClick">middleClick</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.weeks(n) -> sec</code></td>
+            <td><code>hs.eventtap.middleClick(point)</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -258,18 +150,65 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Converts weeks to seconds</p>
+                <p>Generates a middle mouse click event at the specified point</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>n - A number of weeks</li>
+<li>point - A table with keys <code>{x, y}</code> indicating the location where the mouse event should occur</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>The number of seconds in n weeks</li>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is a wrapper around <code>hs.eventtap.event.newMouseEvent</code> that sends <code>middlemousedown</code> and <code>middlemouseup</code> events)</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="rightClick">
+    <a name="//apple_ref/cpp/Function/rightClick" class="dashAnchor"></a>
+    <h3><a href="#rightClick">rightClick</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.eventtap.rightClick(point)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Generates a right mouse click event at the specified point</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>point - A table with keys <code>{x, y}</code> indicating the location where the mouse event should occur</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is a wrapper around <code>hs.eventtap.event.newMouseEvent</code> that sends <code>rightmousedown</code> and <code>rightmouseup</code> events)</li>
 </ul>
 
             </td>
@@ -286,7 +225,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer.new(interval, fn) -> timer</code></td>
+            <td><code>hs.eventtap.new(types, fn) -> eventtap</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -295,25 +234,25 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Creates a new <code>hs.timer</code> object for repeating interval callbacks</p>
+                <p>Create a new event tap object</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>interval - A number of seconds between triggers</li>
-<li>fn - A function to call every time the timer triggers</li>
+<li>types - A table that should contain values from <code>hs.eventtap.event.types</code></li>
+<li>fn - A function that will be called when the specified event types occur. The function should take a single parameter, which will be an event object. It can optionally return two values. Firstly, a boolean, true if the event should be deleted, false if it should propagate to any other applications watching for that event. Secondly, a table of events to post.</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>An <code>hs.timer</code> object</li>
+<li>An event tap object</li>
 </ul>
 
 <p>Notes:</p>
 
 <ul>
-<li>The returned object does not start its timer until its <code>:start()</code> method is called</li>
+<li>If you specify the argument <code>types</code> as the special table {&quot;all&quot;[, events to ignore]}, then <em>all</em> events (except those you optionally list <em>after</em> the &quot;all&quot; string) will trigger a callback, even events which are not defined in the <a href="https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/Reference/reference.html">Quartz Event Reference</a>.</li>
 </ul>
 
             </td>
@@ -330,7 +269,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer:start() -> timer</code></td>
+            <td><code>hs.eventtap:start()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -339,7 +278,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Starts an <code>hs.timer</code> object</p>
+                <p>Starts an event tap</p>
 
 <p>Parameters:</p>
 
@@ -350,13 +289,7 @@
 <p>Returns:</p>
 
 <ul>
-<li>The <code>hs.timer</code> object</li>
-</ul>
-
-<p>Notes:</p>
-
-<ul>
-<li>The timer will not call the callback immediately, it waits until the first trigger of the timer</li>
+<li>None</li>
 </ul>
 
             </td>
@@ -371,7 +304,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.timer:stop() -> timer</code></td>
+            <td><code>hs.eventtap:stop()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -380,7 +313,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Stops an <code>hs.timer</code> object</p>
+                <p>Stops an event tap</p>
 
 <p>Parameters:</p>
 
@@ -391,7 +324,7 @@
 <p>Returns:</p>
 
 <ul>
-<li>The <code>hs.timer</code> object</li>
+<li>None</li>
 </ul>
 
             </td>

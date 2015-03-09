@@ -1,3 +1,7 @@
+---
+layout: default
+title: Contributors
+---
 #Hammerspoon Crash Data Privacy Policy
 
 ## Facts
@@ -13,9 +17,7 @@
 * Your Hammerspoon configuration (i.e. `init.lua`) is not collected or transmitted, nor is any personal data that may be stored by Hammerspoon (e.g. the contents of your clipboard, or the contents of Lua variables)
 * You can read the Crashlytics Privacy Policy at [their website](https://github.com/Hammerspoon/hammerspoon/issues/139#issuecomment-77907712)
 
-## Rationale
-
-### Why do we do this?
+## Why do we do this?
  * It is very important to us that Hammerspoon contain as few bugs as possible, particularly ones which case it to crash
  * We need your help to make this happen, so we collect low level information about which part of Hammerspoon has caused a crash, so we can fix it
 

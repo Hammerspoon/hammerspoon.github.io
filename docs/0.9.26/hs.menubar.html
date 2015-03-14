@@ -1,0 +1,391 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.menubar module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.menubar</h1>
+      <p>Create and manage menubar icons</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#delete">delete</a></li>
+        
+        <li><a href="#setClickCallback">setClickCallback</a></li>
+        
+        <li><a href="#setIcon">setIcon</a></li>
+        
+        <li><a href="#setMenu">setMenu</a></li>
+        
+        <li><a href="#setTitle">setTitle</a></li>
+        
+        <li><a href="#setTooltip">setTooltip</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Constructors</h3>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+    <h3><a href="#new">new</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar.new() -> menubaritem or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new menu bar item object and add it to the system menubar</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>menubar item object to use with other API methods, or nil if it could not be created</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>You should call hs.menubar:setTitle() or hs.menubar:setIcon() after creatng the object, otherwise it will be invisible</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Methods</h3>
+                
+
+    <section id="delete">
+    <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+    <h3><a href="#delete">delete</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:delete()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Removes the menubar item from the menubar and destroys it</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setClickCallback">
+    <a name="//apple_ref/cpp/Method/setClickCallback" class="dashAnchor"></a>
+    <h3><a href="#setClickCallback">setClickCallback</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:setClickCallback(fn)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Registers a function to be called when the menubar item is clicked</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>fn</code> - A function to be called when the menubar item is clicked. If the argument is <code>nil</code>, any existing function will be removed. The function can optionally accept a single argument, which will be a table containing boolean values indicating which keyboard modifiers were held down when the menubar item was clicked; The possible keys are:
+
+<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If a menu has been attached to the menubar item, this callback will never be called</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setIcon">
+    <a name="//apple_ref/cpp/Method/setIcon" class="dashAnchor"></a>
+    <h3><a href="#setIcon">setIcon</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:setIcon(iconfilepath) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the image of a menubar item object. The image will be displayed in the system menubar</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>iconfilepath</code> - A filesystem path to an image to be used for the icon</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li><code>true</code> if the image was loaded and set, <code>nil</code> if it could not be found or loaded</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If you set a title as well as an icon, they will both be displayed next to each other</li>
+<li>Icons should be small, transparent images that roughly match the size of normal menubar icons, otherwise they will look very strange</li>
+<li>Retina scaling is supported if the image is either scalable (e.g. a PDF produced by Adobe Illustrator) or contain multiple sizes (e.g. a TIFF with small and large images). Images will not automatically do the right thing if you have a @2x version present</li>
+<li>Icons are specified as &quot;templates&quot;, which allows them to automatically support OS X 10.10&#39;s Dark Mode, but this also means they cannot be complicated, colour images</li>
+<li>For examples of images that work well, see Hammerspoon.app/Contents/Resources/statusicon.tiff (for a retina-capable multi-image TIFF icon) or <a href="https://github.com/jigish/slate/blob/master/Slate/status.pdf">https://github.com/jigish/slate/blob/master/Slate/status.pdf</a> (for a scalable vector PDF icon)</li>
+<li>For guidelines on the sizing of images, see <a href="http://alastairs-place.net/blog/2013/07/23/nsstatusitem-what-size-should-your-icon-be/">http://alastairs-place.net/blog/2013/07/23/nsstatusitem-what-size-should-your-icon-be/</a></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setMenu">
+    <a name="//apple_ref/cpp/Method/setMenu" class="dashAnchor"></a>
+    <h3><a href="#setMenu">setMenu</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:setMenu(menuTable)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Attaches a dropdown menu to the menubar item</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>menuTable</code>:
+
+<ul>
+<li>If this argument is <code>nil</code>:
+
+<ul>
+<li>Removes any previously registered menu</li>
+</ul></li>
+<li>If this argument is a table:
+
+<ul>
+<li>Sets the menu for this menubar item to the supplied table. The format of the table is documented below</li>
+</ul></li>
+<li>If this argument is a function:
+
+<ul>
+<li>The function will be called each time the user clicks on the menubar item and the function should return a table that specifies the menu to be displayed. The table should be of the same format as described below. The function can optionally accept a single argument, which will be a table containing boolean values indicating which keyboard modifiers were held down when the menubar item was clicked; The possible keys are:
+
+<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>Table Format:</p>
+
+<pre><code>   {
+       { title = &quot;my menu item&quot;, fn = function() print(&quot;you clicked my menu item!&quot;) end },
+       { title = &quot;-&quot; },
+       { title = &quot;other item&quot;, fn = some_function },
+       { title = &quot;disabled item&quot;, disabled = true },
+       { title = &quot;checked item&quot;, checked = true },
+   }
+</code></pre>
+
+<ul>
+<li>The available keys for each menu item are:
+
+<ul>
+<li><code>title</code> - A string to be displayed in the menu. If this is the special string <code>&quot;-&quot;</code> the item will be rendered as a menu separator</li>
+<li><code>fn</code> - A function to be executed when the menu item is clicked</li>
+<li><code>checked</code> - A boolean to indicate if the menu item should have a checkmark next to it or not. Defaults to false</li>
+<li><code>disabled</code> - A boolean to indicate if the menu item should be unselectable or not. Defaults to false (i.e. menu items are selectable by default)</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If you are using the callback function, you should take care not to take too long to generate the menu, as you will block the process and the OS may decide to remove the menubar item</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setTitle">
+    <a name="//apple_ref/cpp/Method/setTitle" class="dashAnchor"></a>
+    <h3><a href="#setTitle">setTitle</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:setTitle(title)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the title of a menubar item object. The title will be displayed in the system menubar</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>title</code> - A string to use as the title</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If you set an icon as well as a title, they will both be displayed next to each other</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setTooltip">
+    <a name="//apple_ref/cpp/Method/setTooltip" class="dashAnchor"></a>
+    <h3><a href="#setTooltip">setTooltip</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:setTooltip(tooltip)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the tooltip text on a menubar item</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>tooltip</code> - A string to use as the tooltip</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

@@ -24,6 +24,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
 ## Table of Contents
 
  * [Hello World](#helloworld)
+ * [Fancier Hello World](#fancyhelloworld)
  * [Introduction to window movement](#winmoveintro)
  * [A quick aside on colon syntax](#colonsyntax)
  * [More complex window movement](#winmovenethack)
@@ -35,6 +36,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
  * [Creating a simple menubar item](#simplemenubar)
  * [Reacting to application events](#appevents)
  * [Reacting to wifi events](#wifievents)
+ * [Defeating paste-blocking](#pasteblock)
 
 ### <a name="helloworld"></a>Hello World
 
@@ -51,6 +53,18 @@ end)
 Then click on the Hammerspoon menubar icon and click `Reload Config`. You should now find that pressing <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>ctrl</kbd>+<kbd>W</kbd> will display a Hello World notification on your screen.
 
 What is happening here is that we're telling Hammerspoon to bind an anonymous function to a particular hotkey. The hotkey is specified by a table of modifier keys (<kbd>⌘</kbd>, <kbd>⌥</kbd> and <kbd>ctrl</kbd> in this case) and a normal key (<kbd>W</kbd>). An anonymous function is simply one that doesn't have a name. We could have defined the alert function separately with a name and passed that name to `hs.hotkey.bind()`, but Lua makes it easy to define the functions inline.
+
+### <a name="fancyhelloworld"></a>Fancier Hello World
+
+While `hs.alert` is useful, you might prefer to use the OS X native notifications instead, which you can do by simply modifying the previous example to:
+
+```lua
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
+  hs.notify.new({title="Hammerspoon", informativeText="Hello World"}):send():release()
+end)
+```
+
+It's possible to attach buttons to an `hs.notify` notification, but this is a simple example to get you started.
 
 ### <a name="winmoveintro"></a>Introduction to window movement
 
@@ -395,6 +409,16 @@ wifiWatcher:start()
 ```
 
 Here we have created a callback function that compares the current WiFi network's name to the previous network's name and examines whether we have moved from our pre-defined home network to something else, or vice versa, and then uses `hs.audiodevice` to adjust the system volume.
+
+### <a name="pasteblock"></a>Defeating paste blocking
+
+You may have noticed that some programs and websites try very hard to stop you from pasting in your password. They seem to think it makes them more secure, but in the age of strongly encrypted password managers, this is, of course, nonsense.
+
+Fortunately, we can route around their damage by emitting fake keyboard events to type the contents of the clipboard:
+
+```lua
+hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
+```
 
 # Credits
 

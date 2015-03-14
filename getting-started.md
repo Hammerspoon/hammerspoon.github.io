@@ -272,18 +272,28 @@ So we can now manually force a reload, but why should we even have to do that wh
 The following snippet introduces another new extension, `pathwatcher` which will allow us to automatically reload the config whenever the file changes:
 
 ```lua
-function reload_config(files)
-    hs.reload()
+function reloadConfig(files)
+    doReload = false
+    for _,file in pairs(files) do
+        if file:sub(-4) == ".lua" then
+            doReload = true
+        end
+    end
+    if doReload then
+        hs.reload()
+    end
 end
-hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reload_config):start()
+hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show("Config loaded")
 ```
 
 There are several things worth breaking down about this example. Firstly, we're using a Lua function called `os.getenv()` to fetch the `HOME` variable from your system's environment. This will tell us where your home directory is. We then use Lua's `..` operator to join that string to the part of the config file's path that we do know, the `/.hammerspoon/` part. This gives us the full path of Hammerspoon's configuration directory.
 
-We then create a new path watcher using this path, and tell it to call our `reload_config` function whenever something changes in the `.hammerspoon` directory. We then immediately call `start()` on the path watcher object, so it begins its work.
+We then create a new path watcher using this path, and tell it to call our `reloadConfig` function whenever something changes in the `.hammerspoon` directory. We then immediately call `start()` on the path watcher object, so it begins its work.
 
 In this example we've implemented the config reloading function as a separate, named function, which we pass as an argument to `hs.pathwatcher.new()`. It's entirely up to you whether you pass around named functions, or use anonymous ones in-line.
+
+This function accepts a single argument, which is a table containing all the names of files that have been modifier. It iterates over that list and checks each file to see if it ends with `.lua`. If any Lua files have been changed, it then tells Hammerspoon to destroy the current Lua setup and reload its configuration files.
 
 ### <a name="appmenus"></a>Interacting with application menus
 

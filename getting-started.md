@@ -516,7 +516,7 @@ wifiWatcher = hs.wifi.watcher.new(ssidChanged)
 wifiWatcher:start()
 ```
 
-As you doubtless noticed, this will send two messages to people whenever your Mac arrives at your favourite trendy coffee shop. You'll need to have iMessage configured and working for sending both iMessages and SMS (the latter via an iPhone using SMS Relay) for this to work.
+As you doubtless noticed, this will send two messages to people whenever your Mac arrives at your favourite trendy coffee shop. You'll need to have OS X's Messages app configured and working for sending both iMessages and SMS (the latter via an iPhone using SMS Relay) for this to work.
 
 # Credits
 

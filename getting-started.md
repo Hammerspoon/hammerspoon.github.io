@@ -40,6 +40,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
  * [Running AppleScript](#applescript)
  * [Controlling iTunes/Spotify](#itunesspotify)
  * [Drawing on the screen](#drawing)
+ * [Sending iMessage/SMS messages](#imessagesms)
 
 ### <a name="helloworld"></a>Hello World
 
@@ -490,6 +491,32 @@ hs.hotkey.bind({"cmd","alt","shift"}, "D", mouseHighlight)
 There are several different types of drawing object currently supported - lines, circles, boxes, text and images. Different drawing types can have different properties, which are all fully documented in the API documentation.
 
 Drawing objects can be placed either on top of all other windows, or behind desktop icons - this makes them useful for displaying contextual overlays on top of the screen (such as this mouse finding example), and more permanent information displays behind all the windows (e.g. the kinds of status information people use GeekTool for).
+
+### <a name="imessagesms"></a>Sending iMessage/SMS messages
+
+Rather than explain what this is doing, see if you can figure it out. You may recognise the wifi parts from [Reacting to wifi events](#wifievents):
+
+```lua
+local coffeeShopWifi = "Baristartisan_Guest"
+local lastSSID = hs.wifi.currentNetwork()
+local wifiWatcher = nil
+
+function ssidChanged()
+    newSSID = hs.wifi.currentNetwork()
+
+    if newSSID == coffeeShopWifi and lastSSID ~= coffeeShopWifi then
+        -- We have arrived at the coffee shop
+        hs.messages.imessage("iphonefriend@hipstermail.com", "Hey! I'm at Baristartisan's, come join me!")
+        hs.messages.sms("+1234567890", "Hey, you don't have an iPhone, but you should still come for a coffee")
+    end
+end
+
+-- NOTE: If you have a function set up to reload your config, you should call wifiWatcher:stop() there
+wifiWatcher = hs.wifi.watcher.new(ssidChanged)
+wifiWatcher:start()
+```
+
+As you doubtless noticed, this will send two messages to people whenever your Mac arrives at your favourite trendy coffee shop. You'll need to have iMessage configured and working for sending both iMessages and SMS (the latter via an iPhone using SMS Relay) for this to work.
 
 # Credits
 

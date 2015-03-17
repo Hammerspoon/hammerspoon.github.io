@@ -37,6 +37,9 @@ Lua is a simple programming language. If you have never programmed in Lua before
  * [Reacting to application events](#appevents)
  * [Reacting to wifi events](#wifievents)
  * [Defeating paste-blocking](#pasteblock)
+ * [Running AppleScript](#applescript)
+ * [Controlling iTunes/Spotify](#itunesspotify)
+ * [Drawing on the screen](#drawing)
 
 ### <a name="helloworld"></a>Hello World
 
@@ -429,6 +432,64 @@ Fortunately, we can route around their damage by emitting fake keyboard events t
 ```lua
 hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
 ```
+
+### <a name="applescript"></a>Running AppleScript
+
+Sometimes the automation you need is locked away in an application, which seems like it would be impossible to control from Hammerspoon, except that many applications expose their functionality via AppleScript, which Hammerspoon can execute for you:
+
+```lua
+ok,result = hs.applescript('tell Application "iTunes" to artist of the current track as string')
+hs.alert.show(result)
+```
+
+This will go and ask iTunes for the artist of the track it is currently playing, and then display that on-screen using `hs.alert`.
+
+However, before you rush out and start writing lots of iTunes related AppleScript, check out the next entry in this guide.
+
+### <a name="itunesspotify"></a>Controlling iTunes/Spotify
+
+Using `hs.itunes` and `hs.spotify` we can interrogate/control various aspects of iTunes and Spotify, for example, if you were to need to switch between one app and the other:
+
+```lua
+hs.itunes.pause()
+hs.spotify.play()
+hs.spotify.displayCurrentTrack()
+```
+
+### <a name="drawing"></a>Drawing on the screen
+
+Sometimes you just cannot find your mouse pointer. You're sure you left it somewhere, but it's hiding on one of your monitors and wiggling the mouse isn't helping you to spot it. Fortunately, we can interrogate and control the mouse pointer, and we can draw things on the screen, which means we can do something like this:
+
+```lua
+local mouseCircle = nil
+local mouseCircleTimer = nil
+
+function mouseHighlight()
+    -- Delete an existing highlight if it exists
+    if mouseCircle then
+        mouseCircle:delete()
+        if mouseCircleTimer then
+            mouseCircleTimer:stop()
+        end
+    end
+    -- Get the current co-ordinates of the mouse pointer
+    mousepoint = hs.mouse.get()
+    -- Prepare a big red circle around the mouse pointer
+    mouseCircle = hs.drawing.circle(hs.geometry.rect(mousepoint.x-40, mousepoint.y-40, 80, 80))
+    mouseCircle:setStrokeColor({["red"]=1,["blue"]=0,["green"]=0,["alpha"]=1})
+    mouseCircle:setFill(false)
+    mouseCircle:setStrokeWidth(5)
+    mouseCircle:show()
+
+    -- Set a timer to delete the circle after 3 seconds
+    mouseCircleTimer = hs.timer.doAfter(3, function() mouseCircle:delete() end)
+end
+hs.hotkey.bind({"cmd","alt","shift"}, "D", mouseHighlight)
+```
+
+There are several different types of drawing object currently supported - lines, circles, boxes, text and images. Different drawing types can have different properties, which are all fully documented in the API documentation.
+
+Drawing objects can be placed either on top of all other windows, or behind desktop icons - this makes them useful for displaying contextual overlays on top of the screen (such as this mouse finding example), and more permanent information displays behind all the windows (e.g. the kinds of status information people use GeekTool for).
 
 # Credits
 

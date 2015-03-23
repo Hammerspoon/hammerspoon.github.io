@@ -586,6 +586,8 @@ end)
 
 You now have a Lua function in Hammerspoon that will be triggered if you press the <kbd>right ⌘</kbd> + <kbd>right ⌥</kbd> + <kbd>→</kbd>.
 
+One important thing to note here is that when Karabiner dispatches the URL to Hammerspoon, the OS will activate Hammerspoon (i.e. give it focus). This means that this method of IPC is unsuitable for window management. However, from v10.6.28 of Karabiner, it is possible to add the `<background/>` tag to a `<vkopenurldef>`, which will cause the URL to be opened in the background. At the time of writing, v10.6.28 is a beta release of Karabiner.
+
 # Credits
 
 This guide owes a huge debt to Joseph Holsten and his [Mjolnir guide](http://blog.josephholsten.com/post/scripting-your-mac-getting-started)

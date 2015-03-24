@@ -42,6 +42,8 @@ We have a Google Group mailing list [here](https://groups.google.com/forum/#!for
 
 If you find a bug, or have a suggestion, you can also file an issue on the [issue tracker](https://github.com/Hammerspoon/hammerspoon/issues).
 
+You can also follow us on twitter: <a href="https://twitter.com/_hammerspoon" class="twitter-follow-button" data-show-count="false">Follow @_hammerspoon</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
 ## Who made this?
 
 Lots of people! You can find out more on our [Contributors](/contributors.html) page.

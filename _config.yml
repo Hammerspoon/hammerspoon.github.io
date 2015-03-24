@@ -2,10 +2,10 @@
 title: Hammerspoon
 email: cmsj@tenshu.net
 description: > # this means to ignore newlines until "baseurl:"
-  OS X automation tool
+  Staggeringly powerful OS X desktop automation with Lua. Making the runtime, funtime.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://hammerspoon.github.io" # the base hostname & protocol for your site
-twitter_username: hammerspoon 
+twitter_username: _hammerspoon
 github_username:  hammerspoon
 
 # Build settings

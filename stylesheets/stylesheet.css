@@ -13,6 +13,12 @@ body {
 }
 
 .social-media-list {
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
+}
+
+.social-media-list li {
   max-height: 50px;
   max-width: 50px;
 }

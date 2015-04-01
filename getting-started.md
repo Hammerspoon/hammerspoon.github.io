@@ -527,7 +527,7 @@ hs.urlevent.bind("someAlert", function(eventName, params)
 end)
 ```
 
-We have now bound a URL event handler for an event named `someAlert` that will show a little on-screen text alert. To trigger this event, in a Terminal, run `open hammerspoon://someAlert`. Many applications have the ability to open URLs, so this becomes a very simple way to automate Hammerspoon into taking some action. See the next section for a more concrete (and complex) example of this.
+We have now bound a URL event handler for an event named `someAlert` that will show a little on-screen text alert. To trigger this event, in a Terminal, run `open -g hammerspoon://someAlert`. Many applications have the ability to open URLs, so this becomes a very simple way to automate Hammerspoon into taking some action. See the next section for a more concrete (and complex) example of this. Note that the `-g` option for `open` causes the URL to be opened in the background, so as to avoid opening Hammerspoon's Console Window, or giving it keyboard focus.
 
 ### <a name="karabinerurl"></a>Advanced automation of Hammerspoon with Karabiner and URLs
 

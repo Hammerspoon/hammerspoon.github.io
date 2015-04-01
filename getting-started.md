@@ -522,8 +522,6 @@ As you doubtless noticed, this will send two messages to people whenever your Ma
 Sometimes you need to automate your automation tools, and Hammerspoon is automatable in several ways. The first way we'll cover here is with URLs. Specifically, URLs that begin with `hammerspoon://`. Given this simple snippet:
 
 ```lua
-function someAlertHandler(eventName, params)
-end
 hs.urlevent.bind("someAlert", function(eventName, params)
     hs.alert.show("Received someAlert")
 end)

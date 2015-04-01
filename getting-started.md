@@ -347,7 +347,6 @@ Thus, pressing <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>⌃</kbd>+<kbd>7</kbd> repeate
 Lots of Mac utilities place a small icon in the system menubar to display their status and let you interact with them. We're going to use two of Hammerspoon's extensions to whip up a very simple replacement for the popular utility `Caffeine`.
 
 ```lua
--- NOTE: If you have a function set up to reload your config, you should call caffeine:delete() there
 local caffeine = hs.menubar.new()
 function setCaffeineDisplay(state)
     if state then
@@ -419,7 +418,6 @@ function ssidChangedCallback()
     lastSSID = newSSID
 end
 
--- NOTE: If you have a function set up to reload your config, you should call wifiWatcher:stop() there
 wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
 wifiWatcher:start()
 ```
@@ -513,7 +511,6 @@ function ssidChanged()
     end
 end
 
--- NOTE: If you have a function set up to reload your config, you should call wifiWatcher:stop() there
 wifiWatcher = hs.wifi.watcher.new(ssidChanged)
 wifiWatcher:start()
 ```

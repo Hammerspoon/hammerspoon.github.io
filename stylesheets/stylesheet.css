@@ -1,6 +1,8 @@
 body {
   padding-left:  15px;
   padding-right: 10px;
+  max-width: 800px;
+  margin: auto;
 }
 
 .navbar-brand {

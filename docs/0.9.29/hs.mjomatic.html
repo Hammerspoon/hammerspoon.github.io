@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hammerspoon docs: hs.usb module</title>
+    <title>Hammerspoon docs: hs.mjomatic module</title>
     <style type="text/css">
       a { text-decoration: none; }
       a:hover { text-decoration: underline; }
@@ -13,8 +13,8 @@
   </head>
   <body>
     <header>
-      <h1>hs.usb</h1>
-      <p>Inspect USB devices</p>
+      <h1>hs.mjomatic</h1>
+      <p>tmuxomatic-like window management</p>
 
       </header>
       <h2>API Overview</h2>
@@ -23,7 +23,7 @@
                 <li>Functions - API calls offered directly by the extension</li>
                     <ul>
                 
-        <li><a href="#attachedDevices">attachedDevices</a></li>
+        <li><a href="#go">go</a></li>
         
                 </ul>
                 
@@ -33,13 +33,13 @@
                 <h3>Functions</h3>
                 
 
-    <section id="attachedDevices">
-    <a name="//apple_ref/cpp/Function/attachedDevices" class="dashAnchor"></a>
-    <h3><a href="#attachedDevices">attachedDevices</a></h3>
+    <section id="go">
+    <a name="//apple_ref/cpp/Function/go" class="dashAnchor"></a>
+    <h3><a href="#go">go</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.usb.attachedDevices() -> table or nil</code></td>
+            <td><code>hs.mjomatic.go(cfg)</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -48,26 +48,38 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Gets details about currently attached USB devices</p>
+                <p>Applies a configuration to the currently open windows</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>None</li>
+<li>cfg - A table containing a series of strings, representing the desired window layout</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>A table containing information about currently attached USB devices, or nil if an error occurred. The table contains a sub-table for each USB device, the keys of which are:
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
 
 <ul>
-<li>productName - A string containing the name of the device</li>
-<li>vendorName - A string containing the name of the device vendor</li>
-<li>vendorID - A number containing the Vendor ID of the device</li>
-<li>productID - A number containing the Product ID of the device</li>
-</ul></li>
+<li>An example use:</li>
 </ul>
+
+<pre lang="lua"><code>mjomatic.go({
+&quot;CCCCCCCCCCCCCiiiiiiiiiii      # &lt;-- The windowgram, it defines the shapes and positions of windows&quot;,
+&quot;CCCCCCCCCCCCCiiiiiiiiiii&quot;,
+&quot;SSSSSSSSSSSSSiiiiiiiiiii&quot;,
+&quot;SSSSSSSSSSSSSYYYYYYYYYYY&quot;,
+&quot;SSSSSSSSSSSSSYYYYYYYYYYY&quot;,
+&quot;&quot;,
+&quot;C Google Chrome            # &lt;-- window C has application():title() &#39;Google Chrome&#39;&quot;,
+&quot;i iTerm&quot;,
+&quot;Y YoruFukurou&quot;,
+&quot;S Sublime Text 2&quot;})
+</code></pre>
 
             </td>
         </tr>

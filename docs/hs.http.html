@@ -1,0 +1,307 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.http module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.http</h1>
+      <p>Perform HTTP requests</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#asyncGet">asyncGet</a></li>
+        
+        <li><a href="#asyncPost">asyncPost</a></li>
+        
+        <li><a href="#doAsyncRequest">doAsyncRequest</a></li>
+        
+        <li><a href="#doRequest">doRequest</a></li>
+        
+        <li><a href="#get">get</a></li>
+        
+        <li><a href="#post">post</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="asyncGet">
+    <a name="//apple_ref/cpp/Function/asyncGet" class="dashAnchor"></a>
+    <h3><a href="#asyncGet">asyncGet</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.asyncGet(url, headers, callback)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sends an HTTP GET request asynchronously</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>url - A string containing the URL to retrieve</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+<li>callback - A function to be called when the request succeeds or fails. The function will be passed three parameters:
+
+<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If the request fails, the callback function&#39;s first parameter will be negative and the second parameter will contain an error message. The third parameter will be nil</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="asyncPost">
+    <a name="//apple_ref/cpp/Function/asyncPost" class="dashAnchor"></a>
+    <h3><a href="#asyncPost">asyncPost</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.asyncPost(url, data, headers, callback)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sends an HTTP POST request asynchronously</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>url - A string containing the URL to submit to</li>
+<li>data - A string containing the request body, or nil to send no body</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+<li>callback - A function to be called when the request succeeds or fails. The function will be passed three parameters:
+
+<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If the request fails, the callback function&#39;s first parameter will be negative and the second parameter will contain an error message. The third parameter will be nil</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="doAsyncRequest">
+    <a name="//apple_ref/cpp/Function/doAsyncRequest" class="dashAnchor"></a>
+    <h3><a href="#doAsyncRequest">doAsyncRequest</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.doAsyncRequest(url, method, data, headers, callback)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates an HTTP request and executes it asynchronously</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>url - A string containing the URL</li>
+<li>method - A string containing the HTTP method to use (e.g. &quot;GET&quot;, &quot;POST&quot;, etc)</li>
+<li>data - A string containing the request body, or nil to send no body</li>
+<li>headers - A table containing string keys and values representing request header keys and values, or nil to add no headers</li>
+<li>callback - A function to called when the response is received</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="doRequest">
+    <a name="//apple_ref/cpp/Function/doRequest" class="dashAnchor"></a>
+    <h3><a href="#doRequest">doRequest</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.doRequest(url, method, [data, headers]) -> int, string, table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates an HTTP request and executes it synchronously</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>url - A string containing the URL</li>
+<li>method - A string containing the HTTP method to use (e.g. &quot;GET&quot;, &quot;POST&quot;, etc)</li>
+<li>data - A string containing the data to POST to the URL, or nil to send no data</li>
+<li>headers - A table of string keys and values used as headers for the request, or nil to add no headers</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the HTTP response status code</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function is synchronous and will therefore block all Lua execution until it completes. You are encouraged to use the asynchronous functions.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="get">
+    <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
+    <h3><a href="#get">get</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.get(url, headers) -> int, string, table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sends an HTTP GET request to a URL</p>
+
+<p>Parameters</p>
+
+<ul>
+<li>url - A string containing the URL to retrieve</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function is synchronous and will therefore block all other Lua execution while the request is in progress, you are encouraged to use the asynchronous functions</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="post">
+    <a name="//apple_ref/cpp/Function/post" class="dashAnchor"></a>
+    <h3><a href="#post">post</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.post(url, data, headers) -> int, string, table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sends an HTTP POST request to a URL</p>
+
+<p>Parameters</p>
+
+<ul>
+<li>url - A string containing the URL to submit to</li>
+<li>data - A string containing the request body, or nil to send no body</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function is synchronous and will therefore block all other Lua execution while the request is in progress, you are encouraged to use the asynchronous functions</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

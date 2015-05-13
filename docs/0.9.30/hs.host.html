@@ -1,0 +1,157 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.host module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.host</h1>
+      <p>Inspect network information about the machine</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#addresses">addresses</a></li>
+        
+        <li><a href="#localizedName">localizedName</a></li>
+        
+        <li><a href="#names">names</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="addresses">
+    <a name="//apple_ref/cpp/Function/addresses" class="dashAnchor"></a>
+    <h3><a href="#addresses">addresses</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.addresses() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets a list of network addresses for the current machine</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table of strings containing the network addresses of the current machine</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The results will include IPv4 and IPv6 addresses</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="localizedName">
+    <a name="//apple_ref/cpp/Function/localizedName" class="dashAnchor"></a>
+    <h3><a href="#localizedName">localizedName</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.localizedName() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the name of the current machine, as displayed in the Finder sidebar</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the name of the current machine</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="names">
+    <a name="//apple_ref/cpp/Function/names" class="dashAnchor"></a>
+    <h3><a href="#names">names</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.names() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets a list of network names for the current machine</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table of strings containing the network names of the current machine</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function should be used sparingly, as it may involve blocking network access to resolve hostnames</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

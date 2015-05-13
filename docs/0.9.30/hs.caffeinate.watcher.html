@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hammerspoon docs: hs.application.watcher module</title>
+    <title>Hammerspoon docs: hs.caffeinate.watcher module</title>
     <style type="text/css">
       a { text-decoration: none; }
       a:hover { text-decoration: underline; }
@@ -13,10 +13,10 @@
   </head>
   <body>
     <header>
-      <h1>hs.application.watcher</h1>
-      <p>Watch for application launch/terminate events</p>
+      <h1>hs.caffeinate.watcher</h1>
+      <p>Watch for display and system sleep/wake/power events</p>
 
-<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/mgee">Markus Engelbrecht</a> and <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
 
       </header>
       <h2>API Overview</h2>
@@ -25,19 +25,15 @@
                 <li>Constants - Useful values which cannot be changed</li>
                     <ul>
                 
-        <li><a href="#activated">activated</a></li>
+        <li><a href="#screensDidSleep">screensDidSleep</a></li>
         
-        <li><a href="#deactivated">deactivated</a></li>
+        <li><a href="#screensDidWake">screensDidWake</a></li>
         
-        <li><a href="#hidden">hidden</a></li>
+        <li><a href="#systemDidWake">systemDidWake</a></li>
         
-        <li><a href="#launched">launched</a></li>
+        <li><a href="#systemWillPowerOff">systemWillPowerOff</a></li>
         
-        <li><a href="#launching">launching</a></li>
-        
-        <li><a href="#terminated">terminated</a></li>
-        
-        <li><a href="#unhidden">unhidden</a></li>
+        <li><a href="#systemWillSleep">systemWillSleep</a></li>
         
                 </ul>
                 
@@ -63,13 +59,13 @@
                 <h3>Constants</h3>
                 
 
-    <section id="activated">
-    <a name="//apple_ref/cpp/Constant/activated" class="dashAnchor"></a>
-    <h3><a href="#activated">activated</a></h3>
+    <section id="screensDidSleep">
+    <a name="//apple_ref/cpp/Constant/screensDidSleep" class="dashAnchor"></a>
+    <h3><a href="#screensDidSleep">screensDidSleep</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.application.watcher.activated</code></td>
+            <td><code>hs.caffeinate.watcher.screensDidSleep</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -78,7 +74,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>An application has been activated (i.e. given keyboard/mouse focus)</p>
+                <p>The displays have gone to sleep</p>
 
             </td>
         </tr>
@@ -86,13 +82,13 @@
     </section>
 
 
-    <section id="deactivated">
-    <a name="//apple_ref/cpp/Constant/deactivated" class="dashAnchor"></a>
-    <h3><a href="#deactivated">deactivated</a></h3>
+    <section id="screensDidWake">
+    <a name="//apple_ref/cpp/Constant/screensDidWake" class="dashAnchor"></a>
+    <h3><a href="#screensDidWake">screensDidWake</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.application.watcher.deactivated</code></td>
+            <td><code>hs.caffeinate.watcher.screensDidWake</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -101,7 +97,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>An application has been deactivated (i.e. lost keyboard/mouse focus)</p>
+                <p>The displays have woken from sleep</p>
 
             </td>
         </tr>
@@ -109,13 +105,13 @@
     </section>
 
 
-    <section id="hidden">
-    <a name="//apple_ref/cpp/Constant/hidden" class="dashAnchor"></a>
-    <h3><a href="#hidden">hidden</a></h3>
+    <section id="systemDidWake">
+    <a name="//apple_ref/cpp/Constant/systemDidWake" class="dashAnchor"></a>
+    <h3><a href="#systemDidWake">systemDidWake</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.application.watcher.hidden</code></td>
+            <td><code>hs.caffeinate.watcher.systemDidWake</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -124,7 +120,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>An application has been hidden</p>
+                <p>The system woke from sleep</p>
 
             </td>
         </tr>
@@ -132,13 +128,13 @@
     </section>
 
 
-    <section id="launched">
-    <a name="//apple_ref/cpp/Constant/launched" class="dashAnchor"></a>
-    <h3><a href="#launched">launched</a></h3>
+    <section id="systemWillPowerOff">
+    <a name="//apple_ref/cpp/Constant/systemWillPowerOff" class="dashAnchor"></a>
+    <h3><a href="#systemWillPowerOff">systemWillPowerOff</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.application.watcher.launched</code></td>
+            <td><code>hs.caffeinate.watcher.systemWillPowerOff</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -147,7 +143,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>An application has been launched</p>
+                <p>The user requested a logout or shutdown</p>
 
             </td>
         </tr>
@@ -155,13 +151,13 @@
     </section>
 
 
-    <section id="launching">
-    <a name="//apple_ref/cpp/Constant/launching" class="dashAnchor"></a>
-    <h3><a href="#launching">launching</a></h3>
+    <section id="systemWillSleep">
+    <a name="//apple_ref/cpp/Constant/systemWillSleep" class="dashAnchor"></a>
+    <h3><a href="#systemWillSleep">systemWillSleep</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.application.watcher.launching</code></td>
+            <td><code>hs.caffeinate.watcher.systemWillSleep</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -170,53 +166,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>An application is in the process of being launched</p>
-
-            </td>
-        </tr>
-    </table>
-    </section>
-
-
-    <section id="terminated">
-    <a name="//apple_ref/cpp/Constant/terminated" class="dashAnchor"></a>
-    <h3><a href="#terminated">terminated</a></h3>
-    <table>
-        <tr>
-            <th>Signature</td>
-            <td><code>hs.application.watcher.terminated</code></td>
-        </tr>
-        <tr>
-            <th>Type</td>
-            <td>Constant</td>
-        </tr>
-        <tr>
-            <th>Description</td>
-            <td>
-                <p>An application has been terminated</p>
-
-            </td>
-        </tr>
-    </table>
-    </section>
-
-
-    <section id="unhidden">
-    <a name="//apple_ref/cpp/Constant/unhidden" class="dashAnchor"></a>
-    <h3><a href="#unhidden">unhidden</a></h3>
-    <table>
-        <tr>
-            <th>Signature</td>
-            <td><code>hs.application.watcher.unhidden</code></td>
-        </tr>
-        <tr>
-            <th>Type</td>
-            <td>Constant</td>
-        </tr>
-        <tr>
-            <th>Description</td>
-            <td>
-                <p>An application has been unhidden</p>
+                <p>The system is preparing to sleep</p>
 
             </td>
         </tr>
@@ -232,7 +182,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.application.watcher.new(fn) -> watcher</code></td>
+            <td><code>hs.caffeinate.watcher.new(fn) -> watcher</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -241,30 +191,22 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Creates an application event watcher</p>
+                <p>Creates a watcher object for system and display sleep/wake/power events</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>fn - A function that will be called when application events happen. It should accept three parameters:
+<li>fn - A function that will be called when system/display events happen. It should accept one parameters:
 
 <ul>
-<li>A string containing the name of the application</li>
 <li>An event type (see the constants defined above)</li>
-<li>An <code>hs.application</code> object representing the application, or nil if the application couldn&#39;t be found</li>
 </ul></li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>An <code>hs.application.watcher</code> object</li>
-</ul>
-
-<p>Notes:</p>
-
-<ul>
-<li>If the function is called with an event type of <code>hs.application.watcher.terminated</code> then the application name parameter will be <code>nil</code> and the <code>hs.application</code> parameter, will only be useful for getting the UNIX process ID (i.e. the PID) of the application</li>
+<li>An <code>hs.caffeinate.watcher</code> object</li>
 </ul>
 
             </td>
@@ -281,7 +223,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.application.watcher:start()</code></td>
+            <td><code>hs.caffeinate.watcher:start()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -316,7 +258,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.application.watcher:stop()</code></td>
+            <td><code>hs.caffeinate.watcher:stop()</code></td>
         </tr>
         <tr>
             <th>Type</td>

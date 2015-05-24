@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hammerspoon docs: hs.brightness module</title>
+    <title>Hammerspoon docs: hs.host module</title>
     <style type="text/css">
       a { text-decoration: none; }
       a:hover { text-decoration: underline; }
@@ -13,12 +13,8 @@
   </head>
   <body>
     <header>
-      <h1>hs.brightness</h1>
-      <p>Inspect/manipulate display brightness</p>
-
-<p>Home: <a href="https://github.com/asmagill/mjolnir_asm.sys">https://github.com/asmagill/mjolnir_asm.sys</a></p>
-
-<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+      <h1>hs.host</h1>
+      <p>Inspect network information about the machine</p>
 
       </header>
       <h2>API Overview</h2>
@@ -27,11 +23,11 @@
                 <li>Functions - API calls offered directly by the extension</li>
                     <ul>
                 
-        <li><a href="#ambient">ambient</a></li>
+        <li><a href="#addresses">addresses</a></li>
         
-        <li><a href="#get">get</a></li>
+        <li><a href="#localizedName">localizedName</a></li>
         
-        <li><a href="#set">set</a></li>
+        <li><a href="#names">names</a></li>
         
                 </ul>
                 
@@ -41,13 +37,13 @@
                 <h3>Functions</h3>
                 
 
-    <section id="ambient">
-    <a name="//apple_ref/cpp/Function/ambient" class="dashAnchor"></a>
-    <h3><a href="#ambient">ambient</a></h3>
+    <section id="addresses">
+    <a name="//apple_ref/cpp/Function/addresses" class="dashAnchor"></a>
+    <h3><a href="#addresses">addresses</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.brightness.ambient() -> number</code></td>
+            <td><code>hs.host.addresses() -> table</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -56,7 +52,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Gets the current ambient brightness</p>
+                <p>Gets a list of network addresses for the current machine</p>
 
 <p>Parameters:</p>
 
@@ -67,14 +63,13 @@
 <p>Returns:</p>
 
 <ul>
-<li>A number containing the current ambient brightness, measured in lux. If an error occurred, the number will be -1</li>
+<li>A table of strings containing the network addresses of the current machine</li>
 </ul>
 
 <p>Notes:</p>
 
 <ul>
-<li>Even though external Apple displays include an ambient light sensor, their data is typically not available, so this function will likely only be useful to MacBook users</li>
-<li>The raw sensor data is converted to lux via an algorithm used by Mozilla Firefox and is not guaranteed to give an accurate lux value</li>
+<li>The results will include IPv4 and IPv6 addresses</li>
 </ul>
 
             </td>
@@ -83,13 +78,13 @@
     </section>
 
 
-    <section id="get">
-    <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
-    <h3><a href="#get">get</a></h3>
+    <section id="localizedName">
+    <a name="//apple_ref/cpp/Function/localizedName" class="dashAnchor"></a>
+    <h3><a href="#localizedName">localizedName</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.brightness.get() -> number</code></td>
+            <td><code>hs.host.localizedName() -> string</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -98,7 +93,7 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns the current brightness of the display</p>
+                <p>Gets the name of the current machine, as displayed in the Finder sidebar</p>
 
 <p>Parameters:</p>
 
@@ -109,7 +104,7 @@
 <p>Returns:</p>
 
 <ul>
-<li>A number containing the brightness of the display, between 0 and 100</li>
+<li>A string containing the name of the current machine</li>
 </ul>
 
             </td>
@@ -118,13 +113,13 @@
     </section>
 
 
-    <section id="set">
-    <a name="//apple_ref/cpp/Function/set" class="dashAnchor"></a>
-    <h3><a href="#set">set</a></h3>
+    <section id="names">
+    <a name="//apple_ref/cpp/Function/names" class="dashAnchor"></a>
+    <h3><a href="#names">names</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.brightness.set(brightness) -> boolean</code></td>
+            <td><code>hs.host.names() -> table</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -133,18 +128,24 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Sets the display brightness</p>
+                <p>Gets a list of network names for the current machine</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>brightness - A number between 0 and 100</li>
+<li>None</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>True if the brightness was set, false if not</li>
+<li>A table of strings containing the network names of the current machine</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function should be used sparingly, as it may involve blocking network access to resolve hostnames</li>
 </ul>
 
             </td>

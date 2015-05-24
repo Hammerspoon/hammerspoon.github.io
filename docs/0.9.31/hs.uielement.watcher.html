@@ -1,0 +1,156 @@
+<html>
+  <head>
+    <title>Hammerspoon docs: hs.uielement.watcher module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.uielement.watcher</h1>
+      <p>Watch for events on certain UI elements (including windows and applications)</p>
+
+<p>You can watch the following events:</p>
+
+<h3>Application-level events</h3>
+
+<p>See hs.application.watcher for more events you can watch.</p>
+
+<ul>
+<li>hs.uielement.watcher.applicationActivated: The current application switched to this one.</li>
+<li>hs.uielement.watcher.applicationDeactivated: The current application is no longer this one.</li>
+<li>hs.uielement.watcher.applicationHidden: The application was hidden.</li>
+<li>hs.uielement.watcher.applicationShown: The application was shown.</li>
+</ul>
+
+<h4>Focus change events</h4>
+
+<p>These events are watched on the application level, but send the relevant child element to the handler.</p>
+
+<ul>
+<li>hs.uielement.watcher.mainWindowChanged: The main window of the application was changed.</li>
+<li>hs.uielement.watcher.focusedWindowChanged: The focused window of the application was changed. Note that the application may not be activated itself.</li>
+<li>hs.uielement.watcher.AXFocusedUIElementChanged: The focused UI element of the application was changed.</li>
+</ul>
+
+<h3>Window-level events</h3>
+
+<ul>
+<li>hs.uielement.watcher.windowCreated: A window was created. You should watch for this event on the application, or the parent window.</li>
+<li>hs.uielement.watcher.windowMoved: The window was moved.</li>
+<li>hs.uielement.watcher.windowResized: The window was resized.</li>
+<li>hs.uielement.watcher.windowMinimized: The window was minimized.</li>
+<li>hs.uielement.watcher.windowUnminimized: The window was unminimized.</li>
+</ul>
+
+<h3>Element-level events</h3>
+
+<p>These work on all UI elements, including windows.</p>
+
+<ul>
+<li>hs.uielement.watcher.elementDestroyed: The element was destroyed.</li>
+<li>hs.uielement.watcher.titleChanged: The element&#39;s title was changed.</li>
+</ul>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#element">element</a></li>
+        
+        <li><a href="#start">start</a></li>
+        
+        <li><a href="#stop">stop</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Methods</h3>
+                
+
+    <section id="element">
+    <a name="//apple_ref/cpp/Method/element" class="dashAnchor"></a>
+    <h3><a href="#element">element</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.uielement.watcher:element()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the element the watcher is watching.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="start">
+    <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+    <h3><a href="#start">start</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.uielement.watcher:start(events)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Tells the watcher to start watching the given list of events.</p>
+
+<p>See hs.uielement.watcher for a list of events. You may also specify arbitrary event names as strings.</p>
+
+<p>Does nothing if the watcher has already been started. To start with different events, stop it first.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stop">
+    <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+    <h3><a href="#stop">stop</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.uielement.watcher:stop()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Tells the watcher to stop listening for events.<br>
+This is automatically called if the element is destroyed.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

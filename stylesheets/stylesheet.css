@@ -24,3 +24,7 @@ body {
   max-height: 50px;
   max-width: 50px;
 }
+
+ul li em {
+  color: #ff0000;
+}

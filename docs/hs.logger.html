@@ -1,0 +1,496 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.logger module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.logger</h1>
+      <p>Simple logger for debugging purposes</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#d">d</a></li>
+        
+        <li><a href="#df">df</a></li>
+        
+        <li><a href="#e">e</a></li>
+        
+        <li><a href="#ef">ef</a></li>
+        
+        <li><a href="#f">f</a></li>
+        
+        <li><a href="#i">i</a></li>
+        
+        <li><a href="#setLogLevel">setLogLevel</a></li>
+        
+        <li><a href="#v">v</a></li>
+        
+        <li><a href="#vf">vf</a></li>
+        
+        <li><a href="#w">w</a></li>
+        
+        <li><a href="#wf">wf</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Function/new" class="dashAnchor"></a>
+    <h3><a href="#new">new</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger.new(id, loglevel) -> logger</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new logger instance</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>id - a string identifier for the instance (usually the module name)</li>
+<li>loglevel - can be &#39;nothing&#39;, &#39;error&#39;, &#39;warning&#39;, &#39;info&#39;, &#39;debug&#39;, or &#39;verbose&#39;; or a corresponding number between 0 and 5; defaults to &#39;warning&#39; if omitted</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the new logger instance</li>
+</ul>
+
+<p>Usage:<br>
+local log = hs.logger.new(&#39;mymodule&#39;,&#39;debug&#39;)<br>
+log.i(&#39;Initializing&#39;) -- will print &quot;[mymodule] Initializing&quot; to the console</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Methods</h3>
+                
+
+    <section id="d">
+    <a name="//apple_ref/cpp/Method/d" class="dashAnchor"></a>
+    <h3><a href="#d">d</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:d(...)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Logs debug info to the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>... - one or more message strings</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="df">
+    <a name="//apple_ref/cpp/Method/df" class="dashAnchor"></a>
+    <h3><a href="#df">df</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:df(fmt,...)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Logs formatted debug info to the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>fmt - formatting string as per string.format</li>
+<li>... - arguments to fmt</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="e">
+    <a name="//apple_ref/cpp/Method/e" class="dashAnchor"></a>
+    <h3><a href="#e">e</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:e(...)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Logs an error to the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>... - one or more message strings</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="ef">
+    <a name="//apple_ref/cpp/Method/ef" class="dashAnchor"></a>
+    <h3><a href="#ef">ef</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:ef(fmt,...)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Logs a formatted error to the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>fmt - formatting string as per string.format</li>
+<li>... - arguments to fmt</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="f">
+    <a name="//apple_ref/cpp/Method/f" class="dashAnchor"></a>
+    <h3><a href="#f">f</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:f(fmt,...)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Logs formatted info to the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>fmt - formatting string as per string.format</li>
+<li>... - arguments to fmt</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="i">
+    <a name="//apple_ref/cpp/Method/i" class="dashAnchor"></a>
+    <h3><a href="#i">i</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:i(...)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Logs info to the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>... - one or more message strings</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setLogLevel">
+    <a name="//apple_ref/cpp/Method/setLogLevel" class="dashAnchor"></a>
+    <h3><a href="#setLogLevel">setLogLevel</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:setLogLevel(loglevel)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the log level of the logger instance</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>loglevel - can be &#39;nothing&#39;, &#39;error&#39;, &#39;warning&#39;, &#39;info&#39;, &#39;debug&#39;, or &#39;verbose&#39;; or a corresponding number between 0 and 5</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="v">
+    <a name="//apple_ref/cpp/Method/v" class="dashAnchor"></a>
+    <h3><a href="#v">v</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:v(...)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Logs verbose info to the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>... - one or more message strings</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="vf">
+    <a name="//apple_ref/cpp/Method/vf" class="dashAnchor"></a>
+    <h3><a href="#vf">vf</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:vf(fmt,...)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Logs formatted verbose info to the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>fmt - formatting string as per string.format</li>
+<li>... - arguments to fmt</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="w">
+    <a name="//apple_ref/cpp/Method/w" class="dashAnchor"></a>
+    <h3><a href="#w">w</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:w(...)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Logs a warning to the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>... - one or more message strings</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="wf">
+    <a name="//apple_ref/cpp/Method/wf" class="dashAnchor"></a>
+    <h3><a href="#wf">wf</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.logger:wf(fmt,...)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Logs a formatted warning to the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>fmt - formatting string as per string.format</li>
+<li>... - arguments to fmt</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

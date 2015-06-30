@@ -1,7 +1,7 @@
 <html>
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Hammerspoon docs: hs.host module</title>
+    <title>Hammerspoon docs: hs.tabs module</title>
     <style type="text/css">
       a { text-decoration: none; }
       a:hover { text-decoration: underline; }
@@ -14,8 +14,8 @@
   </head>
   <body>
     <header>
-      <h1>hs.host</h1>
-      <p>Inspect network information about the machine</p>
+      <h1>hs.tabs</h1>
+      <p>Place the windows of an application into tabs drawn on its titlebar</p>
 
       </header>
       <h2>API Overview</h2>
@@ -24,11 +24,11 @@
                 <li>Functions - API calls offered directly by the extension</li>
                     <ul>
                 
-        <li><a href="#addresses">addresses</a></li>
+        <li><a href="#enableForApp">enableForApp</a></li>
         
-        <li><a href="#localizedName">localizedName</a></li>
+        <li><a href="#focusTab">focusTab</a></li>
         
-        <li><a href="#names">names</a></li>
+        <li><a href="#tabWindows">tabWindows</a></li>
         
                 </ul>
                 
@@ -38,13 +38,13 @@
                 <h3>Functions</h3>
                 
 
-    <section id="addresses">
-    <a name="//apple_ref/cpp/Function/addresses" class="dashAnchor"></a>
-    <h3><a href="#addresses">addresses</a></h3>
+    <section id="enableForApp">
+    <a name="//apple_ref/cpp/Function/enableForApp" class="dashAnchor"></a>
+    <h3><a href="#enableForApp">enableForApp</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.host.addresses() -> table</code></td>
+            <td><code>hs.tabs.enableForApp(app)</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -53,24 +53,18 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Gets a list of network addresses for the current machine</p>
+                <p>Places all the windows of an app into one place and tab them</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>None</li>
+<li>app - An <code>hs.application</code> object</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>A table of strings containing the network addresses of the current machine</li>
-</ul>
-
-<p>Notes:</p>
-
-<ul>
-<li>The results will include IPv4 and IPv6 addresses</li>
+<li>None</li>
 </ul>
 
             </td>
@@ -79,13 +73,13 @@
     </section>
 
 
-    <section id="localizedName">
-    <a name="//apple_ref/cpp/Function/localizedName" class="dashAnchor"></a>
-    <h3><a href="#localizedName">localizedName</a></h3>
+    <section id="focusTab">
+    <a name="//apple_ref/cpp/Function/focusTab" class="dashAnchor"></a>
+    <h3><a href="#focusTab">focusTab</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.host.localizedName() -> string</code></td>
+            <td><code>hs.tabs.focusTab(app, num)</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -94,18 +88,25 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Gets the name of the current machine, as displayed in the Finder sidebar</p>
+                <p>Focuses a specific tab of an app</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>None</li>
+<li>app - An <code>hs.application</code> object previously enabled for tabbing</li>
+<li>num - A tab number to switch to</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>A string containing the name of the current machine</li>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If num is higher than the number of tabs, the last tab will be focussed</li>
 </ul>
 
             </td>
@@ -114,13 +115,13 @@
     </section>
 
 
-    <section id="names">
-    <a name="//apple_ref/cpp/Function/names" class="dashAnchor"></a>
-    <h3><a href="#names">names</a></h3>
+    <section id="tabWindows">
+    <a name="//apple_ref/cpp/Function/tabWindows" class="dashAnchor"></a>
+    <h3><a href="#tabWindows">tabWindows</a></h3>
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.host.names() -> table</code></td>
+            <td><code>hs.tabs.tabWindows(app)</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -129,24 +130,24 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Gets a list of network names for the current machine</p>
+                <p>Gets a list of the tabs of a window</p>
 
 <p>Parameters:</p>
 
 <ul>
-<li>None</li>
+<li>app - An <code>hs.application</code> object</li>
 </ul>
 
 <p>Returns:</p>
 
 <ul>
-<li>A table of strings containing the network names of the current machine</li>
+<li>An array of the tabbed windows of an app in the same order as they would be tabbed</li>
 </ul>
 
 <p>Notes:</p>
 
 <ul>
-<li>This function should be used sparingly, as it may involve blocking network access to resolve hostnames</li>
+<li>This function can be used when writing tab switchers</li>
 </ul>
 
             </td>

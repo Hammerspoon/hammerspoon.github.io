@@ -1,0 +1,510 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs</h1>
+      <p>Core Hammerspoon functionality</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Constants - Useful values which cannot be changed</li>
+                    <ul>
+                
+        <li><a href="#configdir">configdir</a></li>
+        
+        <li><a href="#docstrings_json_file">docstrings_json_file</a></li>
+        
+                </ul>
+                
+                <li>Variables - Configurable values</li>
+                    <ul>
+                
+        <li><a href="#processInfo">processInfo</a></li>
+        
+                </ul>
+                
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#accessibilityState">accessibilityState</a></li>
+        
+        <li><a href="#execute">execute</a></li>
+        
+        <li><a href="#focus">focus</a></li>
+        
+        <li><a href="#help">help</a></li>
+        
+        <li><a href="#openConsole">openConsole</a></li>
+        
+        <li><a href="#rawprint">rawprint</a></li>
+        
+        <li><a href="#reload">reload</a></li>
+        
+        <li><a href="#showError">showError</a></li>
+        
+        <li><a href="#systemSounds">systemSounds</a></li>
+        
+        <li><a href="#toggleConsole">toggleConsole</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Constants</h3>
+                
+
+    <section id="configdir">
+    <a name="//apple_ref/cpp/Constant/configdir" class="dashAnchor"></a>
+    <h3><a href="#configdir">configdir</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.configdir</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A string containing Hammerspoon&#39;s configuration directory. Typically <code>~/.hammerspoon/</code></p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="docstrings_json_file">
+    <a name="//apple_ref/cpp/Constant/docstrings_json_file" class="dashAnchor"></a>
+    <h3><a href="#docstrings_json_file">docstrings_json_file</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.docstrings_json_file</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A string containing the full path to the <code>docs.json</code> file inside Hammerspoon&#39;s app bundle. This contains the full Hammerspoon API documentation and can be accessed in the Console using <code>help(&quot;someAPI&quot;)</code>. It can also be loaded and processed by the <code>hs.doc</code> extension</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Variables</h3>
+                
+
+    <section id="processInfo">
+    <a name="//apple_ref/cpp/Variable/processInfo" class="dashAnchor"></a>
+    <h3><a href="#processInfo">processInfo</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.processInfo</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A table containing read-only information about the Hammerspoon application instance currently running.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Functions</h3>
+                
+
+    <section id="accessibilityState">
+    <a name="//apple_ref/cpp/Function/accessibilityState" class="dashAnchor"></a>
+    <h3><a href="#accessibilityState">accessibilityState</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.accessibilityState(shouldPrompt) -> isEnabled</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Parameters:</p>
+
+<ul>
+<li>shouldPrompt - an optional boolean value indicating if the dialog box asking if the System Preferences application should be opened should be presented if Accessibility is not currently enabled for Hammerspoon.  Defaults to false.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True or False indicating whether or not Accessibility is enabled for Hammerspoon.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Since this check is done automatically when Hammerspoon loads, it is probably of limited use except for skipping things that are known to fail when Accessibility is not enabled.  Evettaps which try to capture keyUp and keyDown events, for example, will fail until Accessibility is enabled and the Hammerspoon application is relaunched.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="execute">
+    <a name="//apple_ref/cpp/Function/execute" class="dashAnchor"></a>
+    <h3><a href="#execute">execute</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.execute(command[, with_user_env]) -> output, status, type, rc</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Runs a shell command, optionally loading the users shell environment first, and returns stdout as a string, followed by the same result codes as <code>os.execute</code> would return.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>command - a string containing the shell command to execute</li>
+<li>with_user_env - optional boolean argument which if provided and is true, executes the command in the users login shell as an &quot;interactive&quot; login shell causing the user&#39;s local profile (or other login scripts) to be loaded first.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>output -- the stdout of the command as a string.  May contain an extra terminating new-line (\n).</li>
+<li>status -- <code>true</code> if the command terminated successfully or nil otherwise.</li>
+<li>type   -- a string value of &quot;exit&quot; or &quot;signal&quot; indicating whether the command terminated of its own accord or if it was terminated by a signal (killed, segfault, etc.)</li>
+<li>rc     -- if the command exited of its own accord, then this number will represent the exit code (usually 0 for success, not 0 for an error, though this is very command specific, so check man pages when there is a question).  If the command was killed by a signal, then this number corresponds to the signal type that caused the command to terminate.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Setting <code>with_user_env</code> to true does incur noticeable overhead, so it should only be used if necessary (to set the path or other environment variables).</li>
+<li>Because this function returns the stdout as it&#39;s first return value, it is not quite a drop-in replacement for <code>os.execute</code>.  In most cases, it is probable that <code>stdout</code> will be the empty string when <code>status</code> is nil, but this is not guaranteed, so this trade off of shifting os.execute&#39;s results was deemed acceptable.</li>
+<li>This particular function is most useful when you&#39;re more interested in the command&#39;s output then a simple check for completion and result codes.  If you only require the result codes or verification of command completion, then <code>os.execute</code> will be slightly more efficient.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="focus">
+    <a name="//apple_ref/cpp/Function/focus" class="dashAnchor"></a>
+    <h3><a href="#focus">focus</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.focus()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Makes Hammerspoon the foreground app.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="help">
+    <a name="//apple_ref/cpp/Function/help" class="dashAnchor"></a>
+    <h3><a href="#help">help</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.help(identifier)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Prints the documentation for some part of Hammerspoon&#39;s API</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>identifier - A string containing the signature of some part of Hammerspoon&#39;s API (e.g. <code>&quot;hs.reload&quot;</code>)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function is mainly for runtime API help while using Hammerspoon&#39;s Console</li>
+<li>You can also just use <code>help()</code> directly</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="openConsole">
+    <a name="//apple_ref/cpp/Function/openConsole" class="dashAnchor"></a>
+    <h3><a href="#openConsole">openConsole</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.openConsole()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Opens the Hammerspoon Console window and focuses it.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="rawprint">
+    <a name="//apple_ref/cpp/Function/rawprint" class="dashAnchor"></a>
+    <h3><a href="#rawprint">rawprint</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.rawprint(aString)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The original Lua print() function</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>aString - A string to be printed</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Hammerspoon overrides Lua&#39;s print() function, but this is a reference we retain to is, should you need it for any reason</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="reload">
+    <a name="//apple_ref/cpp/Function/reload" class="dashAnchor"></a>
+    <h3><a href="#reload">reload</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.reload()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Reloads your init-file in a fresh Lua environment.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="showError">
+    <a name="//apple_ref/cpp/Function/showError" class="dashAnchor"></a>
+    <h3><a href="#showError">showError</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.showError(err)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Shows an error to the user, using Hammerspoon&#39;s Console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>err - A string containing an error message</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>You can override this function if you wish to route errors differently</li>
+<li><p>Modules can call this in the event of an error, e.g. in callbacks from the user:</p>
+
+<p><code>local ok, err = xpcall(callbackfn, debug.traceback)<br>
+if not ok then hs.showError(err) end</code></p></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="systemSounds">
+    <a name="//apple_ref/cpp/Function/systemSounds" class="dashAnchor"></a>
+    <h3><a href="#systemSounds">systemSounds</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.systemSounds() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets a table of available system sounds</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing all of the available sound files (i.e. those found in ~/Library/Sounds, /Library/Sounds, /Network/Library/Sounds and /System/Library/Sounds)</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The sounds listed by this function can be loaded using <code>hs.sound.getByName()</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="toggleConsole">
+    <a name="//apple_ref/cpp/Function/toggleConsole" class="dashAnchor"></a>
+    <h3><a href="#toggleConsole">toggleConsole</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.toggleConsole()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Toggles the visibility of the console</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If the console is not currently open, it will be opened. If it is open and not the focused window, it will be brought forward and focused.</li>
+<li>If the console is focused, it will be closed.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

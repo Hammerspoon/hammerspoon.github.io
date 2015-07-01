@@ -1,0 +1,347 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.geometry module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>hs.geometry</h1>
+      <p>Utility functions for math operations and constructing geometric objects (rects/points/etc)</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#hypot">hypot</a></li>
+        
+        <li><a href="#intersectionRect">intersectionRect</a></li>
+        
+        <li><a href="#isPointInRect">isPointInRect</a></li>
+        
+        <li><a href="#rectMidPoint">rectMidPoint</a></li>
+        
+        <li><a href="#rotateCCW">rotateCCW</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#point">point</a></li>
+        
+        <li><a href="#rect">rect</a></li>
+        
+        <li><a href="#size">size</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="hypot">
+    <a name="//apple_ref/cpp/Function/hypot" class="dashAnchor"></a>
+    <h3><a href="#hypot">hypot</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.geometry.hypot(point) -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns hypotenuse of a line defined from 0,0 to point</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>point - A point-table containing the end of the line (its start being 0,0)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the hypotenuse</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="intersectionRect">
+    <a name="//apple_ref/cpp/Function/intersectionRect" class="dashAnchor"></a>
+    <h3><a href="#intersectionRect">intersectionRect</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.geometry.intersectionRect(rect-table1, rect-table2) -> rect-table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the intersection of two rects as a new rect</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>rect-table1 - The first rect-table used to determine an intersection</li>
+<li>rect-table2 - The second rect-table used to determine an intersection</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A rect-table describing the intersection. If there is no intersection, all values in this table will be zero</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="isPointInRect">
+    <a name="//apple_ref/cpp/Function/isPointInRect" class="dashAnchor"></a>
+    <h3><a href="#isPointInRect">isPointInRect</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.geometry.isPointInRect(point, rect) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Determines whether a point falls inside a rect</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>point - A point-table describing a point in space</li>
+<li>rect - A rect-table describing an area of space</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, True if the point falls inside the rect, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="rectMidPoint">
+    <a name="//apple_ref/cpp/Function/rectMidPoint" class="dashAnchor"></a>
+    <h3><a href="#rectMidPoint">rectMidPoint</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.geometry.rectMidPoint(rect) -> point</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the midpoint of a rect</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>rect - A rect-table to determine the mid-point of</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A point-table containing the location of the middle of the rect</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="rotateCCW">
+    <a name="//apple_ref/cpp/Function/rotateCCW" class="dashAnchor"></a>
+    <h3><a href="#rotateCCW">rotateCCW</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.geometry.rotateCCW(point, aroundpoint, ntimes = 1) -> point</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Rotates a point around another point N times</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>point - A point-table containing the point to be rotated</li>
+<li>aroundpoint - A point-table to rotate <code>point</code> around</li>
+<li>ntimes - A number containing the number of times to rotate</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A point-table containing the new location of the rotated point</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Constructors</h3>
+                
+
+    <section id="point">
+    <a name="//apple_ref/cpp/Constructor/point" class="dashAnchor"></a>
+    <h3><a href="#point">point</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.geometry.point(x, y) -> point</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Convenience function for creating a point-table</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>x - A number containing the horizontal co-ordinate of the point</li>
+<li>y - A number containing the vertical co-ordinate of the point</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A point-table</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="rect">
+    <a name="//apple_ref/cpp/Constructor/rect" class="dashAnchor"></a>
+    <h3><a href="#rect">rect</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.geometry.rect(x, y, w, h) -> rect</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Convenience function for creating a rect-table</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>x - A number containing the horizontal co-ordinate of the top-left point of the rect</li>
+<li>y - A number containing the vertical co-ordinate of the top-left point of the rect</li>
+<li>w - A number containing the width of the rect</li>
+<li>h - A number containing the height of the rect</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A rect-table</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="size">
+    <a name="//apple_ref/cpp/Constructor/size" class="dashAnchor"></a>
+    <h3><a href="#size">size</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.geometry.size(w, h) -> size</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Convenience function for creating a size-table</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>w - A number containing a width</li>
+<li>h - A number containing a height</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A size-table</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

@@ -3,6 +3,7 @@ body {
   padding-right: 10px;
   max-width: 800px;
   margin: auto;
+  font-family: system, -apple-system, ".SFNSDisplay-Regular", HelveticaNeue, LucidaGrande, sans-serif;
 }
 
 .navbar-brand {

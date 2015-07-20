@@ -1,0 +1,376 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.image module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.image</h1>
+      <p>A module for capturing and manipulating image objects from other modules for use with hs.drawing.</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Constants - Useful values which cannot be changed</li>
+                    <ul>
+                
+        <li><a href="#systemImageNames">systemImageNames</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#imageFromASCII">imageFromASCII</a></li>
+        
+        <li><a href="#imageFromAppBundle">imageFromAppBundle</a></li>
+        
+        <li><a href="#imageFromName">imageFromName</a></li>
+        
+        <li><a href="#imageFromPath">imageFromPath</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#getImageName">getImageName</a></li>
+        
+        <li><a href="#saveToFile">saveToFile</a></li>
+        
+        <li><a href="#setImageName">setImageName</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Constants</h3>
+                
+
+    <section id="systemImageNames">
+    <a name="//apple_ref/cpp/Constant/systemImageNames" class="dashAnchor"></a>
+    <h3><a href="#systemImageNames">systemImageNames</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.image.systemImageNames[]</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Array containing the names of internal system images for use with hs.drawing.image</p>
+
+<p>Notes:</p>
+
+<ul>
+<li>Image names pulled from NSImage.h</li>
+<li>This table has a __tostring() metamethod which allows listing it&#39;s contents in the Hammerspoon console by typing <code>hs.image.systemImageNames</code>.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Constructors</h3>
+                
+
+    <section id="imageFromASCII">
+    <a name="//apple_ref/cpp/Constructor/imageFromASCII" class="dashAnchor"></a>
+    <h3><a href="#imageFromASCII">imageFromASCII</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.image.imageFromASCII(ascii) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates an image from an ASCII representation</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>ascii - A string containing a representation of an image</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.imaage</code> object, or nil if an error occured</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>To use the ASCII diagram image support, see <a href="http://cocoamine.net/blog/2015/03/20/replacing-photoshop-with-nsstring/">http://cocoamine.net/blog/2015/03/20/replacing-photoshop-with-nsstring/</a></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="imageFromAppBundle">
+    <a name="//apple_ref/cpp/Constructor/imageFromAppBundle" class="dashAnchor"></a>
+    <h3><a href="#imageFromAppBundle">imageFromAppBundle</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.image.imageFromAppBundle(bundleID) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates an <code>hs.image</code> object using the icon from an App</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>bundleID - A string containing the bundle identifier of an application</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.image</code> object or nil, if no app icon was found</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="imageFromName">
+    <a name="//apple_ref/cpp/Constructor/imageFromName" class="dashAnchor"></a>
+    <h3><a href="#imageFromName">imageFromName</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.image.imageFromName(string) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the hs.image object for the specified name, if it exists.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>Name - the name of the image to return.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An hs.image object or nil, if no image was found with the specified name.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Some predefined labels corresponding to OS X System default images can be found in <code>hs.image.systemImageNames</code>.</li>
+<li>Names are not required to be unique: The search order is as follows, and the first match found is returned:
+
+<ul>
+<li>an image whose name was explicitly set with the <code>setName</code> method since the last full restart of Hammerspoon</li>
+<li>Hammerspoon&#39;s main application bundle</li>
+<li>the Application Kit framework (this is where most of the images listed in <code>hs.image.systemImageNames</code> are located)</li>
+</ul></li>
+<li>Image names can be assigned by the image creator or by calling the <code>hs.image:setName</code> method on an hs.image object.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="imageFromPath">
+    <a name="//apple_ref/cpp/Constructor/imageFromPath" class="dashAnchor"></a>
+    <h3><a href="#imageFromPath">imageFromPath</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.image.imageFromPath(path) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Loads an image file</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>path - A string containing the path to an image file on disk</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.image</code> object, or nil if an error occured</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Methods</h3>
+                
+
+    <section id="getImageName">
+    <a name="//apple_ref/cpp/Method/getImageName" class="dashAnchor"></a>
+    <h3><a href="#getImageName">getImageName</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.image:getImageName() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the name assigned to the hs.image object.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>Name - the name assigned to the hs.image object.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="saveToFile">
+    <a name="//apple_ref/cpp/Method/saveToFile" class="dashAnchor"></a>
+    <h3><a href="#saveToFile">saveToFile</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.image:saveToFile(filename[, filetype]) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Save the hs.image object as an image of type <code>filetype</code> to the specified filename.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>filename - the path and name of the file to save.</li>
+<li>filetype - optional case-insensitive string paramater specifying the file type to save (default PNG)
+
+<ul>
+<li>PNG  - save in Portable Network Graphics (PNG) format</li>
+<li>TIFF - save in Tagged Image File Format (TIFF) format</li>
+<li>BMP  - save in Windows bitmap image (BMP) format</li>
+<li>GIF  - save in Graphics Image Format (GIF) format</li>
+<li>JPEG - save in Joint Photographic Experts Group (JPEG) format</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>Status - a boolean value indicating success (true) or failure (false)</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Saves image at its original size.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setImageName">
+    <a name="//apple_ref/cpp/Method/setImageName" class="dashAnchor"></a>
+    <h3><a href="#setImageName">setImageName</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.image:setImageName(Name) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Assigns the name assigned to the hs.image object.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>Name - the name to assign to the hs.image object.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>Status - a boolean value indicating success (true) or failure (false) when assigning the specified name.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

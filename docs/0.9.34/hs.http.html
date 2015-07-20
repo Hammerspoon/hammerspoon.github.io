@@ -1,0 +1,451 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.http module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.http</h1>
+      <p>Perform HTTP requests</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Variables - Configurable values</li>
+                    <ul>
+                
+        <li><a href="#htmlEntities">htmlEntities</a></li>
+        
+                </ul>
+                
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#asyncGet">asyncGet</a></li>
+        
+        <li><a href="#asyncPost">asyncPost</a></li>
+        
+        <li><a href="#convertHtmlEntities">convertHtmlEntities</a></li>
+        
+        <li><a href="#doAsyncRequest">doAsyncRequest</a></li>
+        
+        <li><a href="#doRequest">doRequest</a></li>
+        
+        <li><a href="#get">get</a></li>
+        
+        <li><a href="#post">post</a></li>
+        
+        <li><a href="#registerEntity">registerEntity</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Variables</h3>
+                
+
+    <section id="htmlEntities">
+    <a name="//apple_ref/cpp/Variable/htmlEntities" class="dashAnchor"></a>
+    <h3><a href="#htmlEntities">htmlEntities</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.htmlEntities[]</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A collection of common HTML Entities (&whatever;) and their UTF8 equivalents.  To retrieve the UTF8 sequence for a given entity, reference the table as <code>hs.http.htmlEntities[&quot;&amp;key;&quot;]</code> where <code>key</code> is the text of the entity&#39;s name or a numeric reference like <code>#number</code>.</p>
+
+<p>Notes:</p>
+
+<ul>
+<li>This list is likely not complete.  It is based on the list of common entities described at <a href="http://www.freeformatter.com/html-entities.html">http://www.freeformatter.com/html-entities.html</a>.</li>
+<li>Additional entities can be temporarily added via the <code>hs.http.registerEntity(...)</code> function.  If you feel you have a more official list of entities which contains items which are currently not included by default, please open up an issue at <a href="https://github.com/Hammerspoon/hammerspoon">https://github.com/Hammerspoon/hammerspoon</a> and your link will be considered.</li>
+<li><p>To see a list of the currently defined entities, a __tostring meta-method is included so that referencing the table directly as a string will return the current definitions.</p>
+
+<ul>
+<li><p>For reference, this meta-method is essentially the following:</p>
+
+<p>for i,v in hs.fnutils.sortByKeys(hs.http.htmlEntities) do print(string.format(&quot;%-10s %-10s %s\n&quot;, i, &quot;&amp;#&quot;..tostring(hs.utf8.codepoint(v))..&quot;;&quot;, v)) end</p></li>
+<li><p>Note that this list will not include the numeric conversion of entities (e.g. &#65;), as this is handled by an __index metamethod to allow for all possible numeric values.</p></li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Functions</h3>
+                
+
+    <section id="asyncGet">
+    <a name="//apple_ref/cpp/Function/asyncGet" class="dashAnchor"></a>
+    <h3><a href="#asyncGet">asyncGet</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.asyncGet(url, headers, callback)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sends an HTTP GET request asynchronously</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>url - A string containing the URL to retrieve</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+<li>callback - A function to be called when the request succeeds or fails. The function will be passed three parameters:
+
+<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If the request fails, the callback function&#39;s first parameter will be negative and the second parameter will contain an error message. The third parameter will be nil</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="asyncPost">
+    <a name="//apple_ref/cpp/Function/asyncPost" class="dashAnchor"></a>
+    <h3><a href="#asyncPost">asyncPost</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.asyncPost(url, data, headers, callback)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sends an HTTP POST request asynchronously</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>url - A string containing the URL to submit to</li>
+<li>data - A string containing the request body, or nil to send no body</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+<li>callback - A function to be called when the request succeeds or fails. The function will be passed three parameters:
+
+<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If the request fails, the callback function&#39;s first parameter will be negative and the second parameter will contain an error message. The third parameter will be nil</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="convertHtmlEntities">
+    <a name="//apple_ref/cpp/Function/convertHtmlEntities" class="dashAnchor"></a>
+    <h3><a href="#convertHtmlEntities">convertHtmlEntities</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.convertHtmlEntities(inString) -> outString</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Convert all recognized HTML Entities in the <code>inString</code> to appropriate UTF8 byte sequences and returns the converted text.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>inString -- A string containing any number of HTML Entities (&whatever;) in the text.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>outString -- the input string with all recognized HTML Entity sequences converted to UTF8 byte sequences.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Recognized HTML Entities are those registered in <code>hs.http.htmlEntities</code> or numeric entity sequences: &#n; where <code>n</code> can be any integer number.</li>
+<li>This function is especially useful as a post-filter to data retrieved by the <code>hs.http.get</code> and <code>hs.http.asyncGet</code> functions.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="doAsyncRequest">
+    <a name="//apple_ref/cpp/Function/doAsyncRequest" class="dashAnchor"></a>
+    <h3><a href="#doAsyncRequest">doAsyncRequest</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.doAsyncRequest(url, method, data, headers, callback)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates an HTTP request and executes it asynchronously</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>url - A string containing the URL</li>
+<li>method - A string containing the HTTP method to use (e.g. &quot;GET&quot;, &quot;POST&quot;, etc)</li>
+<li>data - A string containing the request body, or nil to send no body</li>
+<li>headers - A table containing string keys and values representing request header keys and values, or nil to add no headers</li>
+<li>callback - A function to called when the response is received. The function should accept three arguments:
+
+<ul>
+<li>code - A number containing the HTTP response code</li>
+<li>body - A string containing the body of the response</li>
+<li>headers - A table containing the HTTP headers of the response</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="doRequest">
+    <a name="//apple_ref/cpp/Function/doRequest" class="dashAnchor"></a>
+    <h3><a href="#doRequest">doRequest</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.doRequest(url, method, [data, headers]) -> int, string, table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates an HTTP request and executes it synchronously</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>url - A string containing the URL</li>
+<li>method - A string containing the HTTP method to use (e.g. &quot;GET&quot;, &quot;POST&quot;, etc)</li>
+<li>data - An optional string containing the data to POST to the URL, or nil to send no data</li>
+<li>headers - An optional table of string keys and values used as headers for the request, or nil to add no headers</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the HTTP response status code</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function is synchronous and will therefore block all Lua execution until it completes. You are encouraged to use the asynchronous functions.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="get">
+    <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
+    <h3><a href="#get">get</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.get(url, headers) -> int, string, table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sends an HTTP GET request to a URL</p>
+
+<p>Parameters</p>
+
+<ul>
+<li>url - A string containing the URL to retrieve</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function is synchronous and will therefore block all other Lua execution while the request is in progress, you are encouraged to use the asynchronous functions</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="post">
+    <a name="//apple_ref/cpp/Function/post" class="dashAnchor"></a>
+    <h3><a href="#post">post</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.post(url, data, headers) -> int, string, table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sends an HTTP POST request to a URL</p>
+
+<p>Parameters</p>
+
+<ul>
+<li>url - A string containing the URL to submit to</li>
+<li>data - A string containing the request body, or nil to send no body</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function is synchronous and will therefore block all other Lua execution while the request is in progress, you are encouraged to use the asynchronous functions</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="registerEntity">
+    <a name="//apple_ref/cpp/Function/registerEntity" class="dashAnchor"></a>
+    <h3><a href="#registerEntity">registerEntity</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.http.registerEntity(entity, codepoint) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Registers an HTML Entity with the specified Unicode codepoint which can later referenced in your code as <code>hs.http.htmlEntity[entity]</code> for convenience and readability.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>entity -- The full text of the HTML Entity as it appears in HTML encoded documents.  A proper entity starts with &amp; and ends with ; and entity labels which do not meet this will have them added -- future dereferences to get the corresponding UTF8 <em>must</em> include this initiator and terminator or they will not be recognized.</li>
+<li>codepoint -- a Unicode codepoint in numeric or <code>U+xxxx</code> format to register with as the given entity.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>Returns the UTF8 byte sequence for the entity registered.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If an entity label was previously registered, this will overwrite the previous value with a new one.</li>
+<li>The return value is merely syntactic sugar and you do not need to save it locally; it can be safely ignored -- future access to the pre-converted entity should be retrieved as <code>hs.http.htmlEntities[entity]</code> in your code.  It looks good when invoked from the console, though ☺.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

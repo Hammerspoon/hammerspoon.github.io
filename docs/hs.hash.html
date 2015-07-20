@@ -1,0 +1,336 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.hash module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.hash</h1>
+      <p>Various hashing algorithms</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#MD5">MD5</a></li>
+        
+        <li><a href="#SHA1">SHA1</a></li>
+        
+        <li><a href="#SHA256">SHA256</a></li>
+        
+        <li><a href="#SHA512">SHA512</a></li>
+        
+        <li><a href="#hmacMD5">hmacMD5</a></li>
+        
+        <li><a href="#hmacSHA1">hmacSHA1</a></li>
+        
+        <li><a href="#hmacSHA256">hmacSHA256</a></li>
+        
+        <li><a href="#hmacSHA512">hmacSHA512</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="MD5">
+    <a name="//apple_ref/cpp/Function/MD5" class="dashAnchor"></a>
+    <h3><a href="#MD5">MD5</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hash.MD5(data) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Calculates an MD5 hash</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>data - A string containing some data to hash</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the hash of the supplied data</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="SHA1">
+    <a name="//apple_ref/cpp/Function/SHA1" class="dashAnchor"></a>
+    <h3><a href="#SHA1">SHA1</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hash.SHA1(data) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Calculates an SHA1 hash</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>data - A string containing some data to hash</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the hash of the supplied data</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="SHA256">
+    <a name="//apple_ref/cpp/Function/SHA256" class="dashAnchor"></a>
+    <h3><a href="#SHA256">SHA256</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hash.SHA256(data) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Calculates an SHA256 hash</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>data - A string containing some data to hash</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the hash of the supplied data</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="SHA512">
+    <a name="//apple_ref/cpp/Function/SHA512" class="dashAnchor"></a>
+    <h3><a href="#SHA512">SHA512</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hash.SHA512(data) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Calculates an SHA512 hash</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>data - A string containing some data to hash</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the hash of the supplied data</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hmacMD5">
+    <a name="//apple_ref/cpp/Function/hmacMD5" class="dashAnchor"></a>
+    <h3><a href="#hmacMD5">hmacMD5</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hash.hmacMD5(key, data) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Calculates an HMAC using a key and an MD5 hash</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>key - A string containing a secret key to use</li>
+<li>data - A string containing the data to hash</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the hash of the supplied data</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hmacSHA1">
+    <a name="//apple_ref/cpp/Function/hmacSHA1" class="dashAnchor"></a>
+    <h3><a href="#hmacSHA1">hmacSHA1</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hash.hmacSHA1(key, data) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Calculates an HMAC using a key and a SHA1 hash</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>key - A string containing a secret key to use</li>
+<li>data - A string containing the data to hash</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the hash of the supplied data</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hmacSHA256">
+    <a name="//apple_ref/cpp/Function/hmacSHA256" class="dashAnchor"></a>
+    <h3><a href="#hmacSHA256">hmacSHA256</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hash.hmacSHA256(key, data) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Calculates an HMAC using a key and a SHA256 hash</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>key - A string containing a secret key to use</li>
+<li>data - A string containing the data to hash</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the hash of the supplied data</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hmacSHA512">
+    <a name="//apple_ref/cpp/Function/hmacSHA512" class="dashAnchor"></a>
+    <h3><a href="#hmacSHA512">hmacSHA512</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hash.hmacSHA512(key, data) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Calculates an HMAC using a key and a SHA512 hash</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>key - A string containing a secret key to use</li>
+<li>data - A string containing the data to hash</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the hash of the supplied data</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

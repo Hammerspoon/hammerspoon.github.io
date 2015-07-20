@@ -1,0 +1,291 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.host module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.host</h1>
+      <p>Inspect information about the machine Hammerspoon is running on</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#addresses">addresses</a></li>
+        
+        <li><a href="#cpuUsage">cpuUsage</a></li>
+        
+        <li><a href="#localizedName">localizedName</a></li>
+        
+        <li><a href="#names">names</a></li>
+        
+        <li><a href="#vmStat">vmStat</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="addresses">
+    <a name="//apple_ref/cpp/Function/addresses" class="dashAnchor"></a>
+    <h3><a href="#addresses">addresses</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.addresses() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets a list of network addresses for the current machine</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table of strings containing the network addresses of the current machine</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The results will include IPv4 and IPv6 addresses</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="cpuUsage">
+    <a name="//apple_ref/cpp/Function/cpuUsage" class="dashAnchor"></a>
+    <h3><a href="#cpuUsage">cpuUsage</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.cpuUsage() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a table containing cpu usage information for the current machine.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the following:
+
+<ul>
+<li>A tables, indexed by the core number, for each CPU core with the following keys in each subtable:
+
+<ul>
+<li>user   -- percentage of CPU time occupied by user level processes.</li>
+<li>system -- percentage of CPU time occupied by system (kernel) level processes.</li>
+<li>nice   -- percentage of CPU time occupied by user level processes with a positive nice value (lower scheduling priority).</li>
+<li>active -- For convenience, when you just want the total CPU usage, this is the sum of user, system, and nice.</li>
+<li>idle   -- percentage of CPU time spent idle</li>
+</ul></li>
+<li>The key <code>overall</code> containing the same keys as described above but based upon the average of all cores combined.</li>
+<li>The key <code>n</code> containing the number of cores detected.</li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The subtables for each core and <code>overall</code> have a __tostring() metamethod which allows listing it&#39;s contents in the Hammerspoon console by typing <code>hs.host.cpuUsage()[#]</code> where # is the core you are interested in or the string &quot;overall&quot;.</li>
+<li>Adapted primarily from code found at <a href="http://stackoverflow.com/questions/6785069/get-cpu-percent-usage">http://stackoverflow.com/questions/6785069/get-cpu-percent-usage</a></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="localizedName">
+    <a name="//apple_ref/cpp/Function/localizedName" class="dashAnchor"></a>
+    <h3><a href="#localizedName">localizedName</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.localizedName() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the name of the current machine, as displayed in the Finder sidebar</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the name of the current machine</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="names">
+    <a name="//apple_ref/cpp/Function/names" class="dashAnchor"></a>
+    <h3><a href="#names">names</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.names() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets a list of network names for the current machine</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table of strings containing the network names of the current machine</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function should be used sparingly, as it may involve blocking network access to resolve hostnames</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="vmStat">
+    <a name="//apple_ref/cpp/Function/vmStat" class="dashAnchor"></a>
+    <h3><a href="#vmStat">vmStat</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.vmStat() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a table containing virtual memory statistics for the current machine, as well as the page size (in bytes) and physical memory size (in bytes).</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the following keys:
+
+<ul>
+<li>anonymousPages          -- the total number of pages that are anonymous</li>
+<li>cacheHits               -- number of object cache hits</li>
+<li>cacheLookups            -- number of object cache lookups</li>
+<li>fileBackedPages         -- the total number of pages that are file-backed (non-swap)</li>
+<li>memSize                 -- physical memory size in bytes</li>
+<li>pageIns                 -- the total number of requests for pages from a pager (such as the inode pager).</li>
+<li>pageOuts                -- the total number of pages that have been paged out.</li>
+<li>pageSize                -- page size in bytes</li>
+<li>pagesActive             -- the total number of pages currently in use and pageable.</li>
+<li>pagesCompressed         -- the total number of pages that have been compressed by the VM compressor.</li>
+<li>pagesCopyOnWrite        -- the number of faults that caused a page to be copied (generally caused by copy-on-write faults).</li>
+<li>pagesDecompressed       -- the total number of pages that have been decompressed by the VM compressor.</li>
+<li>pagesFree               -- the total number of free pages in the system.</li>
+<li>pagesInactive           -- the total number of pages on the inactive list.</li>
+<li>pagesPurgeable          -- the total number of purgeable pages.</li>
+<li>pagesPurged             -- the total number of pages that have been purged.</li>
+<li>pagesReactivated        -- the total number of pages that have been moved from the inactive list to the active list (reactivated).</li>
+<li>pagesSpeculative        -- the total number of pages on the speculative list.</li>
+<li>pagesThrottled          -- the total number of pages on the throttled list (not wired but not pageable).</li>
+<li>pagesUsedByVMCompressor -- the number of pages used to store compressed VM pages.</li>
+<li>pagesWiredDown          -- the total number of pages wired down. That is, pages that cannot be paged out.</li>
+<li>pagesZeroFilled         -- the total number of pages that have been zero-filled on demand.</li>
+<li>swapIns                 -- the total number of compressed pages that have been swapped out to disk.</li>
+<li>swapOuts                -- the total number of compressed pages that have been swapped back in from disk.</li>
+<li>translationFaults       -- the number of times the &quot;vm_fault&quot; routine has been called.</li>
+<li>uncompressedPages       -- the total number of pages (uncompressed) held within the compressor</li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The table returned has a __tostring() metamethod which allows listing it&#39;s contents in the Hammerspoon console by typing <code>hs.host.vmStats()</code>.</li>
+<li>Except for the addition of cacheHits, cacheLookups, pageSize and memSize, the results for this function should be identical to the OS X command <code>vm_stat</code>.</li>
+<li>Adapted primarily from the source code to Apple&#39;s vm_stat command located at <a href="http://www.opensource.apple.com/source/system_cmds/system_cmds-643.1.1/vm_stat.tproj/vm_stat.c">http://www.opensource.apple.com/source/system_cmds/system_cmds-643.1.1/vm_stat.tproj/vm_stat.c</a></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

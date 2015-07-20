@@ -1,0 +1,405 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.ipc module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.ipc</h1>
+      <p>Provides the server portion of the Hammerspoon command line interface<br>
+Note that in order to use the command line tool, you will need to explicitly load <code>hs.ipc</code> in your init.lua. The simplest way to do that is <code>require(&quot;hs.ipc&quot;)</code></p>
+
+<p>This module is based primarily on code from Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Commands - External shell commands</li>
+                    <ul>
+                
+        <li><a href="#cli">cli</a></li>
+        
+                </ul>
+                
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#cliGetColors">cliGetColors</a></li>
+        
+        <li><a href="#cliInstall">cliInstall</a></li>
+        
+        <li><a href="#cliResetColors">cliResetColors</a></li>
+        
+        <li><a href="#cliSetColors">cliSetColors</a></li>
+        
+        <li><a href="#cliStatus">cliStatus</a></li>
+        
+        <li><a href="#cliUninstall">cliUninstall</a></li>
+        
+        <li><a href="#handler">handler</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Commands</h3>
+                
+
+    <section id="cli">
+    <a name="//apple_ref/cpp/Command/cli" class="dashAnchor"></a>
+    <h3><a href="#cli">cli</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.ipc.cli</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Command</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>This documents the external shell command <code>hs</code> provided by the hs.ipc module for external access to and control of your <code>Hammerspoon</code> environment.</p>
+
+<p>See the <code>hs.ipc.cli_*</code> functions for information on how to install this tool so you can access it from your terminal.</p>
+
+<p>The man page of the command line tool is provided here:</p>
+
+<pre><code>NAME
+     hs -- Command line interface to Hammerspoon.app
+
+SYNOPSIS
+     hs [-i | -s | -c code] [-r] [-n]
+
+DESCRIPTION
+     Runs code from within Hammerspoon, and prints the results. The given code is passed to &quot;hs.ipc.
+     handler&quot; which normally executes it as plain Lua code, but may be overridden to do some custom
+     evaluation.
+
+     When no args are given, -i is implied.
+
+     -i       Runs in interactive-mode; uses each line as code . Prints in color unless otherwise speci-
+              fied.
+     -c       Uses the given argument as code
+     -s       Uses stdin as code
+     -r       Forces Hammerspoon to interpret code as raw Lua code; the function &quot;hs.ipc.handler&quot; is not
+              called.
+     -n       When specified, interactive-mode does not use colors.
+
+EXIT STATUS
+     The hs utility exits 0 on success, and &gt;0 if an error occurs.
+</code></pre>
+
+<p>This module is based primarily on code from Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Functions</h3>
+                
+
+    <section id="cliGetColors">
+    <a name="//apple_ref/cpp/Function/cliGetColors" class="dashAnchor"></a>
+    <h3><a href="#cliGetColors">cliGetColors</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.ipc.cliGetColors() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the terminal escape codes used to produce colors in the <code>hs</code> command line tool</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the terminal escape codes used to produce colors. The available keys are:
+
+<ul>
+<li>initial</li>
+<li>input</li>
+<li>output</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="cliInstall">
+    <a name="//apple_ref/cpp/Function/cliInstall" class="dashAnchor"></a>
+    <h3><a href="#cliInstall">cliInstall</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.ipc.cliInstall([path][,silent]) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Installs the <code>hs</code> command line tool</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>path - An optional string containing a path to install the tool in. Defaults to <code>/usr/local</code></li>
+<li>silent - An optional boolean indicating whether or not to print errors to the Hammerspoon Console</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the tool was successfully installed, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="cliResetColors">
+    <a name="//apple_ref/cpp/Function/cliResetColors" class="dashAnchor"></a>
+    <h3><a href="#cliResetColors">cliResetColors</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.ipc.cliResetColors()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Restores default terminal escape codes used to produce colors in the <code>hs</code> command line tool</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="cliSetColors">
+    <a name="//apple_ref/cpp/Function/cliSetColors" class="dashAnchor"></a>
+    <h3><a href="#cliSetColors">cliSetColors</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.ipc.cliSetColors(table) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the terminal escape codes used to produce colors in the <code>hs</code> command line tool</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>table - A table of terminal escape sequences (or empty strings if you wish to suppress the usage of colors) containing the following keys:
+
+<ul>
+<li>initial</li>
+<li>input</li>
+<li>output</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the terminal escape codes that have been set. The available keys match the table parameter.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>For a brief intro into terminal colors, you can visit a web site like this one <a href="http://jafrog.com/2013/11/23/colors-in-terminal.html">http://jafrog.com/2013/11/23/colors-in-terminal.html</a></li>
+<li>Lua doesn&#39;t support octal escapes in it&#39;s strings, so use <code>\x1b</code> or <code>\27</code> to indicate the <code>escape</code> character e.g. <code>ipc.cliSetColors{ initial = &quot;&quot;, input = &quot;\27[33m&quot;, output = &quot;\27[38;5;11m&quot; }</code></li>
+<li>The values are stored by the <code>hs.settings</code> extension, so will persist across restarts of Hammerspoon</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="cliStatus">
+    <a name="//apple_ref/cpp/Function/cliStatus" class="dashAnchor"></a>
+    <h3><a href="#cliStatus">cliStatus</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.ipc.cliStatus([path][,silent]) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the status of the <code>hs</code> command line tool</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>path - An optional string containing a path to look for the <code>hs</code> tool. Defaults to <code>/usr/local</code></li>
+<li>silent - An optional boolean indicating whether or not to print errors to the Hammerspoon Console</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the <code>hs</code> command line tool is correctly installed, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="cliUninstall">
+    <a name="//apple_ref/cpp/Function/cliUninstall" class="dashAnchor"></a>
+    <h3><a href="#cliUninstall">cliUninstall</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.ipc.cliUninstall([path][,silent]) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Uninstalls the <code>hs</code> command line tool</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>path - An optional string containing a path to remove the tool from. Defaults to <code>/usr/local</code></li>
+<li>silent - An optional boolean indicating whether or not to print errors to the Hammerspoon Console</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the tool was successfully removed, otherwise false</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function is very conservative and will only remove the tool if it was installed by this instance of Hammerspoon. If you have more than one copy of Hammerspoon, this will be detected and they will not remove each others&#39; tools.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="handler">
+    <a name="//apple_ref/cpp/Function/handler" class="dashAnchor"></a>
+    <h3><a href="#handler">handler</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.ipc.handler(str) -> value</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Processes received IPC messages and returns the results</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>str - A string containing some a message to process (typically, some Lua code)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the results of the IPC message</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is not a function you should typically call directly, rather, it is documented because you can override it with your own function if you have particular IPC needs.</li>
+<li>The return value of this function is always turned into a string via <code>lua_tostring()</code> and returned to the IPC client (typically the <code>hs</code> command line tool)</li>
+<li>The default handler is:</li>
+</ul>
+
+<pre><code>    function hs.ipc.handler(str)
+        local fn, err = load(&quot;return &quot; .. str)
+        if not fn then fn, err = load(str) end
+        if fn then return fn() else return err end
+    end
+</code></pre>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

@@ -21,9 +21,12 @@
             <div class="inner-nomargin clearfix">
                 <section id="main-content">
 
-                <h2>{{ page.title }} - {{ page.date | date_to_string }}</h2>
+                {% for post in site.posts limit: 10 %}
+                <h2>{{ post.title }} - {{ post.date | date_to_string }}</h2>
 
-                    {{ content }}
+                {{ post.content }}
+                <hr/>
+                {% endfor %}
 
                 </section>
             </div>

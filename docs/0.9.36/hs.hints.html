@@ -1,0 +1,222 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.hints module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.hints</h1>
+      <p>Switch focus with a transient per-application keyboard shortcut</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Variables - Configurable values</li>
+                    <ul>
+                
+        <li><a href="#fontName">fontName</a></li>
+        
+        <li><a href="#fontSize">fontSize</a></li>
+        
+        <li><a href="#hintChars">hintChars</a></li>
+        
+        <li><a href="#showTitleThresh">showTitleThresh</a></li>
+        
+        <li><a href="#style">style</a></li>
+        
+                </ul>
+                
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#windowHints">windowHints</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Variables</h3>
+                
+
+    <section id="fontName">
+    <a name="//apple_ref/cpp/Variable/fontName" class="dashAnchor"></a>
+    <h3><a href="#fontName">fontName</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hints.fontName</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A fully specified family-face name, preferrably the PostScript name, such as Helvetica-BoldOblique or Times-Roman. (The Font Book app displays PostScript names of fonts in the Font Info panel.)<br>
+The default value is the system font</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="fontSize">
+    <a name="//apple_ref/cpp/Variable/fontSize" class="dashAnchor"></a>
+    <h3><a href="#fontSize">fontSize</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hints.fontSize</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The size of font that should be used. A value of 0.0 will use the default size.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hintChars">
+    <a name="//apple_ref/cpp/Variable/hintChars" class="dashAnchor"></a>
+    <h3><a href="#hintChars">hintChars</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hints.hintChars</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>This controls the set of characters that will be used for window hints. They must be characters found in hs.keycodes.map<br>
+The default is the letters A-Z.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="showTitleThresh">
+    <a name="//apple_ref/cpp/Variable/showTitleThresh" class="dashAnchor"></a>
+    <h3><a href="#showTitleThresh">showTitleThresh</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hints.showTitleThresh</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>If there are less than or equal to this many windows on screen their titles will be shown in the hints.<br>
+The default is 4. Setting to 0 will disable this feature.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="style">
+    <a name="//apple_ref/cpp/Variable/style" class="dashAnchor"></a>
+    <h3><a href="#style">style</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hints.style</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>If this is set to &quot;vimperator&quot;, every window hint starts with the first character<br>
+of the parent application&#39;s title</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h3>Functions</h3>
+                
+
+    <section id="windowHints">
+    <a name="//apple_ref/cpp/Function/windowHints" class="dashAnchor"></a>
+    <h3><a href="#windowHints">windowHints</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hints.windowHints([windows, callback])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Displays a keyboard hint for switching focus to each window</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>windows - An optional table containing some <code>hs.window</code> objects. If this value is nil, all windows will be hinted</li>
+<li>callback - An optional function that will be called when a window has been selected by the user. The function will be called with a single argument containing the <code>hs.window</code> object of the window chosen by the user</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If there are more windows open than there are characters available in hs.hints.hintChars, multiple characters will be used</li>
+<li>If hints.style is set to &quot;vimperator&quot;, every window hint is prefixed with the first character of the parent application&#39;s name</li>
+<li>To display hints only for the currently focused application, try something like:
+
+<ul>
+<li><code>hs.hints.windowHints(hs.window.focusedWindow():application():allWindows())</code></li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

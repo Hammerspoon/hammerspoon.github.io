@@ -1,0 +1,332 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.itunes module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { padding-bottom: 10px; }
+      section { border-top: 1px solid #777; padding-bottom: 20px; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.itunes</h1>
+      <p>Controls for iTunes music player</p>
+
+      </header>
+      <h2>API Overview</h2>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#displayCurrentTrack">displayCurrentTrack</a></li>
+        
+        <li><a href="#getCurrentAlbum">getCurrentAlbum</a></li>
+        
+        <li><a href="#getCurrentArtist">getCurrentArtist</a></li>
+        
+        <li><a href="#getCurrentTrack">getCurrentTrack</a></li>
+        
+        <li><a href="#next">next</a></li>
+        
+        <li><a href="#pause">pause</a></li>
+        
+        <li><a href="#play">play</a></li>
+        
+        <li><a href="#previous">previous</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h2>API Documentation</h2>
+    
+                <h3>Functions</h3>
+                
+
+    <section id="displayCurrentTrack">
+    <a name="//apple_ref/cpp/Function/displayCurrentTrack" class="dashAnchor"></a>
+    <h3><a href="#displayCurrentTrack">displayCurrentTrack</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.itunes.displayCurrentTrack()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Displays information for current track on screen</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getCurrentAlbum">
+    <a name="//apple_ref/cpp/Function/getCurrentAlbum" class="dashAnchor"></a>
+    <h3><a href="#getCurrentAlbum">getCurrentAlbum</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.itunes.getCurrentAlbum() -> string or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the name of the current Album</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the Album of the current track, or nil if an error occurred</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getCurrentArtist">
+    <a name="//apple_ref/cpp/Function/getCurrentArtist" class="dashAnchor"></a>
+    <h3><a href="#getCurrentArtist">getCurrentArtist</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.itunes.getCurrentArtist() -> string or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the name of the current Artist</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the Artist of the current track, or nil if an error occurred</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getCurrentTrack">
+    <a name="//apple_ref/cpp/Function/getCurrentTrack" class="dashAnchor"></a>
+    <h3><a href="#getCurrentTrack">getCurrentTrack</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.itunes.getCurrentTrack() -> string or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the name of the current track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the name of the current track, or nil if an error occurred</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="next">
+    <a name="//apple_ref/cpp/Function/next" class="dashAnchor"></a>
+    <h3><a href="#next">next</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.itunes.next()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Skips to the next itunes track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pause">
+    <a name="//apple_ref/cpp/Function/pause" class="dashAnchor"></a>
+    <h3><a href="#pause">pause</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.itunes.pause()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Pauses of current iTunes track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="play">
+    <a name="//apple_ref/cpp/Function/play" class="dashAnchor"></a>
+    <h3><a href="#play">play</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.itunes.play()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Toggles play/pause of current iTunes track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="previous">
+    <a name="//apple_ref/cpp/Function/previous" class="dashAnchor"></a>
+    <h3><a href="#previous">previous</a></h3>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.itunes.previous()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Skips to previous itunes track</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

@@ -1,0 +1,119 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.screen.watcher module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.screen.watcher</h1>
+      <p>Watch for screen layout changes<br>
+This could be the addition or removal of a monitor, a screen resolution change, movement of a monitor in the Display preferences pane, etc.</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#start">start</a></li>
+        
+        <li><a href="#stop">stop</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="start">
+    <a name="//apple_ref/cpp/Function/start" class="dashAnchor"></a>
+    <h5><a href="#start">start</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen.watcher:start() -> watcher</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Starts the screen watcher, making it so fn is called each time the screen arrangement changes.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stop">
+    <a name="//apple_ref/cpp/Function/stop" class="dashAnchor"></a>
+    <h5><a href="#stop">stop</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen.watcher:stop() -> watcher</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Stops the screen watcher&#39;s fn from getting called until started again.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Constructors</h4>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+    <h5><a href="#new">new</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen.watcher.new(fn) -> watcher</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new screen-watcher that can be started; fn will be called when your screen layout changes in any way, whether by adding, removing, or moving a display device.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

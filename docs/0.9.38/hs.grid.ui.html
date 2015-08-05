@@ -1,0 +1,69 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.grid.ui module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.grid.ui</h1>
+      <p>Allows customization of the modal resizing grid user interface</p>
+
+<p>This table contains variables that you can change to customize the look of the modal resizing grid.<br>
+The default values are shown in the right hand side of the assignements below.</p>
+
+<p>To represent color values, you can use:</p>
+
+<ul>
+<li>a table {red=redN, green=greenN, blue=blueN, alpha=alphaN}</li>
+<li>a table {redN,greenN,blueN[,alphaN]} - if omitted alphaN defaults to 1.0
+where redN, greenN etc. are the desired value for the color component between 0.0 and 1.0</li>
+</ul>
+
+<p>The following variables must be color values:</p>
+
+<ul>
+<li><code>hs.grid.ui.textColor = {1,1,1}</code></li>
+<li><code>hs.grid.ui.cellColor = {0,0,0,0.25}</code></li>
+<li><code>hs.grid.ui.cellStrokeColor = {0,0,0}</code></li>
+<li><code>hs.grid.ui.selectedColor = {0.2,0.7,0,0.4}</code> -- for the first selected cell during a modal resize</li>
+<li><code>hs.grid.ui.highlightColor = {0.8,0.8,0,0.5}</code> -- to highlight the focused window behind the grid</li>
+<li><code>hs.grid.ui.highlightStrokeColor = {0.8,0.8,0,1}</code></li>
+</ul>
+
+<p>The following variables must be numbers (in screen points):</p>
+
+<ul>
+<li><code>hs.grid.ui.textSize = 200</code></li>
+<li><code>hs.grid.ui.cellStrokeWidth = 5</code></li>
+<li><code>hs.grid.ui.highlightStrokeWidth = 30</code></li>
+</ul>
+
+<p>The following variables must be strings:</p>
+
+<ul>
+<li><code>hs.grid.ui.fontName = &#39;Lucida Grande&#39;</code></li>
+</ul>
+
+<p>The following variables must be booleans:</p>
+
+<ul>
+<li><code>hs.grid.ui.showExtraKeys = true</code> -- show non-grid keybindings in the center of the grid</li>
+</ul>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+    </ul>
+    <h3>API Documentation</h3>
+    
+  </body>
+</html>

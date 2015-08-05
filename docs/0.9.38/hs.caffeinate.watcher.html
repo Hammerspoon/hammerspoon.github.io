@@ -1,0 +1,290 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.caffeinate.watcher module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.caffeinate.watcher</h1>
+      <p>Watch for display and system sleep/wake/power events</p>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Constants - Useful values which cannot be changed</li>
+                    <ul>
+                
+        <li><a href="#screensDidSleep">screensDidSleep</a></li>
+        
+        <li><a href="#screensDidWake">screensDidWake</a></li>
+        
+        <li><a href="#systemDidWake">systemDidWake</a></li>
+        
+        <li><a href="#systemWillPowerOff">systemWillPowerOff</a></li>
+        
+        <li><a href="#systemWillSleep">systemWillSleep</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#start">start</a></li>
+        
+        <li><a href="#stop">stop</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Constants</h4>
+                
+
+    <section id="screensDidSleep">
+    <a name="//apple_ref/cpp/Constant/screensDidSleep" class="dashAnchor"></a>
+    <h5><a href="#screensDidSleep">screensDidSleep</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.caffeinate.watcher.screensDidSleep</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The displays have gone to sleep</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="screensDidWake">
+    <a name="//apple_ref/cpp/Constant/screensDidWake" class="dashAnchor"></a>
+    <h5><a href="#screensDidWake">screensDidWake</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.caffeinate.watcher.screensDidWake</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The displays have woken from sleep</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="systemDidWake">
+    <a name="//apple_ref/cpp/Constant/systemDidWake" class="dashAnchor"></a>
+    <h5><a href="#systemDidWake">systemDidWake</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.caffeinate.watcher.systemDidWake</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The system woke from sleep</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="systemWillPowerOff">
+    <a name="//apple_ref/cpp/Constant/systemWillPowerOff" class="dashAnchor"></a>
+    <h5><a href="#systemWillPowerOff">systemWillPowerOff</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.caffeinate.watcher.systemWillPowerOff</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The user requested a logout or shutdown</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="systemWillSleep">
+    <a name="//apple_ref/cpp/Constant/systemWillSleep" class="dashAnchor"></a>
+    <h5><a href="#systemWillSleep">systemWillSleep</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.caffeinate.watcher.systemWillSleep</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The system is preparing to sleep</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Constructors</h4>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+    <h5><a href="#new">new</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.caffeinate.watcher.new(fn) -> watcher</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a watcher object for system and display sleep/wake/power events</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>fn - A function that will be called when system/display events happen. It should accept one parameters:
+
+<ul>
+<li>An event type (see the constants defined above)</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.caffeinate.watcher</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Methods</h4>
+                
+
+    <section id="start">
+    <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+    <h5><a href="#start">start</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.caffeinate.watcher:start()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Starts the application watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stop">
+    <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+    <h5><a href="#stop">stop</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.caffeinate.watcher:stop()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Stops the application watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

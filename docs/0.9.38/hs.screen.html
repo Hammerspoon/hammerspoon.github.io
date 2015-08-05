@@ -1,0 +1,942 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.screen module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.screen</h1>
+      <p>Manipulate screens (i.e. monitors)</p>
+
+<p>You usually get a screen through a window (see <code>hs.window.screen</code>). But you can get screens by themselves through this module, albeit not in any defined/useful order.</p>
+
+<p>Hammerspoon&#39;s coordinate system assumes a grid that is the union of every screen&#39;s rect (see <code>hs.screen.fullFrame</code>).</p>
+
+<p>Every window&#39;s position (i.e. <code>topleft</code>) and size are relative to this grid, and they&#39;re usually within the grid. A window that&#39;s semi-offscreen only intersects the grid.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Variables - Configurable values</li>
+                    <ul>
+                
+        <li><a href="#strictScreenInDirection">strictScreenInDirection</a></li>
+        
+                </ul>
+                
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#findByID">findByID</a></li>
+        
+        <li><a href="#findByName">findByName</a></li>
+        
+        <li><a href="#restoreGamma">restoreGamma</a></li>
+        
+        <li><a href="#setPrimary">setPrimary</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#allScreens">allScreens</a></li>
+        
+        <li><a href="#mainScreen">mainScreen</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#availableModes">availableModes</a></li>
+        
+        <li><a href="#currentMode">currentMode</a></li>
+        
+        <li><a href="#frame">frame</a></li>
+        
+        <li><a href="#fullFrame">fullFrame</a></li>
+        
+        <li><a href="#getGamma">getGamma</a></li>
+        
+        <li><a href="#id">id</a></li>
+        
+        <li><a href="#name">name</a></li>
+        
+        <li><a href="#next">next</a></li>
+        
+        <li><a href="#previous">previous</a></li>
+        
+        <li><a href="#rotate">rotate</a></li>
+        
+        <li><a href="#setGamma">setGamma</a></li>
+        
+        <li><a href="#setMode">setMode</a></li>
+        
+        <li><a href="#shotAsJPG">shotAsJPG</a></li>
+        
+        <li><a href="#shotAsPNG">shotAsPNG</a></li>
+        
+        <li><a href="#snapshot">snapshot</a></li>
+        
+        <li><a href="#toEast">toEast</a></li>
+        
+        <li><a href="#toNorth">toNorth</a></li>
+        
+        <li><a href="#toSouth">toSouth</a></li>
+        
+        <li><a href="#toWest">toWest</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Variables</h4>
+                
+
+    <section id="strictScreenInDirection">
+    <a name="//apple_ref/cpp/Variable/strictScreenInDirection" class="dashAnchor"></a>
+    <h5><a href="#strictScreenInDirection">strictScreenInDirection</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen.strictScreenInDirection</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>If set to <code>true</code>, the methods <code>hs.screen:toEast()</code>, <code>:toNorth()</code> etc. will disregard screens that lie perpendicularly to the desired axis</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="findByID">
+    <a name="//apple_ref/cpp/Function/findByID" class="dashAnchor"></a>
+    <h5><a href="#findByID">findByID</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen.findByID(id) -> screen or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Finds a screen by its ID</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>id - A number containing the ID to search for</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.screen</code> object, or nil if none could be found</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="findByName">
+    <a name="//apple_ref/cpp/Function/findByName" class="dashAnchor"></a>
+    <h5><a href="#findByName">findByName</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen.findByName(name) -> screen or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Finds a screen by its name</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - A string containing the name to search for</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.screen</code> object, or nil if none could be found</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="restoreGamma">
+    <a name="//apple_ref/cpp/Function/restoreGamma" class="dashAnchor"></a>
+    <h5><a href="#restoreGamma">restoreGamma</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen.restoreGamma()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Restore the gamma settings to defaults</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This returns all displays to the gamma tables specified by the user&#39;s selected ColorSync display profiles</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setPrimary">
+    <a name="//apple_ref/cpp/Function/setPrimary" class="dashAnchor"></a>
+    <h5><a href="#setPrimary">setPrimary</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:setPrimary(screen) -> nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the screen to be the primary display (i.e. contain the menubar and dock)</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Constructors</h4>
+                
+
+    <section id="allScreens">
+    <a name="//apple_ref/cpp/Constructor/allScreens" class="dashAnchor"></a>
+    <h5><a href="#allScreens">allScreens</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen.allScreens() -> screen[]</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns all the screens there are.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="mainScreen">
+    <a name="//apple_ref/cpp/Constructor/mainScreen" class="dashAnchor"></a>
+    <h5><a href="#mainScreen">mainScreen</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen.mainScreen() -> screen</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the &#39;main&#39; screen, i.e. the one containing the currently focused window.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Methods</h4>
+                
+
+    <section id="availableModes">
+    <a name="//apple_ref/cpp/Method/availableModes" class="dashAnchor"></a>
+    <h5><a href="#availableModes">availableModes</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:availableModes() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a table containing the screen modes supported by the screen. A screen mode is a combination of resolution, scaling factor and colour depth</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the supported screen modes. The keys of the table take the form of &quot;1440x900@2x&quot; (for a HiDPI mode) or &quot;1680x1050@1x&quot; (for a native DPI mode). The values are tables which contain the keys:
+
+<ul>
+<li>w - A number containing the width of the screen mode in points</li>
+<li>h - A number containing the height of the screen mode in points</li>
+<li>scale - A number containing the scaling factor of the screen mode (typically <code>1</code> for a native mode, <code>2</code> for a HiDPI mode)</li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Only 32-bit colour modes are returned. If you really need to know about 16-bit modes, please file an Issue on GitHub</li>
+<li>&quot;points&quot; are not necessarily the same as pixels, because they take the scale factor into account (e.g. &quot;1440x900@2x&quot; is a 2880x1800 screen resolution, with a scaling factor of 2, i.e. with HiDPI pixel-doubled rendering enabled), however, they are far more useful to work with than native pixel modes, when a Retina screen is involved. For non-retina screens, points and pixels are equivalent.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="currentMode">
+    <a name="//apple_ref/cpp/Method/currentMode" class="dashAnchor"></a>
+    <h5><a href="#currentMode">currentMode</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:currentMode() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a table describing the current screen mode</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the current screen mode. The keys of the table are:
+
+<ul>
+<li>w - A number containing the width of the screen mode in points</li>
+<li>h - A number containing the height of the screen mode in points</li>
+<li>scale - A number containing the scaling factor of the screen mode (typically <code>1</code> for a native mode, <code>2</code> for a HiDPI mode)</li>
+<li>desc - A string containing a representation of the mode as used in <code>hs.screen:availableModes()</code> - e.g. &quot;1920x1080@2x&quot;</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="frame">
+    <a name="//apple_ref/cpp/Method/frame" class="dashAnchor"></a>
+    <h5><a href="#frame">frame</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:frame() -> rect</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the screen&#39;s rect in absolute coordinates, without the dock or menu.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="fullFrame">
+    <a name="//apple_ref/cpp/Method/fullFrame" class="dashAnchor"></a>
+    <h5><a href="#fullFrame">fullFrame</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:fullFrame() -> rect</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the screen&#39;s rect in absolute coordinates, including the dock and menu.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getGamma">
+    <a name="//apple_ref/cpp/Method/getGamma" class="dashAnchor"></a>
+    <h5><a href="#getGamma">getGamma</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:getGamma() -> [whitepoint, blackpoint] or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the current whitepoint and blackpoint of the screen</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the white point and black point of the screen, or nil if an error occurred. The keys <code>whitepoint</code> and <code>blackpoint</code> each have values of a table containing the following keys, with corresponding values between 0.0 and 1.0:
+
+<ul>
+<li>red</li>
+<li>green</li>
+<li>blue</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="id">
+    <a name="//apple_ref/cpp/Method/id" class="dashAnchor"></a>
+    <h5><a href="#id">id</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:id(screen) -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a screen&#39;s unique ID.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="name">
+    <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+    <h5><a href="#name">name</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:name(screen) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the preferred name for the screen set by the manufacturer.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="next">
+    <a name="//apple_ref/cpp/Method/next" class="dashAnchor"></a>
+    <h5><a href="#next">next</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:next() -> screen</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the screen &#39;after&#39; this one (I have no idea how they&#39;re ordered though); this method wraps around to the first screen.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="previous">
+    <a name="//apple_ref/cpp/Method/previous" class="dashAnchor"></a>
+    <h5><a href="#previous">previous</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:previous() -> screen</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the screen &#39;before&#39; this one (I have no idea how they&#39;re ordered though); this method wraps around to the last screen.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="rotate">
+    <a name="//apple_ref/cpp/Method/rotate" class="dashAnchor"></a>
+    <h5><a href="#rotate">rotate</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:rotate(degrees) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Rotates the screen</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>degrees - A number indicating how many degrees to rotate. This number must be one of:
+
+<ul>
+<li>0</li>
+<li>90</li>
+<li>180</li>
+<li>270</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the operation succeeded, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setGamma">
+    <a name="//apple_ref/cpp/Method/setGamma" class="dashAnchor"></a>
+    <h5><a href="#setGamma">setGamma</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:setGamma(whitepoint, blackpoint) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the current white point and black point of the screen</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>whitepoint - A table containing color component values between 0.0 and 1.0 for each of the keys:
+
+<ul>
+<li>red</li>
+<li>green</li>
+<li>blue</li>
+</ul></li>
+<li>blackpoint - A table containing color component values between 0.0 and 1.0 for each of the keys:
+
+<ul>
+<li>red</li>
+<li>green</li>
+<li>blue</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the gamma settings were applied, false if an error occurred</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setMode">
+    <a name="//apple_ref/cpp/Method/setMode" class="dashAnchor"></a>
+    <h5><a href="#setMode">setMode</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:setMode(width, height, scale) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the screen to a new mode</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>width - A number containing the width in points of the new mode</li>
+<li>height - A number containing the height in points of the new mode</li>
+<li>scale - A number containing the scaling factor of the new mode (typically 1 for native pixel resolutions, 2 for HiDPI/Retina resolutions)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the requested mode was set, otherwise false</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The available widths/heights/scales can be seen in the output of <code>hs.screen:availableModes()</code>, however, it should be noted that the CoreGraphics subsystem seems to list more modes for a given screen than it is actually prepared to set, so you may find that seemingly valid modes still return false. It is not currently understood why this is so!</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="shotAsJPG">
+    <a name="//apple_ref/cpp/Method/shotAsJPG" class="dashAnchor"></a>
+    <h5><a href="#shotAsJPG">shotAsJPG</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:shotAsJPG(filePath[, screenRect])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Saves an image of the screen to a JPG file</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>filePath - A string containing a file path to save the screenshot as</li>
+<li>screenRect - An optional <code>rect-table</code> containing a portion of the screen to capture. Defaults to the whole screen</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="shotAsPNG">
+    <a name="//apple_ref/cpp/Method/shotAsPNG" class="dashAnchor"></a>
+    <h5><a href="#shotAsPNG">shotAsPNG</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:shotAsPNG(filePath[, screenRect])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Saves an image of the screen to a PNG file</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>filePath - A string containing a file path to save the screenshot as</li>
+<li>screenRect - An optional <code>rect-table</code> containing a portion of the screen to capture. Defaults to the whole screen</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="snapshot">
+    <a name="//apple_ref/cpp/Method/snapshot" class="dashAnchor"></a>
+    <h5><a href="#snapshot">snapshot</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:snapshot([rect]) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Captures an image of the screen</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>rect - An optional <code>rect-table</code> containing a portion of the screen to capture. Defaults to the whole screen</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.image</code> object, or nil if an error occurred</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="toEast">
+    <a name="//apple_ref/cpp/Method/toEast" class="dashAnchor"></a>
+    <h5><a href="#toEast">toEast</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:toEast()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get the first screen to the east of this one, ordered by proximity to its center or a specified point.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>from - An <code>hs.geometry.rect</code> or <code>hs.geometry.point</code> object; if omitted, the geometric center of this screen will be used</li>
+<li>strict - If <code>true</code>, disregard screens that lie completely above or below this one (alternatively, set <code>hs.screen.strictScreenInDirection</code>)</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="toNorth">
+    <a name="//apple_ref/cpp/Method/toNorth" class="dashAnchor"></a>
+    <h5><a href="#toNorth">toNorth</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:toNorth()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get the first screen to the north of this one, ordered by proximity to its center or a specified point.<br>
+Parameters:</p>
+
+<ul>
+<li>from - An <code>hs.geometry.rect</code> or <code>hs.geometry.point</code> object; if omitted, the geometric center of this screen will be used</li>
+<li>strict - If <code>true</code>, disregard screens that lie completely to the left or to the right of this one (alternatively, set <code>hs.screen.strictScreenInDirection</code>)</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="toSouth">
+    <a name="//apple_ref/cpp/Method/toSouth" class="dashAnchor"></a>
+    <h5><a href="#toSouth">toSouth</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:toSouth()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get the first screen to the south of this one, ordered by proximity to its center or a specified point.<br>
+Parameters:</p>
+
+<ul>
+<li>from - An <code>hs.geometry.rect</code> or <code>hs.geometry.point</code> object; if omitted, the geometric center of this screen will be used</li>
+<li>strict - If <code>true</code>, disregard screens that lie completely to the left or to the right of this one (alternatively, set <code>hs.screen.strictScreenInDirection</code>)</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="toWest">
+    <a name="//apple_ref/cpp/Method/toWest" class="dashAnchor"></a>
+    <h5><a href="#toWest">toWest</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.screen:toWest()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get the first screen to the west of this one, ordered by proximity to its center or a specified point.<br>
+Parameters:</p>
+
+<ul>
+<li>from - An <code>hs.geometry.rect</code> or <code>hs.geometry.point</code> object; if omitted, the geometric center of this screen will be used</li>
+<li>strict - If <code>true</code>, disregard screens that lie completely above or below this one (alternatively, set <code>hs.screen.strictScreenInDirection</code>)</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

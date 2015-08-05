@@ -16,7 +16,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
 
 ## Setup
 
- * [Download the latest release of Hammerspoon](http://www.hammerspoon.org/) and drag it to your `/Applications` folder
+ * [Download the latest release of Hammerspoon](https://github.com/Hammerspoon/hammerspoon/releases/latest) and drag it to your `/Applications` folder
  * Run Hammerspoon.app and follow the prompts to enable Accessibility access for the app
  * Click on the Hammerspoon menu bar icon and choose `Open Config` from the menu
  * Open the Hammerspoon [API docs](http://www.hammerspoon.org/docs/) in your browser, to explore the extensions we provide, and the functions they offer
@@ -36,6 +36,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
  * [Creating a simple menubar item](#simplemenubar)
  * [Reacting to application events](#appevents)
  * [Reacting to wifi events](#wifievents)
+ * [Reacting to USB events](#usbevents)
  * [Defeating paste-blocking](#pasteblock)
  * [Running AppleScript](#applescript)
  * [Controlling iTunes/Spotify](#itunesspotify)
@@ -56,7 +57,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
 end)
 ```
 
-Then click on the Hammerspoon menubar icon and click `Reload Config`. You should now find that pressing <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>ctrl</kbd>+<kbd>W</kbd> will display a Hello World notification on your screen.
+Then save the file, click on the Hammerspoon menubar icon and choose `Reload Config`. You should now find that pressing <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>ctrl</kbd>+<kbd>W</kbd> will display a Hello World notification on your screen.
 
 What is happening here is that we're telling Hammerspoon to bind an anonymous function to a particular hotkey. The hotkey is specified by a table of modifier keys (<kbd>⌘</kbd>, <kbd>⌥</kbd> and <kbd>ctrl</kbd> in this case) and a normal key (<kbd>W</kbd>). An anonymous function is simply one that doesn't have a name. We could have defined the alert function separately with a name and passed that name to `hs.hotkey.bind()`, but Lua makes it easy to define the functions inline.
 
@@ -70,11 +71,9 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
 end)
 ```
 
-It's possible to attach buttons to an `hs.notify` notification, but this is a simple example to get you started.
-
 ### <a name="winmoveintro"></a>Introduction to window movement
 
-One of the most useful things you can do with Hammerspoon is to manipulate the windows on your screen. We'll start off with a simple example and build up to something more complicated.
+One of the most immediately useful things you can do with Hammerspoon is to manipulate the windows on your screen. We'll start off with a simple example and build up to something more complicated.
 
 Add the following to your `init.lua`:
 
@@ -423,6 +422,28 @@ wifiWatcher:start()
 ```
 
 Here we have created a callback function that compares the current WiFi network's name to the previous network's name and examines whether we have moved from our pre-defined home network to something else, or vice versa, and then uses `hs.audiodevice` to adjust the system volume.
+
+### <a name="usbevents"></a>Reacting to USB events
+
+If you have a piece of USB hardware that you want to be able to react to, `hs.usb.watcher` is the extension for you. In the example below, we'll automatically start the software for a scanner when it is plugged in, and then kill the software when the scanner is unplugged.
+
+```lua
+local usbWatcher = nil
+
+function usbDeviceCallback(data)
+    if (data["productName"] == "ScanSnap S1300i") then
+        if (data["eventType"] == "added") then
+            hs.application.launchOrFocus("ScanSnap Manager")
+        elseif (data["eventType"] == "removed") then
+            app = hs.appfinder.appFromName("ScanSnap Manager")
+            app:kill()
+        end
+    end
+end
+
+usbWatcher = hs.usb.watcher.new(usbDeviceCallback)
+usbWatcher:start()
+```
 
 ### <a name="pasteblock"></a>Defeating paste blocking
 

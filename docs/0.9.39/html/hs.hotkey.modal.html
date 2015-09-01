@@ -1,0 +1,317 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.hotkey.modal module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.hotkey.modal</h1>
+      <p>Create/manage modal keyboard shortcut environments</p>
+
+<p>This would be a simple example usage:</p>
+
+<pre><code>k = hs.hotkey.modal.new({&quot;cmd&quot;, &quot;shift&quot;}, &quot;d&quot;)
+
+function k:entered() hs.alert.show(&#39;Entered mode&#39;) end
+function k:exited()  hs.alert.show(&#39;Exited mode&#39;)  end
+
+k:bind({}, &#39;escape&#39;, function() k:exit() end)
+k:bind({}, &#39;J&#39;, function() hs.alert.show(&quot;Pressed J&quot;) end)
+</code></pre>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#bind">bind</a></li>
+        
+        <li><a href="#enter">enter</a></li>
+        
+        <li><a href="#entered">entered</a></li>
+        
+        <li><a href="#exit">exit</a></li>
+        
+        <li><a href="#exited">exited</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Constructors</h4>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+    <h5><a href="#new">new</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hotkey.modal.new(mods, key) -> modal</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new modal state, optionally with a global hotkey to trigger it</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>mods - A table containing keyboard modifiers for the optional global hotkey</li>
+<li>key - A string containing the name of a keyboard key (as found in <code>hs.keycodes.map</code>)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.hotkey.modal</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If <code>mods</code> and <code>key</code> are both nil, no global hotkey will be registered</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Methods</h4>
+                
+
+    <section id="bind">
+    <a name="//apple_ref/cpp/Method/bind" class="dashAnchor"></a>
+    <h5><a href="#bind">bind</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hotkey.modal:bind(mods, key, pressedfn, releasedfn, repeatfn)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Parameters:</p>
+
+<ul>
+<li>mods - A table containing the keyboard modifiers required, which should be zero or more of the following strings:
+
+<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+</ul></li>
+<li>key - A string containing the name of a keyboard key (as found in <a href="hs.keycodes.html#map">hs.keycodes.map</a> ), or if the string begins with a <code>#</code> symbol, the remainder of the string will be treated as a raw keycode number</li>
+<li>pressedfn - A function that will be called when the hotkey has been pressed</li>
+<li>releasedfn - An optional function that will be called when the hotkey has been released</li>
+<li>repeatfn - An optional function that will be called when a pressed hotkey is repeating</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.hotkey.modal</code> object or nil if an error occurred</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="enter">
+    <a name="//apple_ref/cpp/Method/enter" class="dashAnchor"></a>
+    <h5><a href="#enter">enter</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hotkey.modal:enter()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Enters a modal state</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.hotkey.modal</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method will enable all of the hotkeys defined in the modal state, and disable the hotkey that entered the modal state (if one was defined)</li>
+<li>If the modal state has a hotkey, this method will be called automatically</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="entered">
+    <a name="//apple_ref/cpp/Method/entered" class="dashAnchor"></a>
+    <h5><a href="#entered">entered</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hotkey.modal:entered()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Optional callback for when a modal is entered</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is a pre-existing function that you should override if you need to use it</li>
+<li>The default implementation does nothing</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="exit">
+    <a name="//apple_ref/cpp/Method/exit" class="dashAnchor"></a>
+    <h5><a href="#exit">exit</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hotkey.modal:exit()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Exits a modal state</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.hotkey.modal</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method will disable all of the hotkeys defined in the modal state, and enable the hotkey for entering the modal state (if one was defined)</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="exited">
+    <a name="//apple_ref/cpp/Method/exited" class="dashAnchor"></a>
+    <h5><a href="#exited">exited</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.hotkey.modal:exited()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Optional callback for when a modal is exited</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is a pre-existing function that you should override if you need to use it</li>
+<li>The default implementation does nothing</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

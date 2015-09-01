@@ -1,0 +1,464 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th, td { border: 1px solid #ccc; padding: 5px 10px; text-align: left; vertical-align: top; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>Hammerspoon.app</h1>
+    </header>
+    <section>
+      <h3>Project links</h3>
+
+<table><thead>
+<tr>
+<th>Resource</th>
+<th>Link</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Website</td>
+<td><a href="http://www.hammerspoon.org/">http://www.hammerspoon.org/</a></td>
+</tr>
+<tr>
+<td>GitHub page</td>
+<td><a href="https://github.com/Hammerspoon/hammerspoon/">https://github.com/Hammerspoon/hammerspoon/</a></td>
+</tr>
+<tr>
+<td>Getting Started Guide</td>
+<td><a href="http://www.hammerspoon.org/go/">http://www.hammerspoon.org/go/</a></td>
+</tr>
+<tr>
+<td>IRC channel</td>
+<td>#hammerspoon on freenode</td>
+</tr>
+<tr>
+<td>Mailing list</td>
+<td><a href="https://groups.google.com/forum/#!forum/hammerspoon/">https://groups.google.com/forum/#!forum/hammerspoon/</a></td>
+</tr>
+</tbody></table>
+
+      </section>
+    <section>
+    <!-- tables suck., I know, but it's fast to code -->
+    <h3>API documentation</h3>
+    <table class="api-documentation-overview">
+        
+            <tr>
+                <th><a href="hs.html">hs</a></th>
+                <td><p>Core Hammerspoon functionality</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.alert.html">hs.alert</a></th>
+                <td><p>Simple on-screen alerts</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.appfinder.html">hs.appfinder</a></th>
+                <td><p>Easily find <code>hs.application</code> and <code>hs.window</code> objects</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.applescript.html">hs.applescript</a></th>
+                <td><p>Execute AppleScript code</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.application.html">hs.application</a></th>
+                <td><p>Manipulate running applications</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.application.watcher.html">hs.application.watcher</a></th>
+                <td><p>Watch for application launch/terminate events</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.audiodevice.html">hs.audiodevice</a></th>
+                <td><p>Manipulate the system&#39;s audio devices</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.base64.html">hs.base64</a></th>
+                <td><p>Base64 encoding and decoding</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.battery.html">hs.battery</a></th>
+                <td><p>Battery/power information</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.battery.watcher.html">hs.battery.watcher</a></th>
+                <td><p>Watch for battery/power state changes</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.brightness.html">hs.brightness</a></th>
+                <td><p>Inspect/manipulate display brightness</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.caffeinate.html">hs.caffeinate</a></th>
+                <td><p>Control system power states (sleeping, preventing sleep, screen locking, etc)</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.caffeinate.watcher.html">hs.caffeinate.watcher</a></th>
+                <td><p>Watch for display and system sleep/wake/power events</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.crash.html">hs.crash</a></th>
+                <td><p>Various features/facilities for developers who are working on Hammerspoon itself, or writing extensions for it. It is extremely unlikely that you should need any part of this extension, in a normal user configuration.</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.doc.html">hs.doc</a></th>
+                <td><p>Create documentation objects for interactive help within Hammerspoon</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.dockicon.html">hs.dockicon</a></th>
+                <td><p>Control Hammerspoon&#39;s dock icon</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.drawing.html">hs.drawing</a></th>
+                <td><p>Primitives for drawing on the screen in various ways</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.eventtap.html">hs.eventtap</a></th>
+                <td><p>Tap into input events (mouse, keyboard, trackpad) for observation and possibly overriding them</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.eventtap.event.html">hs.eventtap.event</a></th>
+                <td><p>Create, modify and inspect events for <code>hs.eventtap</code></p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.expose.html">hs.expose</a></th>
+                <td><p><strong>WARNING</strong>: This module depends on the EXPERIMENTAL hs.window.filter. It can undergo breaking API changes or <em>go away entirely</em> <strong>at any point and without notice</strong>.</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.expose.ui.html">hs.expose.ui</a></th>
+                <td><p>Allows customization of the expose user interface</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.fnutils.html">hs.fnutils</a></th>
+                <td><p>Functional programming utility functions</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.fs.html">hs.fs</a></th>
+                <td><p>Access/inspect the filesystem</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.geometry.html">hs.geometry</a></th>
+                <td><p>Utility object to represent points, sizes and rects in a bidimensional plane</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.grid.html">hs.grid</a></th>
+                <td><p>Move/resize windows within a grid</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.grid.ui.html">hs.grid.ui</a></th>
+                <td><p>Allows customization of the modal resizing grid user interface</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.hash.html">hs.hash</a></th>
+                <td><p>Various hashing algorithms</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.hints.html">hs.hints</a></th>
+                <td><p>Switch focus with a transient per-application keyboard shortcut</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.host.html">hs.host</a></th>
+                <td><p>Inspect information about the machine Hammerspoon is running on</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.hotkey.html">hs.hotkey</a></th>
+                <td><p>Create and manage global keyboard shortcuts</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.hotkey.modal.html">hs.hotkey.modal</a></th>
+                <td><p>Create/manage modal keyboard shortcut environments</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.http.html">hs.http</a></th>
+                <td><p>Perform HTTP requests</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.httpserver.html">hs.httpserver</a></th>
+                <td><p>Simple HTTP server</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.image.html">hs.image</a></th>
+                <td><p>A module for capturing and manipulating image objects from other modules for use with hs.drawing.</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.inspect.html">hs.inspect</a></th>
+                <td><p>Produce human-readable representations of Lua variables (particularly tables)</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.ipc.html">hs.ipc</a></th>
+                <td><p>Provides the server portion of the Hammerspoon command line interface</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.itunes.html">hs.itunes</a></th>
+                <td><p>Controls for iTunes music player</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.json.html">hs.json</a></th>
+                <td><p>JSON encoding and decoding</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.keycodes.html">hs.keycodes</a></th>
+                <td><p>Convert between key-strings and key-codes</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.layout.html">hs.layout</a></th>
+                <td><p>Window layout manager</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.location.html">hs.location</a></th>
+                <td><p>Determine the machine&#39;s location and useful information about that location</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.logger.html">hs.logger</a></th>
+                <td><p>Simple logger for debugging purposes</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.menubar.html">hs.menubar</a></th>
+                <td><p>Create and manage menubar icons</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.messages.html">hs.messages</a></th>
+                <td><p>Send messages via iMessage and SMS Relay (note, SMS Relay requires OS X 10.10 and an established SMS Relay pairing between your Mac and an iPhone running iOS8)</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.milight.html">hs.milight</a></th>
+                <td><p>Simple controls for the MiLight LED WiFi bridge (also known as LimitlessLED and EasyBulb)</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.mjomatic.html">hs.mjomatic</a></th>
+                <td><p>tmuxomatic-like window management</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.mouse.html">hs.mouse</a></th>
+                <td><p>Inspect/manipulate the position of the mouse pointer</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.notify.html">hs.notify</a></th>
+                <td><p>This module allows you to create on screen notifications in the User Notification Center located at the right of the users screen.</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.pasteboard.html">hs.pasteboard</a></th>
+                <td><p>Inspect/manipulate pasteboards (more commonly called clipboards). Both the system default pasteboard and custom named pasteboards can be interacted with.</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.pathwatcher.html">hs.pathwatcher</a></th>
+                <td><p>Watch paths recursively for changes</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.screen.html">hs.screen</a></th>
+                <td><p>Manipulate screens (i.e. monitors)</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.screen.watcher.html">hs.screen.watcher</a></th>
+                <td><p>Watch for screen layout changes</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.settings.html">hs.settings</a></th>
+                <td><p>Serialize simple Lua variables across Hammerspoon launches</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.sound.html">hs.sound</a></th>
+                <td><p>Load/play/manipulate sound files</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.spaces.watcher.html">hs.spaces.watcher</a></th>
+                <td><p>Watches for the current Space being changed</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.spotify.html">hs.spotify</a></th>
+                <td><p>Controls for Spotify music player</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.tabs.html">hs.tabs</a></th>
+                <td><p>Place the windows of an application into tabs drawn on its titlebar</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.timer.html">hs.timer</a></th>
+                <td><p>Execute functions with various timing rules</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.uielement.html">hs.uielement</a></th>
+                <td><p>A generalized framework for working with OSX UI elements</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.uielement.watcher.html">hs.uielement.watcher</a></th>
+                <td><p>Watch for events on certain UI elements (including windows and applications)</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.urlevent.html">hs.urlevent</a></th>
+                <td><p>Allows hammerspoon:// URLs to act as an IPC mechanism</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.usb.html">hs.usb</a></th>
+                <td><p>Inspect USB devices</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.usb.watcher.html">hs.usb.watcher</a></th>
+                <td><p>Watch for USB device connection/disconnection events</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.utf8.html">hs.utf8</a></th>
+                <td><p>Functions providing basic support for UTF-8 encodings</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.wifi.html">hs.wifi</a></th>
+                <td><p>Inspect WiFi networks</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.wifi.watcher.html">hs.wifi.watcher</a></th>
+                <td><p>Watch for changes to the associated wifi network</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.window.html">hs.window</a></th>
+                <td><p>Inspect/manipulate windows</p>
+</td>
+            </tr>
+        
+            <tr>
+                <th><a href="hs.window.filter.html">hs.window.filter</a></th>
+                <td><p><strong>WARNING</strong>: EXPERIMENTAL MODULE. DO <strong>NOT</strong> USE IN PRODUCTION.</p>
+</td>
+            </tr>
+        
+    </table>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,337 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.expose module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.expose</h1>
+      <p><strong>WARNING</strong>: This module depends on the EXPERIMENTAL hs.window.filter. It can undergo breaking API changes or <em>go away entirely</em> <strong>at any point and without notice</strong>.<br>
+(Should you encounter any issues, please feel free to report them on <a href="https://github.com/Hammerspoon/hammerspoon/issues">https://github.com/Hammerspoon/hammerspoon/issues</a><br>
+or #hammerspoon on irc.freenode.net)</p>
+
+<p>Keyboard-driven expose replacement/enhancement</p>
+
+<p>Usage:<br>
+-- set up your windowfilter<br>
+expose = hs.expose.new() -- default windowfilter: only visible windows, all Spaces<br>
+expose2 = hs.expose.new(hs.window.filter.new():trackSpaces(true):setDefaultFilter()) -- include minimized/hidden windows, current Space only<br>
+expose_browsers = hs.expose.new{&#39;Safari&#39;,&#39;Google Chrome&#39;} -- specialized expose for your dozens of browser windows :)</p>
+
+<p>-- then bind to a hotkey<br>
+hs.hotkey.bind(&#39;ctrl-cmd&#39;,&#39;e&#39;,&#39;expose&#39;,function()expose:toggleShow()end)</p>
+
+<p>-- alternatively, call .expose directly<br>
+hs.hotkey.bind(&#39;ctrl-alt&#39;,&#39;e&#39;,&#39;expose&#39;,expose.expose)<br>
+hs.hotkey.bind(&#39;ctrl-alt-shift&#39;,&#39;e&#39;,&#39;expose app&#39;,expose.exposeApplicationWindows)</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#expose">expose</a></li>
+        
+        <li><a href="#exposeApplicationWindows">exposeApplicationWindows</a></li>
+        
+        <li><a href="#hide">hide</a></li>
+        
+        <li><a href="#toggleShow">toggleShow</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#show">show</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="expose">
+    <a name="//apple_ref/cpp/Function/expose" class="dashAnchor"></a>
+    <h5><a href="#expose">expose</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.expose.expose(windows)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Shows an expose-like screen with modal keyboard hints for switching to, closing or minimizing/unminimizing windows.<br>
+If an expose is already visible, calling this function will toggle it off.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>windows - a list of windows to expose; if omitted or nil, <code>hs.window.allWindows()</code> will be used</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Due to OS X limitations, this function cannot show hidden applications or windows across
+Mission Control Spaces; if you need these, you can create an instance with <code>hs.expose.new</code>
+(set the windowfilter for your needs) and then use <code>:show()</code></li>
+<li>Completing a hint will exit the expose and focus the selected window.</li>
+<li>Pressing esc will exit the expose and with no action taken.</li>
+<li>If shift is being held when a hint is completed (the background will be red), the selected
+window will be closed. If it&#39;s the last window of an application, the application will be closed.</li>
+<li>If alt is being held when a hint is completed (the background will be blue), the selected
+window will be minimized (if visible) or unminimized/unhidden (if minimized or hidden).</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="exposeApplicationWindows">
+    <a name="//apple_ref/cpp/Function/exposeApplicationWindows" class="dashAnchor"></a>
+    <h5><a href="#exposeApplicationWindows">exposeApplicationWindows</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.expose.exposeApplicationWindows()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Shows an expose for the windows of the active application.<br>
+If an expose is already visible, calling this function will toggle it off.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is just a convenience wrapper for <code>hs.expose.expose(hs.window.focusedWindow():application():allWindows())</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hide">
+    <a name="//apple_ref/cpp/Function/hide" class="dashAnchor"></a>
+    <h5><a href="#hide">hide</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.expose:hide()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Hides the expose, if visible, and exits the modal mode.<br>
+Call this function if you need to make sure the modal is exited without waiting for the user to press <code>esc</code>.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="toggleShow">
+    <a name="//apple_ref/cpp/Function/toggleShow" class="dashAnchor"></a>
+    <h5><a href="#toggleShow">toggleShow</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.expose:toggleShow(applicationWindows)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Toggles the expose - see <code>hs.expose:show()</code> and <code>hs.expose:hide()</code></p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>applicationWindows</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Constructors</h4>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+    <h5><a href="#new">new</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.expose.new(windowfilter) -> hs.expose</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new hs.expose instance. It uses a windowfilter to determine which windows to show</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>windowfilter - (optional) it can be:
+
+<ul>
+<li><code>nil</code> or omitted (as in <code>myexpose=hs.expose.new()</code>): the default windowfilter will be used</li>
+<li>an <code>hs.window.filter</code> object</li>
+<li>otherwise all parameters are passed to <code>hs.window.filter.new</code> to create a new instance</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the new instance</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The default windowfilter (or an unmodified copy) will allow the expose instance to be populated with windows from all
+Mission Control Spaces (unlike the OSX expose); to limit to windows in the current Space only, use <code>:trackSpaces(true)</code></li>
+<li>The default windowfilter (or an unmodified copy) will not track hidden windows; to let the expose instance also manage hidden windows,
+use <code>:setDefaultFilter()</code> and/or other appropriate application-specific visiblity rules</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Methods</h4>
+                
+
+    <section id="show">
+    <a name="//apple_ref/cpp/Method/show" class="dashAnchor"></a>
+    <h5><a href="#show">show</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.expose:show(applicationWindows)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Shows an expose-like screen with modal keyboard hints for switching to, closing or minimizing/unminimizing windows.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>applicationWindows - (optional) if true, only show windows of the active application (within the
+scope of the instance windowfilter); otherwise show all windows allowed by the instance windowfilter</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Completing a hint will exit the expose and focus the selected window.</li>
+<li>Pressing esc will exit the expose and with no action taken.</li>
+<li>If shift is being held when a hint is completed (the background will be red), the selected
+window will be closed. If it&#39;s the last window of an application, the application will be closed.</li>
+<li>If alt is being held when a hint is completed (the background will be blue), the selected
+window will be minimized (if visible) or unminimized/unhidden (if minimized or hidden).</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

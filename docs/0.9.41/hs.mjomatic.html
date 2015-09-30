@@ -1,0 +1,90 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.mjomatic module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.mjomatic</h1>
+      <p>tmuxomatic-like window management</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#go">go</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="go">
+    <a name="//apple_ref/cpp/Function/go" class="dashAnchor"></a>
+    <h5><a href="#go">go</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.mjomatic.go(cfg)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Applies a configuration to the currently open windows</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>cfg - A table containing a series of strings, representing the desired window layout</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>An example use:</li>
+</ul>
+
+<pre lang="lua"><code>mjomatic.go({
+&quot;CCCCCCCCCCCCCiiiiiiiiiii      # &lt;-- The windowgram, it defines the shapes and positions of windows&quot;,
+&quot;CCCCCCCCCCCCCiiiiiiiiiii&quot;,
+&quot;SSSSSSSSSSSSSiiiiiiiiiii&quot;,
+&quot;SSSSSSSSSSSSSYYYYYYYYYYY&quot;,
+&quot;SSSSSSSSSSSSSYYYYYYYYYYY&quot;,
+&quot;&quot;,
+&quot;C Google Chrome            # &lt;-- window C has application():title() &#39;Google Chrome&#39;&quot;,
+&quot;i iTerm&quot;,
+&quot;Y YoruFukurou&quot;,
+&quot;S Sublime Text 2&quot;})
+</code></pre>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

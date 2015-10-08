@@ -1,0 +1,104 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.keycodes module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1>hs.keycodes</h1>
+      <p>Convert between key-strings and key-codes</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Constants - Useful values which cannot be changed</li>
+                    <ul>
+                
+        <li><a href="#map">map</a></li>
+        
+                </ul>
+                
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#inputSourceChanged">inputSourceChanged</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Constants</h4>
+                
+
+    <section id="map">
+    <a name="//apple_ref/cpp/Constant/map" class="dashAnchor"></a>
+    <h5><a href="#map">map</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.map = {...}</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A mapping from string representation of a key to its keycode, and vice versa.<br>
+For example: keycodes[1] == &quot;s&quot;, and keycodes[&quot;s&quot;] == 1, and so on.<br>
+This is primarily used by the hs.eventtap and hs.hotkey extensions.</p>
+
+<p>Valid strings are any single-character string, or any of the following strings:</p>
+
+<pre><code>f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15,
+f16, f17, f18, f19, f20, pad, pad*, pad+, pad/, pad-, pad=,
+pad0, pad1, pad2, pad3, pad4, pad5, pad6, pad7, pad8, pad9,
+padclear, padenter, return, tab, space, delete, escape, help,
+home, pageup, forwarddelete, end, pagedown, left, right, down, up
+</code></pre>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="inputSourceChanged">
+    <a name="//apple_ref/cpp/Function/inputSourceChanged" class="dashAnchor"></a>
+    <h5><a href="#inputSourceChanged">inputSourceChanged</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.inputSourceChanged(fn())</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the function to be called when your input source (i.e. qwerty, dvorak, colemac) changes.<br>
+You can use this to rebind your hotkeys or whatever.<br>
+Note: setting this will un-set functions previously registered by this function.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

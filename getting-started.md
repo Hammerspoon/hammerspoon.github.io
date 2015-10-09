@@ -67,7 +67,7 @@ While `hs.alert` is useful, you might prefer to use the OS X native notification
 
 ```lua
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
-  hs.notify.new({title="Hammerspoon", informativeText="Hello World"}):send():release()
+  hs.notify.new({title="Hammerspoon", informativeText="Hello World"}):send()
 end)
 ```
 

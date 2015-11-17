@@ -1,0 +1,388 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.task module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.task</h1>
+      <p>Execute processes in the background and capture their output</p>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is not intended to be used for processes which never exit. While it is possible to run such things with hs.task, it is not possible to read their output while they run and if they produce significant output, eventually the internal OS buffers will fill up and the task will be suspended.</li>
+<li>An hs.task object can only be used once</li>
+</ul>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#interrupt">interrupt</a></li>
+        
+        <li><a href="#pause">pause</a></li>
+        
+        <li><a href="#pid">pid</a></li>
+        
+        <li><a href="#resume">resume</a></li>
+        
+        <li><a href="#start">start</a></li>
+        
+        <li><a href="#terminate">terminate</a></li>
+        
+        <li><a href="#waitUntilExit">waitUntilExit</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Function/new" class="dashAnchor"></a>
+    <h5><a href="#new">new</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.task.new(launchPath, callbackFn[, arguments]) -> hs.task object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new hs.task object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>launchPath - A string containing the path to an executable file</li>
+<li>callbackFn - A callback function to be called when the task terminates, or nil if no callback should be called. The function should accept three arguments:
+
+<ul>
+<li>exitCode - An integer containing the exit code of the process</li>
+<li>stdOut - A string containing the standard output of the process</li>
+<li>stdErr - A string containing the standard error output of the process</li>
+</ul></li>
+<li>arguments - An optional table containing command line arguments for the executable</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.task</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Methods</h4>
+                
+
+    <section id="interrupt">
+    <a name="//apple_ref/cpp/Method/interrupt" class="dashAnchor"></a>
+    <h5><a href="#interrupt">interrupt</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.task:interrupt() -> hs.task object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Interrupts the task</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.task</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This will send SIGINT to the process</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pause">
+    <a name="//apple_ref/cpp/Method/pause" class="dashAnchor"></a>
+    <h5><a href="#pause">pause</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.task:pause() -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Pauses the task</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the task was paused, otherwise false</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This method can be called multiple times, but a matching number of <code>hs.task:resume()</code> calls will be required to allow the process to continue</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pid">
+    <a name="//apple_ref/cpp/Method/pid" class="dashAnchor"></a>
+    <h5><a href="#pid">pid</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.task:pid() -> integer</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the PID of a running/finished task</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An integer containing the PID of the task</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The PID will still be returned if the task has already completed and the process terminated</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="resume">
+    <a name="//apple_ref/cpp/Method/resume" class="dashAnchor"></a>
+    <h5><a href="#resume">resume</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.task:resume() -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Resumes the task</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the task was resumed, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="start">
+    <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+    <h5><a href="#start">start</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.task:start() -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Starts the task</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the task was launched successfully, otherwise false</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If the task was not started successfully, an informative error message will be printed to the Hammerspoon Console</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="terminate">
+    <a name="//apple_ref/cpp/Method/terminate" class="dashAnchor"></a>
+    <h5><a href="#terminate">terminate</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.task:terminate() -> hs.task object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Terminates the task</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.task</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This will send SIGTERM to the process</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="waitUntilExit">
+    <a name="//apple_ref/cpp/Method/waitUntilExit" class="dashAnchor"></a>
+    <h5><a href="#waitUntilExit">waitUntilExit</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.task:waitUntilExit() -> hs.task object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Blocks Hammerspoon until the task exits</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.task</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>All Lua and Hammerspoon activity will be blocked by this method. Its use is highly discouraged.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

@@ -1,0 +1,199 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.audiodevice.watcher module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.audiodevice.watcher</h1>
+      <p>Watch for system level audio hardware events</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#isRunning">isRunning</a></li>
+        
+        <li><a href="#setCallback">setCallback</a></li>
+        
+        <li><a href="#start">start</a></li>
+        
+        <li><a href="#stop">stop</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="isRunning">
+    <a name="//apple_ref/cpp/Function/isRunning" class="dashAnchor"></a>
+    <h5><a href="#isRunning">isRunning</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.audiodevice.watcher.isRunning() -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the status of the audio device watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the watcher is running, false if not</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setCallback">
+    <a name="//apple_ref/cpp/Function/setCallback" class="dashAnchor"></a>
+    <h5><a href="#setCallback">setCallback</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.audiodevice.watcher.setCallback(fn)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the callback function for the audio device watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>fn - A callback function, or nil to remove a previously set callback. The callback function should accept a single argument (see Notes below)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This watcher will call the callback when various audio device related events occur (e.g. an audio device appears/disappears, a system default audio device setting changes, etc)</li>
+<li>To watch for changes within an audio device, see <code>hs.audiodevice:newWatcher()</code></li>
+<li>The callback function argument is a string which may be one of the following strings, but might also be a different string entirely:
+
+<ul>
+<li>dIn - Default audio input device setting changed</li>
+<li>dOut - Default audio output device setting changed</li>
+<li>sOut - Default system audio output setting changed (i.e. the device that system sound effects use. This may also be triggered by dOut, depending on the user&#39;s settings)</li>
+<li>dev# - An audio device appeared or disappeared</li>
+</ul></li>
+<li>The callback will be called for each individual audio device event received from the OS, so you may receive multiple events for a single physical action (e.g. unplugging the default audio device will cause <code>dOut</code> and <code>dev#</code> events, and possibly <code>sOut</code> too)</li>
+<li>Passing nil will cause the watcher to stop if it is already running</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="start">
+    <a name="//apple_ref/cpp/Function/start" class="dashAnchor"></a>
+    <h5><a href="#start">start</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.audiodevice.watcher.start()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Starts the audio device watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stop">
+    <a name="//apple_ref/cpp/Function/stop" class="dashAnchor"></a>
+    <h5><a href="#stop">stop</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.audiodevice.watcher.stop() -> hs.audiodevice.watcher</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Stops an audio device watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.audiodevice.watcher</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

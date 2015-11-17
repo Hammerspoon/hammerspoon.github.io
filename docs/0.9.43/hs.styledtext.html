@@ -1,0 +1,1469 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.styledtext module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.styledtext</h1>
+      <p>This module adds support for controlling the style of the text in Hammerspoon.</p>
+
+<p>More detailed documentation is being worked on and will be provided in the Hammerspoon Wiki at <a href="https://github.com/Hammerspoon/hammerspoon/wiki">https://github.com/Hammerspoon/hammerspoon/wiki</a>.  The documentation here is a condensed version provided for use within the Hammerspoon Dash docset and the inline help provided by the <code>help</code> console command within Hammerspoon.</p>
+
+<p>The following list of attributes key-value pairs are recognized by this module and can be adjusted, set, or removed for objects by the various methods provided by this module.  The list of attributes is provided here for reference; anywhere in the documentation you see a reference to the <code>attributes key-value pairs</code>, refer back to here for specifics:</p>
+
+<ul>
+<li><code>font</code>               - A table containing the font name and size, specified by the keys <code>name</code> and <code>size</code>.  Default is the System Font at 27 points for <code>hs.drawing</code> text objects; otherwise the default is Helvetica at 12 points.  You may also specify this as a string, which will be taken as the font named in the string at the default size, when setting this attribute.</li>
+<li><code>color</code>              - A table indicating the color of the text as described in <code>hs.drawing.color</code>.  Default is white for hs.drawing text objects; otherwise the default is black.</li>
+<li><code>backgroundColor</code>    - Default nil, no background color (transparent).</li>
+<li><code>underlineColor</code>     - Default nil, same as <code>color</code>.</li>
+<li><code>strikethroughColor</code> - Default nil, same as <code>color</code>.</li>
+<li><code>strokeColor</code>        - Default nil, same as <code>color</code>.</li>
+<li><code>strokeWidth</code>        - Default 0, no stroke; positive, stroke alone; negative, stroke and fill (a typical value for outlined text would be 3.0)</li>
+<li><code>paragraphStyle</code>     - A table containing the paragraph style.  This table may contain any number of the following keys:
+
+<ul>
+<li><code>alignment</code>                     - A string indicating the texts alignment.  The string may contain a value of &quot;left&quot;, &quot;right&quot;, &quot;center&quot;, &quot;justified&quot;, or &quot;natural&quot;. Default is &quot;natural&quot;.</li>
+<li><code>lineBreak</code>                     - A string indicating how text that doesn&#39;t fit into the drawingObjects rectangle should be handled.  The string may be one of &quot;wordWrap&quot;, &quot;charWrap&quot;, &quot;clip&quot;, &quot;truncateHead&quot;, &quot;truncateTail&quot;, or &quot;truncateMiddle&quot;.  Default is &quot;wordWrap&quot;.</li>
+<li><code>baseWritingDirection</code>          - A string indicating the base writing direction for the lines of text.  The string may be one of &quot;natural&quot;, &quot;leftToRight&quot;, or &quot;rightToLeft&quot;.  Default is &quot;natural&quot;.</li>
+<li><code>tabStops</code>                      - An array of defined tab stops.  Default is an array of 12 left justified tab stops 28 points apart.  Each element of the array may contain the following keys:
+
+<ul>
+<li><code>location</code>                      - A floating point number indicating the number of points the tab stap is located from the line&#39;s starting margin (see baseWritingDirection).</li>
+<li><code>tabStopType</code>                   - A string indicating the type of the tab stop: &quot;left&quot;, &quot;right&quot;, &quot;center&quot;, or &quot;decimal&quot;</li>
+</ul></li>
+<li><code>defaultTabInterval</code>            - A positive floating point number specifying the default tab stop distance in points after the last assigned stop in the tabStops field.</li>
+<li><code>firstLineHeadIndent</code>           - A positive floating point number specifying the distance, in points, from the leading margin of a frame to the beginning of the paragraph&#39;s first line.  Default 0.0.</li>
+<li><code>headIndent</code>                    - A positive floating point number specifying the distance, in points, from the leading margin of a text container to the beginning of lines other than the first.  Default 0.0.</li>
+<li><code>tailIndent</code>                    - A floating point number specifying the distance, in points, from the margin of a frame to the end of lines. If positive, this value is the distance from the leading margin (for example, the left margin in left-to-right text). If 0 or negative, it&#39;s the distance from the trailing margin.  Default 0.0.</li>
+<li><code>maximumLineHeight</code>             - A positive floating point number specifying the maximum height that any line in the frame will occupy, regardless of the font size. Glyphs exceeding this height will overlap neighboring lines. A maximum height of 0 implies no line height limit. Default 0.0.</li>
+<li><code>minimumLineHeight</code>             - A positive floating point number specifying the minimum height that any line in the frame will occupy, regardless of the font size.  Default 0.0.</li>
+<li><code>lineSpacing</code>                   - A positive floating point number specifying the space in points added between lines within the paragraph (commonly known as leading). Default 0.0.</li>
+<li><code>paragraphSpacing</code>              - A positive floating point number specifying the space added at the end of the paragraph to separate it from the following paragraph.  Default 0.0.</li>
+<li><code>paragraphSpacingBefore</code>        - A positive floating point number specifying the distance between the paragraph&#39;s top and the beginning of its text content.  Default 0.0.</li>
+<li><code>lineHeightMultiple</code>            - A positive floating point number specifying the line height multiple. The natural line height of the receiver is multiplied by this factor (if not 0) before being constrained by minimum and maximum line height.  Default 0.0.</li>
+<li><code>hyphenationFactor</code>             - The hyphenation factor, a value ranging from 0.0 to 1.0 that controls when hyphenation is attempted. By default, the value is 0.0, meaning hyphenation is off. A factor of 1.0 causes hyphenation to be attempted always.</li>
+<li><code>tighteningFactorForTruncation</code> - A floating point number.  When the line break mode specifies truncation, the system attempts to tighten inter character spacing as an alternative to truncation, provided that the ratio of the text width to the line fragment width does not exceed 1.0 + the value of tighteningFactorForTruncation. Otherwise the text is truncated at a location determined by the line break mode. The default value is 0.05.</li>
+<li><code>headerLevel</code>                   - An integer number from 0 to 6 inclusive which specifies whether the paragraph is to be treated as a header, and at what level, for purposes of HTML generation.  Defaults to 0.</li>
+</ul></li>
+<li><code>superscript</code>        - An integer indicating if the text is to be displayed as a superscript (positive) or a subscript (negative) or normal (0).</li>
+<li><code>ligature</code>           - An integer. Default 1, standard ligatures; 0, no ligatures; 2, all ligatures.</li>
+<li><code>strikethroughStyle</code> - An integer representing the strike-through line style.  See <code>hs.styledtext.lineStyles</code>, <code>hs.styledtext.linePatterns</code> and <code>hs.styledtext.lineAppliesTo</code>.</li>
+<li><code>underlineStyle</code>     - An integer representing the underline style.  See <code>hs.styledtext.lineStyles</code>, <code>hs.styledtext.linePatterns</code> and <code>hs.styledtext.lineAppliesTo</code>.</li>
+<li><code>baselineOffset</code>     - A floating point value, as points offset from baseline. Default 0.0.</li>
+<li><code>kerning</code>            - A floating point value, as points by which to modify default kerning.  Default nil to use default kerning specified in font file; 0.0, kerning off; non-zero, points by which to modify default kerning.</li>
+<li><code>obliqueness</code>        - A floating point value, as skew to be applied to glyphs.  Default 0.0, no skew.</li>
+<li><code>expansion</code>          - A floating point value, as log of expansion factor to be applied to glyphs.  Default 0.0, no expansion.</li>
+<li><code>shadow</code>             - Default nil, indicating no drop shadow.  A table describing the drop shadow effect for the text.  The table may contain any of the following keys:
+
+<ul>
+<li><code>offset</code>             - A table with <code>h</code> and <code>w</code> keys (a size structure) which specify horizontal and vertical offsets respectively for the shadow.  Positive values always extend down and to the right from the user&#39;s perspective.</li>
+<li><code>blurRadius</code>         - A floating point value specifying the shadow&#39;s blur radius.  A value of 0 indicates no blur, while larger values produce correspondingly larger blurring. The default value is 0.</li>
+<li><code>color</code>              - The default shadow color is black with an alpha of 1/3. If you set this property to nil, the shadow is not drawn.</li>
+</ul></li>
+</ul>
+
+<p>To make the <code>hs.styledtext</code> objects easier to use, in addition to the module specific functions and methods defined, some of the Lua String library has been reproduced to perform similar functions on these objects.  See the help section for each method for more information on their use:</p>
+
+<ul>
+<li><code>hs.styledtext:byte</code></li>
+<li><code>hs.styledtext:find</code></li>
+<li><code>hs.styledtext:gmatch</code></li>
+<li><code>hs.styledtext:len</code></li>
+<li><code>hs.styledtext:lower</code></li>
+<li><code>hs.styledtext:match</code></li>
+<li><code>hs.styledtext:rep</code></li>
+<li><code>hs.styledtext:sub</code></li>
+<li><code>hs.styledtext:upper</code></li>
+</ul>
+
+<p>In addition, the following metamethods have been included:</p>
+
+<ul>
+<li>concat:
+
+<ul>
+<li><code>string</code>..<code>object</code> yields the string values concatenated</li>
+<li><code>object</code>..<code>string</code> yields a new <code>hs.styledtext</code> object with <code>string</code> appended</li>
+<li>two <code>hs.styledtext</code> objects yields a new <code>hs.styledtext</code> object containing the concatenation of the two objects</li>
+</ul></li>
+<li>len:     #object yields the length of the text contained in the object</li>
+<li>eq:      object ==/~= object yields a boolean indicating if the text of the two objects is equal or not.  Use <code>hs.styledtext:isIdentical</code> if you need to compare attributes as well.</li>
+<li>lt, le:  allows &lt;, &gt;, &lt;=, and &gt;= comparisons between objects and strings in which the text of an object is compared with the text of another or a Lua string.</li>
+</ul>
+
+<p>Note that due to differences in the way Lua determines when to use metamethods for equality comparisons versus relative-position comparisons, ==/~= cannot compare an object to a Lua string (it will always return false because the types are different).  You must use object:asString() ==/~= <code>string</code>.  (see <code>hs.styledtext:asString</code>)</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Constants - Useful values which cannot be changed</li>
+                    <ul>
+                
+        <li><a href="#fontTraits">fontTraits</a></li>
+        
+        <li><a href="#lineAppliesTo">lineAppliesTo</a></li>
+        
+        <li><a href="#linePatterns">linePatterns</a></li>
+        
+        <li><a href="#lineStyles">lineStyles</a></li>
+        
+                </ul>
+                
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#convertFont">convertFont</a></li>
+        
+        <li><a href="#fontInfo">fontInfo</a></li>
+        
+        <li><a href="#fontNames">fontNames</a></li>
+        
+        <li><a href="#fontNamesWithTraits">fontNamesWithTraits</a></li>
+        
+                </ul>
+                
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#ansi">ansi</a></li>
+        
+        <li><a href="#getStyledTextFromData">getStyledTextFromData</a></li>
+        
+        <li><a href="#getStyledTextFromFile">getStyledTextFromFile</a></li>
+        
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#asTable">asTable</a></li>
+        
+        <li><a href="#byte">byte</a></li>
+        
+        <li><a href="#convert">convert</a></li>
+        
+        <li><a href="#copy">copy</a></li>
+        
+        <li><a href="#find">find</a></li>
+        
+        <li><a href="#getString">getString</a></li>
+        
+        <li><a href="#gmatch">gmatch</a></li>
+        
+        <li><a href="#isIdentical">isIdentical</a></li>
+        
+        <li><a href="#len">len</a></li>
+        
+        <li><a href="#lower">lower</a></li>
+        
+        <li><a href="#match">match</a></li>
+        
+        <li><a href="#removeStyle">removeStyle</a></li>
+        
+        <li><a href="#rep">rep</a></li>
+        
+        <li><a href="#setString">setString</a></li>
+        
+        <li><a href="#setStyle">setStyle</a></li>
+        
+        <li><a href="#sub">sub</a></li>
+        
+        <li><a href="#upper">upper</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Constants</h4>
+                
+
+    <section id="fontTraits">
+    <a name="//apple_ref/cpp/Constant/fontTraits" class="dashAnchor"></a>
+    <h5><a href="#fontTraits">fontTraits</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.fontTraits -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A table for containing Font Trait masks for use with <code>hs.styledtext.fontNamesWithTraits(...)</code></p>
+
+<ul>
+<li>boldFont                    - fonts with the &#39;Bold&#39; attribute set</li>
+<li>compressedFont              - fonts with the &#39;Compressed&#39; attribute set</li>
+<li>condensedFont               - fonts with the &#39;Condensed&#39; attribute set</li>
+<li>expandedFont                - fonts with the &#39;Expanded&#39; attribute set</li>
+<li>fixedPitchFont              - fonts with the &#39;FixedPitch&#39; attribute set</li>
+<li>italicFont                  - fonts with the &#39;Italic&#39; attribute set</li>
+<li>narrowFont                  - fonts with the &#39;Narrow&#39; attribute set</li>
+<li>posterFont                  - fonts with the &#39;Poster&#39; attribute set</li>
+<li>smallCapsFont               - fonts with the &#39;SmallCaps&#39; attribute set</li>
+<li>nonStandardCharacterSetFont - fonts with the &#39;NonStandardCharacterSet&#39; attribute set</li>
+<li>unboldFont                  - fonts that do not have the &#39;Bold&#39; attribute set</li>
+<li>unitalicFont                - fonts that do not have the &#39;Italic&#39; attribute set</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="lineAppliesTo">
+    <a name="//apple_ref/cpp/Constant/lineAppliesTo" class="dashAnchor"></a>
+    <h5><a href="#lineAppliesTo">lineAppliesTo</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.lineAppliesTo</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A table of values indicating how the line for underlining or strike-through are applied to the text.</p>
+
+<p>Notes:</p>
+
+<ul>
+<li><p>Valid keys are as follows:</p>
+
+<ul>
+<li>line - the underline or strike-through is applied to an entire line of text</li>
+<li>word - the underline or strike-through is only applied to words and not the spaces in a line of text</li>
+</ul></li>
+<li><p>When specifying a line type for underlining or strike-through, you can combine one entry from each of the following tables:</p>
+
+<ul>
+<li>hs.styledtext.lineStyles</li>
+<li>hs.styledtext.linePatterns</li>
+<li>hs.styledtext.lineAppliesTo</li>
+</ul></li>
+<li><p>The entries chosen should be combined with the <code>or</code> operator to provide a single value. for example:</p>
+
+<ul>
+<li>hs.styledtext.lineStyles.single | hs.styledtext.linePatterns.dash | hs.styledtext.lineAppliesToWord</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="linePatterns">
+    <a name="//apple_ref/cpp/Constant/linePatterns" class="dashAnchor"></a>
+    <h5><a href="#linePatterns">linePatterns</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.linePatterns</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A table of patterns which apply to the line for underlining or strike-through.</p>
+
+<p>Notes:</p>
+
+<ul>
+<li><p>Valid line pattern keys are as follows:</p>
+
+<ul>
+<li>solid      - a solid line</li>
+<li>dot        - a dotted line</li>
+<li>dash       - a dashed line</li>
+<li>dashDot    - a pattern of a dash followed by a dot</li>
+<li>dashDotDot - a pattern of a dash followed by two dots</li>
+</ul></li>
+<li><p>When specifying a line type for underlining or strike-through, you can combine one entry from each of the following tables:</p>
+
+<ul>
+<li>hs.styledtext.lineStyles</li>
+<li>hs.styledtext.linePatterns</li>
+<li>hs.styledtext.lineAppliesTo</li>
+</ul></li>
+<li><p>The entries chosen should be combined with the <code>or</code> operator to provide a single value. for example:</p>
+
+<ul>
+<li>hs.styledtext.lineStyles.single | hs.styledtext.linePatterns.dash | hs.styledtext.lineAppliesToWord</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="lineStyles">
+    <a name="//apple_ref/cpp/Constant/lineStyles" class="dashAnchor"></a>
+    <h5><a href="#lineStyles">lineStyles</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.lineStyles</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A table of styles which apply to the line for underlining or strike-through.</p>
+
+<p>Notes:</p>
+
+<ul>
+<li><p>Valid line style keys are as follows:</p>
+
+<ul>
+<li>none   - no line style</li>
+<li>single - a single thin line</li>
+<li>thick  - a single thick line (usually double the single line&#39;s thickness)</li>
+<li>double - double think lines</li>
+</ul></li>
+<li><p>When specifying a line type for underlining or strike-through, you can combine one entry from each of the following tables:</p>
+
+<ul>
+<li>hs.styledtext.lineStyles</li>
+<li>hs.styledtext.linePatterns</li>
+<li>hs.styledtext.lineAppliesTo</li>
+</ul></li>
+<li><p>The entries chosen should be combined with the <code>or</code> operator to provide a single value. for example:</p>
+
+<ul>
+<li>hs.styledtext.lineStyles.single | hs.styledtext.linePatterns.dash | hs.styledtext.lineAppliesToWord</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="convertFont">
+    <a name="//apple_ref/cpp/Function/convertFont" class="dashAnchor"></a>
+    <h5><a href="#convertFont">convertFont</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.convertFont(fontTable, trait) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the font which most closely matches the given font and the trait change requested.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>font - a string or a table which specifies a font.  If a string is given, the default system font size is assumed.  If a table is provided, it should contain the following keys:
+
+<ul>
+<li>name - the name of the font (defaults to the system font)</li>
+<li>size - the point size of the font (defaults to the default system font size)</li>
+</ul></li>
+<li>trait - a number corresponding to a trait listed in <code>hs.styledtext.fontTraits</code> you wish to add or remove (unboldFont and unitalicFont) from the given font, or a boolean indicating whether you want a heavier version (true) or a lighter version (false).</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a table containing the name and size of the font which most closely matches the specified font and the trait change requested.  If no such font is available, then the original font is returned unchanged.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="fontInfo">
+    <a name="//apple_ref/cpp/Function/fontInfo" class="dashAnchor"></a>
+    <h5><a href="#fontInfo">fontInfo</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.fontInfo(font) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get information about the font Specified in the attributes table.</p>
+
+<p>Paramters:</p>
+
+<ul>
+<li>font - a string or a table which specifies a font.  If a string is given, the default system font size is assumed.  If a table is provided, it should contain the following keys:
+
+<ul>
+<li>name - the name of the font (defaults to the system font)</li>
+<li>size - the point size of the font (defaults to the default system font size)</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a table containing the following keys:
+
+<ul>
+<li>fontName           - The font&#39;s internally recognized name.</li>
+<li>familyName         - The font&#39;s family name.</li>
+<li>displayName        - The font’s display name is typically localized for the user’s language.</li>
+<li>fixedPitch         - A boolean value indicating whether all glyphs in the font have the same advancement.</li>
+<li>ascender           - The top y-coordinate, offset from the baseline, of the font’s longest ascender.</li>
+<li>boundingRect       - A table containing the font’s bounding rectangle, scaled to the font’s size.  This rectangle is the union of the bounding rectangles of every glyph in the font.</li>
+<li>capHeight          - The cap height of the font.</li>
+<li>descender          - The bottom y-coordinate, offset from the baseline, of the font’s longest descender.</li>
+<li>italicAngle        - The number of degrees that the font is slanted counterclockwise from the vertical. (read-only)</li>
+<li>leading            - The leading value of the font.</li>
+<li>maximumAdvancement - A table containing the maximum advance of any of the font’s glyphs.</li>
+<li>numberOfGlyphs     - The number of glyphs in the font.</li>
+<li>pointSize          - The point size of the font.</li>
+<li>underlinePosition  - The baseline offset to use when drawing underlines with the font.</li>
+<li>underlineThickness - The thickness to use when drawing underlines with the font.</li>
+<li>xHeight            - The x-height of the font.</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="fontNames">
+    <a name="//apple_ref/cpp/Function/fontNames" class="dashAnchor"></a>
+    <h5><a href="#fontNames">fontNames</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.fontNames() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the names of all installed fonts for the system.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a table containing the names of every font installed for the system.  The individual names are strings which can be used in the <code>hs.drawing:setTextFont(fontname)</code> method.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="fontNamesWithTraits">
+    <a name="//apple_ref/cpp/Function/fontNamesWithTraits" class="dashAnchor"></a>
+    <h5><a href="#fontNamesWithTraits">fontNamesWithTraits</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.fontNamesWithTraits(fontTraitMask) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the names of all installed fonts for the system with the specified traits.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>traits - a number, specifying the fontTraitMask, or a table containing traits listed in <code>hs.styledtext.fontTraits</code> which are logically &#39;OR&#39;ed together to create the fontTraitMask used.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a table containing the names of every font installed for the system which matches the fontTraitMask specified.  The individual names are strings which can be used in the <code>hs.drawing:setTextFont(fontname)</code> method.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>specifying 0 or an empty table will match all fonts that are neither italic nor bold.  This would be the same list as you&#39;d get with { hs.styledtext.fontTraits.unBold, hs.styledtext.fontTraits.unItalic } as the parameter.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Constructors</h4>
+                
+
+    <section id="ansi">
+    <a name="//apple_ref/cpp/Constructor/ansi" class="dashAnchor"></a>
+    <h5><a href="#ansi">ansi</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.ansi(string, [attributes]) -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Create an <code>hs.styledtext</code> object from the string provided, converting ANSI SGR color and some font sequences into the appropriate attributes.  Attributes to apply to the resulting string may also be optionally provided.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>string     - The string containing the text with ANSI SGR sequences to be converted.</li>
+<li>attributes - an optional table containing attribute key-value pairs to apply to the entire <code>hs.styledtext</code> object to be returned.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an <code>hs.styledtext</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Because a font is required for the SGR sequences indicating Bold and Italic, the base font is determined using the following logic:
+
+<ul>
+<li> * if no <code>attributes</code> table is provided, the font is assumed to be the default for <code>hs.drawing</code> as returned by the <code>hs.drawing.defaultTextStyle</code> function</li>
+<li> * if an <code>attributes</code> table is provided and it defines a <code>font</code> attribute, this font is used.</li>
+<li> * if an <code>attributes</code> table is provided, but it does not provide a <code>font</code> attribute, the NSAttributedString default of Helvetica at 12 points is used.</li>
+</ul></li>
+<li><p>As the most common use of this constructor is likely to be from the output of a terminal shell command, you will most likely want to specify a fixed-pitch (monospace) font.  You can get a list of installed fixed-pitch fonts by typing <code>hs.styledtext.fontNamesWithTraits(hs.styledtext.fontTraits.fixedPitchFont)</code> into the Hammerspoon console.</p></li>
+<li><p>See the module description documentation (<code>help.hs.styledtext</code>) for a description of the attributes table format which can be provided for the optional second argument.</p></li>
+<li><p>This function was modeled after the ANSIEscapeHelper.m file at <a href="https://github.com/balthamos/geektool-3">https://github.com/balthamos/geektool-3</a> in the /NerdTool/classes directory.</p></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getStyledTextFromData">
+    <a name="//apple_ref/cpp/Constructor/getStyledTextFromData" class="dashAnchor"></a>
+    <h5><a href="#getStyledTextFromData">getStyledTextFromData</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.getStyledTextFromData(data, [type]) -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Converts the provided data into a styled text string.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>data          - the data, as a lua string, which contains the raw data to be converted to a styledText object</li>
+<li>type          - a string indicating the format of the contents in <code>data</code>.  Defaults to &quot;html&quot;.  The string may be one of the following (not all formats may be fully representable as a simple string container - see also <code>hs.styledtext.setTextFromFile</code>):
+
+<ul>
+<li>&quot;text&quot;      - Plain text document.</li>
+<li>&quot;rtf&quot;        - Rich text format document.</li>
+<li>&quot;rtfd&quot;       - Rich text format with attachments document.</li>
+<li>&quot;simpleText&quot; - Macintosh SimpleText document.</li>
+<li>&quot;html&quot;       - Hypertext Markup Language (HTML) document.</li>
+<li>&quot;word&quot;       - Microsoft Word document.</li>
+<li>&quot;wordXML&quot;    - Microsoft Word XML (WordML schema) document.</li>
+<li>&quot;webArchive&quot; - Web Kit WebArchive document.</li>
+<li>&quot;openXML&quot;    - ECMA Office Open XML text document format.</li>
+<li>&quot;open&quot;       - OASIS Open Document text document format.</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the styledText object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>See also <code>hs.styledtext.getStyledTextFromFile</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getStyledTextFromFile">
+    <a name="//apple_ref/cpp/Constructor/getStyledTextFromFile" class="dashAnchor"></a>
+    <h5><a href="#getStyledTextFromFile">getStyledTextFromFile</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.getStyledTextFromFile(file, [type]) -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Converts the data in the specified file into a styled text string.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>file          - the path to the file to use as the source for the data to convert into a styledText object</li>
+<li>type          - a string indicating the format of the contents in <code>data</code>.  Defaults to &quot;html&quot;.  The string may be one of the following (not all formats may be fully representable as a simple string container - see also <code>hs.styledtext.setTextFromFile</code>):
+
+<ul>
+<li>&quot;text&quot;      - Plain text document.</li>
+<li>&quot;rtf&quot;        - Rich text format document.</li>
+<li>&quot;rtfd&quot;       - Rich text format with attachments document.</li>
+<li>&quot;simpleText&quot; - Macintosh SimpleText document.</li>
+<li>&quot;html&quot;       - Hypertext Markup Language (HTML) document.</li>
+<li>&quot;word&quot;       - Microsoft Word document.</li>
+<li>&quot;wordXML&quot;    - Microsoft Word XML (WordML schema) document.</li>
+<li>&quot;webArchive&quot; - Web Kit WebArchive document.</li>
+<li>&quot;openXML&quot;    - ECMA Office Open XML text document format.</li>
+<li>&quot;open&quot;       - OASIS Open Document text document format.</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the styledText object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>See also <code>hs.styledtext.getStyledTextFromData</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+    <h5><a href="#new">new</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext.new(string, [attributes]) -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Create an <code>hs.styledtext</code> object from the string or table representation provided.  Attributes to apply to the resulting string may also be optionally provided.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>string     - a string, table, or <code>hs.styledtext</code> object to create a new <code>hs.styledtext</code> object from.</li>
+<li>attributes - an optional table containing attribute key-value pairs to apply to the entire <code>hs.styledtext</code> object to be returned.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an <code>hs.styledtext</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>See <code>hs.styledtext:asTable</code> for a description of the table representation of an <code>hs.styledtext</code> object</li>
+<li><p>See the module description documentation (<code>help.hs.styledtext</code>) for a description of the attributes table format which can be provided for the optional second argument.</p></li>
+<li><p>Passing an <code>hs.styledtext</code> object as the first parameter without specifying an <code>attributes</code> table is the equivalent of invoking <code>hs.styledtext:copy</code>.</p></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Methods</h4>
+                
+
+    <section id="asTable">
+    <a name="//apple_ref/cpp/Method/asTable" class="dashAnchor"></a>
+    <h5><a href="#asTable">asTable</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:asTable([starts], [ends]) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the table representation of the <code>hs.styledtext</code> object or its specified substring.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>starts - an optional index position within the text of the <code>hs.styledtext</code> object indicating the beginning of the substring to return the table for.  Defaults to 1, the beginning of the objects text.  If this number is negative, it is counted backwards from the end of the object&#39;s text (i.e. -1 would be the last character position).</li>
+<li>ends   - an optional index position within the text of the <code>hs.styledtext</code> object indicating the end of the substring to return the table for.  Defaults to the length of the objects text.  If this number is negative, it is counted backwards from the end of the object&#39;s text.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a table representing the <code>hs.styledtext</code> object.  The table will be an array with the following structure:
+
+<ul>
+<li>index 1             - the text of the <code>hs.styledtext</code> object as a Lua String.</li>
+<li>index 2+            - a table with the following keys:
+
+<ul>
+<li>starts            - the index position in the original styled text object where this list of attributes is first applied</li>
+<li>ends              - the index position in the original styled text object where the application of this list of attributes ends</li>
+<li>attributes        - a table of attribute key-value pairs that apply to the string between the positions of <code>starts</code> and <code>ends</code></li>
+<li>unsupportedFields - this field only exists, and will be set to <code>true</code> when an attribute that was included in the attributes table that this module cannot modify.  A best effort will be made to render the attributes assigned value in the attributes table, but modifying the attribute and re-applying it with <code>hs.styledtext:setStyle</code> will be silently ignored.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><code>starts</code> and <code>ends</code> follow the conventions of <code>i</code> and <code>j</code> for Lua&#39;s <code>string.sub</code> function.</li>
+<li><p>The attribute which contains an attachment (image) for a converted RTFD or other document is known to set the <code>unsupportedFields</code> flag.</p></li>
+<li><p>The indexes in the table returned are relative to their position in the original <code>hs.styledtext</code> object.  If you want the table version of a substring which does not start at index position 1 that can be safely fed as a &quot;proper&quot; table version of an <code>hs.styledtext</code> object into another function or constructor, the proper way to generate it is `destination = object:sub(i,j):asTable().</p></li>
+<li><p>See the module description documentation (<code>help.hs.styledtext</code>) for a description of the attributes table format</p></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="byte">
+    <a name="//apple_ref/cpp/Method/byte" class="dashAnchor"></a>
+    <h5><a href="#byte">byte</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:byte([starts], [ends]) -> integer, ...</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the internal numerical representation of the characters in the <code>hs.styledtext</code> object specified by the given indicies.  Mimics the Lua <code>string.byte</code> function.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>starts - an optional index position within the text of the <code>hs.styledtext</code> object indicating the beginning of the substring to return numerical values for.  Defaults to 1, the beginning of the objects text.  If this number is negative, it is counted backwards from the end of the object&#39;s text (i.e. -1 would be the last character position).</li>
+<li>ends   - an optional index position within the text of the <code>hs.styledtext</code> object indicating the end of the substring to return numerical values for.  Defaults to the value of <code>starts</code>.  If this number is negative, it is counted backwards from the end of the object&#39;s text.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a list of integers representing the internal numeric representation of the characters in the <code>hs.styledtext</code> object specified by the given indicies.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><code>starts</code> and <code>ends</code> follow the conventions of <code>i</code> and <code>j</code> for Lua&#39;s <code>string.sub</code> function.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="convert">
+    <a name="//apple_ref/cpp/Method/convert" class="dashAnchor"></a>
+    <h5><a href="#convert">convert</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:convert([type]) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Converts the styledtext object into the data format specified.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>type          - a string indicating the format to convert the styletext object into.  Defaults to &quot;html&quot;.  The string may be one of the following:
+
+<ul>
+<li>&quot;text&quot;      - Plain text document.</li>
+<li>&quot;rtf&quot;        - Rich text format document.</li>
+<li>&quot;rtfd&quot;       - Rich text format with attachments document.</li>
+<li>&quot;html&quot;       - Hypertext Markup Language (HTML) document.</li>
+<li>&quot;word&quot;       - Microsoft Word document.</li>
+<li>&quot;wordXML&quot;    - Microsoft Word XML (WordML schema) document.</li>
+<li>&quot;webArchive&quot; - Web Kit WebArchive document.</li>
+<li>&quot;openXML&quot;    - ECMA Office Open XML text document format.</li>
+<li>&quot;open&quot;       - OASIS Open Document text document format.</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a string containing the converted data</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="copy">
+    <a name="//apple_ref/cpp/Method/copy" class="dashAnchor"></a>
+    <h5><a href="#copy">copy</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:copy(styledText) -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Create a copy of the <code>hs.styledtext</code> object.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>styledText - an <code>hs.styledtext</code> object</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a copy of the styledText object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="find">
+    <a name="//apple_ref/cpp/Method/find" class="dashAnchor"></a>
+    <h5><a href="#find">find</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:find(pattern, [init, [plain]]) -> start, end, ... | nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the indicies of the first occurrence of the specified pattern in the text of the <code>hs.styledtext</code> object.  Mimics the Lua <code>string.find</code> function.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>pattern  - a string containing the pattern to locate.  See the Lua manual, section 6.4.1 (<code>help.lua._man._6_4_1</code>) for more details.</li>
+<li>init     - an optional integer specifying the location within the text to start the pattern search</li>
+<li>plain    - an optional boolean specifying whether or not to treat the pattern as plain text (i.e. an exact match).  Defaults to false.  If you wish to specify this argument, you must also specify init.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>if a match is found, <code>start</code> and <code>end</code> will be the indices where the pattern was first located.  If captures were specified in the pattern, they will also be returned as additional arguments after <code>start</code> and <code>end</code>.  If the pattern was not found in the text, then this method returns nil.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Any captures returned are returned as Lua Strings, not as <code>hs.styledtext</code> objects.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getString">
+    <a name="//apple_ref/cpp/Method/getString" class="dashAnchor"></a>
+    <h5><a href="#getString">getString</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:getString([starts], [ends]) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the text of the <code>hs.styledtext</code> object as a Lua String</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>starts - an optional index position within the text of the <code>hs.styledtext</code> object indicating the beginning of the substring to return the string for.  Defaults to 1, the beginning of the objects text.  If this number is negative, it is counted backwards from the end of the object&#39;s text (i.e. -1 would be the last character position).</li>
+<li>ends   - an optional index position within the text of the <code>hs.styledtext</code> object indicating the end of the substring to return the string for.  Defaults to the length of the objects text.  If this number is negative, it is counted backwards from the end of the object&#39;s text.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a string containing the text of the <code>hs.styledtext</code> object specified</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><code>starts</code> and <code>ends</code> follow the conventions of <code>i</code> and <code>j</code> for Lua&#39;s <code>string.sub</code> function.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="gmatch">
+    <a name="//apple_ref/cpp/Method/gmatch" class="dashAnchor"></a>
+    <h5><a href="#gmatch">gmatch</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:gmatch(pattern) -> iterator-function</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns an iterator function which will return the captures (or the entire pattern) of the next match of the specified pattern in the text of the <code>hs.styledtext</code> object each time it is called.  Mimics the Lua <code>string.gmatch</code> function.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>pattern  - a string containing the pattern to locate.  See the Lua manual, section 6.4.1 (<code>help.lua._man._6_4_1</code>) for more details.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an iterator function which will return the captures (or the entire pattern) of the next match of the specified pattern in the text of the <code>hs.styledtext</code> object each time it is called.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Any captures (or the entire pattern) returned by the iterator are returned as Lua Strings, not as <code>hs.styledtext</code> objects.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="isIdentical">
+    <a name="//apple_ref/cpp/Method/isIdentical" class="dashAnchor"></a>
+    <h5><a href="#isIdentical">isIdentical</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:isIdentical(styledText) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Determine if the <code>styledText</code> object is identical to the one specified.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>styledText - an <code>hs.styledtext</code> object</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a boolean value indicating whether or not the styled text objects are identical, both in text content and attributes specified.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>comparing two <code>hs.styledtext</code> objects with the <code>==</code> operator only compares whether or not the string values are identical.  This method also compares their attributes.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="len">
+    <a name="//apple_ref/cpp/Method/len" class="dashAnchor"></a>
+    <h5><a href="#len">len</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:len() -> integer</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the length of the text of the <code>hs.styledtext</code> object.  Mimics the Lua <code>string.len</code> function.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an integer which is the length of the text of the <code>hs.styledtext</code> object.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="lower">
+    <a name="//apple_ref/cpp/Method/lower" class="dashAnchor"></a>
+    <h5><a href="#lower">lower</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:lower() -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a copy of the <code>hs.styledtext</code> object with all alpha characters converted to lower case.  Mimics the Lua <code>string.lower</code> function.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a copy of the <code>hs.styledtext</code> object with all alpha characters converted to lower case</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="match">
+    <a name="//apple_ref/cpp/Method/match" class="dashAnchor"></a>
+    <h5><a href="#match">match</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:match(pattern, [init]) -> match ... | nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the first occurrence of the captures in the specified pattern (or the complete pattern, if no captures are specified) in the text of the <code>hs.styledtext</code> object.  Mimics the Lua <code>string.match</code> function.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>pattern  - a string containing the pattern to locate.  See the Lua manual, section 6.4.1 (<code>help.lua._man._6_4_1</code>) for more details.</li>
+<li>init     - an optional integer specifying the location within the text to start the pattern search</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>if a match is found, the captures in the specified pattern (or the complete pattern, if no captures are specified).  If the pattern was not found in the text, then this method returns nil.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Any captures (or the entire pattern) returned are returned as Lua Strings, not as <code>hs.styledtext</code> objects.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="removeStyle">
+    <a name="//apple_ref/cpp/Method/removeStyle" class="dashAnchor"></a>
+    <h5><a href="#removeStyle">removeStyle</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:removeStyle(attributes, [starts], [ends]) -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Return a copy of the <code>hs.styledtext</code> object containing the changes to its attributes specified in the <code>attributes</code> table.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>attributes - an array of attribute labels to remove (set to <code>nil</code>) from the <code>hs.styledtext</code> object.</li>
+<li>starts     - an optional index position within the text of the <code>hs.styledtext</code> object indicating the beginning of the substring to remove attributes for.  Defaults to 1, the beginning of the object&#39;s text.  If this number is negative, it is counted backwards from the end of the object&#39;s text (i.e. -1 would be the last character position).</li>
+<li>ends       - an optional index position within the text of the <code>hs.styledtext</code> object indicating the end of the substring to remove attributes for.  Defaults to the length of the object&#39;s text.  If this number is negative, it is counted backwards from the end of the object&#39;s text.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a copy of the <code>hs.styledtext</code> object with the attributes specified removed from the given range of the original object.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><p><code>starts</code> and <code>ends</code> follow the conventions of <code>i</code> and <code>j</code> for Lua&#39;s <code>string.sub</code> function.</p></li>
+<li><p>See the module description documentation (<code>help.hs.styledtext</code>) for a list of officially recognized attribute label names.</p></li>
+<li>The officially recognized attribute labels were chosen for brevity or for consistency with conventions used in Hammerspoon&#39;s other modules.  If you know the Objective-C name for an attribute, you can list it instead of an officially recognized label, allowing the removal of attributes which this module cannot manipulate in other ways.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="rep">
+    <a name="//apple_ref/cpp/Method/rep" class="dashAnchor"></a>
+    <h5><a href="#rep">rep</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:rep(n, [separator]) -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns an <code>hs.styledtext</code> object which contains <code>n</code> repetitions of the <code>hs.styledtext</code> object, optionally with <code>separator</code> between each repetition.  Mimics the Lua <code>string.rep</code> function.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>n         - the number of times to repeat the <code>hs.styledtext</code> object.</li>
+<li>separator - an optional string or <code>hs.styledtext</code> object to insert between repetitions.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an <code>hs.styledtext</code> object which contains <code>n</code> repitions of the object, including <code>separator</code> between repetitions, if it is specified.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setString">
+    <a name="//apple_ref/cpp/Method/setString" class="dashAnchor"></a>
+    <h5><a href="#setString">setString</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:setString(string, [starts], [ends], [clear]) -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Return a copy of the <code>hs.styledtext</code> object containing the changes to its attributes specified in the <code>attributes</code> table.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>string     - a string, table, or <code>hs.styledtext</code> object to insert or replace the substring specified.</li>
+<li>starts     - an optional index position within the text of the <code>hs.styledtext</code> object indicating the beginning of the destination for the specified string.  Defaults to 1, the beginning of the objects text.  If this number is negative, it is counted backwards from the end of the object&#39;s text (i.e. -1 would be the last character position).</li>
+<li>ends       - an optional index position within the text of the <code>hs.styledtext</code> object indicating the end of destination for the specified string.  Defaults to the length of the objects text.  If this number is negative, it is counted backwards from the end of the object&#39;s text.  If this number is 0, then the substring is inserted at the index specified by <code>starts</code> rather than replacing it.</li>
+<li>clear      - an optional boolean indicating whether or not the attributes of the new string should be included (true) or whether the new substring should inherit the attributes of the first character replaced (false).  Defaults to false if <code>string</code> is a Lua String or number; otherwise defaults to true.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a copy of the <code>hs.styledtext</code> object with the specified substring replacement to the original object.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><p><code>starts</code> and <code>ends</code> follow the conventions of <code>i</code> and <code>j</code> for Lua&#39;s <code>string.sub</code> function except that <code>starts</code> must refer to an index preceding or equal to <code>ends</code>, even after negative and out-of-bounds indices are adjusted for.</p></li>
+<li><p>See the module description documentation (<code>help.hs.styledtext</code>) for a description of the attributes table format</p></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setStyle">
+    <a name="//apple_ref/cpp/Method/setStyle" class="dashAnchor"></a>
+    <h5><a href="#setStyle">setStyle</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:setStyle(attributes, [starts], [ends], [clear]) -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Return a copy of the <code>hs.styledtext</code> object containing the changes to its attributes specified in the <code>attributes</code> table.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>attributes - a table of attribute key-value pairs to apply to the object between the positions of <code>starts</code> and <code>ends</code></li>
+<li>starts     - an optional index position within the text of the <code>hs.styledtext</code> object indicating the beginning of the substring to set attributes for.  Defaults to 1, the beginning of the objects text.  If this number is negative, it is counted backwards from the end of the object&#39;s text (i.e. -1 would be the last character position).</li>
+<li>ends       - an optional index position within the text of the <code>hs.styledtext</code> object indicating the end of the substring to set attributes for.  Defaults to the length of the objects text.  If this number is negative, it is counted backwards from the end of the object&#39;s text.</li>
+<li>clear      - an optional boolean indicating whether or not the attributes specified should completely replace the existing attributes (true) or be added to/modify them (false).  Defaults to false.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a copy of the <code>hs.styledtext</code> object with the attributes specified applied to the given range of the original object.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><p><code>starts</code> and <code>ends</code> follow the conventions of <code>i</code> and <code>j</code> for Lua&#39;s <code>string.sub</code> function except that <code>starts</code> must refer to an index preceding or equal to <code>ends</code>, even after negative and out-of-bounds indices are adjusted for.</p></li>
+<li><p>See the module description documentation (<code>help.hs.styledtext</code>) for a description of the attributes table format</p></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="sub">
+    <a name="//apple_ref/cpp/Method/sub" class="dashAnchor"></a>
+    <h5><a href="#sub">sub</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:sub(starts, [ends]) -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a substring, including the style attributes, specified by the given indicies from the <code>hs.styledtext</code> object.  Mimics the Lua <code>string.sub</code> function.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>starts - the index position within the text of the <code>hs.styledtext</code> object indicating the beginning of the substring to return.  If this number is negative, it is counted backwards from the end of the object&#39;s text (i.e. -1 would be the last character position).</li>
+<li>ends   - an optional index position within the text of the <code>hs.styledtext</code> object indicating the end of the substring to return.  Defaults to the length of the objects text.  If this number is negative, it is counted backwards from the end of the object&#39;s text.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an <code>hs.styledtext</code> object containing the specified substring.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><code>starts</code> and <code>ends</code> follow the conventions of <code>i</code> and <code>j</code> for Lua&#39;s <code>string.sub</code> function.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="upper">
+    <a name="//apple_ref/cpp/Method/upper" class="dashAnchor"></a>
+    <h5><a href="#upper">upper</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.styledtext:upper() -> styledText object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a copy of the <code>hs.styledtext</code> object with all alpha characters converted to upper case.  Mimics the Lua <code>string.upper</code> function.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a copy of the <code>hs.styledtext</code> object with all alpha characters converted to upper case</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

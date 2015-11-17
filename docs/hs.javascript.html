@@ -1,0 +1,118 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.javascript module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.javascript</h1>
+      <p>Execute JavaScript code</p>
+
+<p>This module is based on hs.applescript and uses OSAKit</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#_javascript">_javascript</a></li>
+        
+        <li><a href="#javascript">javascript</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="_javascript">
+    <a name="//apple_ref/cpp/Function/_javascript" class="dashAnchor"></a>
+    <h5><a href="#_javascript">_javascript</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.javascript._javascript(string) -> bool, result</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Runs JavaScript OSA code</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>string - Some JavaScript code to execute</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean value indicating whether the code succeeded or not</li>
+<li>A string containing the output of the code and/or its errors</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="javascript">
+    <a name="//apple_ref/cpp/Function/javascript" class="dashAnchor"></a>
+    <h5><a href="#javascript">javascript</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.javascript.javascript(string) -> bool, result</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Runs JavaScript code</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>string - Some JavaScript code to execute</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean value indicating whether the code succeeded or not</li>
+<li>If the code succeeded, the output of the code string. If the code failed, a table containing an error dictionary</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Use hs.javascript._javascript(string) if you always want the result as a string, even when a failure occurs.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

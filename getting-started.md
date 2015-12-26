@@ -243,7 +243,7 @@ We then create a table that describes the layout we want. Each entry in the `win
 
 The first item in the table is the name of an app we wish to affect, and the second item is the title of a window we wish to affect. Either of these items can be `nil`, but not both. If the application name is `nil` then we will match the given window title across all applications. If the window title item is `nil` then we will match all windows of the given application.
 
-The third item is the name of the screen to place the window on, as described above (see the [http://www.hammerspoon.org/docs/](API docs) for more ways to specify the screen).
+The third item is the name of the screen to place the window on, as described above (see the [API docs](http://www.hammerspoon.org/docs/) for more ways to specify the screen).
 
 The fourth, fifth and sixth items are used to describe the layout of matched windows, in different ways. Only one of these items can have a value, and that value should be a table containing four items, `x`, `y`, `w` and `h` (horizontal position, vertical position, width and height, respectively).
 

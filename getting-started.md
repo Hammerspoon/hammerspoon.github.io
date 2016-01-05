@@ -262,8 +262,8 @@ You may have noticed that while you're editing the config, it's a little bit ann
 ```lua
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
   hs.reload()
+  hs.alert.show("Config loaded")
 end)
-hs.alert.show("Config loaded")
 ```
 
 We have now bound <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>⌃</kbd>+<kbd>R</kbd> to a function that will reload the config and display a simple alert banner on the screen for a couple of seconds.
@@ -286,10 +286,10 @@ function reloadConfig(files)
     end
     if doReload then
         hs.reload()
+        hs.alert.show("Config loaded")
     end
 end
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-hs.alert.show("Config loaded")
 ```
 
 There are several things worth breaking down about this example. Firstly, we're using a Lua function called `os.getenv()` to fetch the `HOME` variable from your system's environment. This will tell us where your home directory is. We then use Lua's `..` operator to join that string to the part of the config file's path that we do know, the `/.hammerspoon/` part. This gives us the full path of Hammerspoon's configuration directory.

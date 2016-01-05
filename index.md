@@ -34,6 +34,8 @@ You can learn more about the Lua scripting language at [lua.org](http://www.lua.
 
 More extensions will always be a huge benefit to Hammerspoon. They can either be pure Lua scripts that offer useful helper functions, or you can write Objective-C extensions to expose new areas of system functionality to users. For more information, see [the contribution guidelines on GitHub](https://github.com/Hammerspoon/hammerspoon/blob/master/CONTRIBUTING.md).
 
+Bugs found on http://www.hammerspoon.org/ can be reported on [GitHub](https://github.com/Hammerspoon/hammerspoon.github.io)
+
 ## Where can I get help?
 
 You can usually get a quick answer in #hammerspoon on Freenode.

@@ -1,0 +1,546 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.console module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.console</h1>
+      <p>Some functions for manipulating the Hammerspoon console.</p>
+
+<p>These functions allow altering the behavior and display of the Hammerspoon console.  They should be considered experimental, but have worked well for me.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#asHSDrawing">asHSDrawing</a></li>
+        
+        <li><a href="#asHSWindow">asHSWindow</a></li>
+        
+        <li><a href="#clearConsole">clearConsole</a></li>
+        
+        <li><a href="#getConsole">getConsole</a></li>
+        
+        <li><a href="#getHistory">getHistory</a></li>
+        
+        <li><a href="#inputBackgroundColor">inputBackgroundColor</a></li>
+        
+        <li><a href="#outputBackgroundColor">outputBackgroundColor</a></li>
+        
+        <li><a href="#printStyledtext">printStyledtext</a></li>
+        
+        <li><a href="#setConsole">setConsole</a></li>
+        
+        <li><a href="#setHistory">setHistory</a></li>
+        
+        <li><a href="#smartInsertDeleteEnabled">smartInsertDeleteEnabled</a></li>
+        
+        <li><a href="#windowBackgroundColor">windowBackgroundColor</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="asHSDrawing">
+    <a name="//apple_ref/cpp/Function/asHSDrawing" class="dashAnchor"></a>
+    <h5><a href="#asHSDrawing">asHSDrawing</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.asHSDrawing() -> hs.drawing object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get an hs.drawing object which represents the Hammerspoon console window</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an hs.drawing object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Only hs.drawing methods which are not type specific will work with this object.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="asHSWindow">
+    <a name="//apple_ref/cpp/Function/asHSWindow" class="dashAnchor"></a>
+    <h5><a href="#asHSWindow">asHSWindow</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.asHSWindow() -> hs.window object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get an hs.window object which represents the Hammerspoon console window</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an hs.window object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="clearConsole">
+    <a name="//apple_ref/cpp/Function/clearConsole" class="dashAnchor"></a>
+    <h5><a href="#clearConsole">clearConsole</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.clearConsole() -> nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Clear the Hammerspoon console output window.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is equivalent to <code>hs.console.setConsole()</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getConsole">
+    <a name="//apple_ref/cpp/Function/getConsole" class="dashAnchor"></a>
+    <h5><a href="#getConsole">getConsole</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.getConsole([styled]) -> text | styledText</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get the text of the Hammerspoon console output window.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>styled - an optional boolean indicating whether the console text is returned as a string or a styledText object.  Defaults to false.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The text currently in the Hammerspoon console output window as either a string or an <code>hs.styledtext</code> object.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If the text of the console is retrieved as a string, no color or style information in the console output is retrieved - only the raw text.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getHistory">
+    <a name="//apple_ref/cpp/Function/getHistory" class="dashAnchor"></a>
+    <h5><a href="#getHistory">getHistory</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.getHistory() -> array</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get the Hammerspoon console history as an array.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an array containing the history of commands entered into the Hammerspoon console.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="inputBackgroundColor">
+    <a name="//apple_ref/cpp/Function/inputBackgroundColor" class="dashAnchor"></a>
+    <h5><a href="#inputBackgroundColor">inputBackgroundColor</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.inputBackgroundColor([color]) -> color</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get or set the color for the background of the Hammerspoon Console&#39;s input field.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>color - an optional table containing color keys as described in <code>hs.drawing.color</code></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the current color setting as a table</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>See the <code>hs.drawing.color</code> entry in the Dash documentation, or type <code>help.hs.drawing.color</code> in the Hammerspoon console to get more information on how to specify a color.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="outputBackgroundColor">
+    <a name="//apple_ref/cpp/Function/outputBackgroundColor" class="dashAnchor"></a>
+    <h5><a href="#outputBackgroundColor">outputBackgroundColor</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.outputBackgroundColor([color]) -> color</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get or set the color for the background of the Hammerspoon Console&#39;s output view.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>color - an optional table containing color keys as described in <code>hs.drawing.color</code></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the current color setting as a table</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>See the <code>hs.drawing.color</code> entry in the Dash documentation, or type <code>help.hs.drawing.color</code> in the Hammerspoon console to get more information on how to specify a color.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="printStyledtext">
+    <a name="//apple_ref/cpp/Function/printStyledtext" class="dashAnchor"></a>
+    <h5><a href="#printStyledtext">printStyledtext</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.printStyledtext(...) -> none</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A print function which recognizes <code>hs.styledtext</code> objects and renders them as such in the Hammerspoon console.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>Any number of arguments can be specified, just like the builtin Lua <code>print</code> command.  If an argument matches the userdata type of <code>hs.styledtext</code>, the text is rendered as defined by its style attributes in the Hammerspoon console; otherwise it is rendered as it would be via the traditional <code>print</code> command within Hammerspoon.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This has been made as close to the Lua <code>print</code> command as possible.  You can replace the existing print command with this by adding the following to your <code>init.lua</code> file:</li>
+</ul>
+
+<pre><code>   print = function(...)
+       hs.rawprint(...)
+       hs.console.printStyledtext(...)
+   end
+</code></pre>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setConsole">
+    <a name="//apple_ref/cpp/Function/setConsole" class="dashAnchor"></a>
+    <h5><a href="#setConsole">setConsole</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.setConsole([styledText]) -> none</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Clear the Hammerspoon console output window.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>styledText - an optional <code>hs.styledtext</code> object containing the text you wish to replace the Hammerspoon console output with.  If you do not provide an argument, the console is cleared of all content.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>You can specify the console content as a string or as an <code>hs.styledtext</code> object in either userdata or table format.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setHistory">
+    <a name="//apple_ref/cpp/Function/setHistory" class="dashAnchor"></a>
+    <h5><a href="#setHistory">setHistory</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.setHistory(array) -> nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Set the Hammerspoon console history to the items specified in the given array.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>array - the list of commands to set the Hammerspoon console history to.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>You can clear the console history by using an empty array (e.g. <code>hs.console.setHistory({})</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="smartInsertDeleteEnabled">
+    <a name="//apple_ref/cpp/Function/smartInsertDeleteEnabled" class="dashAnchor"></a>
+    <h5><a href="#smartInsertDeleteEnabled">smartInsertDeleteEnabled</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.smartInsertDeleteEnabled([flag]) -> bool</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Determine whether or not objects copied from the console window insert or delete space around selected words to preserve proper spacing and punctuation.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>flag - an optional boolean value indicating whether or not &quot;smart&quot; space behavior is enabled when copying from the Hammerspoon console.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the current value</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>this only applies to future copy operations from the Hammerspoon console -- anything already in the clipboard is not affected.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="windowBackgroundColor">
+    <a name="//apple_ref/cpp/Function/windowBackgroundColor" class="dashAnchor"></a>
+    <h5><a href="#windowBackgroundColor">windowBackgroundColor</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.console.windowBackgroundColor([color]) -> color</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get or set the color for the background of the Hammerspoon Console&#39;s window.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>color - an optional table containing color keys as described in <code>hs.drawing.color</code></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the current color setting as a table</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>See the <code>hs.drawing.color</code> entry in the Dash documentation, or type <code>help.hs.drawing.color</code> in the Hammerspoon console to get more information on how to specify a color.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

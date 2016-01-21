@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="ROBOTS" content="NOINDEX">
-<title>Documentation for Skin.h</title>
+<title>Documentation for LuaSkinDelegate (Skin.h)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="generator" content="HeaderDoc">
 <meta name="xcode-display" content="render">
@@ -15,12 +15,12 @@
 <table class="hd_toc_table" border="0" cellpadding="0" cellspacing="2" width="148">
 <tr>
 <td class="toc_leadspace"></td>
-<td colspan="2"><font size="5" color="#330066"><b>Header:</b></font></td>
+<td colspan="2"><font size="5" color="#330066"><b>Protocol:</b></font></td>
 </tr>
 <tr>
 <td class="toc_leadspace">&nbsp;</td>
 <td class="disclosure_triangle_td">&nbsp;</td>
-<td class="toc_contents_text"><b><font size="+1">Skin.h</font></b></td>
+<td class="toc_contents_text"><b><font size="+1">LuaSkinDelegate</font></b></td>
 </tr>
 <tr>
 <td></td>
@@ -40,86 +40,28 @@
 <td class="disclosure_triangle_td" valign="top" align="left"><a href="#" class="closed_disclosure_triangle" onclick="disclosure_triangle(this)">&#9655;</a></td>
 <td class="disclosure_padding"></td>
 <td valign="top" colspan="4" class="toc_contents_text" toc="section_link">
-<a href="index.html#HeaderDoc_datatypes" target="_top">Defined Types
-</a>
+<a href="index.html#HeaderDoc_methods" target="_top">Methods</a>
 </td>
 </tr></table>
 <div toc="collapsible" class="collapsible">
-
+<span class="hd_tocAccess">Instance Methods</span>
 <ul class="tocSubEntryList">
-<!-- public --><li class="tocSubEntry"><a href="index.html#//apple_ref/c/tdef/LS_NSConversionOptions" target="_top">LS_NSConversionOptions</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/tdef/luaObjectHelperFunction" target="_top">luaObjectHelperFunction</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/tdef/pushNSHelperFunction" target="_top">pushNSHelperFunction</a></li>
+<!-- instance method --><li class="tocSubEntry"><a href="index.html#//apple_ref/occ/intfm/LuaSkinDelegate/logForLuaSkinAtLevel:withMessage:" target="_top">logForLuaSkinAtLevel:&zwj;withMessage:&zwj;</a></li>
 </ul>
 </div>
 </div>
-<div toc="section">
-<table class="hd_toc_heading_table" border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+<hr class="tocSeparator">
+<h4 class="tocSubheading">Other Reference</h4>
+<div>
+<table class="hd_toc_entry_table" border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
 <td class="toc_leadspace"></td>
-<td class="disclosure_triangle_td" valign="top" align="left"><a href="#" class="closed_disclosure_triangle" onclick="disclosure_triangle(this)">&#9655;</a></td>
+<td class="disclosure_triangle_td"></td>
 <td class="disclosure_padding"></td>
-<td valign="top" colspan="4" class="toc_contents_text" toc="section_link">
-<a href="index.html#HeaderDoc_defines" target="_top">#defines
-</a>
-</td>
+<td valign="top" colspan="3" class="toc_contents_text" toc="section_link"><a href="../../index.html" target="_top">Header</a></td>
 </tr></table>
-<div toc="collapsible" class="collapsible">
-
-<ul class="tocSubEntryList">
-<!-- public --><li class="tocSubEntry"><a href="index.html#//apple_ref/doc/title:macro/BitmasksforLuatypecheckingwithLuaSkin:checkArgs:" target="_top">Bit masks for Lua type checking with LuaSkin:checkArgs:</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/doc/title:macro/LogleveldefinitionsforlogAtLevel:withMessage:" target="_top">Log level definitions for logAtLevel:withMessage:</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_LOG_BREADCRUMB" target="_top">LS_LOG_BREADCRUMB</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_LOG_DEBUG" target="_top">LS_LOG_DEBUG</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_LOG_ERROR" target="_top">LS_LOG_ERROR</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_LOG_INFO" target="_top">LS_LOG_INFO</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_LOG_VERBOSE" target="_top">LS_LOG_VERBOSE</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_LOG_WARN" target="_top">LS_LOG_WARN</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TANY" target="_top">LS_TANY</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TBOOLEAN" target="_top">LS_TBOOLEAN</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TBREAK" target="_top">LS_TBREAK</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TFUNCTION" target="_top">LS_TFUNCTION</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TNIL" target="_top">LS_TNIL</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TNONE" target="_top">LS_TNONE</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TNUMBER" target="_top">LS_TNUMBER</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TOPTIONAL" target="_top">LS_TOPTIONAL</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TSTRING" target="_top">LS_TSTRING</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TTABLE" target="_top">LS_TTABLE</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/macro/LS_TUSERDATA" target="_top">LS_TUSERDATA</a></li>
-</ul>
 </div>
-</div>
-<div toc="section">
-<table class="hd_toc_heading_table" border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
-<td class="toc_leadspace"></td>
-<td class="disclosure_triangle_td" valign="top" align="left"><a href="#" class="closed_disclosure_triangle" onclick="disclosure_triangle(this)">&#9655;</a></td>
-<td class="disclosure_padding"></td>
-<td valign="top" colspan="4" class="toc_contents_text" toc="section_link">
-<a href="index.html#HeaderDoc_classes" target="_top">Classes</a>
-</td>
-</tr></table>
-<div toc="collapsible" class="collapsible">
-<ul class="tocSubEntryList">
-<!-- from class --><li class="tocSubEntry"><a href="Classes/LuaSkin/index.html#//apple_ref/occ/cl/LuaSkin" target="_top">LuaSkin</a></li>
-</ul>
-</div>
-</div>
-<div toc="section">
-<table class="hd_toc_heading_table" border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
-<td class="toc_leadspace"></td>
-<td class="disclosure_triangle_td" valign="top" align="left"><a href="#" class="closed_disclosure_triangle" onclick="disclosure_triangle(this)">&#9655;</a></td>
-<td class="disclosure_padding"></td>
-<td valign="top" colspan="4" class="toc_contents_text" toc="section_link">
-<a href="index.html#HeaderDoc_protocols" target="_top">Protocols</a>
-</td>
-</tr></table>
-<div toc="collapsible" class="collapsible">
-<ul class="tocSubEntryList">
-<!-- from class --><li class="tocSubEntry"><a href="Protocols/LuaSkinDelegate/index.html#//apple_ref/occ/intf/LuaSkinDelegate" target="_top">LuaSkinDelegate</a></li>
-</ul>
-</div>
-</div>
-<!-- HeaderDoc TOC framework link block begin -->
-<!-- HeaderDoc TOC framework link block end -->
+<!-- HeaderDoc TOC framework link begin -->
+<!-- HeaderDoc TOC framework link end -->
 </td>
 </tr>
 </table>

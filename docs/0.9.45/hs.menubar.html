@@ -1,0 +1,656 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.menubar module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.menubar</h1>
+      <p>Create and manage menubar icons</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#delete">delete</a></li>
+        
+        <li><a href="#frame">frame</a></li>
+        
+        <li><a href="#icon">icon</a></li>
+        
+        <li><a href="#popupMenu">popupMenu</a></li>
+        
+        <li><a href="#removeFromMenuBar">removeFromMenuBar</a></li>
+        
+        <li><a href="#returnToMenuBar">returnToMenuBar</a></li>
+        
+        <li><a href="#setClickCallback">setClickCallback</a></li>
+        
+        <li><a href="#setIcon">setIcon</a></li>
+        
+        <li><a href="#setMenu">setMenu</a></li>
+        
+        <li><a href="#setTitle">setTitle</a></li>
+        
+        <li><a href="#setTooltip">setTooltip</a></li>
+        
+        <li><a href="#title">title</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Constructors</h4>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+    <h5><a href="#new">new</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar.new([inMenuBar]) -> menubaritem or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new menu bar item object and optionally add it to the system menubar</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>inMenuBar -- an optional parameter which defaults to true.  If it is true, the menubaritem is added to the system menubar, otherwise the menubaritem is hidden.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>menubar item object to use with other API methods, or nil if it could not be created</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><p>You should call hs.menubar:setTitle() or hs.menubar:setIcon() after creating the object, otherwise it will be invisible</p></li>
+<li><p>Calling this method with inMenuBar equal to false is equivalent to calling hs.menubar.new():removeFromMenuBar().</p></li>
+<li>A hidden menubaritem can be added to the system menubar by calling hs.menubar:returnToMenuBar() or used as a pop-up menu by calling hs.menubar:popupMenu().</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Methods</h4>
+                
+
+    <section id="delete">
+    <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+    <h5><a href="#delete">delete</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:delete()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Removes the menubar item from the menubar and destroys it</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="frame">
+    <a name="//apple_ref/cpp/Method/frame" class="dashAnchor"></a>
+    <h5><a href="#frame">frame</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:frame() -> hs.geometry rect</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the menubar item frame</p>
+
+<p>Parameters</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an hs.geometry rect describing the menubar item&#39;s frame</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This will return a frame even if no icon or title is set</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="icon">
+    <a name="//apple_ref/cpp/Method/icon" class="dashAnchor"></a>
+    <h5><a href="#icon">icon</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:icon() -> hs.image object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the current icon of the menubar item object.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the menubar item icon as an hs.image object, or nil, if there isn&#39;t one.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="popupMenu">
+    <a name="//apple_ref/cpp/Method/popupMenu" class="dashAnchor"></a>
+    <h5><a href="#popupMenu">popupMenu</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:popupMenu(point) -> menubaritem</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Display a menubaritem as a pop up menu at the specified screen point.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>point -- the location of the upper left corner of the pop-up menu to be displayed.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The menubaritem</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><p>Items which trigger hs.menubar:setClickCallback() will invoke the callback function, but we cannot control the positioning of any visual elements the function may create -- calling this method on such an object is the equivalent of invoking its callback function directly.</p></li>
+<li><p>This method is blocking -- Hammerspoon will be unable to respond to any other activity while the pop-up menu is being displayed.</p></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="removeFromMenuBar">
+    <a name="//apple_ref/cpp/Method/removeFromMenuBar" class="dashAnchor"></a>
+    <h5><a href="#removeFromMenuBar">removeFromMenuBar</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:removeFromMenuBar() -> menubaritem</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Removes a menu from the system menu bar.  The item can still be used as a pop-up menu, unless you also delete it.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the menubaritem</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="returnToMenuBar">
+    <a name="//apple_ref/cpp/Method/returnToMenuBar" class="dashAnchor"></a>
+    <h5><a href="#returnToMenuBar">returnToMenuBar</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:returnToMenuBar() -> menubaritem</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a previously removed menu back to the system menu bar.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the menubaritem</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setClickCallback">
+    <a name="//apple_ref/cpp/Method/setClickCallback" class="dashAnchor"></a>
+    <h5><a href="#setClickCallback">setClickCallback</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:setClickCallback(fn) -> menubaritem</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Registers a function to be called when the menubar item is clicked</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>fn</code> - A function to be called when the menubar item is clicked. If the argument is <code>nil</code>, any existing function will be removed. The function can optionally accept a single argument, which will be a table containing boolean values indicating which keyboard modifiers were held down when the menubar item was clicked; The possible keys are:
+
+<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the menubaritem</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If a menu has been attached to the menubar item, this callback will never be called</li>
+<li>Has no affect on the display of a pop-up menu, but changes will be be in effect if hs.menubar:returnToMenuBar() is called on the menubaritem.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setIcon">
+    <a name="//apple_ref/cpp/Method/setIcon" class="dashAnchor"></a>
+    <h5><a href="#setIcon">setIcon</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:setIcon(imageData) -> menubaritem or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the image of a menubar item object. The image will be displayed in the system menubar</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>imageData - This can one of the following:
+
+<ul>
+<li>An <code>hs.image</code> object</li>
+<li>A string containing a path to an image file</li>
+<li>A string beginning with <code>ASCII:</code> which signifies that the rest of the string is interpreted as a special form of ASCII diagram, which will be rendered to an image and used as the icon. See the notes below for information about the special format of ASCII diagram.</li>
+<li>nil, indicating that the current image is to be removed</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the menubaritem if the image was loaded and set, <code>nil</code> if it could not be found or loaded</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><p>** API Change **</p>
+
+<ul>
+<li>This method used to return true on success -- this has been changed to return the menubaritem on success to facilitate method chaining.  Since Lua treats any value which is not nil or false as &quot;true&quot;, this should only affect code where the return value was actually being compared to true, e.g. <code>if result == true then...</code> rather than the (unaffected) <code>if result then...</code>.</li>
+</ul></li>
+<li><p>If you set a title as well as an icon, they will both be displayed next to each other</p></li>
+<li><p>Has no affect on the display of a pop-up menu, but changes will be be in effect if hs.menubar:returnToMenuBar() is called on the menubaritem.</p></li>
+<li><p>Icons should be small, transparent images that roughly match the size of normal menubar icons, otherwise they will look very strange</p></li>
+<li>Retina scaling is supported if the image is either scalable (e.g. a PDF produced by Adobe Illustrator) or contain multiple sizes (e.g. a TIFF with small and large images). Images will not automatically do the right thing if you have a @2x version present</li>
+<li>Icons are specified as &quot;templates&quot;, which allows them to automatically support OS X 10.10&#39;s Dark Mode, but this also means they cannot be complicated, colour images</li>
+<li>For examples of images that work well, see Hammerspoon.app/Contents/Resources/statusicon.tiff (for a retina-capable multi-image TIFF icon) or <a href="https://github.com/jigish/slate/blob/master/Slate/status.pdf">https://github.com/jigish/slate/blob/master/Slate/status.pdf</a> (for a scalable vector PDF icon)</li>
+<li>For guidelines on the sizing of images, see <a href="http://alastairs-place.net/blog/2013/07/23/nsstatusitem-what-size-should-your-icon-be/">http://alastairs-place.net/blog/2013/07/23/nsstatusitem-what-size-should-your-icon-be/</a></li>
+<li>To use the ASCII diagram image support, see <a href="http://cocoamine.net/blog/2015/03/20/replacing-photoshop-with-nsstring/">http://cocoamine.net/blog/2015/03/20/replacing-photoshop-with-nsstring/</a> and be sure to preface your ASCII diagram with the special string <code>ASCII:</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setMenu">
+    <a name="//apple_ref/cpp/Method/setMenu" class="dashAnchor"></a>
+    <h5><a href="#setMenu">setMenu</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:setMenu(menuTable) -> menubaritem</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Attaches a dropdown menu to the menubar item</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>menuTable</code>:
+
+<ul>
+<li>If this argument is <code>nil</code>:
+
+<ul>
+<li>Removes any previously registered menu</li>
+</ul></li>
+<li>If this argument is a table:
+
+<ul>
+<li>Sets the menu for this menubar item to the supplied table. The format of the table is documented below</li>
+</ul></li>
+<li>If this argument is a function:
+
+<ul>
+<li>The function will be called each time the user clicks on the menubar item and the function should return a table that specifies the menu to be displayed. The table should be of the same format as described below. The function can optionally accept a single argument, which will be a table containing boolean values indicating which keyboard modifiers were held down when the menubar item was clicked; The possible keys are:
+
+<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>Table Format:</p>
+
+<pre><code>   {
+       { title = &quot;my menu item&quot;, fn = function() print(&quot;you clicked my menu item!&quot;) end },
+       { title = &quot;-&quot; },
+       { title = &quot;other item&quot;, fn = some_function },
+       { title = &quot;disabled item&quot;, disabled = true },
+       { title = &quot;checked item&quot;, checked = true },
+   }
+</code></pre>
+
+<ul>
+<li>The available keys for each menu item are:
+
+<ul>
+<li><code>title</code> - A string to be displayed in the menu. If this is the special string <code>&quot;-&quot;</code> the item will be rendered as a menu separator</li>
+<li><code>fn</code> - A function to be executed when the menu item is clicked</li>
+<li><code>checked</code> - A boolean to indicate if the menu item should have a checkmark next to it or not. Defaults to false</li>
+<li><code>disabled</code> - A boolean to indicate if the menu item should be unselectable or not. Defaults to false (i.e. menu items are selectable by default)</li>
+<li><code>menu</code> - a table, in the same format as above, which will be presented as a sub-menu for this menu item.
+
+<ul>
+<li>a menu item that is disabled and has a sub-menu will show the arrow at the right indicating that it has a sub-menu, but the items within the sub-menu will not be available, even if the sub-menu items are not disabled themselves.</li>
+<li>a menu item with a sub-menu is also a clickable target, so it can also have an <code>fn</code> key.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the menubaritem</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If you are using the callback function, you should take care not to take too long to generate the menu, as you will block the process and the OS may decide to remove the menubar item</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setTitle">
+    <a name="//apple_ref/cpp/Method/setTitle" class="dashAnchor"></a>
+    <h5><a href="#setTitle">setTitle</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:setTitle(title) -> menubaritem</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the title of a menubar item object. The title will be displayed in the system menubar</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>title</code> - A string to use as the title, or nil to remove the title</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the menubar item</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>If you set an icon as well as a title, they will both be displayed next to each other</li>
+<li>Has no affect on the display of a pop-up menu, but changes will be be in effect if hs.menubar:returnToMenuBar() is called on the menubaritem.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setTooltip">
+    <a name="//apple_ref/cpp/Method/setTooltip" class="dashAnchor"></a>
+    <h5><a href="#setTooltip">setTooltip</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:setTooltip(tooltip) -> menubaritem</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the tooltip text on a menubar item</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>tooltip</code> - A string to use as the tooltip</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the menubaritem</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Has no affect on the display of a pop-up menu, but changes will be be in effect if hs.menubar:returnToMenuBar() is called on the menubaritem.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="title">
+    <a name="//apple_ref/cpp/Method/title" class="dashAnchor"></a>
+    <h5><a href="#title">title</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.menubar:title() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the current title of the menubar item object.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the menubar item title, or an empty string, if there isn&#39;t one.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

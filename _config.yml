@@ -10,4 +10,6 @@ github_username:  Hammerspoon
 github_repo: hammerspoon
 
 # Build settings
-markdown: redcarpet
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge

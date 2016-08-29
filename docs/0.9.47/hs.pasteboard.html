@@ -1,0 +1,740 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.pasteboard module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.pasteboard</h1>
+      <p>Inspect/manipulate pasteboards (more commonly called clipboards). Both the system default pasteboard and custom named pasteboards can be interacted with.</p>
+
+<p>This module is based partially on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#allContentTypes">allContentTypes</a></li>
+        
+        <li><a href="#changeCount">changeCount</a></li>
+        
+        <li><a href="#clearContents">clearContents</a></li>
+        
+        <li><a href="#contentTypes">contentTypes</a></li>
+        
+        <li><a href="#deletePasteboard">deletePasteboard</a></li>
+        
+        <li><a href="#getContents">getContents</a></li>
+        
+        <li><a href="#pasteboardTypes">pasteboardTypes</a></li>
+        
+        <li><a href="#readColor">readColor</a></li>
+        
+        <li><a href="#readImage">readImage</a></li>
+        
+        <li><a href="#readSound">readSound</a></li>
+        
+        <li><a href="#readString">readString</a></li>
+        
+        <li><a href="#readStyledText">readStyledText</a></li>
+        
+        <li><a href="#readURL">readURL</a></li>
+        
+        <li><a href="#setContents">setContents</a></li>
+        
+        <li><a href="#typesAvailable">typesAvailable</a></li>
+        
+        <li><a href="#uniquePasteboard">uniquePasteboard</a></li>
+        
+        <li><a href="#writeObjects">writeObjects</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="allContentTypes">
+    <a name="//apple_ref/cpp/Function/allContentTypes" class="dashAnchor"></a>
+    <h5><a href="#allContentTypes">allContentTypes</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.allContentTypes([name]) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>An array whose elements are a table containing the content types for each element on the clipboard.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - an optional string indicating the pasteboard name.  If nil or not present, defaults to the system pasteboard.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an array with each index representing an object on the pasteboard.  If the pasteboard contains only one element, this is equivalent to <code>{ hs.pasteboard.contentTypes(name) }</code>.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="changeCount">
+    <a name="//apple_ref/cpp/Function/changeCount" class="dashAnchor"></a>
+    <h5><a href="#changeCount">changeCount</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.changeCount([name]) -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the number of times the pasteboard owner has changed</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - An optional string containing the name of the pasteboard. Defaults to the system pasteboard</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing a count of the times the pasteboard owner has changed</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is useful for seeing if the pasteboard has been updated by another process</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="clearContents">
+    <a name="//apple_ref/cpp/Function/clearContents" class="dashAnchor"></a>
+    <h5><a href="#clearContents">clearContents</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.clearContents([name])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Clear the contents of the pasteboard</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - An optional string containing the name of the pasteboard. Defaults to the system pasteboard</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="contentTypes">
+    <a name="//apple_ref/cpp/Function/contentTypes" class="dashAnchor"></a>
+    <h5><a href="#contentTypes">contentTypes</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.contentTypes([name]) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Return the UTI strings of the data types for the first pasteboard item on the specified pasteboard.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - An optional string containing the name of the pasteboard. Defaults to the system pasteboard</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a table containing the UTI strings of the data types for the first pasteboard item.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="deletePasteboard">
+    <a name="//apple_ref/cpp/Function/deletePasteboard" class="dashAnchor"></a>
+    <h5><a href="#deletePasteboard">deletePasteboard</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.deletePasteboard(name)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Deletes a custom pasteboard</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - A string containing the name of the pasteboard</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>You can not delete the system pasteboard, this function should only be called on custom pasteboards you have created</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getContents">
+    <a name="//apple_ref/cpp/Function/getContents" class="dashAnchor"></a>
+    <h5><a href="#getContents">getContents</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.getContents([name]) -> string or nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the contents of the pasteboard</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - An optional string containing the name of the pasteboard. Defaults to the system pasteboard</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the contents of the pasteboard, or nil if an error occurred</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="pasteboardTypes">
+    <a name="//apple_ref/cpp/Function/pasteboardTypes" class="dashAnchor"></a>
+    <h5><a href="#pasteboardTypes">pasteboardTypes</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.pasteboardTypes([name]) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Return the pasteboard type identifier strings for the specified pasteboard.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - An optional string containing the name of the pasteboard. Defaults to the system pasteboard</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a table containing the pasteboard type identifier strings</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="readColor">
+    <a name="//apple_ref/cpp/Function/readColor" class="dashAnchor"></a>
+    <h5><a href="#readColor">readColor</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.readColor([name], [all]) -> hs.drawing.color table or array of hs.drawing.color tables</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns one or more <code>hs.drawing.color</code> tables from the clipboard, or nil if no compatible objects are present.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - an optional string indicating the pasteboard name.  If nil or not present, defaults to the system pasteboard.</li>
+<li>all  - an optional boolean indicating whether or not all (true) of the colors on the clipboard should be returned, or just the first (false).  Defaults to false.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>By default the first color on the clipboard, or a table of all colors on the clipboard if the <code>all</code> parameter is provided and set to true.  Returns nil if no colors are present.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="readImage">
+    <a name="//apple_ref/cpp/Function/readImage" class="dashAnchor"></a>
+    <h5><a href="#readImage">readImage</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.readImage([name], [all]) -> hs.image object or array of hs.image objects</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns one or more <code>hs.image</code> objects from the clipboard, or nil if no compatible objects are present.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - an optional string indicating the pasteboard name.  If nil or not present, defaults to the system pasteboard.</li>
+<li>all  - an optional boolean indicating whether or not all (true) of the urls on the clipboard should be returned, or just the first (false).  Defaults to false.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>By default the first image on the clipboard, or a table of all images on the clipboard if the <code>all</code> parameter is provided and set to true.  Returns nil if no images are present.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="readSound">
+    <a name="//apple_ref/cpp/Function/readSound" class="dashAnchor"></a>
+    <h5><a href="#readSound">readSound</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.readSound([name], [all]) -> hs.sound object or array of hs.sound objects</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns one or more <code>hs.sound</code> objects from the clipboard, or nil if no compatible objects are present.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - an optional string indicating the pasteboard name.  If nil or not present, defaults to the system pasteboard.</li>
+<li>all  - an optional boolean indicating whether or not all (true) of the urls on the clipboard should be returned, or just the first (false).  Defaults to false.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>By default the first sound on the clipboard, or a table of all sounds on the clipboard if the <code>all</code> parameter is provided and set to true.  Returns nil if no sounds are present.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="readString">
+    <a name="//apple_ref/cpp/Function/readString" class="dashAnchor"></a>
+    <h5><a href="#readString">readString</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.readString([name], [all]) -> string or array of strings</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns one or more strings from the clipboard, or nil if no compatible objects are present.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - an optional string indicating the pasteboard name.  If nil or not present, defaults to the system pasteboard.</li>
+<li>all  - an optional boolean indicating whether or not all (true) of the urls on the clipboard should be returned, or just the first (false).  Defaults to false.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>By default the first string on the clipboard, or a table of all strings on the clipboard if the <code>all</code> parameter is provided and set to true.  Returns nil if no strings are present.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>almost all string and styledText objects are internally convertible and will be available with this method as well as <a href="#readStyledText">hs.pasteboard.readStyledText</a>. If the item is actually an <code>hs.styledtext</code> object, the string will be just the text of the object.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="readStyledText">
+    <a name="//apple_ref/cpp/Function/readStyledText" class="dashAnchor"></a>
+    <h5><a href="#readStyledText">readStyledText</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.readStyledText([name], [all]) -> hs.styledtext object or array of hs.styledtext objects</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns one or more <code>hs.styledtext</code> objects from the clipboard, or nil if no compatible objects are present.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - an optional string indicating the pasteboard name.  If nil or not present, defaults to the system pasteboard.</li>
+<li>all  - an optional boolean indicating whether or not all (true) of the urls on the clipboard should be returned, or just the first (false).  Defaults to false.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>By default the first styledtext object on the clipboard, or a table of all styledtext objects on the clipboard if the <code>all</code> parameter is provided and set to true.  Returns nil if no styledtext objects are present.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>almost all string and styledText objects are internally convertible and will be available with this method as well as <a href="#readString">hs.pasteboard.readString</a>. If the item on the clipboard is actually just a string, the <code>hs.styledtext</code> object representation will have no attributes set</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="readURL">
+    <a name="//apple_ref/cpp/Function/readURL" class="dashAnchor"></a>
+    <h5><a href="#readURL">readURL</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.readURL([name], [all]) -> string or array of strings representing file or resource urls</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns one or more strings representing file or resource urls from the clipboard, or nil if no compatible objects are present.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - an optional string indicating the pasteboard name.  If nil or not present, defaults to the system pasteboard.</li>
+<li>all  - an optional boolean indicating whether or not all (true) of the urls on the clipboard should be returned, or just the first (false).  Defaults to false.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>By default the first url on the clipboard, or a table of all urls on the clipboard if the <code>all</code> parameter is provided and set to true.  Returns nil if no urls are present.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setContents">
+    <a name="//apple_ref/cpp/Function/setContents" class="dashAnchor"></a>
+    <h5><a href="#setContents">setContents</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.setContents(contents[, name]) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the contents of the pasteboard</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>contents - A string to be placed in the pasteboard</li>
+<li>name - An optional string containing the name of the pasteboard. Defaults to the system pasteboard</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the operation succeeded, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="typesAvailable">
+    <a name="//apple_ref/cpp/Function/typesAvailable" class="dashAnchor"></a>
+    <h5><a href="#typesAvailable">typesAvailable</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.typesAvailable([name]) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a table indicating what content types are available on the pasteboard.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - an optional string indicating the pasteboard name.  If nil or not present, defaults to the system pasteboard.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a table which may contain any of the following keys set to the value true:
+
+<ul>
+<li>string     - at least one element which can be represented as a string is on the pasteboard</li>
+<li>styledText - at least one element which can be represented as an <code>hs.styledtext</code> object is on the pasteboard</li>
+<li>sound      - at least one element which can be represented as an <code>hs.sound</code> object is on the pasteboard</li>
+<li>image      - at least one element which can be represented as an <code>hs.image</code> object is on the pasteboard</li>
+<li>URL        - at least one element on the pasteboard represents a URL, either to a local file or a remote resource</li>
+<li>color      - at least one element on the pasteboard represents a color, representable as a table as described in <code>hs.drawing.color</code></li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>almost all string and styledText objects are internally convertible and will return true for both keys
+
+<ul>
+<li>if the item on the clipboard is actually just a string, the <code>hs.styledtext</code> object representation will have no attributes set</li>
+<li>if the item is actually an <code>hs.styledtext</code> object, the string representation will be the text without any attributes.</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="uniquePasteboard">
+    <a name="//apple_ref/cpp/Function/uniquePasteboard" class="dashAnchor"></a>
+    <h5><a href="#uniquePasteboard">uniquePasteboard</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.uniquePasteboard() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the name of a new pasteboard with a name that is guaranteed to be unique with respect to other pasteboards on the computer.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a unique pasteboard name</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>to properly manage system resources, you should release the created pasteboard with <a href="#deletePasteboard">hs.pasteboard.deletePasteboard</a> when you are certain that it is no longer necessary.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="writeObjects">
+    <a name="//apple_ref/cpp/Function/writeObjects" class="dashAnchor"></a>
+    <h5><a href="#writeObjects">writeObjects</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pasteboard.writeObjects(object, [name]) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the pasteboard contents to the object or objects specified.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>object - an object or table of objects to set the pasteboard to.  The following objects are recognized:
+
+<ul>
+<li>a lua string, which can be received by most applications that can accept text from the clipboard</li>
+<li><code>hs.styledtext</code> object, which can be received by most applications that can accept a raw NSAttributedString (often converted internally to RTF, RTFD, HTML, etc.)</li>
+<li><code>hs.sound</code> object, which can be received by most applications that can accept a raw NSSound object</li>
+<li><code>hs.image</code> object, which can be received by most applications that can accept a raw NSImage object</li>
+<li>a table with the <code>url</code> key and value representing a file or resource url, which can be received by most applications that can accept an NSURL object to represent a file or a remote resource</li>
+<li>a table with keys as described in <code>hs.drawing.color</code> to represent a color, which can be received by most applications that can accept a raw NSColor object</li>
+<li>an array of one or more of the above objects, allowing you to place more than one object onto the clipboard.</li>
+</ul></li>
+<li>name - an optional string indicating the pasteboard name.  If nil or not present, defaults to the system pasteboard.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>true or false indicating whether or not the clipboard contents were updated.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Most applications can only receive the first item on the clipboard.  Multiple items on a clipboard are most often used for intra-application communication where the sender and receiver are specifically written with multiple objects in mind.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

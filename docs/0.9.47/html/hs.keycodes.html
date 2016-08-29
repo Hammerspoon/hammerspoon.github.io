@@ -1,0 +1,370 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.keycodes module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.keycodes</h1>
+      <p>Convert between key-strings and key-codes. Also provides funcionality for querying and changing keyboard layouts.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Constants - Useful values which cannot be changed</li>
+                    <ul>
+                
+        <li><a href="#map">map</a></li>
+        
+                </ul>
+                
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#currentLayout">currentLayout</a></li>
+        
+        <li><a href="#currentLayoutIcon">currentLayoutIcon</a></li>
+        
+        <li><a href="#iconForLayoutOrMethod">iconForLayoutOrMethod</a></li>
+        
+        <li><a href="#inputSourceChanged">inputSourceChanged</a></li>
+        
+        <li><a href="#layouts">layouts</a></li>
+        
+        <li><a href="#methods">methods</a></li>
+        
+        <li><a href="#setLayout">setLayout</a></li>
+        
+        <li><a href="#setMethod">setMethod</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Constants</h4>
+                
+
+    <section id="map">
+    <a name="//apple_ref/cpp/Constant/map" class="dashAnchor"></a>
+    <h5><a href="#map">map</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.map = {...}</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constant</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A mapping from string representation of a key to its keycode, and vice versa.<br>
+For example: keycodes[1] == &quot;s&quot;, and keycodes[&quot;s&quot;] == 1, and so on.<br>
+This is primarily used by the hs.eventtap and hs.hotkey extensions.</p>
+
+<p>Valid strings are any single-character string, or any of the following strings:</p>
+
+<pre><code>f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15,
+f16, f17, f18, f19, f20, pad, pad*, pad+, pad/, pad-, pad=,
+pad0, pad1, pad2, pad3, pad4, pad5, pad6, pad7, pad8, pad9,
+padclear, padenter, return, tab, space, delete, escape, help,
+home, pageup, forwarddelete, end, pagedown, left, right, down, up
+</code></pre>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="currentLayout">
+    <a name="//apple_ref/cpp/Function/currentLayout" class="dashAnchor"></a>
+    <h5><a href="#currentLayout">currentLayout</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.currentLayout() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the name of the current keyboard layout</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the name of the current keyboard layout</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="currentLayoutIcon">
+    <a name="//apple_ref/cpp/Function/currentLayoutIcon" class="dashAnchor"></a>
+    <h5><a href="#currentLayoutIcon">currentLayoutIcon</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.currentLayoutIcon() -> hs.image object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the icon of the current keyboard layout</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An hs.image object containing the icon, if available</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="iconForLayoutOrMethod">
+    <a name="//apple_ref/cpp/Function/iconForLayoutOrMethod" class="dashAnchor"></a>
+    <h5><a href="#iconForLayoutOrMethod">iconForLayoutOrMethod</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.iconForLayoutOrMethod(sourceName) -> hs.image object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets an hs.image object for a given keyboard layout or input method</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>sourceName - A string containing the name of an input method or keyboard layout</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An hs.image object, or nil if no image could be found</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Not all layouts/methods have icons, so you should assume this will return nil at some point</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="inputSourceChanged">
+    <a name="//apple_ref/cpp/Function/inputSourceChanged" class="dashAnchor"></a>
+    <h5><a href="#inputSourceChanged">inputSourceChanged</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.inputSourceChanged(fn())</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the function to be called when your input source (i.e. qwerty, dvorak, colemac) changes.<br>
+You can use this to rebind your hotkeys or whatever.<br>
+Note: setting this will un-set functions previously registered by this function.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="layouts">
+    <a name="//apple_ref/cpp/Function/layouts" class="dashAnchor"></a>
+    <h5><a href="#layouts">layouts</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.layouts() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets all of the enabled keyboard layouts</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing a list of keyboard layouts enabled in System Preferences</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="methods">
+    <a name="//apple_ref/cpp/Function/methods" class="dashAnchor"></a>
+    <h5><a href="#methods">methods</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.methods() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets all of the enabled input methods</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing a list of input methods enabled in System Preferences</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setLayout">
+    <a name="//apple_ref/cpp/Function/setLayout" class="dashAnchor"></a>
+    <h5><a href="#setLayout">setLayout</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.setLayout(layoutName) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Changes the system keyboard layout</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>layoutName - A string containing the name of an enabled keyboard layout</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the layout was successfully changed, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setMethod">
+    <a name="//apple_ref/cpp/Function/setMethod" class="dashAnchor"></a>
+    <h5><a href="#setMethod">setMethod</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.keycodes.setMethod(methodName) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Changes the system input method</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>methodName - A string containing the name of an enabled input method</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A boolean, true if the method was successfully changed, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

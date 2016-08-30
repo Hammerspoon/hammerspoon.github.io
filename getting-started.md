@@ -27,6 +27,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
  * [Fancier Hello World](#fancyhelloworld)
  * [Introduction to window movement](#winmoveintro)
  * [A quick aside on colon syntax](#colonsyntax)
+ * [A quick aside on variable lifecycles](#variablelife)
  * [More complex window movement](#winmovenethack)
  * [Window resizing](#winresize)
  * [Multi-window layouts](#winlayout)
@@ -91,14 +92,29 @@ This will now cause <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>ctrl</kbd>+<kbd>H</kbd> t
 
 ### <a name="colonsyntax"></a>A quick aside on colon syntax
 
-You might have noticed that sometimes we're using dots in function calls, and sometimes we're using colons. The colon syntax is a shorthand. The two following calls are identical:
+You might have noticed that sometimes we're using dots in function calls, and sometimes we're using colons. The colon syntax means you're calling one of that object's methods. It's still a function call, but it implicitly passes the object to the method as a `self` argument.
+
+### <a name="variablelife"></a>A quick aside about variable lifecycles
+
+Lua uses Garbage Collection to clean up its memory usage - any object it believes is no longer in use, will be destroyed at some point in the future (exactly when, can be very unpredictable, but it's based around how active your Lua code is).
+
+This means that a variable which only exists inside a function/loop/etc will be available for garbage collection as soon as the function/loop has finished executing. This includes your `init.lua`, which is considered to be a single scope that finishes when the final line of code has run.
+
+If you create any objects in your `init.lua`, you must capture them in a variable, or they will be silently destroyed at some point in the future. For example:
 
 ```lua
-win:frame()
-hs.window.frame(win)
+hs.pathwatcher.new(.....):start()
 ```
 
-It's up to you if you want to use the colon syntax or not, but it can save a lot of typing!
+The object returned here, an `hs.pathwatcher` object, is not being captured, so it is available for Garbage Collection as soon as your init.lua is finished. It will likely not be destroyed for some minutes/hours after, but you will then be confused why your pathwatcher is not running. Instead, this version will survive for until you reload your config, or quit Hammerspoon:
+
+```lua
+myWatcher = hs.pathwatcher.new(.....):start()
+```
+
+The `myWatcher` variable is a global variable, so will never go out of scope.
+
+As a further aside about the lifecycle of variables - in the Console window, each time you type a line and hit enter, a distinct Lua scope is created, executed and finished. This means that `local` variables created in the Console window will immediately become inaccessible when you hit Enter, because their scope has closed.
 
 ### <a name="winmovenethack"></a>More complex window movement
 
@@ -288,7 +304,7 @@ function reloadConfig(files)
         hs.reload()
     end
 end
-hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+local myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show("Config loaded")
 ```
 

@@ -1,7 +1,7 @@
 <html>
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Hammerspoon docs: hs.pathwatcher module</title>
+    <title>Hammerspoon docs: hs.usb.watcher module</title>
     <style type="text/css">
       a { text-decoration: none; }
       a:hover { text-decoration: underline; }
@@ -14,15 +14,8 @@
   </head>
   <body>
     <header>
-      <h1><a href="./index.html">docs</a> &raquo; hs.pathwatcher</h1>
-      <p>Watch paths recursively for changes</p>
-
-<p>This simple example watches your Hammerspoon directory for changes, and when it sees a change, reloads your configs:</p>
-
-<pre><code>local myWatcher = hs.pathwatcher.new(os.getenv(&quot;HOME&quot;) .. &quot;/.hammerspoon/&quot;, hs.reload):start()
-</code></pre>
-
-<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+      <h1><a href="./index.html">docs</a> &raquo; hs.usb.watcher</h1>
+      <p>Watch for USB device connection/disconnection events</p>
 
       </header>
       <h3>API Overview</h3>
@@ -56,7 +49,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.pathwatcher.new(path, fn) -> watcher</code></td>
+            <td><code>hs.usb.watcher.new(fn) -> watcher</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -65,7 +58,27 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns a new watcher.path that can be started and stopped.  The function registered receives as it&#39;s argument, a table containing a list of the files which have changed since it was last invoked.</p>
+                <p>Creates a new watcher for USB device events</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>fn - A function that will be called when a USB device is inserted or removed. The function should accept a single parameter, which is a table containing the following keys:
+
+<ul>
+<li>eventType - A string containing either &quot;added&quot; or &quot;removed&quot; depending on whether the USB device was connected or disconnected</li>
+<li>productName - A string containing the name of the device</li>
+<li>vendorName - A string containing the name of the device vendor</li>
+<li>vendorID - A number containing the Vendor ID of the device</li>
+<li>productID - A number containing the Product ID of the device</li>
+</ul></li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A <code>hs.usb.watcher</code> object</li>
+</ul>
 
             </td>
         </tr>
@@ -81,7 +94,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.pathwatcher:start()</code></td>
+            <td><code>hs.usb.watcher:start() -> watcher</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -90,7 +103,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Registers watcher&#39;s fn as a callback for when watcher&#39;s path or any descendent changes.</p>
+                <p>Starts the USB watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.usb.watcher</code> object</li>
+</ul>
 
             </td>
         </tr>
@@ -104,7 +129,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.pathwatcher:stop()</code></td>
+            <td><code>hs.usb.watcher:stop() -> watcher</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -113,7 +138,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Unregisters watcher&#39;s fn so it won&#39;t be called again until the watcher is restarted.</p>
+                <p>Stops the USB watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.usb.watcher</code> object</li>
+</ul>
 
             </td>
         </tr>

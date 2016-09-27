@@ -1,0 +1,581 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.host module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.host</h1>
+      <p>Inspect information about the machine Hammerspoon is running on</p>
+
+<p>Notes:</p>
+
+<ul>
+<li>The network/hostname calls can be slow, as network resolution calls can be called, which are synchronous and will block Hammerspoon until they complete.</li>
+</ul>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#addresses">addresses</a></li>
+        
+        <li><a href="#cpuUsage">cpuUsage</a></li>
+        
+        <li><a href="#globallyUniqueString">globallyUniqueString</a></li>
+        
+        <li><a href="#interfaceStyle">interfaceStyle</a></li>
+        
+        <li><a href="#localizedName">localizedName</a></li>
+        
+        <li><a href="#names">names</a></li>
+        
+        <li><a href="#operatingSystemVersion">operatingSystemVersion</a></li>
+        
+        <li><a href="#operatingSystemVersionString">operatingSystemVersionString</a></li>
+        
+        <li><a href="#uuid">uuid</a></li>
+        
+        <li><a href="#vmStat">vmStat</a></li>
+        
+        <li><a href="#volumeInformation">volumeInformation</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="addresses">
+    <a name="//apple_ref/cpp/Function/addresses" class="dashAnchor"></a>
+    <h5><a href="#addresses">addresses</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.addresses() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets a list of network addresses for the current machine</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table of strings containing the network addresses of the current machine</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The results will include IPv4 and IPv6 addresses</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="cpuUsage">
+    <a name="//apple_ref/cpp/Function/cpuUsage" class="dashAnchor"></a>
+    <h5><a href="#cpuUsage">cpuUsage</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.cpuUsage() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a table containing cpu usage information for the current machine.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the following:
+
+<ul>
+<li>A tables, indexed by the core number, for each CPU core with the following keys in each subtable:
+
+<ul>
+<li>user   -- percentage of CPU time occupied by user level processes.</li>
+<li>system -- percentage of CPU time occupied by system (kernel) level processes.</li>
+<li>nice   -- percentage of CPU time occupied by user level processes with a positive nice value (lower scheduling priority).</li>
+<li>active -- For convenience, when you just want the total CPU usage, this is the sum of user, system, and nice.</li>
+<li>idle   -- percentage of CPU time spent idle</li>
+</ul></li>
+<li>The key <code>overall</code> containing the same keys as described above but based upon the average of all cores combined.</li>
+<li>The key <code>n</code> containing the number of cores detected.</li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The subtables for each core and <code>overall</code> have a __tostring() metamethod which allows listing it&#39;s contents in the Hammerspoon console by typing <code>hs.host.cpuUsage()[#]</code> where # is the core you are interested in or the string &quot;overall&quot;.</li>
+<li>Adapted primarily from code found at <a href="http://stackoverflow.com/questions/6785069/get-cpu-percent-usage">http://stackoverflow.com/questions/6785069/get-cpu-percent-usage</a></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="globallyUniqueString">
+    <a name="//apple_ref/cpp/Function/globallyUniqueString" class="dashAnchor"></a>
+    <h5><a href="#globallyUniqueString">globallyUniqueString</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.globallyUniqueString() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a newly generated global unique identifier as a string</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a newly generated global unique identifier as a string</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>See also <code>hs.host.uuid</code></li>
+<li>The global unique identifier for a process includes the host name, process ID, and a time stamp, which ensures that the ID is unique for the network. This property generates a new string each time it is invoked, and it uses a counter to guarantee that strings are unique.</li>
+<li>This is often used as a file or directory name in conjunction with <code>hs.host.temporaryDirectory()</code> when creating temporary files.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="interfaceStyle">
+    <a name="//apple_ref/cpp/Function/interfaceStyle" class="dashAnchor"></a>
+    <h5><a href="#interfaceStyle">interfaceStyle</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.interfaceStyle() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the OS X interface style for the current user.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string representing the current user interface style, or nil if the default style is in use.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>As of OS X 10.10.4, other than the default style, only &quot;Dark&quot; is recognized as a valid style.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="localizedName">
+    <a name="//apple_ref/cpp/Function/localizedName" class="dashAnchor"></a>
+    <h5><a href="#localizedName">localizedName</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.localizedName() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the name of the current machine, as displayed in the Finder sidebar</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the name of the current machine</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="names">
+    <a name="//apple_ref/cpp/Function/names" class="dashAnchor"></a>
+    <h5><a href="#names">names</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.names() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets a list of network names for the current machine</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table of strings containing the network names of the current machine</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This function should be used sparingly, as it may involve blocking network access to resolve hostnames</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="operatingSystemVersion">
+    <a name="//apple_ref/cpp/Function/operatingSystemVersion" class="dashAnchor"></a>
+    <h5><a href="#operatingSystemVersion">operatingSystemVersion</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.operatingSystemVersion() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The operating system version as a table containing the major, minor, and patch numbers.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The operating system version as a table containing the keys major, minor, and patch corresponding to the version number determined and a key named &quot;exact&quot; or &quot;approximation&quot; depending upon the method used to determine the OS Version information.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Prior to 10.10 (Yosemite), there was no definitive way to reliably get an exact OS X version number without either mapping it to the Darwin kernel version, mapping it to the AppKitVersionNumber (the recommended method), or parsing the result of NSProcessingInfo&#39;s <code>operatingSystemVersionString</code> selector, which Apple states is not guaranteed to be reliably parseable.
+
+<ul>
+<li>for OS X versions prior to 10.10, the version number is approximately determined by evaluating the AppKitVersionNumber.  For these operating systems, the <code>approximate</code> key is defined and set to true, as the exact patch level cannot be definitively determined.</li>
+<li>for OS X Versions starting at 10.10 and going forward, an exact value for the version number can be determined with NSProcessingInfo&#39;s <code>operatingSystemVersion</code> selector and the <code>exact</code> key is defined and set to true if this method is used.</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="operatingSystemVersionString">
+    <a name="//apple_ref/cpp/Function/operatingSystemVersionString" class="dashAnchor"></a>
+    <h5><a href="#operatingSystemVersionString">operatingSystemVersionString</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.operatingSystemVersionString() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The operating system version as a human readable string.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The operating system version as a human readable string.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>According to the OS X Developer documentation, &quot;The operating system version string is human readable, localized, and is appropriate for displaying to the user. This string is not appropriate for parsing.&quot;</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="uuid">
+    <a name="//apple_ref/cpp/Function/uuid" class="dashAnchor"></a>
+    <h5><a href="#uuid">uuid</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.uuid() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a newly generated UUID as a string</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a newly generated UUID as a string</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>See also <code>hs.host.globallyUniqueString</code></li>
+<li>UUIDs (Universally Unique Identifiers), also known as GUIDs (Globally Unique Identifiers) or IIDs (Interface Identifiers), are 128-bit values. UUIDs created by NSUUID conform to RFC 4122 version 4 and are created with random bytes.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="vmStat">
+    <a name="//apple_ref/cpp/Function/vmStat" class="dashAnchor"></a>
+    <h5><a href="#vmStat">vmStat</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.vmStat() -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a table containing virtual memory statistics for the current machine, as well as the page size (in bytes) and physical memory size (in bytes).</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the following keys:
+
+<ul>
+<li>anonymousPages          -- the total number of pages that are anonymous</li>
+<li>cacheHits               -- number of object cache hits</li>
+<li>cacheLookups            -- number of object cache lookups</li>
+<li>fileBackedPages         -- the total number of pages that are file-backed (non-swap)</li>
+<li>memSize                 -- physical memory size in bytes</li>
+<li>pageIns                 -- the total number of requests for pages from a pager (such as the inode pager).</li>
+<li>pageOuts                -- the total number of pages that have been paged out.</li>
+<li>pageSize                -- page size in bytes</li>
+<li>pagesActive             -- the total number of pages currently in use and pageable.</li>
+<li>pagesCompressed         -- the total number of pages that have been compressed by the VM compressor.</li>
+<li>pagesCopyOnWrite        -- the number of faults that caused a page to be copied (generally caused by copy-on-write faults).</li>
+<li>pagesDecompressed       -- the total number of pages that have been decompressed by the VM compressor.</li>
+<li>pagesFree               -- the total number of free pages in the system.</li>
+<li>pagesInactive           -- the total number of pages on the inactive list.</li>
+<li>pagesPurgeable          -- the total number of purgeable pages.</li>
+<li>pagesPurged             -- the total number of pages that have been purged.</li>
+<li>pagesReactivated        -- the total number of pages that have been moved from the inactive list to the active list (reactivated).</li>
+<li>pagesSpeculative        -- the total number of pages on the speculative list.</li>
+<li>pagesThrottled          -- the total number of pages on the throttled list (not wired but not pageable).</li>
+<li>pagesUsedByVMCompressor -- the number of pages used to store compressed VM pages.</li>
+<li>pagesWiredDown          -- the total number of pages wired down. That is, pages that cannot be paged out.</li>
+<li>pagesZeroFilled         -- the total number of pages that have been zero-filled on demand.</li>
+<li>swapIns                 -- the total number of compressed pages that have been swapped out to disk.</li>
+<li>swapOuts                -- the total number of compressed pages that have been swapped back in from disk.</li>
+<li>translationFaults       -- the number of times the &quot;vm_fault&quot; routine has been called.</li>
+<li>uncompressedPages       -- the total number of pages (uncompressed) held within the compressor</li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The table returned has a __tostring() metamethod which allows listing it&#39;s contents in the Hammerspoon console by typing <code>hs.host.vmStats()</code>.</li>
+<li>Except for the addition of cacheHits, cacheLookups, pageSize and memSize, the results for this function should be identical to the OS X command <code>vm_stat</code>.</li>
+<li>Adapted primarily from the source code to Apple&#39;s vm_stat command located at <a href="http://www.opensource.apple.com/source/system_cmds/system_cmds-643.1.1/vm_stat.tproj/vm_stat.c">http://www.opensource.apple.com/source/system_cmds/system_cmds-643.1.1/vm_stat.tproj/vm_stat.c</a></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="volumeInformation">
+    <a name="//apple_ref/cpp/Function/volumeInformation" class="dashAnchor"></a>
+    <h5><a href="#volumeInformation">volumeInformation</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.host.volumeInformation([showHidden]) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a table of information about disk volumes attached to the system</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>showHidden - An optional boolean, true to show hidden volumes, false to not show hidden volumes. Defaults to false.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table of information, where the keys are the paths of disk volumes</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The possible keys in the table are:
+
+<ul>
+<li>NSURLVolumeTotalCapacityKey - Size of the volume in bytes</li>
+<li>NSURLVolumeAvailableCapacityKey - Available space on the volume in bytes</li>
+<li>NSURLVolumeIsAutomountedKey - Boolean indicating if the volume was automounted</li>
+<li>NSURLVolumeIsBrowsableKey - Boolean indicating if the volume can be browsed</li>
+<li>NSURLVolumeIsEjectableKey - Boolean indicating if the volume can be ejected</li>
+<li>NSURLVolumeIsInternalKey - Boolean indicating if the volume is an internal drive or an external drive</li>
+<li>NSURLVolumeIsLocalKey - Boolean indicating if the volume is a local or remote drive</li>
+<li>NSURLVolumeIsReadOnlyKey - Boolean indicating if the volume is read only</li>
+<li>NSURLVolumeIsRemovableKey - Boolean indicating if the volume is removable</li>
+<li>NSURLVolumeMaximumFileSizeKey - Maximum file size the volume can support, in bytes</li>
+<li>NSURLVolumeUUIDStringKey - The UUID of volume&#39;s filesystem</li>
+<li>NSURLVolumeURLForRemountingKey - For remote volumes, the network URL of the volume</li>
+<li>NSURLVolumeLocalizedNameKey - Localized version of the volume&#39;s name</li>
+<li>NSURLVolumeNameKey - The volume&#39;s name</li>
+<li>NSURLVolumeLocalizedFormatDescriptionKey - Localized description of the volume</li>
+<li>Not all keys will be present for all volumes</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

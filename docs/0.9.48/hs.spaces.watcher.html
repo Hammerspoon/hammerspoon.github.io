@@ -1,7 +1,7 @@
 <html>
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Hammerspoon docs: hs.pathwatcher module</title>
+    <title>Hammerspoon docs: hs.spaces.watcher module</title>
     <style type="text/css">
       a { text-decoration: none; }
       a:hover { text-decoration: underline; }
@@ -14,15 +14,9 @@
   </head>
   <body>
     <header>
-      <h1><a href="./index.html">docs</a> &raquo; hs.pathwatcher</h1>
-      <p>Watch paths recursively for changes</p>
-
-<p>This simple example watches your Hammerspoon directory for changes, and when it sees a change, reloads your configs:</p>
-
-<pre><code>local myWatcher = hs.pathwatcher.new(os.getenv(&quot;HOME&quot;) .. &quot;/.hammerspoon/&quot;, hs.reload):start()
-</code></pre>
-
-<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+      <h1><a href="./index.html">docs</a> &raquo; hs.spaces.watcher</h1>
+      <p>Watches for the current Space being changed<br>
+NOTE: This extension determines the number of a Space, using OS X APIs that have been deprecated since 10.8 and will likely be removed in a future release. You should not depend on Space numbers being around forever!</p>
 
       </header>
       <h3>API Overview</h3>
@@ -56,7 +50,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.pathwatcher.new(path, fn) -> watcher</code></td>
+            <td><code>hs.spaces.watcher.new(handler) -> watcher</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -65,7 +59,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Returns a new watcher.path that can be started and stopped.  The function registered receives as it&#39;s argument, a table containing a list of the files which have changed since it was last invoked.</p>
+                <p>Creates a new watcher for Space change events</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>handler - A function to be called when the active Space changes. It should accept one argument, which will be the number of the new Space (or -1 if the number cannot be determined)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.spaces.watcher</code> object</li>
+</ul>
 
             </td>
         </tr>
@@ -81,7 +87,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.pathwatcher:start()</code></td>
+            <td><code>hs.spaces.watcher:start()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -90,7 +96,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Registers watcher&#39;s fn as a callback for when watcher&#39;s path or any descendent changes.</p>
+                <p>Starts the Spaces watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The watcher object</li>
+</ul>
 
             </td>
         </tr>
@@ -104,7 +122,7 @@
     <table>
         <tr>
             <th>Signature</td>
-            <td><code>hs.pathwatcher:stop()</code></td>
+            <td><code>hs.spaces.watcher:stop()</code></td>
         </tr>
         <tr>
             <th>Type</td>
@@ -113,7 +131,19 @@
         <tr>
             <th>Description</td>
             <td>
-                <p>Unregisters watcher&#39;s fn so it won&#39;t be called again until the watcher is restarted.</p>
+                <p>Stops the Spaces watcher</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The watcher object</li>
+</ul>
 
             </td>
         </tr>

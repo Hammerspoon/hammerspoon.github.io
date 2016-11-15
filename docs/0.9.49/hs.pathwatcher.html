@@ -1,0 +1,124 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.pathwatcher module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.pathwatcher</h1>
+      <p>Watch paths recursively for changes</p>
+
+<p>This simple example watches your Hammerspoon directory for changes, and when it sees a change, reloads your configs:</p>
+
+<pre><code>local myWatcher = hs.pathwatcher.new(os.getenv(&quot;HOME&quot;) .. &quot;/.hammerspoon/&quot;, hs.reload):start()
+</code></pre>
+
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#start">start</a></li>
+        
+        <li><a href="#stop">stop</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Constructors</h4>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+    <h5><a href="#new">new</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pathwatcher.new(path, fn) -> watcher</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a new watcher.path that can be started and stopped.  The function registered receives as it&#39;s argument, a table containing a list of the files which have changed since it was last invoked.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Methods</h4>
+                
+
+    <section id="start">
+    <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+    <h5><a href="#start">start</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pathwatcher:start()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Registers watcher&#39;s fn as a callback for when watcher&#39;s path or any descendent changes.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stop">
+    <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+    <h5><a href="#stop">stop</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.pathwatcher:stop()</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Unregisters watcher&#39;s fn so it won&#39;t be called again until the watcher is restarted.</p>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

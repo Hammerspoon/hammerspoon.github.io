@@ -568,6 +568,8 @@ We have now bound a URL event handler for an event named `someAlert` that will s
 
 ### <a name="karabinerurl"></a>Advanced automation of Hammerspoon with Karabiner and URLs
 
+* NOTE: Karabiner does not currently work in macOS Sierra. Its author is working on a new version *
+
 In our [first example](#helloworld) we used `hs.hotkey` to bind a keyboard shortcut to a Lua function, one of the most useful things that Hammerspoon can do. However, those hotkeys are performed using the Carbon API in OS X, which is quite high level in terms of its understanding of keyboard events - for example, it cannot differentiate between which of the <kbd>⌘</kbd> keys has been pressed (since there are two, one on the left of the keyboard, one on the right), nor can it bind hotkeys that involve the <kbd>Fn</kbd> key.
 
 One application that does understand these keyboard events at a very low level, is [Karabiner](https://pqrs.org/osx/karabiner/), which hooks into the OS X kernel to read raw events coming from the keyboard. Usually it is used to remap these key events to other key events (i.e. changing the behaviour of a key on your keyboard), however, it can also translate low level key events into higher level system actions, such as executing a terminal command, or opening a URL.

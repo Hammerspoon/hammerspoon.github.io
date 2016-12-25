@@ -1,0 +1,39 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.canvas.drawing module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.canvas.drawing</h1>
+      <p>An wrapper to replace <code>hs.drawing</code> with <code>hs.canvas</code>.</p>
+
+<p>The intention is for this wrapper to provide all of the same functionality that <code>hs.drawing</code> does without requiring any additional changes to your currently existing code.</p>
+
+<h3>Known issues/differences between the wrapper and <code>hs.drawing</code>:</h3>
+
+<ul>
+<li><p>images which are &quot;template images&quot; (i.e. some of the images with names in <code>hs.image.systemImageNames</code> and any image retrieved from an <code>hs.menubar</code> object) are displayed with an implicit <code>imageAlpha</code> of 0.5.  This closely mimics the NSImageView behavior observed with <code>hs.drawing</code>, but since Apple has not provided full details on how a template image is rendered when it is <em>not</em> used as a template, this is just a guess.</p></li>
+<li><p>image frames from <code>hs.drawing</code> are approximated with additional canvas elements inserted into the canvas; since this module now allows you to create as complex a frame as you like... consider these as &quot;examples&quot;.</p></li>
+</ul>
+
+<p>The wrapper is not enabled by default.  See the <code>hs.canvas.drawingWrapper</code> function for details on how to enable or disable this wrapper.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+    </ul>
+    <h3>API Documentation</h3>
+    
+  </body>
+</html>

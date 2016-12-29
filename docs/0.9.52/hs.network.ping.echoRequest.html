@@ -1,0 +1,677 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.network.ping.echoRequest module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.network.ping.echoRequest</h1>
+      <p>Provides lower-level access to the ICMP Echo Request infrastructure used by the hs.network.ping module. In general, you should not need to use this module directly unless you have specific requirements not met by the hs.network.ping module and the <code>hs.network.ping</code> object methods.</p>
+
+<p>This module is based heavily on Apple&#39;s SimplePing sample project which can be found at <a href="https://developer.apple.com/library/content/samplecode/SimplePing/Introduction/Intro.html">https://developer.apple.com/library/content/samplecode/SimplePing/Introduction/Intro.html</a>.</p>
+
+<p>When a callback function argument is specified as an ICMP table, the Lua table returned will contain the following key-value pairs:</p>
+
+<ul>
+<li><code>checksum</code>       - The ICMP packet checksum used to ensure data integrity.</li>
+<li><code>code</code>           - ICMP Control Message Code. This should always be 0 unless the callback has received a &quot;receivedUnexpectedPacket&quot; message.</li>
+<li><code>identifier</code>     - The ICMP packet identifier.  This should match the results of <a href="#identifier">hs.network.ping.echoRequest:identifier</a> unless the callback has received a &quot;receivedUnexpectedPacket&quot; message.</li>
+<li><code>payload</code>        - A string containing the ICMP payload for this packet. The default payload has been constructed to cause the ICMP packet to be exactly 64 bytes to match the convention for ICMP Echo Requests.</li>
+<li><code>sequenceNumber</code> - The ICMP Sequence Number for this packet.</li>
+<li><code>type</code>           - ICMP Control Message Type. Unless the callback has received a &quot;receivedUnexpectedPacket&quot; message, this will be 0 (ICMPv4) or 129 (ICMPv6) for packets we receive and 8 (ICMPv4) or 128 (ICMPv6) for packets we send.</li>
+<li><code>_raw</code>           - A string containing the ICMP packet as raw data.</li>
+</ul>
+
+<p>In cases where the callback receives a &quot;receivedUnexpectedPacket&quot; message because the packet is corrupted or truncated, this table may only contain the <code>_raw</code> field.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+                    <ul>
+                
+        <li><a href="#echoRequest">echoRequest</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#acceptAddressFamily">acceptAddressFamily</a></li>
+        
+        <li><a href="#hostAddress">hostAddress</a></li>
+        
+        <li><a href="#hostAddressFamily">hostAddressFamily</a></li>
+        
+        <li><a href="#hostName">hostName</a></li>
+        
+        <li><a href="#identifier">identifier</a></li>
+        
+        <li><a href="#isRunning">isRunning</a></li>
+        
+        <li><a href="#nextSequenceNumber">nextSequenceNumber</a></li>
+        
+        <li><a href="#seeAllUnexpectedPackets">seeAllUnexpectedPackets</a></li>
+        
+        <li><a href="#sendPayload">sendPayload</a></li>
+        
+        <li><a href="#setCallback">setCallback</a></li>
+        
+        <li><a href="#start">start</a></li>
+        
+        <li><a href="#stop">stop</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Constructors</h4>
+                
+
+    <section id="echoRequest">
+    <a name="//apple_ref/cpp/Constructor/echoRequest" class="dashAnchor"></a>
+    <h5><a href="#echoRequest">echoRequest</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest.echoRequest(server) -> echoRequestObject</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Constructor</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new ICMP Echo Request object for the server specified.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>server</code> - a string containing the hostname or ip address of the server to communicate with. Both IPv4 and IPv6 style addresses are supported.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an echoRequest object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><p>This constructor returns a lower-level object than the <code>hs.network.ping.ping</code> constructor and is more difficult to use. It is recommended that you use this constructor only if <code>hs.network.ping.ping</code> is not sufficient for your needs.</p></li>
+<li><p>For convenience, you can call this constructor as <code>hs.network.ping.echoRequest(server)</code></p></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Methods</h4>
+                
+
+    <section id="acceptAddressFamily">
+    <a name="//apple_ref/cpp/Method/acceptAddressFamily" class="dashAnchor"></a>
+    <h5><a href="#acceptAddressFamily">acceptAddressFamily</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:acceptAddressFamily([family]) -> echoRequestObject | current value</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get or set the address family the echoRequestObject should communicate with.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>family</code> - an optional string, default &quot;any&quot;, which specifies the address family used by this object.  Valid values are &quot;any&quot;, &quot;IPv4&quot;, and &quot;IPv6&quot;.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>if an argument is provided, returns the echoRequestObject, otherwise returns the current value.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Setting this value to &quot;IPv6&quot; or &quot;IPv4&quot; will cause the echoRequestObject to attempt to resolve the server&#39;s name into an IPv6 address or an IPv4 address and communicate via ICMPv6 or ICMP(v4) when the <a href="#start">hs.network.ping.echoRequest:start</a> method is invoked.  A callback with the message &quot;didFail&quot; will occur if the server could not be resolved to an address in the specified family.</li>
+<li><p>If this value is set to &quot;any&quot;, then the first address which is discovered for the server&#39;s name will determine whether ICMPv6 or ICMP(v4) is used, based upon the family of the address.</p></li>
+<li><p>Setting a value with this method will have no immediate effect on an echoRequestObject which has already been started with <a href="#start">hs.network.ping.echoRequest:start</a>. You must first stop and then restart the object for any change to have an effect.</p></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hostAddress">
+    <a name="//apple_ref/cpp/Method/hostAddress" class="dashAnchor"></a>
+    <h5><a href="#hostAddress">hostAddress</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:hostAddress() -> string | false | nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a string representation for the server&#39;s IP address, or a boolean if address resolution has not completed yet.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>If the object has been started and address resolution has completed, then the string representation of the server&#39;s IP address is returned.</li>
+<li>If the object has been started, but resolution is still pending, returns a boolean value of false.</li>
+<li>If the object has not been started, returns nil.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hostAddressFamily">
+    <a name="//apple_ref/cpp/Method/hostAddressFamily" class="dashAnchor"></a>
+    <h5><a href="#hostAddressFamily">hostAddressFamily</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:hostAddressFamily() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the host address family currently in use by this echoRequestObject.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a string indicating the IP address family currently used by this echoRequestObject.  It will be one of the following values:
+
+<ul>
+<li>&quot;IPv4&quot;       - indicates that ICMP(v4) packets are being sent and listened for.</li>
+<li>&quot;IPv6&quot;       - indicates that ICMPv6 packets are being sent and listened for.</li>
+<li>&quot;unresolved&quot; - indicates that the echoRequestObject has not been started or that address resolution is still in progress.</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="hostName">
+    <a name="//apple_ref/cpp/Method/hostName" class="dashAnchor"></a>
+    <h5><a href="#hostName">hostName</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:hostName() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the name of the target host as provided to the echoRequestObject&#39;s constructor</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>a string containing the hostname as specified when the object was created.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="identifier">
+    <a name="//apple_ref/cpp/Method/identifier" class="dashAnchor"></a>
+    <h5><a href="#identifier">identifier</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:identifier() -> integer</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns the identifier number for the echoRequestObject.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an integer specifying the identifier which is embedded in the ICMP packets this object sends.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>ICMP Echo Replies which include this identifier will generate a &quot;receivedPacket&quot; message to the object callback, while replies which include a different identifier will generate a &quot;receivedUnexpectedPacket&quot; message.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="isRunning">
+    <a name="//apple_ref/cpp/Method/isRunning" class="dashAnchor"></a>
+    <h5><a href="#isRunning">isRunning</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:isRunning() -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Returns a boolean indicating whether or not this echoRequestObject is currently listening for ICMP Echo Replies.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>true if the object is currently listening for ICMP Echo Replies, or false if it is not.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="nextSequenceNumber">
+    <a name="//apple_ref/cpp/Method/nextSequenceNumber" class="dashAnchor"></a>
+    <h5><a href="#nextSequenceNumber">nextSequenceNumber</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:nextSequenceNumber() -> integer</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>The sequence number that will be used for the next ICMP packet sent by this object.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>an integer specifying the sequence number that will be embedded in the next ICMP message sent by this object when <a href="#sendPayload">hs.network.ping.echoRequest:sendPayload</a> is invoked.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>ICMP Echo Replies which are expected by this object should always be less than this number, with the caveat that this number is a 16-bit integer which will wrap around to 0 after sending a packet with the sequence number 65535.</li>
+<li>Because of this wrap around effect, this module will generate a &quot;receivedPacket&quot; message to the object callback whenever the received packet has a sequence number that is within the last 120 sequence numbers we&#39;ve sent and a &quot;receivedUnexpectedPacket&quot; otherwise.
+
+<ul>
+<li>Per the comments in Apple&#39;s SimplePing.m file: Why 120?  Well, if we send one ping per second, 120 is 2 minutes, which is the standard &quot;max time a packet can bounce around the Internet&quot; value.</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="seeAllUnexpectedPackets">
+    <a name="//apple_ref/cpp/Method/seeAllUnexpectedPackets" class="dashAnchor"></a>
+    <h5><a href="#seeAllUnexpectedPackets">seeAllUnexpectedPackets</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:seeAllUnexpectedPackets([state]) -> boolean | echoRequestObject</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get or set whether or not the callback should receive all unexpected packets or only those which carry our identifier.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>state</code> - an optional boolean, default false, specifying whether or not all unexpected packets or only those which carry our identifier should generate a &quot;receivedUnexpectedPacket&quot; callback message.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>if an argument is provided, returns the echoRequestObject; otherwise returns the current value</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The nature of ICMP packet reception is such that all listeners receive all ICMP packets, even those which belong to another process or echoRequestObject.
+
+<ul>
+<li>By default, a valid packet (i.e. with a valid checksum) which does not contain our identifier is ignored since it was not intended for our receiver.  Only corrupt or packets with our identifier but that were otherwise unexpected will generate a &quot;receivedUnexpectedPacket&quot; callback message.</li>
+<li>This method optionally allows the echoRequestObject to receive <em>all</em> incoming packets, even ones which are expected by another process or echoRequestObject.</li>
+</ul></li>
+<li>If you wish to examine ICMPv6 router advertisement and neighbor discovery packets, you should set this property to true. Note that this module does not provide the necessary tools to decode these packets at present, so you will have to decode them yourself if you wish to examine their contents.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="sendPayload">
+    <a name="//apple_ref/cpp/Method/sendPayload" class="dashAnchor"></a>
+    <h5><a href="#sendPayload">sendPayload</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:sendPayload([payload]) -> echoRequestObject | false | nil</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sends a single ICMP Echo Request packet.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>payload</code> - an optional string containing the data to include in the ICMP Echo Request as the packet payload.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>If the object has been started and address resolution has completed, then the ICMP Echo Packet is sent and this method returns the echoRequestObject</li>
+<li>If the object has been started, but resolution is still pending, the packet is not sent and this method returns a boolean value of false.</li>
+<li>If the object has not been started, the packet is not sent and this method returns nil.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>By convention, unless you are trying to test for specific network fragmentation or congestion problems, ICMP Echo Requests are generally 64 bytes in length (this includes the 8 byte header, giving 56 bytes of payload data).  If you do not specify a payload, a default payload which will result in a packet size of 64 bytes is constructed.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setCallback">
+    <a name="//apple_ref/cpp/Method/setCallback" class="dashAnchor"></a>
+    <h5><a href="#setCallback">setCallback</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:setCallback(fn | nil) -> echoRequestObject</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Set or remove the object callback function</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li><code>fn</code> - a function to set as the callback function for this object, or nil if you wish to remove any existing callback function.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the echoRequestObject</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><p>The callback function should expect between 3 and 5 arguments and return none. The possible arguments which are sent will be one of the following:</p>
+
+<ul>
+<li><p>&quot;didStart&quot; - indicates that the object has resolved the address of the server and is ready to begin sending and receiving ICMP Echo packets.</p>
+
+<ul>
+<li><code>object</code>  - the echoRequestObject itself</li>
+<li><code>message</code> - the message to the callback, in this case &quot;didStart&quot;</li>
+<li><code>address</code> - a string representation of the IPv4 or IPv6 address of the server specified to the constructor.</li>
+</ul></li>
+<li><p>&quot;didFail&quot; - indicates that the object has failed, either because the address could not be resolved or a network error has occurred.</p>
+
+<ul>
+<li><code>object</code>  - the echoRequestObject itself</li>
+<li><code>message</code> - the message to the callback, in this case &quot;didFail&quot;</li>
+<li><code>error</code>   - a string describing the error that occurred.</li>
+</ul></li>
+<li><p>Notes:</p>
+
+<ul>
+<li>When this message is received, you do not need to call <a href="#stop">hs.network.ping.echoRequest:stop</a> -- the object will already have been stopped.</li>
+</ul></li>
+<li><p>&quot;sendPacket&quot; - indicates that the object has sent an ICMP Echo Request packet.</p>
+
+<ul>
+<li><code>object</code>  - the echoRequestObject itself</li>
+<li><code>message</code> - the message to the callback, in this case &quot;sendPacket&quot;</li>
+<li><code>icmp</code>    - an ICMP packet table representing the packet which has been sent as described in the header of this module&#39;s documentation.</li>
+<li><code>seq</code>     - the sequence number for this packet. Sequence numbers always start at 0 and increase by 1 every time the <a href="#sendPayload">hs.network.ping.echoRequest:sendPayload</a> method is called.</li>
+</ul></li>
+<li><p>&quot;sendPacketFailed&quot; - indicates that the object failed to send the ICMP Echo Request packet.</p>
+
+<ul>
+<li><code>object</code>  - the echoRequestObject itself</li>
+<li><code>message</code> - the message to the callback, in this case &quot;sendPacketFailed&quot;</li>
+<li><code>icmp</code>    - an ICMP packet table representing the packet which was to be sent.</li>
+<li><code>seq</code>     - the sequence number for this packet.</li>
+<li><code>error</code>   - a string describing the error that occurred.</li>
+</ul></li>
+<li><p>Notes:</p>
+
+<ul>
+<li>Unlike &quot;didFail&quot;, the echoRequestObject is not stopped when this message occurs; you can try to send another payload if you wish without restarting the object first.</li>
+</ul></li>
+<li><p>&quot;receivedPacket&quot; - indicates that an expected ICMP Echo Reply packet has been received by the object.</p>
+
+<ul>
+<li><code>object</code>  - the echoRequestObject itself</li>
+<li><code>message</code> - the message to the callback, in this case &quot;receivedPacket&quot;</li>
+<li><code>icmp</code>    - an ICMP packet table representing the packet received.</li>
+<li><code>seq</code>     - the sequence number for this packet.</li>
+</ul></li>
+<li><p>&quot;receivedUnexpectedPacket&quot; - indicates that an unexpected ICMP packet was received</p>
+
+<ul>
+<li><code>object</code>  - the echoRequestObject itself</li>
+<li><code>message</code> - the message to the callback, in this case &quot;receivedUnexpectedPacket&quot;</li>
+<li><code>icmp</code>    - an ICMP packet table representing the packet received.</li>
+</ul></li>
+<li>Notes:
+
+<ul>
+<li>This message can occur for a variety of reasons, the most common being:
+
+<ul>
+<li>the ICMP packet is corrupt or truncated and cannot be parsed</li>
+</ul></li>
+<li>the ICMP Identifier does not match ours and the sequence number is not one we have sent</li>
+<li>the ICMP type does not match an ICMP Echo Reply</li>
+<li>When using IPv6, this is especially common because IPv6 uses ICMP for network management functions like Router Advertisement and Neighbor Discovery.</li>
+<li>In general, it is reasonably safe to ignore these messages, unless you are having problems receiving anything else, in which case it could indicate problems on your network that need addressing.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="start">
+    <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+    <h5><a href="#start">start</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:start() -> echoRequestObject</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Start the echoRequestObject by resolving the server&#39;s address and start listening for ICMP Echo Reply packets.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the echoRequestObject</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stop">
+    <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+    <h5><a href="#stop">stop</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.network.ping.echoRequest:stop() -> echoRequestObject</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Start listening for ICMP Echo Reply packets with this object.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>the echoRequestObject</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

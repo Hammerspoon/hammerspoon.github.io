@@ -1,0 +1,342 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.urlevent module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.urlevent</h1>
+      <p>Allows Hammerspoon to respond to URLs<br>
+Hammerspoon is configured to react to URLs that start with <code>hammerspoon://</code> when they are opened by OS X.<br>
+This extension allows you to register callbacks for these URL events and their parameters, offering a flexible way to receive events from other applications.</p>
+
+<p>You can also choose to make Hammerspoon the default for <code>http://</code> and <code>https://</code> URLs, which lets you route the URLs in your Lua code</p>
+
+<p>Given a URL such as <code>hammerspoon://someEventToHandle?someParam=things&amp;otherParam=stuff</code>, in the literal, RFC1808 sense of the URL, <code>someEventToHandle</code> is the hostname (or net_loc) of the URL, but given that these are not network resources, we consider <code>someEventToHandle</code> to be the name of the event. No path should be specified in the URL - it should consist purely of a hostname and, optionally, query parameters.</p>
+
+<p>See also <code>hs.ipc</code> for a command line IPC mechanism that is likely more appropriate for shell scripts or command line use. Unlike <code>hs.ipc</code>, <code>hs.urlevent</code> is not able to return any data to its caller.</p>
+
+<p>NOTE: If Hammerspoon is not running when a <code>hammerspoon://</code> URL is opened, Hammerspoon will be launched, but it will not react to the URL event. Nor will it react to any events until this extension is loaded and event callbacks have been bound.<br>
+NOTE: Any event which is received, for which no callback has been bound, will be logged to the Hammerspoon Console<br>
+NOTE: When you trigger a URL from another application, it is usually best to have the URL open in the background, if that option is available. Otherwise, OS X will activate Hammerspoon (i.e. give it focus), which makes URL events difficult to use for things like window management.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Variables - Configurable values</li>
+                    <ul>
+                
+        <li><a href="#httpCallback">httpCallback</a></li>
+        
+                </ul>
+                
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#bind">bind</a></li>
+        
+        <li><a href="#getAllHandlersForScheme">getAllHandlersForScheme</a></li>
+        
+        <li><a href="#getDefaultHandler">getDefaultHandler</a></li>
+        
+        <li><a href="#openURLWithBundle">openURLWithBundle</a></li>
+        
+        <li><a href="#setDefaultHandler">setDefaultHandler</a></li>
+        
+        <li><a href="#setRestoreHandler">setRestoreHandler</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Variables</h4>
+                
+
+    <section id="httpCallback">
+    <a name="//apple_ref/cpp/Variable/httpCallback" class="dashAnchor"></a>
+    <h5><a href="#httpCallback">httpCallback</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.urlevent.httpCallback</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Variable</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>A function that should handle http:// and https:// URL events</p>
+
+<p>Notes:</p>
+
+<ul>
+<li>The function should handle four arguments:
+
+<ul>
+<li>scheme - A string containing the URL scheme (i.e. &quot;http&quot;)</li>
+<li>host - A string containing the host requested (e.g. &quot;www.hammerspoon.org&quot;)</li>
+<li>params - A table containing the key/value pairs of all the URL parameters</li>
+<li>fullURL - A string containing the full, original URL</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="bind">
+    <a name="//apple_ref/cpp/Function/bind" class="dashAnchor"></a>
+    <h5><a href="#bind">bind</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.urlevent.bind(eventName, callback)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Registers a callback for a hammerspoon:// URL event</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>eventName - A string containing the name of an event</li>
+<li>callback - A function that will be called when the specified event is received, or nil to remove an existing callback</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The callback function should accept two parameters:
+
+<ul>
+<li>eventName - A string containing the name of the event</li>
+<li>params - A table containing key/value string pairs containing any URL parameters that were specified in the URL</li>
+</ul></li>
+<li>Given the URL <code>hammerspoon://doThingA?value=1</code> The event name is <code>doThingA</code> and the callback&#39;s <code>params</code> argument will be a table containing <code>{[&quot;value&quot;] = &quot;1&quot;}</code></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getAllHandlersForScheme">
+    <a name="//apple_ref/cpp/Function/getAllHandlersForScheme" class="dashAnchor"></a>
+    <h5><a href="#getAllHandlersForScheme">getAllHandlersForScheme</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.urlevent.getAllHandlersForScheme(scheme) -> table</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets all of the application bundle identifiers of applications able to handle a URL scheme</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>scheme - A string containing a URL scheme (e.g. &#39;http&#39;)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A table containing the bundle identifiers of all applications that can handle the scheme</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getDefaultHandler">
+    <a name="//apple_ref/cpp/Function/getDefaultHandler" class="dashAnchor"></a>
+    <h5><a href="#getDefaultHandler">getDefaultHandler</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.urlevent.getDefaultHandler(scheme) -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the application bundle identifier of the application currently registered to handle a URL scheme</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>scheme - A string containing a URL scheme (e.g. &#39;http&#39;)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the bundle identifier of the current default application</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="openURLWithBundle">
+    <a name="//apple_ref/cpp/Function/openURLWithBundle" class="dashAnchor"></a>
+    <h5><a href="#openURLWithBundle">openURLWithBundle</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.urlevent.openURLWithBundle(url, bundleID) -> boolean</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Opens a URL with a specified application</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>url - A string containing a URL</li>
+<li>bundleID - A string containing an application bundle identifier (e.g. &quot;com.apple.Safari&quot;)</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>True if the application was launched successfully, otherwise false</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setDefaultHandler">
+    <a name="//apple_ref/cpp/Function/setDefaultHandler" class="dashAnchor"></a>
+    <h5><a href="#setDefaultHandler">setDefaultHandler</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.urlevent.setDefaultHandler(scheme[, bundleID])</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the default system handler for URLs of a given scheme</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>scheme - A string containing the URL scheme to change. This must be &#39;http&#39; or &#39;https&#39; (although entering either will change the handler for both)</li>
+<li>bundleID - An optional string containing an application bundle identifier for the application to set as the default handler. Defaults to <code>org.hammerspoon.Hammerspoon</code>.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Changing the default handler for http/https URLs will display a system prompt asking the user to confirm the change</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setRestoreHandler">
+    <a name="//apple_ref/cpp/Function/setRestoreHandler" class="dashAnchor"></a>
+    <h5><a href="#setRestoreHandler">setRestoreHandler</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.urlevent.setRestoreHandler(scheme, bundleID)</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Stores a URL handler that will be restored when Hammerspoon or reloads its config</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>scheme - A string containing the URL scheme to change. This must be &#39;http&#39; (although both http:// and https:// URLs will be affected)</li>
+<li>bundleID - A string containing an application bundle identifier (e.g. &#39;com.apple.Safari&#39;) for the application to set as the default handler when Hammerspoon exits or reloads its config</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>You don&#39;t have to call this function if you want Hammerspoon to permanently be your default handler. Only use this if you want the handler to be automatically reverted to something else when Hammerspoon exits/reloads.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

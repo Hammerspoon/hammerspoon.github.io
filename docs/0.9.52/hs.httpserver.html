@@ -1,0 +1,565 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.httpserver module</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.httpserver</h1>
+      <p>Simple HTTP server</p>
+
+<p>Notes:</p>
+
+<ul>
+<li>Running an HTTP server is potentially dangerous, you should seriously consider the security implications of exposing your Hammerspoon instance to a network - especially to the Internet</li>
+<li>As a user of Hammerspoon, you are assumed to be highly capable, and aware of the security issues</li>
+</ul>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+    
+                <li>Functions - API calls offered directly by the extension</li>
+                    <ul>
+                
+        <li><a href="#new">new</a></li>
+        
+                </ul>
+                
+                <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+                    <ul>
+                
+        <li><a href="#getName">getName</a></li>
+        
+        <li><a href="#getPort">getPort</a></li>
+        
+        <li><a href="#maxBodySize">maxBodySize</a></li>
+        
+        <li><a href="#send">send</a></li>
+        
+        <li><a href="#setCallback">setCallback</a></li>
+        
+        <li><a href="#setName">setName</a></li>
+        
+        <li><a href="#setPassword">setPassword</a></li>
+        
+        <li><a href="#setPort">setPort</a></li>
+        
+        <li><a href="#start">start</a></li>
+        
+        <li><a href="#stop">stop</a></li>
+        
+        <li><a href="#websocket">websocket</a></li>
+        
+                </ul>
+                
+    </ul>
+    <h3>API Documentation</h3>
+    
+                <h4 class="documentation-section">Functions</h4>
+                
+
+    <section id="new">
+    <a name="//apple_ref/cpp/Function/new" class="dashAnchor"></a>
+    <h5><a href="#new">new</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver.new([ssl], [bonjour]) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Function</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Creates a new HTTP or HTTPS server</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>ssl     - An optional boolean. If true, the server will start using HTTPS. Defaults to false.</li>
+<li>bonjour - An optional boolean. If true, the server will advertise itself with Bonjour.  Defaults to true. Note that in order to change this, you must supply a true or false value for the <code>ssl</code> argument.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>An <code>hs.httpserver</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>By default, the server will start on a random TCP port and advertise itself with Bonjour. You can check the port with <code>hs.httpserver:getPort()</code></li>
+<li>Currently, in HTTPS mode, the server will use a self-signed certificate, which most browsers will warn about. If you want/need to be able to use <code>hs.httpserver</code> with a certificate signed by a trusted Certificate Authority, please file an bug on Hammerspoon requesting support for this.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+                <h4 class="documentation-section">Methods</h4>
+                
+
+    <section id="getName">
+    <a name="//apple_ref/cpp/Method/getName" class="dashAnchor"></a>
+    <h5><a href="#getName">getName</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:getName() -> string</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the Bonjour name the server is configured to advertise itself as</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A string containing the Bonjour name of this server</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is not the hostname of the server, just its name in Bonjour service lists (e.g. Safari&#39;s Bonjour bookmarks menu)</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="getPort">
+    <a name="//apple_ref/cpp/Method/getPort" class="dashAnchor"></a>
+    <h5><a href="#getPort">getPort</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:getPort() -> number</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Gets the TCP port the server is configured to listen on</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>A number containing the TCP port</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="maxBodySize">
+    <a name="//apple_ref/cpp/Method/maxBodySize" class="dashAnchor"></a>
+    <h5><a href="#maxBodySize">maxBodySize</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:maxBodySize([size]) -> object | current-value</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Get or set the maximum allowed body size for an incoming HTTP request.</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>size - An optional integer value specifying the maximum body size allowed for an incoming HTTP request in bytes.  Defaults to 10485760 (10 MB).</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>If a new size is specified, returns the <code>hs.httpserver</code> object; otherwise the current value.</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>Because the Hammerspoon http server processes incoming requests completely in memory, this method puts a limit on the maximum size for a POST or PUT request.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="send">
+    <a name="//apple_ref/cpp/Method/send" class="dashAnchor"></a>
+    <h5><a href="#send">send</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:send(message) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sends a message to the websocket client</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>message - A string containing the message to send</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.httpserver</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setCallback">
+    <a name="//apple_ref/cpp/Method/setCallback" class="dashAnchor"></a>
+    <h5><a href="#setCallback">setCallback</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:setCallback([callback]) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the request handling callback for an HTTP server object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>callback - An optional function that will be called to process each incoming HTTP request, or nil to remove an existing callback. See the notes section below for more information about this callback</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.httpserver</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The callback will be passed four arguments:
+
+<ul>
+<li>A string containing the type of request (i.e. <code>GET</code>/<code>POST</code>/<code>DELETE</code>/etc)</li>
+<li>A string containing the path element of the request (e.g. <code>/index.html</code>)</li>
+<li>A table containing the request headers</li>
+<li>A string containing the raw contents of the request body, or the empty string if no body is included in the request.</li>
+</ul></li>
+<li>The callback <em>must</em> return three values:
+
+<ul>
+<li>A string containing the body of the response</li>
+<li>An integer containing the response code (e.g. 200 for a successful request)</li>
+<li>A table containing additional HTTP headers to set (or an empty table, <code>{}</code>, if no extra headers are required)</li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>A POST request, often used by HTML forms, will store the contents of the form in the body of the request.</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setName">
+    <a name="//apple_ref/cpp/Method/setName" class="dashAnchor"></a>
+    <h5><a href="#setName">setName</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:setName(name) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets the Bonjour name the server should advertise itself as</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>name - A string containing the Bonjour name for the server</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.httpserver</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>This is not the hostname of the server, just its name in Bonjour service lists (e.g. Safari&#39;s Bonjour bookmarks menu)</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setPassword">
+    <a name="//apple_ref/cpp/Method/setPassword" class="dashAnchor"></a>
+    <h5><a href="#setPassword">setPassword</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:setPassword([password]) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Sets a password for an HTTP server object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>password - An optional string that contains the server password, or nil to remove an existing password</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.httpserver</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>It is not currently possible to set multiple passwords for different users, or passwords only on specific paths</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="setPort">
+    <a name="//apple_ref/cpp/Method/setPort" class="dashAnchor"></a>
+    <h5><a href="#setPort">setPort</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:setPort(port) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>sets the TCP port the server is configured to listen on</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>port - An integer containing a TCP port to listen on</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.httpserver</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="start">
+    <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+    <h5><a href="#start">start</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:start() -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Starts an HTTP server object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.httpserver</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="stop">
+    <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+    <h5><a href="#stop">stop</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:stop() -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Stops an HTTP server object</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.httpserver</code> object</li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+
+    <section id="websocket">
+    <a name="//apple_ref/cpp/Method/websocket" class="dashAnchor"></a>
+    <h5><a href="#websocket">websocket</a></h5>
+    <table>
+        <tr>
+            <th>Signature</td>
+            <td><code>hs.httpserver:websocket(path, callback) -> object</code></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>Method</td>
+        </tr>
+        <tr>
+            <th>Description</td>
+            <td>
+                <p>Enables a websocket endpoint on the HTTP server</p>
+
+<p>Parameters:</p>
+
+<ul>
+<li>path - A string containing the websocket path such as &#39;/ws&#39;</li>
+<li>callback - A function returning a string for each recieved websocket message</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li>The <code>hs.httpserver</code> object</li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The callback is passed one string parameter containing the received message</li>
+<li>The callback must return a string containing the response message</li>
+<li>Given a path &#39;/mysock&#39; and a port of 8000, the websocket URL is as follows:
+
+<ul>
+<li>ws://localhost:8000/mysock</li>
+<li>wss://localhost:8000/mysock (if SSL enabled)</li>
+</ul></li>
+</ul>
+
+            </td>
+        </tr>
+    </table>
+    </section>
+
+  </body>
+</html>

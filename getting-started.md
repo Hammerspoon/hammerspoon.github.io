@@ -568,7 +568,7 @@ We have now bound a URL event handler for an event named `someAlert` that will s
 
 ### <a name="karabinerurl"></a>Advanced automation of Hammerspoon with Karabiner and URLs
 
-* NOTE: Karabiner does not currently work in macOS Sierra. Its author is working on a new version
+* NOTE: Karabiner does not currently work in macOS Sierra. Its author is working on a new version.
 
 In our [first example](#helloworld) we used `hs.hotkey` to bind a keyboard shortcut to a Lua function, one of the most useful things that Hammerspoon can do. However, those hotkeys are performed using the Carbon API in OS X, which is quite high level in terms of its understanding of keyboard events - for example, it cannot differentiate between which of the <kbd>⌘</kbd> keys has been pressed (since there are two, one on the left of the keyboard, one on the right), nor can it bind hotkeys that involve the <kbd>Fn</kbd> key.
 
@@ -590,6 +590,7 @@ In the `<root>` section, add the following:
   <vkopenurldef>
     <name>KeyCode::VK_OPEN_URL_HS_test1</name>
     <url>hammerspoon://test1?someParam=hello</url>
+    <background/>
   </vkopenurldef>
   <item>
     <name>Hammerspoon test1</name>
@@ -602,7 +603,7 @@ In the `<root>` section, add the following:
   </item>
 ```
 
-Breaking this down, we first define a URL for Karabiner to emit, using the `<vkopenurldef>` section. It's important to note here that the `<name>` attribute *must* start with `KeyCode::VK_OPEN_URL` and should not contain any spaces.
+Breaking this down, we first define a URL for Karabiner to emit, using the `<vkopenurldef>` section. It's important to note here that the `<name>` attribute *must* start with `KeyCode::VK_OPEN_URL` and should not contain any spaces. The `<background/>` option means that Karabiner will open the URL without activating Hammerspoon. There are almost no reasons to ever want to pass focus to Hammerspoon, so it is recommended you always use this option.
 
 Having defined the URL as a Virtual Keycode, we then tell Karabiner to listen for the right hand <kbd>⌘</kbd> and the right hand <kbd>⌥</kbd> and the <kbd>→</kbd> cursor key. If those keys are pressed, it will open URL `hammerspoon://test1?someParam=hello`.
 
@@ -619,8 +620,6 @@ end)
 ```
 
 You now have a Lua function in Hammerspoon that will be triggered if you press the <kbd>right ⌘</kbd> + <kbd>right ⌥</kbd> + <kbd>→</kbd>.
-
-One important thing to note here is that when Karabiner dispatches the URL to Hammerspoon, the OS will activate Hammerspoon (i.e. give it focus). This means that this method of IPC is unsuitable for window management. However, from v10.6.28 of Karabiner, it is possible to add the `<background/>` tag to a `<vkopenurldef>`, which will cause the URL to be opened in the background. At the time of writing, v10.6.28 is a beta release of Karabiner.
 
 # Credits
 

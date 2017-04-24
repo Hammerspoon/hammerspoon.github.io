@@ -1,0 +1,127 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.doc.builder</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.doc.builder</h1>
+      <p>Builds documentation support files.  Still experimental.</p>
+<p>This submodule provides functions for mimicking the documentation generation processes used when generating the official Hammerspoon documentation.  The long term goal is to provide a mechanism for generating complete Hammerspoon documentation in all of its formats with only the Hammerspoon application and source files without any additional software required.</p>
+<p>This submodule can be used to generate and maintain the documentation for Spoon bundles and can also be used to generate documentation for third-party modules as well.</p>
+<p>Documentation for modules and spoons is expected to be embedded in the source code for the relevant object in specially formatted comment strings.  A very brief example of how to format documentation can be found at <a href="https://github.com/Hammerspoon/hammerspoon/blob/master/SPOONS.md#documentation">https://github.com/Hammerspoon/hammerspoon/blob/master/SPOONS.md#documentation</a>, but a better treatment is planned.</p>
+<p>Most of this submodule should be considered at the "Proof of Concept" stage and will require some additional work on your part to generate useful documentation in HTML, Markdown, or Docset formats.  This is expected to change in the future.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#genComments">genComments</a></li>
+            <li><a href="#genJSON">genJSON</a></li>
+            <li><a href="#genSQL">genSQL</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="genComments">
+            <a name="//apple_ref/cpp/Function/genComments" class="dashAnchor"></a>
+            <h5><a href="#genComments">genComments</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.builder.genComments(path) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Generates a documentation table for Hammerspoon modules or Spoon bundles from the source files located in the path(s) provided.</p>
+<p>Parameters:</p>
+<ul>
+<li>where - a string specifying a single path, or a table containing multiple strings specifying paths where source files should be examined to generate the documentation table.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>table - a table containing the documentation broken out into the key-value pairs used to generate documentation displayed by <code>hs.doc</code> and <code>hs.doc.hsdocs</code>.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Because Hammerspoon and all known currently available modules are coded in Objective-C and/or Lua, only files with the .m or .lua extension are examined in the provided path(s).  Please submit an issue (or pull request, if you modify this submodule yourself) at <a href="https://github.com/Hammerspoon">https://github.com/Hammerspoon</a> if you need this to be changed for your addition.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="genJSON">
+            <a name="//apple_ref/cpp/Function/genJSON" class="dashAnchor"></a>
+            <h5><a href="#genJSON">genJSON</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.builder.genJSON(source) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Generates a JSON string representation of the documentation source specified. This is the format expected by <code>hs.doc</code> and <code>hs.doc.hsdoc</code> and is used to provide the built in documentation for Hammerspoon.</p>
+<p>Parameters:</p>
+<ul>
+<li>source - the source to generate the JSON string for.  If this is provided as a string, it is passed to <a href="#genComments">hs.doc.builder.genComments</a> and the result is used.  If it is a table, then it is assumed to have already been generated by a call to <a href="#genComments">hs.doc.builder.genComments</a>.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>string - the JSON string representation of the documentation</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If you have installed the <code>hs</code> command line tool (see <code>hs.ipc</code>), you can use the following to generate the <code>docs.json</code> file that is used to provide documentation for Hammerspoon Spoon bundles: <code>hs -c "hs.doc.builder.genJSON(\"$(pwd)\")" &gt; docs.json</code></li>
+<li>You can also use this to generate documentation for any third-party-modules you build, but you will have to register the documentation with <code>hs.doc.registerJSONFile</code> yourself -- it is not automatically loaded for you like it is for Spoons.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="genSQL">
+            <a name="//apple_ref/cpp/Function/genSQL" class="dashAnchor"></a>
+            <h5><a href="#genSQL">genSQL</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.builder.genSQL(source) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Generates the SQL commands required for creating the search index when creating a docset of the documentation.</p>
+<p>Parameters:</p>
+<ul>
+<li>source - the source to generate the SQL commands for.  If this is provided as a string, it is passed to <a href="#genComments">hs.doc.builder.genComments</a> and the result is used.  If it is a table, then it is assumed to have already been generated by a call to <a href="#genComments">hs.doc.builder.genComments</a>.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>string - the relevant SQL commands as a string</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

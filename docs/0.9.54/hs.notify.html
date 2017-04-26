@@ -1,0 +1,1017 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.notify</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.notify</h1>
+      <p>This module allows you to create on screen notifications in the User Notification Center located at the right of the users screen.</p>
+<p>Notifications can be sent immediately or scheduled for delivery at a later time, even if that scheduled time occurs when Hammerspoon is not currently running. Currently, if you take action on a notification while Hammerspoon is not running, the callback function is not honored for the first notification clicked upon -- This is expected to be fixed in a future release.</p>
+<p>When setting up a callback function, you have the option of specifying it with the creation of the notification (hs.notify.new) or by pre-registering it with hs.notify.register and then referring it to by the tag name specified with hs.notify.register. If you use this registration method for defining your callback functions, and make sure to register all expected callback functions within your init.lua file or files it includes, then callback functions will remain available for existing notifications in the User Notification Center even if Hammerspoon's configuration is reloaded or if Hammerspoon is restarted. If the callback tag is not present when the user acts on the notification, the Hammerspoon console will be raised as a default action.</p>
+<p>A shorthand, based upon the original inspiration for this module from Hydra and Mjolnir, hs.notify.show, is provided if you just require a quick and simple informative notification without the bells and whistles.</p>
+<p>This module is based in part on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#activationTypes[]">activationTypes[]</a></li>
+            <li><a href="#defaultNotificationSound">defaultNotificationSound</a></li>
+          </ul>
+        <li>Variables - Configurable values</li>
+          <ul>
+            <li><a href="#registry[]">registry[]</a></li>
+            <li><a href="#warnAboutMissingFunctionTag">warnAboutMissingFunctionTag</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#register">register</a></li>
+            <li><a href="#unregister">unregister</a></li>
+            <li><a href="#unregisterall">unregisterall</a></li>
+            <li><a href="#withdrawAll">withdrawAll</a></li>
+            <li><a href="#withdrawAllScheduled">withdrawAllScheduled</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+            <li><a href="#show">show</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#actionButtonTitle">actionButtonTitle</a></li>
+            <li><a href="#activationType">activationType</a></li>
+            <li><a href="#actualDeliveryDate">actualDeliveryDate</a></li>
+            <li><a href="#alwaysPresent">alwaysPresent</a></li>
+            <li><a href="#autoWithdraw">autoWithdraw</a></li>
+            <li><a href="#contentImage">contentImage</a></li>
+            <li><a href="#delivered">delivered</a></li>
+            <li><a href="#getFunctionTag">getFunctionTag</a></li>
+            <li><a href="#hasActionButton">hasActionButton</a></li>
+            <li><a href="#informativeText">informativeText</a></li>
+            <li><a href="#otherButtonTitle">otherButtonTitle</a></li>
+            <li><a href="#presented">presented</a></li>
+            <li><a href="#release">release</a></li>
+            <li><a href="#schedule">schedule</a></li>
+            <li><a href="#send">send</a></li>
+            <li><a href="#setIdImage">setIdImage</a></li>
+            <li><a href="#soundName">soundName</a></li>
+            <li><a href="#subTitle">subTitle</a></li>
+            <li><a href="#title">title</a></li>
+            <li><a href="#withdraw">withdraw</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="activationTypes[]">
+            <a name="//apple_ref/cpp/Constant/activationTypes[]" class="dashAnchor"></a>
+            <h5><a href="#activationTypes[]">activationTypes[]</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.activationTypes[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Convenience array of the possible activation types for a notification, and their reverse for reference.</p>
+<ul>
+<li>None - The user has not interacted with the notification.</li>
+<li>ContentsClicked - User clicked on notification</li>
+<li>ActionButtonClicked - User clicked on Action button</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Count starts at zero. (implemented in Objective-C)</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="defaultNotificationSound">
+            <a name="//apple_ref/cpp/Constant/defaultNotificationSound" class="dashAnchor"></a>
+            <h5><a href="#defaultNotificationSound">defaultNotificationSound</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.defaultNotificationSound</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>The string representation of the default notification sound. Use <code>hs.notify:soundName()</code> or set the <code>soundName</code> attribute in <code>hs:notify.new()</code>, to this constant, if you want to use the default sound</p>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Variables</h4>
+          <section id="registry[]">
+            <a name="//apple_ref/cpp/Variable/registry[]" class="dashAnchor"></a>
+            <h5><a href="#registry[]">registry[]</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.registry[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table containing the registered callback functions and their tags.</p>
+<p>Notes:</p>
+<ul>
+<li>This table should not be modified directly. Use the <code>hs.notify.register(tag, fn)</code> and <code>hs.notify.unregister(id)</code> functions.</li>
+<li>This table has a __tostring metamethod so you can see the list of registered function tags in the console by typing <code>hs.notify.registry</code></li>
+<li>If a notification attempts to perform a callback to a function tag which is not present in this table, a warning will be printed in the console.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="warnAboutMissingFunctionTag">
+            <a name="//apple_ref/cpp/Variable/warnAboutMissingFunctionTag" class="dashAnchor"></a>
+            <h5><a href="#warnAboutMissingFunctionTag">warnAboutMissingFunctionTag</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.warnAboutMissingFunctionTag</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A boolean value indicating whether or not a missing notification function tag should cause a warning to be printed to the console during activation callback. Defaults to true.</p>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="register">
+            <a name="//apple_ref/cpp/Function/register" class="dashAnchor"></a>
+            <h5><a href="#register">register</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.register(tag, fn) -&gt; id</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Registers a function callback with the specified tag for a notification. The callback function will be invoked when the user clicks on or interacts with a notification.</p>
+<p>Parameters:</p>
+<ul>
+<li>tag - a string tag to identify the registered callback function. Use this as the function tag in <code>hs.notify.new</code> and <code>hs.notify.show</code></li>
+<li>fn  - the function which should be invoked when a notification with this tag is interacted with.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a numerical id representing the entry in <code>hs.notify.registry</code> for this function. This number can be used with <code>hs.notify.unregister</code> to unregister a function later if you wish.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If a function is already registered with the specified tag, it is replaced by with the new one.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="unregister">
+            <a name="//apple_ref/cpp/Function/unregister" class="dashAnchor"></a>
+            <h5><a href="#unregister">unregister</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.unregister(id|tag)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Unregisters a function callback so that it is no longer available as a callback when notifications corresponding to the specified entry are interacted with.</p>
+<p>Parameters:</p>
+<ul>
+<li>id or tag - the numerical id provided by <code>hs.notify.register</code> or string tag representing the callback function to be removed</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="unregisterall">
+            <a name="//apple_ref/cpp/Function/unregisterall" class="dashAnchor"></a>
+            <h5><a href="#unregisterall">unregisterall</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.unregisterall()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Unregisters all functions registered as callbacks.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This does not remove the notifications from the User Notification Center, it just removes their callback function for when the user interacts with them. To remove all notifications, see <code>hs.notify.withdrawAll</code> and <code>hs.notify.withdrawAllScheduled</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="withdrawAll">
+            <a name="//apple_ref/cpp/Function/withdrawAll" class="dashAnchor"></a>
+            <h5><a href="#withdrawAll">withdrawAll</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.withdrawAll()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Withdraw all delivered notifications from Hammerspoon</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This will withdraw all notifications for Hammerspoon, including those not sent by this module or that linger from a previous load of Hammerspoon.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="withdrawAllScheduled">
+            <a name="//apple_ref/cpp/Function/withdrawAllScheduled" class="dashAnchor"></a>
+            <h5><a href="#withdrawAllScheduled">withdrawAllScheduled</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.withdrawAllScheduled()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Withdraw all scheduled notifications from Hammerspoon</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.new([fn,][attributes]) -&gt; notification</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new notification object</p>
+<p>Parameters:</p>
+<ul>
+<li>fn - An optional function or function-tag, which will be called when the user interacts with notifications. The notification object will be passed as an argument to the function. If you leave this parameter out or specify nil, then no callback will be attached to the notification.</li>
+<li><p>attributes - An optional table for applying attributes to the notification. Possible keys are:</p>
+<ul>
+<li>alwaysPresent   - see <code>hs.notify:alwaysPresent</code></li>
+<li>autoWithdraw    - see <code>hs.notify:autoWithdraw</code></li>
+<li>contentImage    - see <code>hs.notify:contentImage</code> (only supported in 10.9 and later)</li>
+<li>informativeText - see <code>hs.notify:informativeText</code></li>
+<li>soundName       - see <code>hs.notify:soundName</code></li>
+<li>subTitle        - see <code>hs.notify:subTitle</code></li>
+<li>title           - see <code>hs.notify:title</code></li>
+</ul>
+<p>The following can also be set, but will only have an apparent effect on the notification when the user has set Hammerspoon's notification style to "Alert" in the Notification Center panel of System Preferences:</p>
+<ul>
+<li>actionButtonTitle - see <code>hs.notify:actionButtonTitle</code></li>
+<li>hasActionButton   - see <code>hs.notify:hasActionButton</code></li>
+<li>otherButtonTitle  - see <code>hs.notify:otherButtonTitle</code></li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A notification object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>A function-tag is a string key which corresponds to a function stored in the <code>hs.notify.registry</code> table with the <code>hs.notify.register()</code> function.</li>
+<li>If a notification does not have a <code>title</code> attribute set, OS X will not display it, so by default it will be set to "Notification". You can use the <code>title</code> key in the attributes table, or call <code>hs.notify:title()</code> before displaying the notification to change this.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="show">
+            <a name="//apple_ref/cpp/Constructor/show" class="dashAnchor"></a>
+            <h5><a href="#show">show</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify.show(title, subTitle, information[, tag]) -&gt; notfication</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Shorthand constructor to create and show simple notifications</p>
+<p>Parameters:</p>
+<ul>
+<li>title       - the title for the notification</li>
+<li>subTitle    - the subtitle, or second line, of the notification</li>
+<li>information - the main textual body of the notification</li>
+<li>tag         - a function tag corresponding to a function registered with <code>hs.notify.register</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a notification object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>All three textual parameters are required, though they can be empty strings</li>
+<li>This function is really a shorthand for <code>hs.notify.new(...):send()</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="actionButtonTitle">
+            <a name="//apple_ref/cpp/Method/actionButtonTitle" class="dashAnchor"></a>
+            <h5><a href="#actionButtonTitle">actionButtonTitle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:actionButtonTitle([buttonTitle]) -&gt; notificationObject | current-setting</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the label of a notification's action button</p>
+<p>Parameters:</p>
+<ul>
+<li>buttonTitle - An optional string containing the title for the notification's action button.  If no parameter is provided, then the current setting is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object, if buttonTitle is present; otherwise the current setting.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The affects of this method only apply if the user has set Hammerspoon notifications to <code>Alert</code> in the Notification Center pane of System Preferences</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="activationType">
+            <a name="//apple_ref/cpp/Method/activationType" class="dashAnchor"></a>
+            <h5><a href="#activationType">activationType</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:activationType() -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns how the notification was activated by the user.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the integer value corresponding to how the notification was activated by the user.  See the table <code>hs.notify.activationTypes[]</code> for more information.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="actualDeliveryDate">
+            <a name="//apple_ref/cpp/Method/actualDeliveryDate" class="dashAnchor"></a>
+            <h5><a href="#actualDeliveryDate">actualDeliveryDate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:actualDeliveryDate() -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the date and time when a notification was delivered</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A number containing the delivery date/time of the notification, in seconds since the epoch (i.e. 1970-01-01 00:00:00 +0000)</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can turn epoch times into a human readable string or a table of date elements with the <code>os.date()</code> function.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="alwaysPresent">
+            <a name="//apple_ref/cpp/Method/alwaysPresent" class="dashAnchor"></a>
+            <h5><a href="#alwaysPresent">alwaysPresent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:alwaysPresent([alwaysPresent]) -&gt; notificationObject | current-setting</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether a notification should be presented even if this overrides Notification Center's decision process.</p>
+<p>Parameters:</p>
+<ul>
+<li>alwaysPresent - An optional boolean parameter indicating whether the notification should override Notification Center's decision about whether to present the notification or not. Defaults to true.  If no parameter is provided, then the current setting is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object, if alwaysPresent is provided; otherwise the current setting.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This does not affect the return value of <code>hs.notify:presented()</code> -- that will still reflect the decision of the Notification Center</li>
+<li>Examples of why the users Notification Center would choose not to display a notification would be if Hammerspoon is the currently focussed application, being attached to a projector, or the user having set Do Not Disturb.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="autoWithdraw">
+            <a name="//apple_ref/cpp/Method/autoWithdraw" class="dashAnchor"></a>
+            <h5><a href="#autoWithdraw">autoWithdraw</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:autoWithdraw([shouldWithdraw]) -&gt; notificationObject | current-setting</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether a notification should automatically withdraw once activated</p>
+<p>Parameters:</p>
+<ul>
+<li>shouldWithdraw - An optional boolean indicating whether the notification should automatically withdraw. Defaults to true.  If no parameter is provided, then the current setting is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object, if shouldWithdraw is present; otherwise the current setting.</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li>This method has no effect if the user has set Hammerspoon notifications to <code>Alert</code> in the Notification Center pane of System Preferences: clicking on either the action or other button will clear the notification automatically.</li>
+<li>If a notification which was created before your last reload (or restart) of Hammerspoon and is clicked upon before hs.notify has been loaded into memory, this setting will not be honored because the initial application delegate is not aware of this option and is set to automatically withdraw all notifications which are acted upon.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="contentImage">
+            <a name="//apple_ref/cpp/Method/contentImage" class="dashAnchor"></a>
+            <h5><a href="#contentImage">contentImage</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:contentImage([image]) -&gt; notificationObject | current-setting</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set a notification's content image.</p>
+<p>Parameters:</p>
+<ul>
+<li>image - An optional hs.image parameter containing the image to display. Defaults to nil. If no parameter is provided, then the current setting is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object, if image is provided; otherwise the current setting.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>See hs.image for details on how to specify or define an image</li>
+<li>This method is only supported in OS X 10.9 or greater. A warning will be displayed in the console and the method will be treated as a no-op if used on an unsupported system.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="delivered">
+            <a name="//apple_ref/cpp/Method/delivered" class="dashAnchor"></a>
+            <h5><a href="#delivered">delivered</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:delivered() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether the notification has been delivered to the Notification Center</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean indicating whether the notification has been delivered to the users Notification Center</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="getFunctionTag">
+            <a name="//apple_ref/cpp/Method/getFunctionTag" class="dashAnchor"></a>
+            <h5><a href="#getFunctionTag">getFunctionTag</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:getFunctionTag() -&gt; functiontag</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Return the name of the function tag the notification will call when activated.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The function tag for this notification as a string.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This tag should correspond to a function in <code>hs.notify.registry</code> and can be used to either add a replacement with <code>hs.notify.register(...)</code> or remove it with <code>hs.notify.unregister(...)</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="hasActionButton">
+            <a name="//apple_ref/cpp/Method/hasActionButton" class="dashAnchor"></a>
+            <h5><a href="#hasActionButton">hasActionButton</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:hasActionButton([hasButton]) -&gt; notificationObject | current-setting</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the presence of an action button in a notification</p>
+<p>Parameters:</p>
+<ul>
+<li>hasButton - An optional boolean indicating whether an action button should be present.  If no parameter is provided, then the current setting is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object, if hasButton is present; otherwise the current setting.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The affects of this method only apply if the user has set Hammerspoon notifications to <code>Alert</code> in the Notification Center pane of System Preferences</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="informativeText">
+            <a name="//apple_ref/cpp/Method/informativeText" class="dashAnchor"></a>
+            <h5><a href="#informativeText">informativeText</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:informativeText([informativeText]) -&gt; notificationObject | current-setting</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the informative text of a notification</p>
+<p>Parameters:</p>
+<ul>
+<li>informativeText - An optional string containing the informative text to be set on the notification object. This can be an empty string. If <code>nil</code> is passed, any existing informative text will be removed.  If no parameter is provided, then the current setting is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object, if informativeText is present; otherwise the current setting.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="otherButtonTitle">
+            <a name="//apple_ref/cpp/Method/otherButtonTitle" class="dashAnchor"></a>
+            <h5><a href="#otherButtonTitle">otherButtonTitle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:otherButtonTitle([buttonTitle]) -&gt; notificationObject | current-setting</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the label of a notification's other button</p>
+<p>Parameters:</p>
+<ul>
+<li>buttonTitle - An optional string containing the title for the notification's other button.  If no parameter is provided, then the current setting is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object, if buttonTitle is present; otherwise the current setting.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The affects of this method only apply if the user has set Hammerspoon notifications to <code>Alert</code> in the Notification Center pane of System Preferences</li>
+<li>Due to OSX limitations, it is NOT possible to get a callback for this button.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="presented">
+            <a name="//apple_ref/cpp/Method/presented" class="dashAnchor"></a>
+            <h5><a href="#presented">presented</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:presented() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether the users Notification Center decided to display the notification</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean indicating whether the users Notification Center decided to display the notification</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Examples of why the users Notification Center would choose not to display a notification would be if Hammerspoon is the currently focussed application, being attached to a projector, or the user having set Do Not Disturb.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="release">
+            <a name="//apple_ref/cpp/Method/release" class="dashAnchor"></a>
+            <h5><a href="#release">release</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:release() -&gt; notificationObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>This is a no-op included for backwards compatibility.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This is no longer required during garbage collection as function tags can be re-established after a reload.</li>
+<li>The proper way to release a notifications callback is to remove its tag from the <code>hs.notify.registry</code> with <code>hs.notify.unregister</code>.</li>
+<li>This is included for backwards compatibility.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="schedule">
+            <a name="//apple_ref/cpp/Method/schedule" class="dashAnchor"></a>
+            <h5><a href="#schedule">schedule</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:schedule(date) -&gt; notificationObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Schedules a notification for delivery in the future.</p>
+<p>Parameters:</p>
+<ul>
+<li>date - the date the notification should be delivered to the users Notification Center specified as the number of seconds since 1970-01-01 00:00:00Z or as a string in rfc3339 format: "YYYY-MM-DD[T]HH:MM:SS[Z]".</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>See also hs.notify:send()</li>
+<li>hs.settings.dateFormat specifies a lua format string which can be used with <code>os.date()</code> to properly present the date and time as a string for use with this method.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="send">
+            <a name="//apple_ref/cpp/Method/send" class="dashAnchor"></a>
+            <h5><a href="#send">send</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:send() -&gt; notificationObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Delivers the notification immediately to the users Notification Center.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>See also hs.notify:schedule()</li>
+<li>If a notification has been modified, then this will resend it.</li>
+<li>You can invoke this multiple times if you wish to repeat the same notification.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setIdImage">
+            <a name="//apple_ref/cpp/Method/setIdImage" class="dashAnchor"></a>
+            <h5><a href="#setIdImage">setIdImage</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:setIdImage(image[, withBorder]) -&gt; notificationObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set a notification's identification image (replace the Hammerspoon icon with a custom image)</p>
+<p>Parameters:</p>
+<ul>
+<li>image - An <code>hs.image</code> object, a string containing an image path, or a string defining an ASCIImage</li>
+<li>withBorder - An optional boolean to give the notification image a border. Defaults to <code>false</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>See hs.image for details on how to specify or define an image</li>
+<li><strong>WARNING</strong>: This method uses a private API. It could break at any time. Please file an issue if it does</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="soundName">
+            <a name="//apple_ref/cpp/Method/soundName" class="dashAnchor"></a>
+            <h5><a href="#soundName">soundName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:soundName([soundName]) -&gt; notificationObject | current-setting</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the sound for a notification</p>
+<p>Parameters:</p>
+<ul>
+<li>soundName - An optional string containing the name of a sound to play with the notification. If <code>nil</code>, no sound will be played. Defaults to <code>nil</code>.  If no parameter is provided, then the current setting is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object, if soundName is present; otherwise the current setting.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Sounds will first be matched against the names of system sounds. If no matches can be found, they will then be searched for in the following paths, in order:<ul>
+<li><code>~/Library/Sounds</code></li>
+<li><code>/Library/Sounds</code></li>
+<li><code>/Network/Sounds</code></li>
+<li><code>/System/Library/Sounds</code></li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="subTitle">
+            <a name="//apple_ref/cpp/Method/subTitle" class="dashAnchor"></a>
+            <h5><a href="#subTitle">subTitle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:subTitle([subtitleText]) -&gt; notificationObject | current-setting</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the subtitle of a notification</p>
+<p>Parameters:</p>
+<ul>
+<li>subtitleText - An optional string containing the subtitle to be set on the notification object. This can be an empty string. If <code>nil</code> is passed, any existing subtitle will be removed.  If no parameter is provided, then the current setting is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object, if subtitleText is present; otherwise the current setting.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="title">
+            <a name="//apple_ref/cpp/Method/title" class="dashAnchor"></a>
+            <h5><a href="#title">title</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:title([titleText]) -&gt; notificationObject | current-setting</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the title of a notification</p>
+<p>Parameters:</p>
+<ul>
+<li>titleText - An optional string containing the title to be set on the notification object.  The default value is "Notification".  If <code>nil</code> is passed, then the title is set to the empty string.  If no parameter is provided, then the current setting is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object, if titleText is present; otherwise the current setting.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="withdraw">
+            <a name="//apple_ref/cpp/Method/withdraw" class="dashAnchor"></a>
+            <h5><a href="#withdraw">withdraw</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.notify:withdraw() -&gt; notificationObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Withdraws a delivered notification from the Notification Center.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The notification object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

@@ -1,0 +1,2146 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.webview</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.webview</h1>
+      <p>Display web content in a window from Hammerspoon</p>
+<p>This module uses Apple's WebKit WKWebView class to provide web content display with JavaScript injection support.  The objective is to provide a functional interface to the WKWebView and WKUserContentController classes.</p>
+<p>This module is not intended to replace a full web browser and does have some limitations to keep in mind:</p>
+<ul>
+<li>Self-signed SSL certificates are not accepted unless they have first been approved and included in the users Keychain by another method, for example, opening the page first in Safari.</li>
+<li>The context-menu (right clicking or ctrl-clicking in the webview) provides some menu items which are currently unsupported -- a known example of this is any "Download..." menu item in the context menu for links and images.</li>
+<li>It is uncertain at present exactly how or where cookies and cached page data is stored or how it can be invalidated.<ul>
+<li>This can be mitigated to an extent for web requests by using <code>hs.webview:reload(true)</code> and by crafting the url for <code>hs.webview:url({...})</code> as a table -- see the appropriate help entries for more information.</li>
+</ul>
+</li>
+</ul>
+<p>Any suggestions or updates to the code to address any of these or other limitations as they may become apparent are welcome at the Hammerspoon github site: <a href="https://www.github.com/Hammerspoon/hammerspoon">https://www.github.com/Hammerspoon/hammerspoon</a></p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.webview.datastore.html">hs.webview.datastore</a></li>
+        <li><a href="hs.webview.toolbar.html">hs.webview.toolbar</a></li>
+        <li><a href="hs.webview.usercontent.html">hs.webview.usercontent</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Deprecateds - API features which will be removed in an future release</li>
+          <ul>
+            <li><a href="#asHSDrawing">asHSDrawing</a></li>
+            <li><a href="#asHSWindow">asHSWindow</a></li>
+            <li><a href="#setLevel">setLevel</a></li>
+          </ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#certificateOIDs[]">certificateOIDs[]</a></li>
+            <li><a href="#windowMasks[]">windowMasks[]</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+            <li><a href="#newBrowser">newBrowser</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#allowGestures">allowGestures</a></li>
+            <li><a href="#allowMagnificationGestures">allowMagnificationGestures</a></li>
+            <li><a href="#allowNavigationGestures">allowNavigationGestures</a></li>
+            <li><a href="#allowNewWindows">allowNewWindows</a></li>
+            <li><a href="#allowTextEntry">allowTextEntry</a></li>
+            <li><a href="#alpha">alpha</a></li>
+            <li><a href="#attachedToolbar">attachedToolbar</a></li>
+            <li><a href="#behavior">behavior</a></li>
+            <li><a href="#behaviorAsLabels">behaviorAsLabels</a></li>
+            <li><a href="#bringToFront">bringToFront</a></li>
+            <li><a href="#certificateChain">certificateChain</a></li>
+            <li><a href="#children">children</a></li>
+            <li><a href="#closeOnEscape">closeOnEscape</a></li>
+            <li><a href="#delete">delete</a></li>
+            <li><a href="#deleteOnClose">deleteOnClose</a></li>
+            <li><a href="#estimatedProgress">estimatedProgress</a></li>
+            <li><a href="#evaluateJavaScript">evaluateJavaScript</a></li>
+            <li><a href="#examineInvalidCertificates">examineInvalidCertificates</a></li>
+            <li><a href="#frame">frame</a></li>
+            <li><a href="#goBack">goBack</a></li>
+            <li><a href="#goForward">goForward</a></li>
+            <li><a href="#hide">hide</a></li>
+            <li><a href="#historyList">historyList</a></li>
+            <li><a href="#hswindow">hswindow</a></li>
+            <li><a href="#html">html</a></li>
+            <li><a href="#isOnlySecureContent">isOnlySecureContent</a></li>
+            <li><a href="#level">level</a></li>
+            <li><a href="#loading">loading</a></li>
+            <li><a href="#magnification">magnification</a></li>
+            <li><a href="#navigationCallback">navigationCallback</a></li>
+            <li><a href="#navigationID">navigationID</a></li>
+            <li><a href="#orderAbove">orderAbove</a></li>
+            <li><a href="#orderBelow">orderBelow</a></li>
+            <li><a href="#parent">parent</a></li>
+            <li><a href="#policyCallback">policyCallback</a></li>
+            <li><a href="#privateBrowsing">privateBrowsing</a></li>
+            <li><a href="#reload">reload</a></li>
+            <li><a href="#sendToBack">sendToBack</a></li>
+            <li><a href="#shadow">shadow</a></li>
+            <li><a href="#show">show</a></li>
+            <li><a href="#size">size</a></li>
+            <li><a href="#sslCallback">sslCallback</a></li>
+            <li><a href="#stopLoading">stopLoading</a></li>
+            <li><a href="#title">title</a></li>
+            <li><a href="#topLeft">topLeft</a></li>
+            <li><a href="#transparent">transparent</a></li>
+            <li><a href="#url">url</a></li>
+            <li><a href="#urlParts">urlParts</a></li>
+            <li><a href="#userAgent">userAgent</a></li>
+            <li><a href="#windowCallback">windowCallback</a></li>
+            <li><a href="#windowStyle">windowStyle</a></li>
+            <li><a href="#windowTitle">windowTitle</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Deprecateds</h4>
+          <section id="asHSDrawing">
+            <a name="//apple_ref/cpp/Deprecated/asHSDrawing" class="dashAnchor"></a>
+            <h5><a href="#asHSDrawing">asHSDrawing</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:asHSDrawing() -&gt; hs.drawing object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Because use of this method can easily lead to a crash, useful methods from <code>hs.drawing</code> have been added to the <code>hs.webview</code> module itself.  If you believe that a useful method has been overlooked, please submit an issue.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a placeholder object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="asHSWindow">
+            <a name="//apple_ref/cpp/Deprecated/asHSWindow" class="dashAnchor"></a>
+            <h5><a href="#asHSWindow">asHSWindow</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:asHSWindow() -&gt; hs.window object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns an hs.window object for the webview so that you can use hs.window methods on it.</p>
+<p>This method is identical to <a href="#hswindow">hs.webview:hswindow</a>.  It is included for reasons of backwards compatibility, but use of the new name is recommended for clarity.</p>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setLevel">
+            <a name="//apple_ref/cpp/Deprecated/setLevel" class="dashAnchor"></a>
+            <h5><a href="#setLevel">setLevel</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:setLevel(theLevel) -&gt; drawingObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Deprecated; you should use <a href="#level">hs.webview:level</a> instead.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>theLevel</code> - the level specified as a number, which can be obtained from <code>hs.drawing.windowLevels</code>.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the webview object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>see the notes for <code>hs.drawing.windowLevels</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="certificateOIDs[]">
+            <a name="//apple_ref/cpp/Constant/certificateOIDs[]" class="dashAnchor"></a>
+            <h5><a href="#certificateOIDs[]">certificateOIDs[]</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.certificateOIDs[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of common OID values found in SSL certificates.  SSL certificates provided to the callback function for <a href="#sslCallback">hs.webview:sslCallback</a> or in the results of <a href="#certificateChain">hs.webview:certificateChain</a> use OID strings as the keys which describe the properties of the certificate and this table can be used to get a more common name for the keys you are most likely to see.</p>
+<p>This list is based on the contents of OS X's /System/Library/Frameworks/Security.framework/Headers/SecCertificateOIDs.h.</p>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowMasks[]">
+            <a name="//apple_ref/cpp/Constant/windowMasks[]" class="dashAnchor"></a>
+            <h5><a href="#windowMasks[]">windowMasks[]</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.windowMasks[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table containing valid masks for the webview window.</p>
+<p>Table Keys:</p>
+<ul>
+<li><code>borderless</code>             - The window has no border decorations (default)</li>
+<li><code>titled</code>                 - The window title bar is displayed</li>
+<li><code>closable</code>               - The window has a close button</li>
+<li><code>miniaturizable</code>         - The window has a minimize button</li>
+<li><code>resizable</code>              - The window is resizable</li>
+<li><code>texturedBackground</code>     - The window has a texturized background</li>
+<li><code>fullSizeContentView</code>    - If titled, the titlebar is within the frame size specified at creation, not above it.  Shrinks actual content area by the size of the titlebar, if present.</li>
+<li><code>utility</code>                - If titled, the window shows a utility panel titlebar (thinner than normal)</li>
+<li><code>nonactivating</code>          - If the window is activated, it won't bring other Hammerspoon windows forward as well</li>
+<li><code>HUD</code>                    - Requires utility; the window titlebar is shown dark and can only show the close button and title (if they are set)</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The Maximize button in the window title is enabled when Resizable is set.</li>
+<li>The Close, Minimize, and Maximize buttons are only visible when the Window is also Titled.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.new(rect, [preferencesTable], [userContentController]) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Create a webviewObject and optionally modify its preferences.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>rect</code> - a rectangle specifying where the webviewObject should be displayed.</li>
+<li><p><code>preferencesTable</code> - an optional table which can include one of more of the following keys:</p>
+<ul>
+<li><code>javaEnabled</code>                           - java is enabled (default false)</li>
+<li><code>javaScriptEnabled</code>                     - JavaScript is enabled (default true)</li>
+<li><code>javaScriptCanOpenWindowsAutomatically</code> - can JavaScript open windows without user intervention (default true)</li>
+<li><code>minimumFontSize</code>                       - minimum font size (default 0.0)</li>
+<li><code>plugInsEnabled</code>                        - plug-ins are enabled (default false)</li>
+<li><code>developerExtrasEnabled</code>                - include "Inspect Element" in the context menu</li>
+<li><p><code>suppressesIncrementalRendering</code>        - suppresses content rendering until fully loaded into memory (default false)</p>
+</li>
+<li><p>The following additional preferences may also be set under OS X 10.11 or later (they will be ignored with a warning printed if used under OS X 10.10):</p>
+<ul>
+<li><code>applicationName</code>                       - a string specifying an application name to be listed at the end of the browser's USER-AGENT header.  Note that this is only appended to the default user agent string; if you set a custom one with <a href="#userAgent">hs.webview:userAgent</a>, this value is ignored.</li>
+<li><code>allowsAirPlay</code>                         - a boolean specifying whether media playback within the webview can play through AirPlay devices.</li>
+<li><code>datastore</code>                             - an <code>hs.webview.datastore</code> object specifying where website data such as cookies, cacheable content, etc. is to be stored.</li>
+<li><code>privateBrowsing</code>                       - a boolean (default false) specifying that the datastore should be set to a new, empty and non-persistent datastore.  Note that this will override the <code>datastore</code> key if both are specified and this is set to true.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>userContentController</code> - an optional <code>hs.webview.usercontent</code> object to provide script injection and JavaScript messaging with Hammerspoon from the webview.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>To set the initial URL, use the <code>hs.webview:url</code> method before showing the webview object.</li>
+<li><p>Preferences can only be set when the webview object is created.  To change the preferences of an open webview, you will need to close it and recreate it with this method.</p>
+</li>
+<li><p>developerExtrasEnabled is not listed in Apple's documentation, but is included in the WebKit2 documentation.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="newBrowser">
+            <a name="//apple_ref/cpp/Constructor/newBrowser" class="dashAnchor"></a>
+            <h5><a href="#newBrowser">newBrowser</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.newBrowser(rect, [preferencesTable], [userContentController]) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Create a webviewObject with some presets common to an interactive web browser.</p>
+<p>Parameters:</p>
+<ul>
+<li>The parameters are the same as for <a href="#new">hs.webview.new</a> -- check there for more details<ul>
+<li><code>rect</code>                  - a rectangle specifying where the webviewObject should be displayed.</li>
+<li><code>preferencesTable</code>      - an optional table which specifies special settings for the webview object.</li>
+<li><code>userContentController</code> - an optional <code>hs.webview.usercontent</code> object to provide script injection and JavaScript messaging with Hammerspoon from the webview.</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This constructor is just a short-hand for <code>hs.webview.new(...):allowTextEntry(true):allowGestures(true):windowStyle(15)</code>, which specifies a webview with a title bar, title bar buttons (zoom, close, minimize), and allows form entry and gesture support for previous and next pages.</li>
+</ul>
+<ul>
+<li>See <a href="#new">hs.webview.new</a> and the following for more details:<ul>
+<li><a href="#allowGestures">hs.webview:allowGestures</a></li>
+<li><a href="#allowTextEntry">hs.webview:allowTextEntry</a></li>
+<li><a href="#windowStyle">hs.webview:windowStyle</a></li>
+<li><a href="#windowMasks">hs.webview.windowMasks</a></li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="allowGestures">
+            <a name="//apple_ref/cpp/Method/allowGestures" class="dashAnchor"></a>
+            <h5><a href="#allowGestures">allowGestures</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:allowGestures([value]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the webview will respond to gestures from a trackpad or magic mouse.  Default is false.</p>
+<p>Parameters:</p>
+<ul>
+<li>value - an optional boolean value indicating whether or not the webview should respond gestures.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This is a shorthand method for getting or setting both <code>hs.webview:allowMagnificationGestures</code> and <code>hs.webview:allowNavigationGestures</code>.</li>
+<li>This method will set both types of gestures to true or false, if given an argument, but will only return true if <em>both</em> gesture types are currently true; if either or both gesture methods are false, then this method will return false.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="allowMagnificationGestures">
+            <a name="//apple_ref/cpp/Method/allowMagnificationGestures" class="dashAnchor"></a>
+            <h5><a href="#allowMagnificationGestures">allowMagnificationGestures</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:allowMagnificationGestures([value]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the webview will respond to magnification gestures from a trackpad or magic mouse.  Default is false.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>value</code> - an optional boolean value indicating whether or not the webview should respond to magnification gestures.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="allowNavigationGestures">
+            <a name="//apple_ref/cpp/Method/allowNavigationGestures" class="dashAnchor"></a>
+            <h5><a href="#allowNavigationGestures">allowNavigationGestures</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:allowNavigationGestures([value]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the webview will respond to the navigation gestures from a trackpad or magic mouse.  Default is false.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>value</code> - an optional boolean value indicating whether or not the webview should respond to navigation gestures.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="allowNewWindows">
+            <a name="//apple_ref/cpp/Method/allowNewWindows" class="dashAnchor"></a>
+            <h5><a href="#allowNewWindows">allowNewWindows</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:allowNewWindows([value]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the webview allows new windows to be opened from it by any method.  Defaults to true.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>value</code> - an optional boolean value indicating whether or not the webview should allow new windows to be opened from it.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method allows you to prevent a webview from being able to open a new window by any method.   This includes right-clicking on a link and selecting "Open in a New Window", JavaScript pop-ups, links with the target of "__blank", etc.</li>
+<li>If you just want to prevent automatic JavaScript windows, set the preference value javaScriptCanOpenWindowsAutomatically to false when creating the web view - this method blocks <em>all</em> methods.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="allowTextEntry">
+            <a name="//apple_ref/cpp/Method/allowTextEntry" class="dashAnchor"></a>
+            <h5><a href="#allowTextEntry">allowTextEntry</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:allowTextEntry([value]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the webview can accept keyboard for web form entry. Defaults to false.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>value</code> - an optional boolean value which sets whether or not the webview will accept keyboard input.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="alpha">
+            <a name="//apple_ref/cpp/Method/alpha" class="dashAnchor"></a>
+            <h5><a href="#alpha">alpha</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:alpha([alpha]) -&gt; webviewObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the alpha level of the window containing the hs.webview object.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>alpha</code> - an optional number between 0.0 and 1.0 specifying the new alpha level for the webview.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a parameter is provided, returns the webview object; otherwise returns the current value.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="attachedToolbar">
+            <a name="//apple_ref/cpp/Method/attachedToolbar" class="dashAnchor"></a>
+            <h5><a href="#attachedToolbar">attachedToolbar</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:attachedToolbar([toolbar | nil]) -&gt; webviewObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or attach/detach a toolbar to/from the webview.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>toolbar</code> - if an <code>hs.webview.toolbar</code> object is specified, it will be attached to the webview.  If an explicit nil is specified, the current toolbar will be removed from the webview.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if a toolbarObject or explicit nil is specified, returns the webviewObject; otherwise returns the current toolbarObject or nil, if no toolbar is attached to the webview.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>this method is a convenience wrapper for the <code>hs.webview.toolbar.attachToolbar</code> function.</p>
+</li>
+<li><p>If the toolbarObject is currently attached to another window when this method is called, it will be detached from the original window and attached to the webview.  If you wish to attach the same toolbar to multiple webviews, see <code>hs.webview.toolbar:copy</code>.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="behavior">
+            <a name="//apple_ref/cpp/Method/behavior" class="dashAnchor"></a>
+            <h5><a href="#behavior">behavior</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:behavior([behavior]) -&gt; webviewObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the window behavior settings for the webview object.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>behavior</code> - an optional number representing the desired window behaviors for the webview object.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the webview object; otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Window behaviors determine how the webview object is handled by Spaces and Exposé. See <code>hs.drawing.windowBehaviors</code> for more information.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="behaviorAsLabels">
+            <a name="//apple_ref/cpp/Method/behaviorAsLabels" class="dashAnchor"></a>
+            <h5><a href="#behaviorAsLabels">behaviorAsLabels</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:behaviorAsLabels(behaviorTable) -&gt; webviewObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the window behavior settings for the webview object using labels defined in <code>hs.drawing.windowBehaviors</code>.</p>
+<p>Parameters:</p>
+<ul>
+<li>behaviorTable - an optional table of strings and/or numbers specifying the desired window behavior for the webview object.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the webview object; otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Window behaviors determine how the webview object is handled by Spaces and Exposé. See <code>hs.drawing.windowBehaviors</code> for more information.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="bringToFront">
+            <a name="//apple_ref/cpp/Method/bringToFront" class="dashAnchor"></a>
+            <h5><a href="#bringToFront">bringToFront</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:bringToFront([aboveEverything]) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Places the drawing object on top of normal windows</p>
+<p>Parameters:</p>
+<ul>
+<li><code>aboveEverything</code> - An optional boolean value that controls how far to the front the webview should be placed. True to place the webview on top of all windows (including the dock and menubar and fullscreen windows), false to place the webview above normal windows, but below the dock, menubar and fullscreen windows. Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="certificateChain">
+            <a name="//apple_ref/cpp/Method/certificateChain" class="dashAnchor"></a>
+            <h5><a href="#certificateChain">certificateChain</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:certificateChain() -&gt; table | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the certificate chain for the most recently committed navigation of the webview.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table containing the certificates that make up the SSL certificate chain securing the most recent committed navigation.  Each certificate is described in a table with the following keys:<ul>
+<li><code>commonName</code> - the common name for the certificate; most commonly this will be a string matching the server portion of the URL request or other descriptor of the certificate's purpose.</li>
+<li><code>values</code>     - a table containing key-value pairs describing the certificate.  The keys will be certificate OIDs.  Common OIDs and their meaning can be found in <a href="#certificateOIDs">hs.webview.certificateOIDs</a>. The value for each key will be a table with the following keys:<ul>
+<li><code>label</code>           - a description or label for the entry</li>
+<li><code>localized label</code> - a localized version of <code>label</code></li>
+<li><code>type</code>            - a description of the data type for this value</li>
+<li><code>value</code>           - the value</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method is only supported by OS X 10.11 and newer</li>
+<li><p>A navigation which was performed via HTTP instead of HTTPS will return an empty array.</p>
+</li>
+<li><p>For OIDs which specify a type of "date" -- e.g. "2.5.29.24" (invalidityDate) -- the number provided represents the number of seconds since 12:00:00 AM, January 1, 1970 and can be used directly with the Lua <code>os.date</code> command.</p>
+</li>
+<li>For OIDs which are known to represent a date, but specify its type as a "number" -- e.g. "2.16.840.1.113741.2.1.1.1.7" (X509V1ValidityNotAfter) or "2.16.840.1.113741.2.1.1.1.6" (X509V1ValidityNotBefore) -- the epoch is 12:00:00 AM, Jan 1, 2001.  To convert these dates into a format usable by Lua, you will need to do something similar to the following:  <code>os.date("%c", value + os.time({year=2001,month=1,day=1,hour=0,min=0,sec=0})</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="children">
+            <a name="//apple_ref/cpp/Method/children" class="dashAnchor"></a>
+            <h5><a href="#children">children</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:children() -&gt; array</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns an array of webview objects which have been opened as children of this webview.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>an array containing the webview objects of all child windows opened from this webview.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="closeOnEscape">
+            <a name="//apple_ref/cpp/Method/closeOnEscape" class="dashAnchor"></a>
+            <h5><a href="#closeOnEscape">closeOnEscape</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:closeOnEscape([flag]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>If the webview is closable, this will get or set whether or not the Escape key is allowed to close the webview window.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>flag</code> - an optional boolean value which indicates whether a webview, when it's style includes Closable (see <code>hs.webview:windowStyle</code>), should allow the Escape key to be a shortcut for closing the webview window.  Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If this is set to true, Escape will only close the window if no other element responds to the Escape key first (e.g. if you are editing a text input field, the Escape will be captured by the text field, not by the webview Window.)</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="delete">
+            <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+            <h5><a href="#delete">delete</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:delete([propagate], [fadeOutTime]) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Destroys the webview object, optionally fading it out first (if currently visible).</p>
+<p>Parameters:</p>
+<ul>
+<li><code>propagate</code>   - an optional boolean, default false, which indicates whether or not the child windows of this webview should also be deleted.</li>
+<li><code>fadeOutTime</code> - an optional number of seconds over which to fade out the webview object. Defaults to zero.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method is automatically called during garbage collection, notably during a Hammerspoon termination or reload, with a fade time of 0.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="deleteOnClose">
+            <a name="//apple_ref/cpp/Method/deleteOnClose" class="dashAnchor"></a>
+            <h5><a href="#deleteOnClose">deleteOnClose</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:deleteOnClose([value]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the webview should delete itself when its window is closed.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>value</code> - an optional boolean value which sets whether or not the webview will delete itself when its window is closed by any method.  Defaults to false for a window created with <code>hs.webview.new</code> and true for any webview windows created by the main webview (user selects "Open Link in New Window", etc.)</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If set to true, a webview object will be deleted when the user clicks on the close button of a titled and closable webview (see <code>hs.webview.windowStyle</code>).</li>
+<li>Children of an explicitly created webview automatically have this attribute set to true.  To cause closed children to remain after the user closes the parent, you can set this to false with a policy callback function when it receives the "newWindow" action.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="estimatedProgress">
+            <a name="//apple_ref/cpp/Method/estimatedProgress" class="dashAnchor"></a>
+            <h5><a href="#estimatedProgress">estimatedProgress</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:estimatedProgress() -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the estimated percentage of expected content that has been loaded.  Will equal 1.0 when all content has been loaded.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a numerical value between 0.0 and 1.0 indicating the percentage of expected content which has been loaded.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="evaluateJavaScript">
+            <a name="//apple_ref/cpp/Method/evaluateJavaScript" class="dashAnchor"></a>
+            <h5><a href="#evaluateJavaScript">evaluateJavaScript</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:evaluateJavaScript(script, [callback]) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Execute JavaScript within the context of the current webview and optionally receive its result or error in a callback function.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>script</code> - the JavaScript to execute within the context of the current webview's display</li>
+<li><code>callback</code> - an optional function which should accept two parameters as the result of the executed JavaScript.  The function parameters are as follows:<ul>
+<li><code>result</code> - the result of the executed JavaScript code or nil if there was no result or an error occurred.</li>
+<li><code>error</code>  - an NSError table describing any error that occurred during the JavaScript execution or nil if no error occurred.</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the webview object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="examineInvalidCertificates">
+            <a name="//apple_ref/cpp/Method/examineInvalidCertificates" class="dashAnchor"></a>
+            <h5><a href="#examineInvalidCertificates">examineInvalidCertificates</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:examineInvalidCertificates([flag]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not invalid SSL server certificates that are approved by the ssl callback function are accepted as valid for browsing with the webview.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>flag</code> - an optional boolean, default false, specifying whether or not an invalid SSL server certificate should be  accepted if it is approved by the ssl callback function.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>In order for this setting to have any effect, you must also register an ssl callback function with <a href="#sslCallback">hs.webview:sslCallback</a> which should return true if the certificate should be granted an exception or false if it should not.  For a certificate to be granted an exception, both this method and the result of the callback <em>must</em> be true.</p>
+</li>
+<li><p>A server certificate may be invalid for a variety of reasons:</p>
+<ul>
+<li>it is not signed by a recognized certificate authority - most commonly this means the certificate is self-signed.</li>
+<li>the certificate has expired</li>
+<li>the certificate has a common name (web site server name) other than the one requested (e.g. the certificate's common name is www.site.com, but it is being used for something else, possibly just <a href="https://site.com">https://site.com</a>, possibly something else entirely</li>
+<li>some corporate proxy servers don't handle SSL properly and can cause a certificate to appear invalid even when they are valid (this is less common then it used to be, but does still occur occasionally)</li>
+<li>potentially nefarious reasons including man-in-the-middle attacks or phishing scams.</li>
+</ul>
+</li>
+<li><p>The Hammerspoon server provided by <code>hs.httpserver</code> uses a self-signed certificate when set to use SSL, so it will be considered invalid for reason 1 above.</p>
+</li>
+</ul>
+<ul>
+<li>If the certificate has been granted an exception in another application which registers the exception in the user's keychain (e.g. Safari), then the certificate is no longer considered invalid and this setting has no effect for that certificate.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="frame">
+            <a name="//apple_ref/cpp/Method/frame" class="dashAnchor"></a>
+            <h5><a href="#frame">frame</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:frame([rect]) -&gt; webviewObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the frame of the webview window.</p>
+<p>Parameters:</p>
+<ul>
+<li>rect - An optional rect-table containing the co-ordinates and size the webview window should be moved and set to</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the webview object; otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>a rect-table is a table with key-value pairs specifying the new top-left coordinate on the screen of the webview window (keys <code>x</code>  and <code>y</code>) and the new size (keys <code>h</code> and <code>w</code>).  The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="goBack">
+            <a name="//apple_ref/cpp/Method/goBack" class="dashAnchor"></a>
+            <h5><a href="#goBack">goBack</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:goBack() -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Move to the previous page in the webview's history, if possible.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview Object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="goForward">
+            <a name="//apple_ref/cpp/Method/goForward" class="dashAnchor"></a>
+            <h5><a href="#goForward">goForward</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:goForward() -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Move to the next page in the webview's history, if possible.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview Object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="hide">
+            <a name="//apple_ref/cpp/Method/hide" class="dashAnchor"></a>
+            <h5><a href="#hide">hide</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:hide([fadeOutTime]) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Hides the webview object</p>
+<p>Parameters:</p>
+<ul>
+<li><code>fadeOutTime</code> - An optional number of seconds over which to fade out the webview. Defaults to zero</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="historyList">
+            <a name="//apple_ref/cpp/Method/historyList" class="dashAnchor"></a>
+            <h5><a href="#historyList">historyList</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:historyList() -&gt; historyTable</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the URL history for the current webview as an array.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table which is an array of the URLs viewed within this webview and a key named <code>current</code> which is equal to the index corresponding to the currently visible entry.  Each array element will be a table with the following keys:<ul>
+<li><code>URL</code>        - the URL of the web page</li>
+<li><code>initialURL</code> - the URL of the initial request that led to this item</li>
+<li><code>title</code>      - the web page title</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="hswindow">
+            <a name="//apple_ref/cpp/Method/hswindow" class="dashAnchor"></a>
+            <h5><a href="#hswindow">hswindow</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:hswindow() -&gt; hs.window object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns an hs.window object for the webview so that you can use hs.window methods on it.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>an hs.window object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>hs.window:minimize only works if the webview is minimizable (see <code>hs.webview.windowStyle</code>)</li>
+<li>hs.window:setSize only works if the webview is resizable (see <code>hs.webview.windowStyle</code>)</li>
+<li>hs.window:close only works if the webview is closable (see <code>hs.webview.windowStyle</code>)</li>
+<li>hs.window:maximize will reposition the webview to the upper left corner of your screen, but will only resize the webview if the webview is resizable (see <code>hs.webview.windowStyle</code>)</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="html">
+            <a name="//apple_ref/cpp/Method/html" class="dashAnchor"></a>
+            <h5><a href="#html">html</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:html(html,[baseURL]) -&gt; webviewObject, navigationIdentifier</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Render the given HTML in the webview with an optional base URL for relative links.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>html</code>    - the html to be rendered in the webview</li>
+<li><code>baseURL</code> - an optional Base URL to use as the starting point for any relative links within the provided html.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview Object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Web Pages generated in this manner are not added to the webview history list</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isOnlySecureContent">
+            <a name="//apple_ref/cpp/Method/isOnlySecureContent" class="dashAnchor"></a>
+            <h5><a href="#isOnlySecureContent">isOnlySecureContent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:isOnlySecureContent() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a boolean value indicating if all content current displayed in the webview was loaded over securely encrypted connections.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>true if all content current displayed in the web view was loaded over securely encrypted connections; otherwise false.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="level">
+            <a name="//apple_ref/cpp/Method/level" class="dashAnchor"></a>
+            <h5><a href="#level">level</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:level([theLevel]) -&gt; drawingObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the window level</p>
+<p>Parameters:</p>
+<ul>
+<li><code>theLevel</code> - an optional parameter specifying the desired level as an integer, which can be obtained from <code>hs.drawing.windowLevels</code>.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if a parameter is specified, returns the webview object, otherwise the current value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>see the notes for <code>hs.drawing.windowLevels</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="loading">
+            <a name="//apple_ref/cpp/Method/loading" class="dashAnchor"></a>
+            <h5><a href="#loading">loading</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:loading() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a boolean value indicating whether or not the vebview is still loading content.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>true if the content is still being loaded, or false if it has completed.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="magnification">
+            <a name="//apple_ref/cpp/Method/magnification" class="dashAnchor"></a>
+            <h5><a href="#magnification">magnification</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:magnification([value]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the webviews current magnification level. Default is 1.0.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>value</code> - an optional number specifying the webviews magnification level.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="navigationCallback">
+            <a name="//apple_ref/cpp/Method/navigationCallback" class="dashAnchor"></a>
+            <h5><a href="#navigationCallback">navigationCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:navigationCallback(fn) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets a callback for tracking a webview's navigation process.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>fn</code> - the function to be called when the navigation status of a webview cahnges.  To disable the callback function, explicitly specify nil.  The function should expect 3 or 4 arguments and may optionally return 1.  The function arguments are defined as follows:<ul>
+<li><code>action</code>  - a string indicating the webview's current status.  It will be one of the following:<ul>
+<li><code>didStartProvisionalNavigation</code>                    - a request or action to change the contents of the main frame has occurred</li>
+<li><code>didReceiveServerRedirectForProvisionalNavigation</code> - a server redirect was received for the main frame</li>
+<li><code>didCommitNavigation</code>                              - content has started arriving for the main frame</li>
+<li><code>didFinishNavigation</code>                              - the webview's main frame has completed loading.</li>
+<li><code>didFailNavigation</code>                                - an error has occurred after content started arriving</li>
+<li><code>didFailProvisionalNavigation</code>                     - an error has occurred as or before content has started arriving</li>
+</ul>
+</li>
+<li><code>webView</code> - the webview object the navigation is occurring for.</li>
+<li><code>navID</code>   - a navigation identifier which can be used to link this event back to a specific request made by a <code>hs.webview:url</code>, <code>hs.webview:html</code>, or <code>hs.webview:reload</code> method.</li>
+<li><code>error</code>   - a table which will only be provided when <code>action</code> is equal to <code>didFailNavigation</code> or <code>didFailProvisionalNavigation</code>.  If provided, it will contain at leas some of the following keys, possibly others as well:<ul>
+<li><code>code</code>        - a numerical value indicating the type of error code.  This will mostly be of use to developers or in debugging and may be removed in the future.</li>
+<li><code>domain</code>      - a string indcating the error domain of the error.  This will mostly be of use to developers or in debugging and may be removed in the future.</li>
+<li><code>description</code> - a string describing the condition or problem that has occurred.</li>
+<li><code>reason</code>      - if available, more information about what may have caused the problem to occur.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The return value of the callback function is ignored except when the <code>action</code> argument is equal to <code>didFailNavigation</code> or <code>didFailProvisionalNavigation</code>.  If the return value when the action argument is one of these values is a string, it will be treated as html and displayed in the webview as the error message.  If the return value is the boolean value true, then no change will be made to the webview (it will continue to display the previous web page).  All other return values or no return value at all, if these navigation actions occur, will cause a default error page to be displayed in the webview.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="navigationID">
+            <a name="//apple_ref/cpp/Method/navigationID" class="dashAnchor"></a>
+            <h5><a href="#navigationID">navigationID</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:navigationID() -&gt; navigationID</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the most recent navigation identifier for the specified webview.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the navigation identifier</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This navigation identifier can be used to track the progress of a webview with the navigation callback function - see <code>hs.webview.navigationCallback</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="orderAbove">
+            <a name="//apple_ref/cpp/Method/orderAbove" class="dashAnchor"></a>
+            <h5><a href="#orderAbove">orderAbove</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:orderAbove([webview2]) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Moves webview object above webview2, or all webview objects in the same presentation level, if webview2 is not given.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>webview2</code> -An optional webview object to place the webview object above.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If the webview object and webview2 are not at the same presentation level, this method will will move the webview object as close to the desired relationship without changing the webview object's presentation level. See <a href="#level">hs.webview.level</a>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="orderBelow">
+            <a name="//apple_ref/cpp/Method/orderBelow" class="dashAnchor"></a>
+            <h5><a href="#orderBelow">orderBelow</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:orderBelow([webview2]) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Moves webview object below webview2, or all webview objects in the same presentation level, if webview2 is not given.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>webview2</code> -An optional webview object to place the webview object below.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If the webview object and webview2 are not at the same presentation level, this method will will move the webview object as close to the desired relationship without changing the webview object's presentation level. See <a href="#level">hs.webview.level</a>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="parent">
+            <a name="//apple_ref/cpp/Method/parent" class="dashAnchor"></a>
+            <h5><a href="#parent">parent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:parent() -&gt; webviewObject | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the parent webview object for the calling webview object, or nil if the webview has no parent.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the parent webview object for the calling webview object, or nil if the webview has no parent</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="policyCallback">
+            <a name="//apple_ref/cpp/Method/policyCallback" class="dashAnchor"></a>
+            <h5><a href="#policyCallback">policyCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:policyCallback(fn) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets a callback to approve or deny web navigation activity.</p>
+<p>Parameters:</p>
+<ul>
+<li><p><code>fn</code> - the function to be called to approve or deny web navigation activity.  To disable the callback function, explicitly specify nil.  The callback function will accept three or four arguments and must return 1 argument which will determine if the action is approved or denied.  The first argument will specify the type of policy request and will determine the second and third arguments as follows:</p>
+<ul>
+<li><code>navigationAction</code>: This applies to any connection to a server or service which supplies content for the webview and occurs before any connection has actually been made.<ul>
+<li>the second argument will be the webview this request originates from.</li>
+<li>the third argument will be a table about the navigation action requested and may contain any of the following keys:<ul>
+<li><code>request</code>        - a table containing the request for that generated this policy action request.  See <code>hs.webview.url</code> for details on what keys may be present in this table.</li>
+<li><code>sourceFrame</code>    - a table describing the frame in which the request occurred containing the following keys:<ul>
+<li><code>mainFrame</code>      - a boolean value indicating if this is the main view frame of the webview or not</li>
+<li><code>request</code>        - a table containing the request for this frame.  See <code>hs.webview.url</code> for details on what keys may be present in this table.</li>
+</ul>
+</li>
+<li><code>targetFrame</code>    - a table with the same keys as <code>sourceFrame</code>, but describing the target of the request, if it differs.</li>
+<li><code>buttonNumber</code>   - a number indicating the mouse button pressed that initiated this action or 0 if no mouse button was involved (for example, a url specified via <code>hs.webview.url</code> or a request for an image, etc. as part of rendering an earlier request).</li>
+<li><code>modifierFlags</code>  - a table containing keys for the keyboard modifiers which were pressed when the navigation generating this policy request was generated.</li>
+<li><code>navigationType</code> - a string indicating how the navigation was requested: <code>linkActivated</code>, <code>formSubmitted</code>, <code>backForward</code>, <code>reload</code>, <code>formResubmitted</code>, or <code>other</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>The callback function should return <code>true</code> if the navigation should proceed or false if it should be denied.</p>
+</li>
+<li><p><code>navigationResponse</code>: This applies to any connection to a server or service which supplies content for the webview and occurs after the connection has been made but before it has been rendered in the webview.</p>
+<ul>
+<li>the second argument will be the webview this request originates from.</li>
+<li>the third argument will be a table about the response received and may contain any of the following keys:<ul>
+<li><code>canShowMIMEType</code> - a boolean indicating whether or not the webview can display the content either natively or with a plugin.  If this value is false, it is likely the content either cannot be displayed at all or will appear as gibberish in the webview.</li>
+<li><code>forMainFrame</code>    - a boolean indicating if the response is for a navigation of the main frames primary content (i.e. not an image or sub-frame, etc.)</li>
+<li><code>response</code>        - a table describing the response to the URL request and may contain any of the following keys:<ul>
+<li><code>expectedContentLength</code> - the expected length of the response content</li>
+<li><code>suggestedFileName</code>     - a suggested filename for the response data</li>
+<li><code>MIMEType</code>              - the MIME type of the response data</li>
+<li><code>textEncodingName</code>      - if the response is text, then this will contain the encoding type used</li>
+<li><code>URL</code>                   - the URL of the actual response.  Note that this may differ from the original request due to redirects, etc.</li>
+<li><code>statusCode</code>            - the HTTP response code for the request</li>
+<li><code>statusCodeDescription</code> - a localized description of the response code</li>
+<li><code>allHeaderFields</code>       - a table containing the header fields and values provided in the response</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>The callback function should return <code>true</code> if the navigation should proceed or false if it should be denied.</p>
+</li>
+<li><p><code>newWindow</code>: This applies to any request to create a new window from a webview.  This includes JavaScript, the user selecting "Open in a new window", etc.</p>
+<ul>
+<li>the second argument will be the new webview this request is generating.</li>
+<li>the third argument will be a table about the navigation action requested.  See the description above for <code>navigationAction</code> for details about this parameter.</li>
+<li>the fourth argument will be a table containing features requested for the new window (none of these will be addressed by default -- you can choose to honor or disregard the feature requests in the callback yourself) and may contain any of the following keys:<ul>
+<li><code>menuBarVisibility</code>   - Whether the menu bar should be visible. (Not a feature provided for windows under OS X)</li>
+<li><code>statusBarVisibility</code> - Whether the status bar should be visible. (Not currently supported by this module)</li>
+<li><code>toolbarsVisibility</code>  - Whether toolbars should be visible.</li>
+<li><code>allowsResizing</code>      - Whether the new window should be resizable.</li>
+<li><code>x</code>                   - The x coordinate of the new window.</li>
+<li><code>y</code>                   - The y coordinate of the new window.</li>
+<li><code>h</code>                   - The height coordinate of the new window.</li>
+<li><code>w</code>                   - The width coordinate of the new window.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>The callback function should return <code>true</code> if the new window should be created or false if it should not.</p>
+</li>
+<li><p><code>authenticationChallenge</code>:  This applies to a web page which requires a log in credential for HTTPBasic or HTTPDigest authentication.</p>
+<ul>
+<li>the second argument will be the webview this request originates from.</li>
+<li>the third argument will be a table containing the challenge details and may contain any of the following keys:<ul>
+<li><code>previousFailureCount</code> - an integer indicating the number of previously failed login attempts.  This will be 0 for the first try.</li>
+<li><code>failureResponse</code>      - the response data as described for <code>navigationResponse</code> above for the last authentication failureResponse</li>
+<li><code>proposedCredential</code>   - a table containing the previously failed credential containing any of the following keys:<ul>
+<li><code>hasPassword</code>          - a boolean value indicating if a password was provided with this credential</li>
+<li><code>persistence</code>          - a string value identifying the persistence of this credential.  This value will be one of the following:<ul>
+<li>None                 - the credential is for this URL request only and no other</li>
+<li><code>session</code>              - the credential is for this session and will be forgotten once the webview is deleted</li>
+<li><code>permanent</code>            - the credential is stored in the user's keychain</li>
+<li><code>synchronized</code>         - the credential is stored in the user's keychain and may be shared with other devices with the same owning Apple ID.</li>
+</ul>
+</li>
+<li><code>user</code>                 - the username of the failed credential</li>
+<li><code>password</code>             - the password of the failed credential</li>
+</ul>
+</li>
+<li><code>protectionSpace</code>      - a table describing the realm for the authentication and may contain any of the following keys:<ul>
+<li><code>port</code>                       - the port of the server with which communication for this request is occurring</li>
+<li><code>receivesCredentialSecurely</code> - a boolean value indicating whether or not the credential can be sent to the server securely</li>
+<li><code>authenticationMethod</code>       - a string indicating the authentication type: default, HTTPBasic, or HTTPDigest.  Other types exists but are not currently supported with this module or do not apply to webview activities.</li>
+<li><code>host</code>                       - the host name of the server with which communication for this request is occurring</li>
+<li><code>protocol</code>                   - the protocol for which the authentication is occurring</li>
+<li><code>isProxy</code>                    - a boolean indicating whether or not the authentication is occurring with a proxy server</li>
+<li><code>proxyType</code>                  - a string representing the type of proxy server: http, https, ftp, or socks.</li>
+<li><code>realm</code>                      - a string representing the realm name for the authentication.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>The callback function should return true if the user should be prompted for the username and password credentials, a table with the keys <code>user</code> and <code>password</code> containing the username and password to log in with, or false if the login request should be cancelled.  Note that if your function returns a table and fails to authenticate three times, the user will be prompted anyways to prevent loops.</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>With the <code>newWindow</code> action, the navigationCallback and policyCallback are automatically replicated for the new window from its parent.  If you wish to disable these for the new window or assign a different set of callback functions, you can do so before returning true in the callback function with the webview argument provided.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="privateBrowsing">
+            <a name="//apple_ref/cpp/Method/privateBrowsing" class="dashAnchor"></a>
+            <h5><a href="#privateBrowsing">privateBrowsing</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:privateBrowsing() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether or not the webview browser is set up for private browsing (i.e. uses a non-persistent datastore)</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a boolean value indicating whether or not the datastore is non-persistent.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>This method is only supported by OS X 10.11 and newer</p>
+</li>
+<li><p>See <code>hs.webview.datastore</code> and <a href="#new">hs.webview.new</a> for more information.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="reload">
+            <a name="//apple_ref/cpp/Method/reload" class="dashAnchor"></a>
+            <h5><a href="#reload">reload</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:reload([validate]) -&gt; webviewObject, navigationIdentifier</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Reload the page in the webview, optionally performing end-to-end revalidation using cache-validating conditionals if possible.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>validate</code> - an optional boolean indicating whether or not an attempt to perform end-to-end revalidation of cached data should be performed.  Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview Object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendToBack">
+            <a name="//apple_ref/cpp/Method/sendToBack" class="dashAnchor"></a>
+            <h5><a href="#sendToBack">sendToBack</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:sendToBack() -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Places the webview object behind normal windows, between the desktop wallpaper and desktop icons</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The drawing object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="shadow">
+            <a name="//apple_ref/cpp/Method/shadow" class="dashAnchor"></a>
+            <h5><a href="#shadow">shadow</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:shadow([value]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the webview window has shadows. Default to false.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>value</code> - an optional boolean value indicating whether or not the webview should have shadows.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="show">
+            <a name="//apple_ref/cpp/Method/show" class="dashAnchor"></a>
+            <h5><a href="#show">show</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:show([fadeInTime]) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Displays the webview object</p>
+<p>Parameters:</p>
+<ul>
+<li><code>fadeInTime</code> - An optional number of seconds over which to fade in the webview. Defaults to zero</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="size">
+            <a name="//apple_ref/cpp/Method/size" class="dashAnchor"></a>
+            <h5><a href="#size">size</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:size([size]) -&gt; webviewObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the size of a webview window</p>
+<p>Parameters:</p>
+<ul>
+<li><code>size</code> - An optional size-table specifying the width and height the webview window should be resized to</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the webview object; otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>a size-table is a table with key-value pairs specifying the size (keys <code>h</code> and <code>w</code>) the webview should be resized to. The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="sslCallback">
+            <a name="//apple_ref/cpp/Method/sslCallback" class="dashAnchor"></a>
+            <h5><a href="#sslCallback">sslCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:sslCallback(fn) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets a callback to examine an invalid SSL certificate and determine if an exception should be granted.</p>
+<p>Parameters:</p>
+<ul>
+<li><p><code>fn</code> - the function to be called to examine the SSL certificate to determine if an exception should be granted.  To disable the callback function, explicitly specify nil.  The callback function will accept two arguments and must return 1 argument which will determine if the action is approved or denied.  The first argument will be the webview this request originates from.  The second argument will be a table containing the protection space details and may include the following keys:</p>
+<ul>
+<li><code>port</code>                       - the port of the server with which communication for this request is occurring</li>
+<li><code>receivesCredentialSecurely</code> - a boolean value indicating whether or not the credential can be sent to the server securely</li>
+<li><code>authenticationMethod</code>       - a string indicating the authentication type, in this case "serverTrust".</li>
+<li><code>host</code>                       - the host name of the server with which communication for this request is occurring</li>
+<li><code>protocol</code>                   - the protocol for which the authentication is occurring</li>
+<li><code>isProxy</code>                    - a boolean indicating whether or not the authentication is occurring with a proxy server</li>
+<li><code>proxyType</code>                  - a string representing the type of proxy server: http, https, ftp, or socks.</li>
+<li><code>realm</code>                      - a string representing the realm name for the authentication.</li>
+<li><code>certificates</code> - an array of tables, each table describing a certificate in the SSL certificate chain provided by the server responding to the webview's request.  Each table will contain the following keys:<ul>
+<li><code>commonName</code> - the common name for the certificate; most commonly this will be a string matching the server portion of the URL request or other descriptor of the certificate's purpose.</li>
+<li><code>values</code>     - a table containing key-value pairs describing the certificate.  The keys will be certificate OIDs.  Common OIDs and their meaning can be found in <a href="#certificateOIDs">hs.webview.certificateOIDs</a>. The value for each key will be a table with the following keys:<ul>
+<li><code>label</code>           - a description or label for the entry</li>
+<li><code>localized label</code> - a localized version of <code>label</code></li>
+<li><code>type</code>            - a description of the data type for this value</li>
+<li><code>value</code>           - the value</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>The callback function should return true if an exception should be granted for this certificate or false if it should be rejected.</p>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>even if this callback returns <code>true</code>, the certificate will only be granted an exception if <a href="#examineInvalidCertificates">hs.webview:examineInvalidCertificates</a> has also been set to <code>true</code>.</li>
+<li>once an invalid certificate has been granted an exception, the exception will remain in effect until the webview object is deleted.</li>
+<li>the callback is only invoked for invalid certificates -- if a certificate is valid, or once an exception has been granted, the callback will not (no longer) be called for that certificate.</li>
+</ul>
+<ul>
+<li>If the certificate has been granted an exception in another application which registers the exception in the user's keychain (e.g. Safari), then the certificate is no longer considered invalid and this callback will not be invoked.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stopLoading">
+            <a name="//apple_ref/cpp/Method/stopLoading" class="dashAnchor"></a>
+            <h5><a href="#stopLoading">stopLoading</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:stopLoading() -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stop loading content if the webview is still loading content.  Does nothing if content has already completed loading.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="title">
+            <a name="//apple_ref/cpp/Method/title" class="dashAnchor"></a>
+            <h5><a href="#title">title</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:title() -&gt; title</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the title of the page displayed in the webview.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the title</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="topLeft">
+            <a name="//apple_ref/cpp/Method/topLeft" class="dashAnchor"></a>
+            <h5><a href="#topLeft">topLeft</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:topLeft([point]) -&gt; webviewObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the top-left coordinate of the webview window</p>
+<p>Parameters:</p>
+<ul>
+<li><code>point</code> - An optional point-table specifying the new coordinate the top-left of the webview window should be moved to</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the webview object; otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>a point-table is a table with key-value pairs specifying the new top-left coordinate on the screen of the webview (keys <code>x</code>  and <code>y</code>). The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="transparent">
+            <a name="//apple_ref/cpp/Method/transparent" class="dashAnchor"></a>
+            <h5><a href="#transparent">transparent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:transparent([value]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the webview background is transparent.  Default is false.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>value</code> - an optional boolean value indicating whether or not the webview should be transparent.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is provided, then this method returns the webview object; otherwise the current value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>When enabled, the webview's background color is equal to the body's <code>background-color</code> (transparent by default)</li>
+<li>Setting <code>background-color:rgba(0, 225, 0, 0.3)</code> on <code>&lt;body&gt;</code> will give a translucent green webview background</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="url">
+            <a name="//apple_ref/cpp/Method/url" class="dashAnchor"></a>
+            <h5><a href="#url">url</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:url([URL]) -&gt; webviewObject, navigationIdentifier | url</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the URL to render for the webview.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>URL</code> - an optional string or table representing the URL to display.  If you provide a table, it should contain one or more of the following keys (note that URL is the only required key):<ul>
+<li><code>URL</code>                     - the URL of the desired content</li>
+<li><code>mainDocumentURL</code>         - the URL of the main document, if it differs.  This usually only matters for cookie negotiation and currently has no effect in this module.</li>
+<li><code>HTTPBody</code>                - the message body of the request, as in an HTTP POST request</li>
+<li><code>HTTPMethod</code>              - the HTTP Method of the request, default GET.</li>
+<li><code>timeoutInterval</code>         - the timeout interval for the request in seconds, default 60.0.</li>
+<li><code>HTTPShouldHandleCookies</code> - whether or not cookies should be managed automatically, default true.  Currently there is no support for the manual handling of cookies, though this may change in the future.</li>
+<li><code>HTTPShouldUsePipelining</code> - whether or not the request can continue to transmit data before receiving a response from the remote server.  Default false.</li>
+<li><code>cachePolicy</code>             - a string value representing the cache policy for the request.  It should match one of the following:<ul>
+<li><code>protocolCachePolicy</code>     - (default) the cache policy defined as the default for the protocol of the URL request</li>
+<li><code>ignoreLocalCache</code>        - ignore any locally cached content and request all content from the remote server</li>
+<li><code>returnCacheOrLoad</code>       - return cached data, regardless of its age or expiration date. If there is no existing data in the cache corresponding to the request, load data from the originating source.</li>
+<li><code>returnCacheDontLoad</code>     - treat the request as if offline - return cached data, regardless of its age or expiration date. If there is no existing data in the cache corresponding to the request, the load is considered to have failed.</li>
+</ul>
+</li>
+<li><code>networkServiceType</code>      - a string value representing the network service type of the request.  It should match one of the following:<ul>
+<li><code>default</code>                 - (default) standard network traffic.  You should rarely use a value other than this as it can affect the responsiveness of your computer and other applications.</li>
+<li><code>VoIP</code>                    - with the VoIP service type, the kernel continues to listen for incoming traffic while your app is in the background, then wakes up your app whenever new data arrives. This should be used only for connections that are used to communicate with a VoIP service.</li>
+<li><code>video</code>                   - specifies that this is video traffic</li>
+<li><code>background</code>              - use this for data if your are performing a download that was not requested by the user — for example, prefetching content so that it will be available when the user chooses to view it.</li>
+<li><code>voice</code>                   - specifies that this is voice traffic</li>
+</ul>
+</li>
+<li><code>HTTPHeaderFields</code>        - a table containing key-value pairs corresponding to additional headers you wish to include in your request.  Because the HTTP specification requires that both keys and values are strings, any key which is not a string is ignored, and any value which is not a string or number is also ignored.  In addition, the following keys are handled automatically behind the scenes and will be ignored if you specify them:<ul>
+<li><code>Authorization</code></li>
+<li><code>Connection</code></li>
+<li><code>Host</code></li>
+<li><code>WWW-Authenticate</code></li>
+<li><code>Content-Length</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a URL is specified, then this method returns the webview Object; otherwise it returns the current url being displayed.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The networkServiceType field of the URL request table is a hint to the operating system about what the underlying traffic is used for. This hint enhances the system's ability to prioritize traffic, determine how quickly it needs to wake up the Wi-Fi radio, and so on. By providing accurate information, you improve the ability of the system to optimally balance battery life, performance, and other considerations.  Likewise, inaccurate information can have a deleterious effect on your system performance and battery life.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="urlParts">
+            <a name="//apple_ref/cpp/Method/urlParts" class="dashAnchor"></a>
+            <h5><a href="#urlParts">urlParts</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:urlParts() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table of keys containing the individual components of the URL for the webview.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table containing the keys for the webview's URL.  See the function <code>hs.http.urlParts</code> for a description of the possible keys returned in the table.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method is a wrapper to the <code>hs.http.urlParts</code> function wich uses the OS X APIs, based on RFC 1808.</li>
+<li>You may also want to consider the <code>hs.httpserver.hsminweb.urlParts</code> function for a version more consistent with RFC 3986.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="userAgent">
+            <a name="//apple_ref/cpp/Method/userAgent" class="dashAnchor"></a>
+            <h5><a href="#userAgent">userAgent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:userAgent([agent]) -&gt; webviewObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the webview's user agent string</p>
+<p>Parameters:</p>
+<ul>
+<li><code>agent</code> - an options string specifying the user agent string to include in all URL requests made by the webview object.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if a parameter is specified, returns the webviewObject, otherwise returns the current value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>This method is only supported by OS X 10.11 and newer</p>
+</li>
+<li><p>The default user string used by webview objects will be something like this (the exact version numbers will differ, depending upon your OS X version):</p>
+<ul>
+<li>"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/601.6.17 (KHTML, like Gecko)"</li>
+</ul>
+</li>
+<li><p>By default, this method will return the empty string ("") when queried -- this indicates that the default, shown above, is used.  You can also return to this default by setting the user agent to "" with this method (e.g. <code>hs.webview:userAgent("")</code>).</p>
+</li>
+<li><p>Some web sites tailor content based on the user string or use it for other internal purposes (tracking, statistics, page availability, layout, etc.).  Common user-agent strings can be found at <a href="http://www.useragentstring.com/pages/useragentstring.php">http://www.useragentstring.com/pages/useragentstring.php</a>.</p>
+</li>
+<li><p>If you have set the user agent application name with the <code>applicationName</code> parameter to the <a href="#new">hs.webview.new</a> constructor, it will be ignored unless this value is "", i.e. the default user agent string.  If you wish to specify an application name after the user agent string and use a custom string, include the application name in your custom string.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowCallback">
+            <a name="//apple_ref/cpp/Method/windowCallback" class="dashAnchor"></a>
+            <h5><a href="#windowCallback">windowCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:windowCallback(fn) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set or clear a callback for updates to the webview window</p>
+<p>Parameters:</p>
+<ul>
+<li><p><code>fn</code> - the function to be called when the webview window is moved or closed. Specify an explicit nil to clear the current callback.  The function should expect 2 or 3 arguments and return none.  The arguments will be one of the following:</p>
+<ul>
+<li><p>"closing", webview - specifies that the webview window is being closed, either by the user or with the <a href="#delete">hs.webview:delete</a> method.</p>
+<ul>
+<li><code>action</code>  - in this case "closing", specifying that the webview window is being closed</li>
+<li><code>webview</code> - the webview that is being closed</li>
+</ul>
+</li>
+<li><p>"focusChange", webview, state - indicates that the webview window has either become or stopped being the focused window</p>
+<ul>
+<li><code>action</code>  - in this case "focusChange", specifying that the webview window is being closed</li>
+<li><code>webview</code> - the webview that is being closed</li>
+<li><code>state</code>   - a boolean, true if the webview has become the focused window, or false if it has lost focus</li>
+</ul>
+</li>
+<li><p>"frameChange", webview, frame - indicates that the webview window has been moved or resized</p>
+<ul>
+<li><code>action</code>  - in this case "focusChange", specifying that the webview window is being closed</li>
+<li><code>webview</code> - the webview that is being closed</li>
+<li><code>frame</code>   - a rect-table containing the new co-ordinates and size of the webview window</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowStyle">
+            <a name="//apple_ref/cpp/Method/windowStyle" class="dashAnchor"></a>
+            <h5><a href="#windowStyle">windowStyle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:windowStyle(mask) -&gt; webviewObject | currentMask</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the window display style</p>
+<p>Parameters:</p>
+<ul>
+<li>mask - if present, this mask should be a combination of values found in <code>hs.webview.windowMasks</code> describing the window style.  The mask should be provided as one of the following:<ul>
+<li>integer - a number representing the style which can be created by combining values found in <code>hs.webview.windowMasks</code> with the logical or operator.</li>
+<li>string  - a single key from <code>hs.webview.windowMasks</code> which will be toggled in the current window style.</li>
+<li>table   - a list of keys from <code>hs.webview.windowMasks</code> which will be combined to make the final style by combining their values with the logical or operator.</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if a mask is provided, then the webviewObject is returned; otherwise the current mask value is returned.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowTitle">
+            <a name="//apple_ref/cpp/Method/windowTitle" class="dashAnchor"></a>
+            <h5><a href="#windowTitle">windowTitle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:windowTitle([title]) -&gt; webviewObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets the title for the webview window.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>title</code> - if specified and not nil, the title to set for the webview window.  If this parameter is not present or is nil, the title will follow the title of the webview's content.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The webview Object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The title will be hidden unless the window style includes the "titled" style (see <code>hs.webview.windowStyle</code> and <code>hs.webview.windowMasks</code>)</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

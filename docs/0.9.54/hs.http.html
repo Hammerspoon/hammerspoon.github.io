@@ -1,0 +1,508 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.http</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.http</h1>
+      <p>Perform HTTP requests</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Variables - Configurable values</li>
+          <ul>
+            <li><a href="#htmlEntities[]">htmlEntities[]</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#asyncGet">asyncGet</a></li>
+            <li><a href="#asyncPost">asyncPost</a></li>
+            <li><a href="#convertHtmlEntities">convertHtmlEntities</a></li>
+            <li><a href="#doAsyncRequest">doAsyncRequest</a></li>
+            <li><a href="#doRequest">doRequest</a></li>
+            <li><a href="#encodeForQuery">encodeForQuery</a></li>
+            <li><a href="#get">get</a></li>
+            <li><a href="#post">post</a></li>
+            <li><a href="#registerEntity">registerEntity</a></li>
+            <li><a href="#urlParts">urlParts</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Variables</h4>
+          <section id="htmlEntities[]">
+            <a name="//apple_ref/cpp/Variable/htmlEntities[]" class="dashAnchor"></a>
+            <h5><a href="#htmlEntities[]">htmlEntities[]</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.htmlEntities[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A collection of common HTML Entities (&whatever;) and their UTF8 equivalents.  To retrieve the UTF8 sequence for a given entity, reference the table as <code>hs.http.htmlEntities["&amp;key;"]</code> where <code>key</code> is the text of the entity's name or a numeric reference like <code>#number</code>.</p>
+<p>Notes:</p>
+<ul>
+<li>This list is likely not complete.  It is based on the list of common entities described at <a href="http://www.freeformatter.com/html-entities.html">http://www.freeformatter.com/html-entities.html</a>.</li>
+<li>Additional entities can be temporarily added via the <code>hs.http.registerEntity(...)</code> function.  If you feel you have a more official list of entities which contains items which are currently not included by default, please open up an issue at <a href="https://github.com/Hammerspoon/hammerspoon">https://github.com/Hammerspoon/hammerspoon</a> and your link will be considered.</li>
+<li><p>To see a list of the currently defined entities, a __tostring meta-method is included so that referencing the table directly as a string will return the current definitions.</p>
+<ul>
+<li><p>For reference, this meta-method is essentially the following:</p>
+<p>for i,v in hs.fnutils.sortByKeys(hs.http.htmlEntities) do print(string.format("%-10s %-10s %s\n", i, "&amp;#"..tostring(hs.utf8.codepoint(v))..";", v)) end</p>
+</li>
+<li><p>Note that this list will not include the numeric conversion of entities (e.g. &#65;), as this is handled by an __index metamethod to allow for all possible numeric values.</p>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="asyncGet">
+            <a name="//apple_ref/cpp/Function/asyncGet" class="dashAnchor"></a>
+            <h5><a href="#asyncGet">asyncGet</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.asyncGet(url, headers, callback)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sends an HTTP GET request asynchronously</p>
+<p>Parameters:</p>
+<ul>
+<li>url - A string containing the URL to retrieve</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+<li>callback - A function to be called when the request succeeds or fails. The function will be passed three parameters:<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>If authentication is required in order to download the request, the required credentials must be specified as part of the URL (e.g. "<a href="http://user:password@host.com/">http://user:password@host.com/</a>"). If authentication fails, or credentials are missing, the connection will attempt to continue without credentials.</p>
+</li>
+<li><p>If the request fails, the callback function's first parameter will be negative and the second parameter will contain an error message. The third parameter will be nil</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="asyncPost">
+            <a name="//apple_ref/cpp/Function/asyncPost" class="dashAnchor"></a>
+            <h5><a href="#asyncPost">asyncPost</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.asyncPost(url, data, headers, callback)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sends an HTTP POST request asynchronously</p>
+<p>Parameters:</p>
+<ul>
+<li>url - A string containing the URL to submit to</li>
+<li>data - A string containing the request body, or nil to send no body</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+<li>callback - A function to be called when the request succeeds or fails. The function will be passed three parameters:<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>If authentication is required in order to download the request, the required credentials must be specified as part of the URL (e.g. "<a href="http://user:password@host.com/">http://user:password@host.com/</a>"). If authentication fails, or credentials are missing, the connection will attempt to continue without credentials.</p>
+</li>
+<li><p>If the request fails, the callback function's first parameter will be negative and the second parameter will contain an error message. The third parameter will be nil</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="convertHtmlEntities">
+            <a name="//apple_ref/cpp/Function/convertHtmlEntities" class="dashAnchor"></a>
+            <h5><a href="#convertHtmlEntities">convertHtmlEntities</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.convertHtmlEntities(inString) -&gt; outString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Convert all recognized HTML Entities in the <code>inString</code> to appropriate UTF8 byte sequences and returns the converted text.</p>
+<p>Parameters:</p>
+<ul>
+<li>inString -- A string containing any number of HTML Entities (&whatever;) in the text.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>outString -- the input string with all recognized HTML Entity sequences converted to UTF8 byte sequences.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Recognized HTML Entities are those registered in <code>hs.http.htmlEntities</code> or numeric entity sequences: &#n; where <code>n</code> can be any integer number.</li>
+<li>This function is especially useful as a post-filter to data retrieved by the <code>hs.http.get</code> and <code>hs.http.asyncGet</code> functions.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="doAsyncRequest">
+            <a name="//apple_ref/cpp/Function/doAsyncRequest" class="dashAnchor"></a>
+            <h5><a href="#doAsyncRequest">doAsyncRequest</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.doAsyncRequest(url, method, data, headers, callback)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates an HTTP request and executes it asynchronously</p>
+<p>Parameters:</p>
+<ul>
+<li>url - A string containing the URL</li>
+<li>method - A string containing the HTTP method to use (e.g. "GET", "POST", etc)</li>
+<li>data - A string containing the request body, or nil to send no body</li>
+<li>headers - A table containing string keys and values representing request header keys and values, or nil to add no headers</li>
+<li>callback - A function to called when the response is received. The function should accept three arguments:<ul>
+<li>code - A number containing the HTTP response code</li>
+<li>body - A string containing the body of the response</li>
+<li>headers - A table containing the HTTP headers of the response</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If authentication is required in order to download the request, the required credentials must be specified as part of the URL (e.g. "<a href="http://user:password@host.com/">http://user:password@host.com/</a>"). If authentication fails, or credentials are missing, the connection will attempt to continue without credentials.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="doRequest">
+            <a name="//apple_ref/cpp/Function/doRequest" class="dashAnchor"></a>
+            <h5><a href="#doRequest">doRequest</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.doRequest(url, method, [data, headers]) -&gt; int, string, table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates an HTTP request and executes it synchronously</p>
+<p>Parameters:</p>
+<ul>
+<li>url - A string containing the URL</li>
+<li>method - A string containing the HTTP method to use (e.g. "GET", "POST", etc)</li>
+<li>data - An optional string containing the data to POST to the URL, or nil to send no data</li>
+<li>headers - An optional table of string keys and values used as headers for the request, or nil to add no headers</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A number containing the HTTP response status code</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>If authentication is required in order to download the request, the required credentials must be specified as part of the URL (e.g. "<a href="http://user:password@host.com/">http://user:password@host.com/</a>"). If authentication fails, or credentials are missing, the connection will attempt to continue without credentials.</p>
+</li>
+<li><p>This function is synchronous and will therefore block all Lua execution until it completes. You are encouraged to use the asynchronous functions.</p>
+</li>
+<li>If you attempt to connect to a local Hammerspoon server created with <code>hs.httpserver</code>, then Hammerspoon will block until the connection times out (60 seconds), return a failed result due to the timeout, and then the <code>hs.httpserver</code> callback function will be invoked (so any side effects of the function will occur, but it's results will be lost).  Use <a href="#doAsyncRequest">hs.http.doAsyncRequest</a> to avoid this.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="encodeForQuery">
+            <a name="//apple_ref/cpp/Function/encodeForQuery" class="dashAnchor"></a>
+            <h5><a href="#encodeForQuery">encodeForQuery</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.encodeForQuery(string) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a copy of the provided string in which characters that are not valid within an HTTP query key or value are escaped with their %## equivalent.</p>
+<p>Parameters:</p>
+<ul>
+<li>originalString - the string to make safe as a key or value for a query</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the converted string</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The intent of this function is to provide a valid key or a valid value for a query string, not to validate the entire query string.  For this reason, ?, =, +, and &amp; are included in the converted characters.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="get">
+            <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
+            <h5><a href="#get">get</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.get(url, headers) -&gt; int, string, table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sends an HTTP GET request to a URL</p>
+<p>Parameters</p>
+<ul>
+<li>url - A string containing the URL to retrieve</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>If authentication is required in order to download the request, the required credentials must be specified as part of the URL (e.g. "<a href="http://user:password@host.com/">http://user:password@host.com/</a>"). If authentication fails, or credentials are missing, the connection will attempt to continue without credentials.</p>
+</li>
+<li><p>This function is synchronous and will therefore block all other Lua execution while the request is in progress, you are encouraged to use the asynchronous functions</p>
+</li>
+<li>If you attempt to connect to a local Hammerspoon server created with <code>hs.httpserver</code>, then Hammerspoon will block until the connection times out (60 seconds), return a failed result due to the timeout, and then the <code>hs.httpserver</code> callback function will be invoked (so any side effects of the function will occur, but it's results will be lost).  Use <a href="#asyncGet">hs.http.asyncGet</a> to avoid this.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="post">
+            <a name="//apple_ref/cpp/Function/post" class="dashAnchor"></a>
+            <h5><a href="#post">post</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.post(url, data, headers) -&gt; int, string, table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sends an HTTP POST request to a URL</p>
+<p>Parameters</p>
+<ul>
+<li>url - A string containing the URL to submit to</li>
+<li>data - A string containing the request body, or nil to send no body</li>
+<li>headers - A table containing string keys and values representing the request headers, or nil to add no headers</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A number containing the HTTP response status</li>
+<li>A string containing the response body</li>
+<li>A table containing the response headers</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>If authentication is required in order to download the request, the required credentials must be specified as part of the URL (e.g. "<a href="http://user:password@host.com/">http://user:password@host.com/</a>"). If authentication fails, or credentials are missing, the connection will attempt to continue without credentials.</p>
+</li>
+<li><p>This function is synchronous and will therefore block all other Lua execution while the request is in progress, you are encouraged to use the asynchronous functions</p>
+</li>
+<li>If you attempt to connect to a local Hammerspoon server created with <code>hs.httpserver</code>, then Hammerspoon will block until the connection times out (60 seconds), return a failed result due to the timeout, and then the <code>hs.httpserver</code> callback function will be invoked (so any side effects of the function will occur, but it's results will be lost).  Use <a href="#asyncPost">hs.http.asyncPost</a> to avoid this.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="registerEntity">
+            <a name="//apple_ref/cpp/Function/registerEntity" class="dashAnchor"></a>
+            <h5><a href="#registerEntity">registerEntity</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.registerEntity(entity, codepoint) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Registers an HTML Entity with the specified Unicode codepoint which can later referenced in your code as <code>hs.http.htmlEntity[entity]</code> for convenience and readability.</p>
+<p>Parameters:</p>
+<ul>
+<li>entity -- The full text of the HTML Entity as it appears in HTML encoded documents.  A proper entity starts with &amp; and ends with ; and entity labels which do not meet this will have them added -- future dereferences to get the corresponding UTF8 <em>must</em> include this initiator and terminator or they will not be recognized.</li>
+<li>codepoint -- a Unicode codepoint in numeric or <code>U+xxxx</code> format to register with as the given entity.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>Returns the UTF8 byte sequence for the entity registered.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If an entity label was previously registered, this will overwrite the previous value with a new one.</li>
+<li>The return value is merely syntactic sugar and you do not need to save it locally; it can be safely ignored -- future access to the pre-converted entity should be retrieved as <code>hs.http.htmlEntities[entity]</code> in your code.  It looks good when invoked from the console, though ☺.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="urlParts">
+            <a name="//apple_ref/cpp/Function/urlParts" class="dashAnchor"></a>
+            <h5><a href="#urlParts">urlParts</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.http.urlParts(url) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table of keys containing the individual components of the provided url.</p>
+<p>Parameters:</p>
+<ul>
+<li>url - the url to parse into it's individual components</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table containing any of the following keys which apply to the specified url:<ul>
+<li>absoluteString           - The URL string for the URL as an absolute URL.</li>
+<li>absoluteURL              - An absolute URL that refers to the same resource as the provided URL.</li>
+<li>baseURL                  - the base URL, if the URL is relative</li>
+<li>fileSystemRepresentation - the URL’s unescaped path specified as a file system path</li>
+<li>fragment                 - the fragment, if specified in the URL</li>
+<li>host                     - the host for the URL</li>
+<li>isFileURL                - a boolean value indicating whether or not the URL represents a local file</li>
+<li>lastPathComponent        - the last path component specified in the URL</li>
+<li>parameterString          - the parameter string, if specified in the URL</li>
+<li>password                 - the password, if specified in the URL</li>
+<li>path                     - the unescaped path specified in the URL</li>
+<li>pathComponents           - an array containing the path components of the URL</li>
+<li>pathExtension            - the file extension, if specified in the URL</li>
+<li>port                     - the port, if specified in the URL</li>
+<li>query                    - the query, if specified in the URL</li>
+<li>queryItems               - if the URL contains a query string, then this field contains an array of the unescaped key-value pairs for each item. Each key-value pair is represented as a table in the array to preserve order.  See notes for more information.</li>
+<li>relativePath             - the relative path of the URL without resolving against its base URL. If the path has a trailing slash it is stripped. If the URL is already an absolute URL, this contains the same value as path.</li>
+<li>relativeString           - a string representation of the relative portion of the URL. If the URL is already an absolute URL this contains the same value as absoluteString.</li>
+<li>resourceSpecifier        - the resource specified in the URL</li>
+<li>scheme                   - the scheme of the URL</li>
+<li>standardizedURL          - the URL with any instances of ".." or "." removed from its path</li>
+<li>user                     - the username, if specified in the URL</li>
+</ul>
+</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>This function assumes that the URL conforms to RFC 1808.  If the URL is malformed or does not conform to RFC1808, then many of these fields may be missing.</p>
+</li>
+<li><p>A contrived example for the url <code>http://user:password@host.site.com:80/path/to%20a/../file.txt;parameter?query1=1&amp;query2=a%28#fragment</code>:</p>
+<blockquote><p>hs.inspect(hs.http.urlParts("<a href="http://user:password@host.site.com:80/path/to%20a/../file.txt;parameter?query1=1&amp;query2=a%28#fragment">http://user:password@host.site.com:80/path/to%20a/../file.txt;parameter?query1=1&amp;query2=a%28#fragment</a>"))
+  {
+    absoluteString = "<a href="http://user:password@host.site.com:80/path/to%20a/../file.txt;parameter?query1=1&amp;query2=a%28#fragment">http://user:password@host.site.com:80/path/to%20a/../file.txt;parameter?query1=1&amp;query2=a%28#fragment</a>",
+    absoluteURL = "<a href="http://user:password@host.site.com:80/path/to%20a/../file.txt;parameter?query1=1&amp;query2=a%28#fragment">http://user:password@host.site.com:80/path/to%20a/../file.txt;parameter?query1=1&amp;query2=a%28#fragment</a>",
+    fileSystemRepresentation = "/path/to a/../file.txt",
+    fragment = "fragment",
+    host = "host.site.com",
+    isFileURL = false,
+    lastPathComponent = "file.txt",
+    parameterString = "parameter",
+    password = "password",
+    path = "/path/to a/../file.txt",
+    pathComponents = { "/", "path", "to a", "..", "file.txt" },
+    pathExtension = "txt",
+    port = 80,
+    query = "query1=1&amp;query2=a%28",
+    queryItems = { {
+        query1 = "1"
+      }, {
+        query2 = "a("
+      } },
+    relativePath = "/path/to a/../file.txt",
+    relativeString = "<a href="http://user:password@host.site.com:80/path/to%20a/../file.txt;parameter?query1=1&amp;query2=a%28#fragment">http://user:password@host.site.com:80/path/to%20a/../file.txt;parameter?query1=1&amp;query2=a%28#fragment</a>",
+    resourceSpecifier = "//user:password@host.site.com:80/path/to%20a/../file.txt;parameter?query1=1&amp;query2=a%28#fragment",
+    scheme = "http",
+    standardizedURL = "<a href="http://user:password@host.site.com:80/path/file.txt;parameter?query1=1&amp;query2=a%28#fragment">http://user:password@host.site.com:80/path/file.txt;parameter?query1=1&amp;query2=a%28#fragment</a>",
+    user = "user"
+  }</p>
+</blockquote>
+</li>
+<li><p>Because it is valid for a query key-value pair to be missing either the key or the value or both, the following conventions are used:</p>
+<ul>
+<li>a missing key (e.g. '=value') will be represented as { "" = value }</li>
+<li>a missing value (e.g. 'key=') will be represented as { key = "" }</li>
+<li>a missing value with no = (e.g. 'key') will be represented as { key }</li>
+<li>a missing key and value (e.g. '=') will be represente as { "" = "" }</li>
+<li>an empty query item (e.g. a query ending in '&amp;' or a query containing &amp;&amp; between two other query items) will be represented as { "" }</li>
+</ul>
+</li>
+<li><p>At present Hammerspoon does not provide a way to represent a URL as a true Objective-C object within the OS X API.  This affects the following keys:</p>
+<ul>
+<li>relative URLs are not possible to express properly so baseURL will always be nil and relativePath and relativeString will always match path and absoluteString.</li>
+<li>These limitations may change in a future update if the need for a more fully compliant URL treatment is determined to be necessary.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

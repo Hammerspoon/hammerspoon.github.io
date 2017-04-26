@@ -1,0 +1,628 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.console</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.console</h1>
+      <p>Some functions for manipulating the Hammerspoon console.</p>
+<p>These functions allow altering the behavior and display of the Hammerspoon console.  They should be considered experimental, but have worked well for me.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Deprecateds - API features which will be removed in an future release</li>
+          <ul>
+            <li><a href="#asHSDrawing">asHSDrawing</a></li>
+            <li><a href="#asHSWindow">asHSWindow</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#alpha">alpha</a></li>
+            <li><a href="#behaviorAsLabels">behaviorAsLabels</a></li>
+            <li><a href="#clearConsole">clearConsole</a></li>
+            <li><a href="#getConsole">getConsole</a></li>
+            <li><a href="#getHistory">getHistory</a></li>
+            <li><a href="#hswindow">hswindow</a></li>
+            <li><a href="#inputBackgroundColor">inputBackgroundColor</a></li>
+            <li><a href="#level">level</a></li>
+            <li><a href="#outputBackgroundColor">outputBackgroundColor</a></li>
+            <li><a href="#printStyledtext">printStyledtext</a></li>
+            <li><a href="#setConsole">setConsole</a></li>
+            <li><a href="#setHistory">setHistory</a></li>
+            <li><a href="#smartInsertDeleteEnabled">smartInsertDeleteEnabled</a></li>
+            <li><a href="#titleVisibility">titleVisibility</a></li>
+            <li><a href="#windowBackgroundColor">windowBackgroundColor</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#behavior">behavior</a></li>
+            <li><a href="#toolbar">toolbar</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Deprecateds</h4>
+          <section id="asHSDrawing">
+            <a name="//apple_ref/cpp/Deprecated/asHSDrawing" class="dashAnchor"></a>
+            <h5><a href="#asHSDrawing">asHSDrawing</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.asHSDrawing() -&gt; hs.drawing object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Because use of this function can easily lead to a crash, useful methods from <code>hs.drawing</code> have been added to the <code>hs.console</code> module itself.  If you believe that a useful method has been overlooked, please submit an issue.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a placeholder object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="asHSWindow">
+            <a name="//apple_ref/cpp/Deprecated/asHSWindow" class="dashAnchor"></a>
+            <h5><a href="#asHSWindow">asHSWindow</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.asHSWindow() -&gt; hs.window object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns an hs.window object for the console so that you can use hs.window methods on it.</p>
+<p>This function is identical to <a href="#hswindow">hs.console.hswindow</a>.  It is included for reasons of backwards compatibility, but use of the new name is recommended for clarity.</p>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="alpha">
+            <a name="//apple_ref/cpp/Function/alpha" class="dashAnchor"></a>
+            <h5><a href="#alpha">alpha</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.alpha([alpha]) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the alpha level of the console window.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>alpha</code> - an optional number between 0.0 and 1.0 specifying the new alpha level for the Hammerspoon console.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the current, possibly new, value.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="behaviorAsLabels">
+            <a name="//apple_ref/cpp/Function/behaviorAsLabels" class="dashAnchor"></a>
+            <h5><a href="#behaviorAsLabels">behaviorAsLabels</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.behaviorAsLabels(behaviorTable) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the window behavior settings for the console using labels defined in <code>hs.drawing.windowBehaviors</code>.</p>
+<p>Parameters:</p>
+<ul>
+<li>behaviorTable - an optional table of strings and/or numbers specifying the desired window behavior for the Hammerspoon console.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the current (possibly new) value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Window behaviors determine how the console is handled by Spaces and Exposé. See <code>hs.drawing.windowBehaviors</code> for more information.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="clearConsole">
+            <a name="//apple_ref/cpp/Function/clearConsole" class="dashAnchor"></a>
+            <h5><a href="#clearConsole">clearConsole</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.clearConsole() -&gt; nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Clear the Hammerspoon console output window.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This is equivalent to <code>hs.console.setConsole()</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="getConsole">
+            <a name="//apple_ref/cpp/Function/getConsole" class="dashAnchor"></a>
+            <h5><a href="#getConsole">getConsole</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.getConsole([styled]) -&gt; text | styledText</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the text of the Hammerspoon console output window.</p>
+<p>Parameters:</p>
+<ul>
+<li>styled - an optional boolean indicating whether the console text is returned as a string or a styledText object.  Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The text currently in the Hammerspoon console output window as either a string or an <code>hs.styledtext</code> object.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If the text of the console is retrieved as a string, no color or style information in the console output is retrieved - only the raw text.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="getHistory">
+            <a name="//apple_ref/cpp/Function/getHistory" class="dashAnchor"></a>
+            <h5><a href="#getHistory">getHistory</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.getHistory() -&gt; array</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the Hammerspoon console history as an array.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>an array containing the history of commands entered into the Hammerspoon console.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="hswindow">
+            <a name="//apple_ref/cpp/Function/hswindow" class="dashAnchor"></a>
+            <h5><a href="#hswindow">hswindow</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.hswindow() -&gt; hs.window object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get an hs.window object which represents the Hammerspoon console window</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>an hs.window object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="inputBackgroundColor">
+            <a name="//apple_ref/cpp/Function/inputBackgroundColor" class="dashAnchor"></a>
+            <h5><a href="#inputBackgroundColor">inputBackgroundColor</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.inputBackgroundColor([color]) -&gt; color</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the color for the background of the Hammerspoon Console's input field.</p>
+<p>Parameters:</p>
+<ul>
+<li>color - an optional table containing color keys as described in <code>hs.drawing.color</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the current color setting as a table</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>See the <code>hs.drawing.color</code> entry in the Dash documentation, or type <code>help.hs.drawing.color</code> in the Hammerspoon console to get more information on how to specify a color.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="level">
+            <a name="//apple_ref/cpp/Function/level" class="dashAnchor"></a>
+            <h5><a href="#level">level</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.level([theLevel]) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the console window level</p>
+<p>Parameters:</p>
+<ul>
+<li><code>theLevel</code> - an optional parameter specifying the desired level as an integer, which can be obtained from <code>hs.drawing.windowLevels</code>.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the current, possibly new, value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>see the notes for <code>hs.drawing.windowLevels</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="outputBackgroundColor">
+            <a name="//apple_ref/cpp/Function/outputBackgroundColor" class="dashAnchor"></a>
+            <h5><a href="#outputBackgroundColor">outputBackgroundColor</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.outputBackgroundColor([color]) -&gt; color</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the color for the background of the Hammerspoon Console's output view.</p>
+<p>Parameters:</p>
+<ul>
+<li>color - an optional table containing color keys as described in <code>hs.drawing.color</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the current color setting as a table</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>See the <code>hs.drawing.color</code> entry in the Dash documentation, or type <code>help.hs.drawing.color</code> in the Hammerspoon console to get more information on how to specify a color.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="printStyledtext">
+            <a name="//apple_ref/cpp/Function/printStyledtext" class="dashAnchor"></a>
+            <h5><a href="#printStyledtext">printStyledtext</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.printStyledtext(...) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A print function which recognizes <code>hs.styledtext</code> objects and renders them as such in the Hammerspoon console.</p>
+<p>Parameters:</p>
+<ul>
+<li>Any number of arguments can be specified, just like the builtin Lua <code>print</code> command.  If an argument matches the userdata type of <code>hs.styledtext</code>, the text is rendered as defined by its style attributes in the Hammerspoon console; otherwise it is rendered as it would be via the traditional <code>print</code> command within Hammerspoon.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This has been made as close to the Lua <code>print</code> command as possible.  You can replace the existing print command with this by adding the following to your <code>init.lua</code> file:</li>
+</ul>
+
+<pre><code>   print = function(...)
+       hs.rawprint(...)
+       hs.console.printStyledtext(...)
+   end</code></pre>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setConsole">
+            <a name="//apple_ref/cpp/Function/setConsole" class="dashAnchor"></a>
+            <h5><a href="#setConsole">setConsole</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.setConsole([styledText]) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Clear the Hammerspoon console output window.</p>
+<p>Parameters:</p>
+<ul>
+<li>styledText - an optional <code>hs.styledtext</code> object containing the text you wish to replace the Hammerspoon console output with.  If you do not provide an argument, the console is cleared of all content.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can specify the console content as a string or as an <code>hs.styledtext</code> object in either userdata or table format.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setHistory">
+            <a name="//apple_ref/cpp/Function/setHistory" class="dashAnchor"></a>
+            <h5><a href="#setHistory">setHistory</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.setHistory(array) -&gt; nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set the Hammerspoon console history to the items specified in the given array.</p>
+<p>Parameters:</p>
+<ul>
+<li>array - the list of commands to set the Hammerspoon console history to.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can clear the console history by using an empty array (e.g. <code>hs.console.setHistory({})</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="smartInsertDeleteEnabled">
+            <a name="//apple_ref/cpp/Function/smartInsertDeleteEnabled" class="dashAnchor"></a>
+            <h5><a href="#smartInsertDeleteEnabled">smartInsertDeleteEnabled</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.smartInsertDeleteEnabled([flag]) -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Determine whether or not objects copied from the console window insert or delete space around selected words to preserve proper spacing and punctuation.</p>
+<p>Parameters:</p>
+<ul>
+<li>flag - an optional boolean value indicating whether or not "smart" space behavior is enabled when copying from the Hammerspoon console.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the current value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>this only applies to future copy operations from the Hammerspoon console -- anything already in the clipboard is not affected.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="titleVisibility">
+            <a name="//apple_ref/cpp/Function/titleVisibility" class="dashAnchor"></a>
+            <h5><a href="#titleVisibility">titleVisibility</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.titleVisibility([state]) -&gt; current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the "Hammerspoon Console" text appears in the Hammerspoon console titlebar.</p>
+<p>Parameters:</p>
+<ul>
+<li>state - an optional string containing the text "visible" or "hidden", specifying whether or not the console window's title text appears.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a string of "visible" or "hidden" specifying the current (possibly changed) state of the window title's visibility.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>When a toolbar is attached to the Hammerspoon console (see the <code>hs.webview.toolbar</code> module documentation), this function can be used to specify whether the Toolbar appears underneath the console window's title ("visible") or in the window's title bar itself, as seen in applications like Safari ("hidden").</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowBackgroundColor">
+            <a name="//apple_ref/cpp/Function/windowBackgroundColor" class="dashAnchor"></a>
+            <h5><a href="#windowBackgroundColor">windowBackgroundColor</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.windowBackgroundColor([color]) -&gt; color</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the color for the background of the Hammerspoon Console's window.</p>
+<p>Parameters:</p>
+<ul>
+<li>color - an optional table containing color keys as described in <code>hs.drawing.color</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the current color setting as a table</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>See the <code>hs.drawing.color</code> entry in the Dash documentation, or type <code>help.hs.drawing.color</code> in the Hammerspoon console to get more information on how to specify a color.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="behavior">
+            <a name="//apple_ref/cpp/Method/behavior" class="dashAnchor"></a>
+            <h5><a href="#behavior">behavior</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.behavior([behavior]) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the window behavior settings for the console.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>behavior</code> - an optional number representing the desired window behaviors for the Hammerspoon console.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the current, possibly new, value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Window behaviors determine how the webview object is handled by Spaces and Exposé. See <code>hs.drawing.windowBehaviors</code> for more information.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="toolbar">
+            <a name="//apple_ref/cpp/Method/toolbar" class="dashAnchor"></a>
+            <h5><a href="#toolbar">toolbar</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.console.toolbar([toolbar | nil]) -&gt; toolbarObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or attach/detach a toolbar to/from the Hammerspoon console.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>toolbar</code> - if an <code>hs.webview.toolbar</code> object is specified, it will be attached to the Hammerspoon console.  If an explicit nil is specified, the current toolbar will be removed from the console.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if a toolbarObject or explicit nil is specified, returns the toolbarObject; otherwise returns the current toolbarObject or nil, if no toolbar is attached to the console.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>this method is a convenience wrapper for the <code>hs.webview.toolbar.attachToolbar</code> function.</p>
+</li>
+<li><p>If the toolbar is currently attached to another window when this function is called, it will be detached from the original window and attached to the console.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

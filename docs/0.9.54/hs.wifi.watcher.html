@@ -1,0 +1,254 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.wifi.watcher</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.wifi.watcher</h1>
+      <p>Watch for changes to the associated wifi network</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#eventTypes[]">eventTypes[]</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+            <li><a href="#watchingFor">watchingFor</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="eventTypes[]">
+            <a name="//apple_ref/cpp/Constant/eventTypes[]" class="dashAnchor"></a>
+            <h5><a href="#eventTypes[]">eventTypes[]</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.wifi.watcher.eventTypes[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table containing the possible event types that this watcher can monitor for.</p>
+<p>The following events are available for monitoring:</p>
+<ul>
+<li>"SSIDChange"                   - monitor when the associated network for the Wi-Fi interface changes</li>
+<li>"BSSIDChange"                  - monitor when the base station the Wi-Fi interface is connected to changes</li>
+<li>"countryCodeChange"            - monitor when the adopted country code of the Wi-Fi interface changes</li>
+<li>"linkChange"                   - monitor when the link state for the Wi-Fi interface changes</li>
+<li>"linkQualityChange"            - monitor when the RSSI or transmit rate for the Wi-Fi interface changes</li>
+<li>"modeChange"                   - monitor when the operating mode of the Wi-Fi interface changes</li>
+<li>"powerChange"                  - monitor when the power state of the Wi-Fi interface changes</li>
+<li>"scanCacheUpdated"             - monitor when the scan cache of the Wi-Fi interface is updated with new information</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.wifi.watcher.new(fn) -&gt; watcher</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new watcher for WiFi network events</p>
+<p>Parameters:</p>
+<ul>
+<li>fn - A function that will be called when a WiFi event that is being monitored occurs. The function should expect 2 or 4 arguments as described in the notes below.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A <code>hs.wifi.watcher</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>For backwards compatibility, only "SSIDChange" is watched for by default, so existing code can continue to ignore the callback function arguments unless you add or change events with the <a href="#watchingFor">hs.wifi.watcher:watchingFor</a>.</p>
+</li>
+<li><p>The callback function should expect between 3 and 5 arguments, depending upon the events being watched.  The possible arguments are as follows:</p>
+<ul>
+<li><code>watcher</code>, "SSIDChange", <code>interface</code> - occurs when the associated network for the Wi-Fi interface changes<ul>
+<li><code>watcher</code>   - the watcher object itself</li>
+<li><code>message</code>   - the message specifying the event, in this case "SSIDChange"</li>
+<li><code>interface</code> - the name of the interface for which the event occured</li>
+</ul>
+</li>
+<li><p>Use <code>hs.wifi.currentNetwork([interface])</code> to identify the new network, which may be nil when you leave a network.</p>
+</li>
+<li><p><code>watcher</code>, "BSSIDChange", <code>interface</code> - occurs when the base station the Wi-Fi interface is connected to changes</p>
+<ul>
+<li><code>watcher</code>   - the watcher object itself</li>
+<li><code>message</code>   - the message specifying the event, in this case "BSSIDChange"</li>
+<li><code>interface</code> - the name of the interface for which the event occured</li>
+</ul>
+</li>
+<li><p><code>watcher</code>, "countryCodeChange", <code>interface</code> - occurs when the adopted country code of the Wi-Fi interface changes</p>
+<ul>
+<li><code>watcher</code>   - the watcher object itself</li>
+<li><code>message</code>   - the message specifying the event, in this case "countryCodeChange"</li>
+<li><code>interface</code> - the name of the interface for which the event occured</li>
+</ul>
+</li>
+<li><p><code>watcher</code>, "linkChange", <code>interface</code> - occurs when the link state for the Wi-Fi interface changes</p>
+<ul>
+<li><code>watcher</code>   - the watcher object itself</li>
+<li><code>message</code>   - the message specifying the event, in this case "linkChange"</li>
+<li><code>interface</code> - the name of the interface for which the event occured</li>
+</ul>
+</li>
+<li><p><code>watcher</code>, "linkQualityChange", <code>interface</code> - occurs when the RSSI or transmit rate for the Wi-Fi interface changes</p>
+<ul>
+<li><code>watcher</code>   - the watcher object itself</li>
+<li><code>message</code>   - the message specifying the event, in this case "linkQualityChange"</li>
+<li><code>interface</code> - the name of the interface for which the event occured</li>
+<li><code>rssi</code>      - the RSSI value for the currently associated network on the Wi-Fi interface</li>
+<li><code>rate</code>      - the transmit rate for the currently associated network on the Wi-Fi interface</li>
+</ul>
+</li>
+<li><p><code>watcher</code>, "modeChange", <code>interface</code> - occurs when the operating mode of the Wi-Fi interface changes</p>
+<ul>
+<li><code>watcher</code>   - the watcher object itself</li>
+<li><code>message</code>   - the message specifying the event, in this case "modeChange"</li>
+<li><code>interface</code> - the name of the interface for which the event occured</li>
+</ul>
+</li>
+<li><p><code>watcher</code>, "powerChange", <code>interface</code> - occurs when the power state of the Wi-Fi interface changes</p>
+<ul>
+<li><code>watcher</code>   - the watcher object itself</li>
+<li><code>message</code>   - the message specifying the event, in this case "powerChange"</li>
+<li><code>interface</code> - the name of the interface for which the event occured</li>
+</ul>
+</li>
+<li><p><code>watcher</code>, "scanCacheUpdated", <code>interface</code> - occurs when the scan cache of the Wi-Fi interface is updated with new information</p>
+<ul>
+<li><code>watcher</code>   - the watcher object itself</li>
+<li><code>message</code>   - the message specifying the event, in this case "scanCacheUpdated"</li>
+<li><code>interface</code> - the name of the interface for which the event occured</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.wifi.watcher:start() -&gt; watcher</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Starts the SSID watcher</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.wifi.watcher</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.wifi.watcher:stop() -&gt; watcher</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops the SSID watcher</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.wifi.watcher</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="watchingFor">
+            <a name="//apple_ref/cpp/Method/watchingFor" class="dashAnchor"></a>
+            <h5><a href="#watchingFor">watchingFor</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.wifi.watcher:watchingFor([messages]) -&gt; watcher | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the specific types of wifi events to generate a callback for with this watcher.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>messages</code> - an optional table of or list of strings specifying the types of events this watcher should invoke a callback for.  You can specify multiple types of events to watch for. Defaults to <code>{ "SSIDChange" }</code>.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if a value is provided, returns the watcher object; otherwise returns the current values as a table of strings.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>the possible values for this method are described in <a href="#eventTypes">hs.wifi.watcher.eventTypes</a>.</li>
+<li>the special string "all" specifies that all event types should be watched for.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

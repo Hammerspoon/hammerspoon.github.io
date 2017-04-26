@@ -1,0 +1,163 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.screen.watcher</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.screen.watcher</h1>
+      <p>Watch for screen layout changes
+This could be the addition or removal of a monitor, a screen resolution change, movement of a monitor in the Display preferences pane, etc.</p>
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+            <li><a href="#newWithActiveScreen">newWithActiveScreen</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.screen.watcher.new(fn) -&gt; watcher</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new screen-watcher.</p>
+<p>Parameters:</p>
+<ul>
+<li>The function to be called when a change in the screen layout occurs.  This function should take no arguments.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.screen.watcher</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>A screen layout change usually involves a change that is made from the Displays Preferences Panel or when a monitor is attached or removed.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="newWithActiveScreen">
+            <a name="//apple_ref/cpp/Constructor/newWithActiveScreen" class="dashAnchor"></a>
+            <h5><a href="#newWithActiveScreen">newWithActiveScreen</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.screen.watcher.newWithActiveScreen(fn) -&gt; watcher</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new screen-watcher that is also called when the active screen changes.</p>
+<p>Parameters:</p>
+<ul>
+<li>The function to be called when a change in the screen layout or active screen occurs.  This function can optionally take one argument, a boolean which will indicate if the change was due to a screen layout change (nil) or because the active screen changed (true).</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.screen.watcher</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>A screen layout change usually involves a change that is made from the Displays Preferences Panel or when a monitor is attached or removed.<ul>
+<li><code>nil</code> was chosen instead of <code>falase</code> for the argument type when this type of change occurs to more closely match the previous behavior of having no argument passed to the callback function.</li>
+</ul>
+</li>
+<li>An active screen change indicates that the focused or main screen has changed when the user has "Displays have separate spaces" checked in the Mission Control Preferences Panel (the focused display is the display which has the active window and active menubar).<ul>
+<li>Detecting a change in the active display relies on watching for the <code>NSWorkspaceActiveDisplayDidChangeNotification</code> message which is not documented by Apple.  While this message has been around at least since OS X 10.9, because it is undocumented, we cannot be positive that Apple won't remove it in a future OS X update.  Because this watcher works by listening for posted messages, should Apple remove this notification, your callback function will no longer receive messages about this change -- it won't crash or change behavior in any other way.  This documentation will be updated if this status changes.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.screen.watcher:start() -&gt; watcher</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Starts the screen watcher, making it so fn is called each time the screen arrangement changes</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.screen.watcher</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.screen.watcher:stop() -&gt; watcher</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops the screen watcher's fn from getting called until started again</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.screen.watcher</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

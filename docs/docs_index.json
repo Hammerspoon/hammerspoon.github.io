@@ -3916,6 +3916,12 @@
     "type": "Constructor"
   },
   {
+    "desc": "Creates a hotkey and enables it immediately",
+    "module": "hs.hotkey",
+    "name": "bindSpec",
+    "type": "Constructor"
+  },
+  {
     "desc": "Creates a new hotkey",
     "module": "hs.hotkey",
     "name": "new",

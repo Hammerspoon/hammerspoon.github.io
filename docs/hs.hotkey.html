@@ -38,6 +38,7 @@
         <li>Constructors - API calls which return an object, typically one that offers API methods</li>
           <ul>
             <li><a href="#bind">bind</a></li>
+            <li><a href="#bindSpec">bindSpec</a></li>
             <li><a href="#new">new</a></li>
           </ul>
         <li>Methods - API calls which can only be made on an object returned by a constructor</li>
@@ -250,6 +251,42 @@ which should be zero or more of the following:<ul>
 <p>Notes:</p>
 <ul>
 <li>This function is just a wrapper that performs <code>hs.hotkey.new(...):enable()</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="bindSpec">
+            <a name="//apple_ref/cpp/Constructor/bindSpec" class="dashAnchor"></a>
+            <h5><a href="#bindSpec">bindSpec</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.bindSpec(keyspec, ...) -&gt; hs.hotkey object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a hotkey and enables it immediately</p>
+<p>Parameters:</p>
+<ul>
+<li>keyspec - A table containing two items:<ul>
+<li>first, a table containing keyboard modifiers, as specified in <code>hs.hotkey.bind()</code></li>
+<li>second, a string containing the name of a keyboard key, as specified in <code>hs.hotkey.bind()</code></li>
+</ul>
+</li>
+<li>... - All remaining arguments are as specified in <code>hs.hotkey.bind()</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A new <code>hs.hotkey</code> object for method chaining</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This function is just a wrapper that performs <code>hs.hotkey.bind(keyspec[1], keyspec[2], ...)</code></li>
 </ul>
 </td>
               </tr>

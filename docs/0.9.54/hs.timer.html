@@ -1,0 +1,758 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.timer</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.timer</h1>
+      <p>Execute functions with various timing rules</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.timer.delayed.html">hs.timer.delayed</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#days">days</a></li>
+            <li><a href="#hours">hours</a></li>
+            <li><a href="#localTime">localTime</a></li>
+            <li><a href="#minutes">minutes</a></li>
+            <li><a href="#seconds">seconds</a></li>
+            <li><a href="#secondsSinceEpoch">secondsSinceEpoch</a></li>
+            <li><a href="#usleep">usleep</a></li>
+            <li><a href="#weeks">weeks</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#doAfter">doAfter</a></li>
+            <li><a href="#doAt">doAt</a></li>
+            <li><a href="#doEvery">doEvery</a></li>
+            <li><a href="#doUntil">doUntil</a></li>
+            <li><a href="#doWhile">doWhile</a></li>
+            <li><a href="#new">new</a></li>
+            <li><a href="#waitUntil">waitUntil</a></li>
+            <li><a href="#waitWhile">waitWhile</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#fire">fire</a></li>
+            <li><a href="#nextTrigger">nextTrigger</a></li>
+            <li><a href="#running">running</a></li>
+            <li><a href="#setNextTrigger">setNextTrigger</a></li>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="days">
+            <a name="//apple_ref/cpp/Function/days" class="dashAnchor"></a>
+            <h5><a href="#days">days</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.days(n) -&gt; sec</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Converts days to seconds</p>
+<p>Parameters:</p>
+<ul>
+<li>n - A number of days</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The number of seconds in n days</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="hours">
+            <a name="//apple_ref/cpp/Function/hours" class="dashAnchor"></a>
+            <h5><a href="#hours">hours</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.hours(n) -&gt; seconds</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Converts hours to seconds</p>
+<p>Parameters:</p>
+<ul>
+<li>n - A number of hours</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The number of seconds in n hours</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="localTime">
+            <a name="//apple_ref/cpp/Function/localTime" class="dashAnchor"></a>
+            <h5><a href="#localTime">localTime</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.localTime() -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the number of seconds since local time midnight</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the number of seconds</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="minutes">
+            <a name="//apple_ref/cpp/Function/minutes" class="dashAnchor"></a>
+            <h5><a href="#minutes">minutes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.minutes(n) -&gt; seconds</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Converts minutes to seconds</p>
+<p>Parameters:</p>
+<ul>
+<li>n - A number of minutes</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The number of seconds in n minutes</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="seconds">
+            <a name="//apple_ref/cpp/Function/seconds" class="dashAnchor"></a>
+            <h5><a href="#seconds">seconds</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.seconds(timeOrDuration) -&gt; seconds</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Converts a string with a time of day or a duration into number of seconds</p>
+<p>Parameters:</p>
+<ul>
+<li>timeOrDuration - a string that can have any of the following formats:<ul>
+<li>"HH:MM:SS" or "HH:MM" - represents a time of day (24-hour clock), returns the number of seconds since midnight</li>
+<li>"DDdHHh", "HHhMMm", "MMmSSs", "DDd", "HHh", "MMm", "SSs", "NNNNms" - represents a duration in days, hours, minutes,
+seconds and/or milliseconds</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The number of seconds</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="secondsSinceEpoch">
+            <a name="//apple_ref/cpp/Function/secondsSinceEpoch" class="dashAnchor"></a>
+            <h5><a href="#secondsSinceEpoch">secondsSinceEpoch</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.secondsSinceEpoch() -&gt; sec</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the (fractional) number of seconds since the UNIX epoch (January 1, 1970)</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The number of seconds since the epoch</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This has much better precision than <code>os.time()</code>, which is limited to whole seconds.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="usleep">
+            <a name="//apple_ref/cpp/Function/usleep" class="dashAnchor"></a>
+            <h5><a href="#usleep">usleep</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.usleep(microsecs)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Blocks Lua execution for the specified time</p>
+<p>Parameters:</p>
+<ul>
+<li>microsecs - A number containing a time in microseconds to block for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Use of this function is strongly discouraged, as it blocks all main-thread execution in Hammerspoon. This means no hotkeys or events will be processed in that time, no GUI updates will happen, and no Lua will execute. This is only provided as a last resort, or for extremely short sleeps. For all other purposes, you really should be splitting up your code into multiple functions and calling <code>hs.timer.doAfter()</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="weeks">
+            <a name="//apple_ref/cpp/Function/weeks" class="dashAnchor"></a>
+            <h5><a href="#weeks">weeks</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.weeks(n) -&gt; sec</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Converts weeks to seconds</p>
+<p>Parameters:</p>
+<ul>
+<li>n - A number of weeks</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The number of seconds in n weeks</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="doAfter">
+            <a name="//apple_ref/cpp/Constructor/doAfter" class="dashAnchor"></a>
+            <h5><a href="#doAfter">doAfter</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.doAfter(sec, fn) -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calls a function after a delay</p>
+<p>Parameters:</p>
+<ul>
+<li>sec - A number of seconds to wait before calling the function</li>
+<li>fn - A function to call</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.timer</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>There is no need to call <code>:start()</code> on the returned object, the timer will be already running.</li>
+<li>The callback can be cancelled by calling the <code>:stop()</code> method on the returned object before <code>sec</code> seconds have passed.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="doAt">
+            <a name="//apple_ref/cpp/Constructor/doAt" class="dashAnchor"></a>
+            <h5><a href="#doAt">doAt</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.doAt(time[, repeatInterval], fn[, continueOnError]) -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates and starts a timer which will perform <code>fn</code> at the given (local) <code>time</code> and then (optionally) repeat it every <code>interval</code>.</p>
+<p>Parameters:</p>
+<ul>
+<li>time - number of seconds after (local) midnight, or a string in the format "HH:MM" (24-hour local time), indicating
+the desired trigger time</li>
+<li>repeatInterval - (optional) number of seconds between triggers, or a string in the format
+"DDd", "DDdHHh", "HHhMMm", "HHh" or "MMm" indicating days, hours and/or minutes between triggers; if omitted
+or <code>0</code> the timer will trigger only once</li>
+<li>fn - a function to call every time the timer triggers</li>
+<li>continueOnError - an optional boolean flag, defaulting to false, which indicates that the timer should not be automatically stopped if the callback function results in an error.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a timer object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The timer can trigger up to 1 second early or late</li>
+<li>The first trigger will be set to the earliest occurrence given the <code>repeatInterval</code>; if that's omitted,
+and <code>time</code> is earlier than the current time, the timer will trigger the next day. If the repeated interval
+results in exactly 24 hours you can schedule regular jobs that will run at the expected time independently
+of when Hammerspoon was restarted/reloaded. E.g.:<ul>
+<li>If it's 19:00, <code>hs.timer.doAt("20:00",somefn)</code> will set the timer 1 hour from now</li>
+<li>If it's 21:00, <code>hs.timer.doAt("20:00",somefn)</code> will set the timer 23 hours from now</li>
+<li>If it's 21:00, <code>hs.timer.doAt("20:00","6h",somefn)</code> will set the timer 5 hours from now (at 02:00)</li>
+<li>To run a job every hour on the hour from 8:00 to 20:00: <code>for h=8,20 do hs.timer.doAt(h..":00","1d",runJob) end</code></li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="doEvery">
+            <a name="//apple_ref/cpp/Constructor/doEvery" class="dashAnchor"></a>
+            <h5><a href="#doEvery">doEvery</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.doEvery(interval, fn) -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Repeats fn every interval seconds.</p>
+<p>Parameters:</p>
+<ul>
+<li>interval - A number of seconds between triggers</li>
+<li>fn - A function to call every time the timer triggers</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.timer</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This function is a shorthand for <code>hs.timer.new(interval, fn):start()</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="doUntil">
+            <a name="//apple_ref/cpp/Constructor/doUntil" class="dashAnchor"></a>
+            <h5><a href="#doUntil">doUntil</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.doUntil(predicateFn, actionFn[, checkInterval]) -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates and starts a timer which will perform <code>actionFn</code> every <code>checkinterval</code> seconds until <code>predicateFn</code> returns true.  The timer is automatically stopped when <code>predicateFn</code> returns true.</p>
+<p>Parameters:</p>
+<ul>
+<li>predicateFn - a function which determines when to stop calling <code>actionFn</code>.  This function takes no arguments, but should return true when it is time to stop calling <code>actionFn</code>.</li>
+<li>actionFn - a function which performs the desired action.  This function may take a single argument, the timer itself.</li>
+<li>checkInterval - an optional parameter indicating how often to repeat the <code>predicateFn</code> check. Defaults to 1 second.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a timer object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The timer is passed as an argument to <code>actionFn</code> so that it may stop the timer prematurely (i.e. before predicateFn returns true) if desired.</li>
+<li>See also <code>hs.timer.doWhile</code>, which is essentially the opposite of this function</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="doWhile">
+            <a name="//apple_ref/cpp/Constructor/doWhile" class="dashAnchor"></a>
+            <h5><a href="#doWhile">doWhile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.doWhile(predicateFn, actionFn[, checkInterval]) -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates and starts a timer which will perform <code>actionFn</code> every <code>checkinterval</code> seconds while <code>predicateFn</code> returns true.  The timer is automatically stopped when <code>predicateFn</code> returns false.</p>
+<p>Parameters:</p>
+<ul>
+<li>predicateFn - a function which determines when to stop calling <code>actionFn</code>.  This function takes no arguments, but should return false when it is time to stop calling <code>actionFn</code>.</li>
+<li>actionFn - a function which performs the desired action.  This function may take a single argument, the timer itself.</li>
+<li>checkInterval - an optional parameter indicating how often to repeat the <code>predicateFn</code> check. Defaults to 1 second.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a timer object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The timer is passed as an argument to <code>actionFn</code> so that it may stop the timer prematurely (i.e. before predicateFn returns false) if desired.</li>
+<li>See also <code>hs.timer.doUntil</code>, which is essentially the opposite of this function</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.new(interval, fn [, continueOnError]) -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new <code>hs.timer</code> object for repeating interval callbacks</p>
+<p>Parameters:</p>
+<ul>
+<li>interval - A number of seconds between firings of the timer</li>
+<li>fn - A function to call every time the timer fires</li>
+<li>continueOnError - An optional boolean, true if the timer should continue to be triggered after the callback function has produced an error, false if the timer should stop being triggered after the callback function has produced an error. Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.timer</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The returned object does not start its timer until its <code>:start()</code> method is called</li>
+<li>If <code>interval</code> is 0, the timer will not repeat (because if it did, it would be repeating as fast as your machine can manage, which seems generally unwise)</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="waitUntil">
+            <a name="//apple_ref/cpp/Constructor/waitUntil" class="dashAnchor"></a>
+            <h5><a href="#waitUntil">waitUntil</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.waitUntil(predicateFn, actionFn[, checkInterval]) -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates and starts a timer which will perform <code>actionFn</code> when <code>predicateFn</code> returns true.  The timer is automatically stopped when <code>actionFn</code> is called.</p>
+<p>Parameters:</p>
+<ul>
+<li>predicateFn - a function which determines when <code>actionFn</code> should be called.  This function takes no arguments, but should return true when it is time to call <code>actionFn</code>.</li>
+<li>actionFn - a function which performs the desired action.  This function may take a single argument, the timer itself.</li>
+<li>checkInterval - an optional parameter indicating how often to repeat the <code>predicateFn</code> check. Defaults to 1 second.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a timer object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The timer is stopped before <code>actionFn</code> is called, but the timer is passed as an argument to <code>actionFn</code> so that the actionFn may restart the timer to be called again the next time predicateFn returns true.</li>
+<li>See also <code>hs.timer.waitWhile</code>, which is essentially the opposite of this function</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="waitWhile">
+            <a name="//apple_ref/cpp/Constructor/waitWhile" class="dashAnchor"></a>
+            <h5><a href="#waitWhile">waitWhile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer.waitWhile(predicateFn, actionFn[, checkInterval]) -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates and starts a timer which will perform <code>actionFn</code> when <code>predicateFn</code> returns false.  The timer is automatically stopped when <code>actionFn</code> is called.</p>
+<p>Parameters:</p>
+<ul>
+<li>predicateFn - a function which determines when <code>actionFn</code> should be called.  This function takes no arguments, but should return false when it is time to call <code>actionFn</code>.</li>
+<li>actionFn - a function which performs the desired action.  This function may take a single argument, the timer itself.</li>
+<li>checkInterval - an optional parameter indicating how often to repeat the <code>predicateFn</code> check. Defaults to 1 second.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a timer object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The timer is stopped before <code>actionFn</code> is called, but the timer is passed as an argument to <code>actionFn</code> so that the actionFn may restart the timer to be called again the next time predicateFn returns false.</li>
+<li>See also <code>hs.timer.waitUntil</code>, which is essentially the opposite of this function</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="fire">
+            <a name="//apple_ref/cpp/Method/fire" class="dashAnchor"></a>
+            <h5><a href="#fire">fire</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer:fire() -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Immediately fires a timer</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.timer</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This cannot be used on a timer which has already stopped running</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="nextTrigger">
+            <a name="//apple_ref/cpp/Method/nextTrigger" class="dashAnchor"></a>
+            <h5><a href="#nextTrigger">nextTrigger</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer:nextTrigger() -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the number of seconds until the timer will next trigger</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A number containing the number of seconds until the next firing</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The return value may be a negative integer in two circumstances:<ul>
+<li>Hammerspoon's runloop is backlogged and is catching up on missed timer triggers</li>
+<li>The timer object is not currently running. In this case, the return value of this method is the number of seconds since the last firing (you can check if the timer is running or not, with <code>hs.timer:running()</code></li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="running">
+            <a name="//apple_ref/cpp/Method/running" class="dashAnchor"></a>
+            <h5><a href="#running">running</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer:running() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a boolean indicating whether or not the timer is currently running.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean value indicating whether or not the timer is currently running.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setNextTrigger">
+            <a name="//apple_ref/cpp/Method/setNextTrigger" class="dashAnchor"></a>
+            <h5><a href="#setNextTrigger">setNextTrigger</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer:setNextTrigger(seconds) -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets the next trigger time of a timer</p>
+<p>Parameters:</p>
+<ul>
+<li>seconds - A number of seconds after which to trigger the timer</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.timer</code> object, or nil if an error occurred</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If the timer is not already running, this will start it</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer:start() -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Starts an <code>hs.timer</code> object</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.timer</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The timer will not call the callback immediately, the timer will wait until it fires</li>
+<li>If the callback function results in an error, the timer will be stopped to prevent repeated error notifications (see the <code>continueOnError</code> parameter to <code>hs.timer.new()</code> to override this)</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.timer:stop() -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops an <code>hs.timer</code> object</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.timer</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

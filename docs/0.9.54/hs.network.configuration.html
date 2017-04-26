@@ -1,0 +1,502 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.network.configuration</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.network.configuration</h1>
+      <p>This sub-module provides access to the current location set configuration settings in the system's dynamic store.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#open">open</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#computerName">computerName</a></li>
+            <li><a href="#consoleUser">consoleUser</a></li>
+            <li><a href="#contents">contents</a></li>
+            <li><a href="#dhcpInfo">dhcpInfo</a></li>
+            <li><a href="#hostname">hostname</a></li>
+            <li><a href="#keys">keys</a></li>
+            <li><a href="#location">location</a></li>
+            <li><a href="#locations">locations</a></li>
+            <li><a href="#monitorKeys">monitorKeys</a></li>
+            <li><a href="#proxies">proxies</a></li>
+            <li><a href="#setCallback">setCallback</a></li>
+            <li><a href="#setLocation">setLocation</a></li>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="open">
+            <a name="//apple_ref/cpp/Constructor/open" class="dashAnchor"></a>
+            <h5><a href="#open">open</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration.open() -&gt; storeObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Opens a session to the dynamic store maintained by the System Configuration server.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the storeObject</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="computerName">
+            <a name="//apple_ref/cpp/Method/computerName" class="dashAnchor"></a>
+            <h5><a href="#computerName">computerName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:computerName() -&gt; name, encoding</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the name of the computeras specified in the Sharing Preferences, and its string encoding</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>name     - the computer name</li>
+<li>encoding - the encoding type</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can also retrieve this information as key-value pairs with <code>hs.network.configuration:contents("Setup:/System")</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="consoleUser">
+            <a name="//apple_ref/cpp/Method/consoleUser" class="dashAnchor"></a>
+            <h5><a href="#consoleUser">consoleUser</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:consoleUser() -&gt; name, uid, gid</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the name of the user currently logged into the system, including the users id and primary group id</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>name - the user name</li>
+<li>uid  - the user ID for the user</li>
+<li>gid  - the user's primary group ID</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can also retrieve this information as key-value pairs with <code>hs.network.configuration:contents("State:/Users/ConsoleUser")</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="contents">
+            <a name="//apple_ref/cpp/Method/contents" class="dashAnchor"></a>
+            <h5><a href="#contents">contents</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:contents([keys], [pattern]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Return the contents of the store for the specified keys or keys matching the specified pattern(s)</p>
+<p>Parameters:</p>
+<ul>
+<li>keys    - a string or table of strings containing the keys or patterns of keys, if <code>pattern</code> is true.  Defaults to all keys.</li>
+<li>pattern - a boolean indicating wether or not the string(s) provided are to be considered regular expression patterns (true) or literal strings to match (false).  Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table of key-value pairs from the dynamic store which match the specified keys or key patterns.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>if no parameters are provided, then all key-value pairs in the dynamic store are returned.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="dhcpInfo">
+            <a name="//apple_ref/cpp/Method/dhcpInfo" class="dashAnchor"></a>
+            <h5><a href="#dhcpInfo">dhcpInfo</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:dhcpInfo([serviceID]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Return the DHCP information for the specified service or the primary service if no parameter is specified.</p>
+<p>Parameters:</p>
+<ul>
+<li>serviceID - an optional string contining the service ID of the interface for which to return DHCP info.  If this parameter is not provided, then the default (primary) service is queried.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table containing DHCP information including lease time and DHCP options</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>a list of possible Service ID's can be retrieved with <code>hs.network.configuration:contents("Setup:/Network/Global/IPv4")</code></li>
+<li>generates an error if the service ID is invalid or was not assigned an IP address via DHCP.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="hostname">
+            <a name="//apple_ref/cpp/Method/hostname" class="dashAnchor"></a>
+            <h5><a href="#hostname">hostname</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:hostname() -&gt; name</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the current local host name for the computer</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>name - the local host name</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can also retrieve this information as key-value pairs with <code>hs.network.configuration:contents("Setup:/System")</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="keys">
+            <a name="//apple_ref/cpp/Method/keys" class="dashAnchor"></a>
+            <h5><a href="#keys">keys</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:keys([keypattern]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Return the keys in the dynamic store which match the specified pattern</p>
+<p>Parameters:</p>
+<ul>
+<li>keypattern - a regular expression specifying which keys to return (defaults to ".*", or all keys)</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table of keys from the dynamic store.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="location">
+            <a name="//apple_ref/cpp/Method/location" class="dashAnchor"></a>
+            <h5><a href="#location">location</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:location() -&gt; location</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the current location identifier</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>location - the UUID for the currently active network location</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can also retrieve this information as key-value pairs with <code>hs.network.configuration:contents("Setup:")</code></li>
+<li>If you have different locations defined in the Network preferences panel, this can be used to determine the currently active location.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="locations">
+            <a name="//apple_ref/cpp/Method/locations" class="dashAnchor"></a>
+            <h5><a href="#locations">locations</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:locations() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns all configured locations</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table of key-value pairs mapping location UUIDs to their names</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="monitorKeys">
+            <a name="//apple_ref/cpp/Method/monitorKeys" class="dashAnchor"></a>
+            <h5><a href="#monitorKeys">monitorKeys</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:monitorKeys([keys], [pattern]) -&gt; storeObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Specify the key(s) or key pattern(s) to monitor for changes.</p>
+<p>Parameters:</p>
+<ul>
+<li>keys    - a string or table of strings containing the keys or patterns of keys, if <code>pattern</code> is true.  Defaults to all keys.</li>
+<li>pattern - a boolean indicating wether or not the string(s) provided are to be considered regular expression patterns (true) or literal strings to match (false).  Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the store Object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>if no parameters are provided, then all key-value pairs in the dynamic store are monitored for changes.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="proxies">
+            <a name="//apple_ref/cpp/Method/proxies" class="dashAnchor"></a>
+            <h5><a href="#proxies">proxies</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:proxies() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns information about the currently active proxies, if any</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table of key-value pairs describing the current proxies in effect, both globally, and scoped to specific interfaces.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can also retrieve this information as key-value pairs with <code>hs.network.configuration:contents("State:/Network/Global/Proxies")</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setCallback">
+            <a name="//apple_ref/cpp/Method/setCallback" class="dashAnchor"></a>
+            <h5><a href="#setCallback">setCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:setCallback(function | nil) -&gt; storeObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set or remove the callback function for a store object</p>
+<p>Parameters:</p>
+<ul>
+<li>a function or nil to set or remove the store object callback function</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the store object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The callback function will be invoked each time a monitored key changes value and the callback function should accept two parameters: the storeObject itself, and an array of the keys which contain values that have changed.</li>
+<li>This method just sets the callback function.  You specify which keys to watch with <a href="#monitorKeys">hs.network.configuration:monitorKeys</a> and start or stop the watcher with <a href="#start">hs.network.configuration:start</a> or <a href="#stop">hs.network.configuartion:stop</a></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setLocation">
+            <a name="//apple_ref/cpp/Method/setLocation" class="dashAnchor"></a>
+            <h5><a href="#setLocation">setLocation</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:setLocation(location) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Switches to a new location</p>
+<p>Parameters:</p>
+<ul>
+<li>location - string containing UUID or name of new location</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>bool</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:start() -&gt; storeObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Starts watching the store object for changes to the monitored keys and invokes the callback function (if any) when a change occurs.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the store object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The callback function should be specified with <a href="#setCallback">hs.network.configuration:setCallback</a> and the keys to monitor should be specified with <a href="#monitorKeys">hs.network.configuration:monitorKeys</a>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.configuration:stop() -&gt; storeObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops watching the store object for changes.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the store object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

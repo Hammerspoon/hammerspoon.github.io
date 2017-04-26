@@ -1,0 +1,521 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.window.layout</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.window.layout</h1>
+      <p><strong>WARNING</strong>: EXPERIMENTAL MODULE. DO <strong>NOT</strong> USE IN PRODUCTION.
+This module is <em>for testing purposes only</em>. It can undergo breaking API changes or <em>go away entirely</em> <strong>at any point and without notice</strong>.
+(Should you encounter any issues, please feel free to report them on <a href="https://github.com/Hammerspoon/hammerspoon/issues">https://github.com/Hammerspoon/hammerspoon/issues</a>
+or #hammerspoon on irc.freenode.net)</p>
+<p>Window management</p>
+<p>Windowlayouts work by selecting certain windows via windowfilters and arranging them onscreen according to specific rules.</p>
+<p>A <strong>layout</strong> is composed of a list of rules and, optionally, a screen arrangement definition.
+Rules within a layout are evaluated in order; once a window is acted upon by a rule, subsequent rules will not affect it further.
+A <strong>rule</strong> needs a <strong>windowfilter</strong>, producing a dynamic list of windows (the "window pool") to which the rule is applied,
+and a list of commands, evaluated in order.
+A <strong>command</strong> acts on one or more of the windows, and is composed of:</p>
+<ul>
+<li>an <strong>action</strong>, it can be<ul>
+<li><code>move</code>: moves the window(s) to a specified onscreen rect (if the action is omitted, <code>move</code> is assumed)</li>
+<li><code>minimize</code>, <code>maximize</code>, <code>fullscreen</code></li>
+<li><code>tile</code>, <code>fit</code>: tiles the windows onto a specified rect, using <code>hs.window.tiling.tileWindows()</code>; for <code>fit</code>, the
+<code>preserveRelativeArea</code> parameter will be set to true</li>
+<li><code>hide</code>, <code>unhide</code>: hides or unhides the window's application (like when using cmd-h)</li>
+</ul>
+</li>
+<li>a <strong>maxn</strong> number, indicating how many windows from this rule's window pool will be affected (at most) by this command;
+if omitted (or if explicitly the string <code>all</code>) all the remaining windows will be processed by this command; processed
+windows are "consumed" and are excluded from the window pool for subsequent commands in this rule, and from subsequent rules</li>
+<li>a <strong>selector</strong>, describing the sort order used to pick the first <em>maxn</em> windows from the window pool for this command;
+it can be one of <code>focused</code> (pick <em>maxn</em> most recently focused windows), <code>newest</code> (most recently created), <code>oldest</code>
+(least recently created), or <code>closest</code> (pick the <em>maxn</em> windows that are closest to the destination rect); if omitted,
+defaults to <code>closest</code> for move, tile and fit, and <code>newest</code> for everything else</li>
+<li>an <code>hs.geometry</code> <em>size</em> (only valid for tile and fit) indicating the desired optimal aspect ratio for the tiled windows;
+if omitted, defaults to 1x1 (i.e. square windows)</li>
+<li>for move, tile and fit, an <code>hs.geometry</code> <em>rect</em>, or a <em>unit rect</em> plus a <em>screen hint</em> (for <code>hs.screen.find()</code>),
+indicating the destination rect for the command</li>
+<li>for fullscreen and maximize, a <em>screen hint</em> indicating the desired screen; if omitted, uses the window's current screen</li>
+</ul>
+<p>You should place higher-priority rules (with highly specialized windowfilters) first, and "fallback" rules
+(with more generic windowfilters) last; similarly, <em>within</em> a rule, you should have commands for the more "important"
+(i.e. relevant to your current workflow) windows first (move, maximize...) and after that deal with less prominent
+windows, if any remain, e.g. by placing them out of the way (minimize).
+<code>unhide</code> and <code>hide</code>, if used, should usually go into their own rules (with a windowfilter that allows invisible windows
+for <code>unhide</code>) that come <em>before</em> other rules that deal with actual window placement - unlike the other actions,
+they don't "consume" windows making them unavailable for subsequent rules, as they act on applications.</p>
+<p>In order to avoid dealing with deeply nested maps, you can define a layout in your scripts via a list, where each element
+(or row) denotes a rule; in turn every rule can be a simplified list of two elements:</p>
+<ul>
+<li>a windowfilter or a constructor argument table for one (see <code>hs.window.filter.new()</code> and <code>hs.window.filter:setFilters()</code>)</li>
+<li>a single string containing all the commands (action and parameters) in order; actions and selectors can be shortened to
+3 characters; all tokens must be separated by spaces (do not use spaces inside <code>hs.geometry</code> constructor strings);
+for greater clarity you can separate commands with <code>|</code> (pipe character)</li>
+</ul>
+<p>Some command string examples:</p>
+<ul>
+<li><code>"move 1 [0,0,50,50] -1,0"</code> moves the closest window to the topleft quadrant of the left screen</li>
+<li><code>"max 0,0"</code> maximizes all the windows onto the primary screen, one on top of another</li>
+<li><code>"move 1 foc [0,0,30,100] 0,0 | tile all foc [30,0,100,100] 0,0"</code> moves the most recently focused window to the left third,
+and tiles the remaining windows onto the right side, keeping the most recently focused on top and to the left</li>
+<li><code>"1 new [0,0,50,100] 0,0 | 1 new [50,0,100,100] 0,0 | min"</code> divides the primary screen between the two newest windows
+and minimizes any other windows</li>
+</ul>
+<p>Each layout can work in "passive" or "active" modes; passive layouts must be triggered manually (via <code>hs.hotkey.bind()</code>,
+<code>hs.menubar</code>, etc.) while active layouts continuously keep their rules enforced (see <code>hs.window.layout:start()</code>
+for more information); in general you should avoid having multiple active layouts targeting the same windows, as the
+results will be unpredictable (if such a situation is detected, you'll see an error in the Hammerspoon console); you
+<em>can</em> have multiple active layouts, but be careful to maintain a clear "separation of concerns" between their respective windowfilters.</p>
+<p>Each layout can have an associated screen configuration; if so, the layout will only be valid while the current screen
+arrangement satisfies it; see <code>hs.window.layout:setScreenConfiguration()</code> for more information.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Variables - Configurable values</li>
+          <ul>
+            <li><a href="#applyDelay">applyDelay</a></li>
+            <li><a href="#screensChangedDelay">screensChangedDelay</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#applyLayout">applyLayout</a></li>
+            <li><a href="#pauseAllInstances">pauseAllInstances</a></li>
+            <li><a href="#resumeAllInstances">resumeAllInstances</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#apply">apply</a></li>
+            <li><a href="#getRules">getRules</a></li>
+            <li><a href="#pause">pause</a></li>
+            <li><a href="#resume">resume</a></li>
+            <li><a href="#setScreenConfiguration">setScreenConfiguration</a></li>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Variables</h4>
+          <section id="applyDelay">
+            <a name="//apple_ref/cpp/Variable/applyDelay" class="dashAnchor"></a>
+            <h5><a href="#applyDelay">applyDelay</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout.applyDelay</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>When "active mode" windowlayouts apply a rule, they will pause briefly for this amount of time in seconds, to allow windows
+to "settle" in their new configuration without triggering other rules (or the same rule), which could result in a
+cascade (or worse, a loop) or rules being applied. Defaults to 1; increase this if you experience unwanted repeated
+triggering of rules due to sluggish performance.</p>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="screensChangedDelay">
+            <a name="//apple_ref/cpp/Variable/screensChangedDelay" class="dashAnchor"></a>
+            <h5><a href="#screensChangedDelay">screensChangedDelay</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout.screensChangedDelay</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>The number of seconds to wait, after a screen configuration change has been detected, before
+resuming any active windowlayouts that are allowed in the new configuration; defaults
+to 10, to give sufficient time to OSX to do its own housekeeping</p>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="applyLayout">
+            <a name="//apple_ref/cpp/Function/applyLayout" class="dashAnchor"></a>
+            <h5><a href="#applyLayout">applyLayout</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout.applyLayout(rules)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Applies a layout</p>
+<p>Parameters:</p>
+<ul>
+<li>rules - see <code>hs.window.layout.new()</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>this is a convenience wrapper for "passive mode" use that creates, applies, and deletes a windowlayout object;
+do <em>not</em> use shared windowfilters in <code>rules</code>, as they'll be deleted; you can just use constructor argument maps instead</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="pauseAllInstances">
+            <a name="//apple_ref/cpp/Function/pauseAllInstances" class="dashAnchor"></a>
+            <h5><a href="#pauseAllInstances">pauseAllInstances</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout.pauseAllInstances()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Pauses all active windowlayout instances</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="resumeAllInstances">
+            <a name="//apple_ref/cpp/Function/resumeAllInstances" class="dashAnchor"></a>
+            <h5><a href="#resumeAllInstances">resumeAllInstances</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout.resumeAllInstances()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Resumes all active windowlayout instances</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout.new(rules[,logname[,loglevel]]) -&gt; hs.window.layout object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new hs.window.layout instance</p>
+<p>Parameters:</p>
+<ul>
+<li>rules - a table containing the rules for this windowlayout (see the module description); additionally, if a special key <code>screens</code>
+is present, its value must be a valid screen configuration as per <code>hs.window.layout:setScreenConfiguration()</code></li>
+<li>logname - (optional) name of the <code>hs.logger</code> instance for the new windowlayout; if omitted, the class logger will be used</li>
+<li>loglevel - (optional) log level for the <code>hs.logger</code> instance for the new windowlayout</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a new windowlayout instance</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="apply">
+            <a name="//apple_ref/cpp/Method/apply" class="dashAnchor"></a>
+            <h5><a href="#apply">apply</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout:apply()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Applies the layout</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the <code>hs.window.layout</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>if a screen configuration is defined for this windowfilter, and currently not satisfied, this method will do nothing</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="getRules">
+            <a name="//apple_ref/cpp/Method/getRules" class="dashAnchor"></a>
+            <h5><a href="#getRules">getRules</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout:getRules() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Return a table with all the rules (and the screen configuration, if present) defined for this windowlayout</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table containing the rules of this windowlayout; you can pass this table (optionally
+after performing valid manipulations) to <code>hs.window.layout.new()</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="pause">
+            <a name="//apple_ref/cpp/Method/pause" class="dashAnchor"></a>
+            <h5><a href="#pause">pause</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout:pause() -&gt; hs.window.layout object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Pauses an active windowlayout instance; while paused no automatic window management will occur</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the <code>hs.window.layout</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="resume">
+            <a name="//apple_ref/cpp/Method/resume" class="dashAnchor"></a>
+            <h5><a href="#resume">resume</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout:resume() -&gt; hs.window.layout object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Resumes an active windowlayout instance after it was paused</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the <code>hs.window.layout</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>if a screen configuration is defined for this windowfilter, and currently not satisfied, this method will do nothing</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setScreenConfiguration">
+            <a name="//apple_ref/cpp/Method/setScreenConfiguration" class="dashAnchor"></a>
+            <h5><a href="#setScreenConfiguration">setScreenConfiguration</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout:setScreenConfiguration(screens) -&gt; hs.window.layout object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Determines the screen configuration that permits applying this windowlayout</p>
+<p>With this method you can define different windowlayouts for different screen configurations
+(as per System Preferences-&gt;Displays-&gt;Arrangement).
+For example, suppose you define two "graphics design work" windowlayouts, one for "desk with dual monitors"
+and one for "laptop only mode":</p>
+<ul>
+<li>"passive mode" use: you call <code>:apply()</code> on <em>both</em> on your chosen hotkey (via <code>hs.hotkey:bind()</code>), but
+only the appropriate layout for the current arrangement will be applied</li>
+<li>"active mode" use: you just call <code>:start()</code> on both windowlayouts; as you switch between workplaces
+(by attaching or detaching external screens) the correct layout "kicks in"
+automatically - this is in effect a convenience wrapper that calls <code>:pause()</code> on the no longer relevant
+layout, and <code>:resume()</code> on the appropriate one, at every screen configuration change</li>
+</ul>
+<p>Parameters:</p>
+<ul>
+<li>screens - a map, where each <em>key</em> must be a valid "hint" for <code>hs.screen.find()</code>, and the corresponding
+value can be:<ul>
+<li><code>true</code> - the screen must be currently present (attached and enabled)</li>
+<li><code>false</code> - the screen must be currently absent</li>
+<li>an <code>hs.geometry</code> point (or constructor argument) - the screen must be present and in this specific
+position in the current arragement (as per <code>hs.screen:position()</code>)</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the <code>hs.window.layout</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>if <code>screens</code> is <code>nil</code>, any previous screen configuration is removed, and this windowlayout will be always allowed</li>
+<li>for "active" windowlayouts, call this method <em>before</em> calling <code>hs.window.layout:start()</code></li>
+<li>by using <code>hs.geometry</code> size objects as hints you can define separate layouts for the same physical
+screen at different resolutions</li>
+</ul>
+<p>Usage:</p>
+
+<pre><code>local laptop_layout,desk_layout=... -- define your layouts
+-- just the laptop screen:
+laptop_layout:setScreenConfiguration{['Color LCD']='0,0',dell=false,['3840x2160']=false}:start()
+-- attached to a 4k primary + a Dell on the right:
+desk_layout:setScreenConfiguration{['3840x2160']='0,0',['dell']='1,0',['Color LCD']='-1,0'}:start()
+-- as above, but in clamshell mode (laptop lid closed):
+clamshell_layout:setScreenConfiguration{['3840x2160']='0,0',['dell']='1,0',['Color LCD']=false}:start()</code></pre>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout:start() -&gt; hs.window.layout object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Puts a windowlayout instance in "active mode"</p>
+<p>When in active mode, a windowlayout instance will constantly monitor the windowfilters for its rules,
+by subscribing to all the relevant events. As soon as any change is detected (e.g. when you drag a window,
+switch focus, open or close apps/windows, etc.) the relative rule will be automatically re-applied.
+In other words, the rules you defined will remain enforced all the time, instead of waiting for manual
+intervention via <code>hs.window.layout:apply()</code>.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the <code>hs.window.layout</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>if a screen configuration is defined for this windowfilter, and currently not satisfied, this
+windowfilter will be put in "active mode" but will remain paused until the screen configuration
+requirements are met</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.layout:stop() -&gt; hs.window.layout object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops a windowlayout instance (i.e. not in "active mode" anymore)</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the <code>hs.window.layout</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

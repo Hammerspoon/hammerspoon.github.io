@@ -304,7 +304,7 @@ function reloadConfig(files)
         hs.reload()
     end
 end
-local myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show("Config loaded")
 ```
 
@@ -362,7 +362,7 @@ Thus, pressing <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>⌃</kbd>+<kbd>7</kbd> repeate
 Lots of Mac utilities place a small icon in the system menubar to display their status and let you interact with them. We're going to use two of Hammerspoon's extensions to whip up a very simple replacement for the popular utility `Caffeine`.
 
 ```lua
-local caffeine = hs.menubar.new()
+caffeine = hs.menubar.new()
 function setCaffeineDisplay(state)
     if state then
         caffeine:setTitle("AWAKE")
@@ -400,7 +400,7 @@ function applicationWatcher(appName, eventType, appObject)
         end
     end
 end
-local appWatcher = hs.application.watcher.new(applicationWatcher)
+appWatcher = hs.application.watcher.new(applicationWatcher)
 appWatcher:start()
 ```
 
@@ -415,9 +415,9 @@ Note that we kept a reference to the watcher object, rather than simply calling 
 If you use a MacBook then you probably have a WiFi network at home. It's very simple with Hammerspoon to trigger events when you are either arriving home and joining your WiFi network, or departing home and leaving the network. In this case we'll do something simple and adjust the audio volume of the MacBook such that it's at zero when you're away from home (protecting you from the shame of opening your MacBook in a coffee shop and blaring out the music you had playing at home!)
 
 ```lua
-local wifiWatcher = nil
-local homeSSID = "MyHomeNetwork"
-local lastSSID = hs.wifi.currentNetwork()
+wifiWatcher = nil
+homeSSID = "MyHomeNetwork"
+lastSSID = hs.wifi.currentNetwork()
 
 function ssidChangedCallback()
     newSSID = hs.wifi.currentNetwork()
@@ -444,7 +444,7 @@ Here we have created a callback function that compares the current WiFi network'
 If you have a piece of USB hardware that you want to be able to react to, `hs.usb.watcher` is the extension for you. In the example below, we'll automatically start the software for a scanner when it is plugged in, and then kill the software when the scanner is unplugged.
 
 ```lua
-local usbWatcher = nil
+usbWatcher = nil
 
 function usbDeviceCallback(data)
     if (data["productName"] == "ScanSnap S1300i") then
@@ -499,8 +499,8 @@ hs.spotify.displayCurrentTrack()
 Sometimes you just cannot find your mouse pointer. You're sure you left it somewhere, but it's hiding on one of your monitors and wiggling the mouse isn't helping you to spot it. Fortunately, we can interrogate and control the mouse pointer, and we can draw things on the screen, which means we can do something like this:
 
 ```lua
-local mouseCircle = nil
-local mouseCircleTimer = nil
+mouseCircle = nil
+mouseCircleTimer = nil
 
 function mouseHighlight()
     -- Delete an existing highlight if it exists
@@ -534,9 +534,9 @@ Drawing objects can be placed either on top of all other windows, or behind desk
 Rather than explain what this is doing, see if you can figure it out. You may recognise the wifi parts from [Reacting to wifi events](#wifievents):
 
 ```lua
-local coffeeShopWifi = "Baristartisan_Guest"
-local lastSSID = hs.wifi.currentNetwork()
-local wifiWatcher = nil
+coffeeShopWifi = "Baristartisan_Guest"
+lastSSID = hs.wifi.currentNetwork()
+wifiWatcher = nil
 
 function ssidChanged()
     newSSID = hs.wifi.currentNetwork()

@@ -314,7 +314,7 @@ We then create a new path watcher using this path, and tell it to call our `relo
 
 In this example we've implemented the config reloading function as a separate, named function, which we pass as an argument to `hs.pathwatcher.new()`. It's entirely up to you whether you pass around named functions, or use anonymous ones in-line.
 
-This function accepts a single argument, which is a table containing all the names of files that have been modifier. It iterates over that list and checks each file to see if it ends with `.lua`. If any Lua files have been changed, it then tells Hammerspoon to destroy the current Lua setup and reload its configuration files.
+This function accepts a single argument, which is a table containing all the names of files that have been modified. It iterates over that list and sets the variable `doReload` to true if any file that ends with `.lua` has been modified. Then later we tell Hammerspoon to reload its configuration files only if the value of `doReload` is true.
 
 ### <a name="appmenus"></a>Interacting with application menus
 

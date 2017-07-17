@@ -1,0 +1,187 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.window.highlight</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.window.highlight</h1>
+      <p>Highlight the focused window</p>
+<p>This module can be useful to spatially keep track of windows if you have large and/or multiple screens, and are
+therefore likely to have several windows visible at any given time.
+It highlights the currently focused window by covering other windows and the desktop with either a subtle
+("overlay" mode) or opaque ("isolate" mode) overlay; additionally it can highlight windows as they're shown
+or hidden via a brief flash, to help determine their location intuitively (to avoid having to studiously scan
+all your screens when, for example, you know you triggered a dialog but it didn't show up where you expected it).</p>
+<p>By default, overlay mode is disabled - you can enable it with <code>hs.window.highlight.ui.overlay=true</code> - and so are
+the window shown/hidden flashes - enable those with <code>hs.window.highlight.ui.flashDuration=0.3</code> (or whatever duration
+you prefer). Isolate mode is always available and can be toggled manually via <code>hs.window.highlight.toggleIsolate()</code>
+or automatically by passing an appropriate windowfilter (or a list of apps) to <code>hs.window.highlight.start()</code>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Variables - Configurable values</li>
+          <ul>
+            <li><a href="#ui">ui</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+            <li><a href="#toggleIsolate">toggleIsolate</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Variables</h4>
+          <section id="ui">
+            <a name="//apple_ref/cpp/Variable/ui" class="dashAnchor"></a>
+            <h5><a href="#ui">ui</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.highlight.ui</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Allows customization of the highlight overlays and behaviour.</p>
+<p>The default values are shown in the right hand side of the assignements below.</p>
+<p>To represent color values, you can use:</p>
+<ul>
+<li>a table {red=redN, green=greenN, blue=blueN, alpha=alphaN}</li>
+<li>a table {redN,greenN,blueN[,alphaN]} - if omitted alphaN defaults to 1.0
+where redN, greenN etc. are the desired value for the color component between 0.0 and 1.0</li>
+</ul>
+<p>Color inversion is governed by the module <code>hs.redshift</code>. See the relevant documentation for more information.</p>
+<ul>
+<li><code>hs.window.highlight.ui.overlay = false</code> - draw overlay over the area of the screen(s) that isn't occupied by the focused window</li>
+<li><code>hs.window.highlight.ui.overlayColor = {0.2,0.05,0,0.25}</code> - overlay color</li>
+<li><code>hs.window.highlight.ui.overlayColorInverted = {0.8,0.9,1,0.3}</code> - overlay color when colors are inverted</li>
+<li><code>hs.window.highlight.ui.isolateColor = {0,0,0,0.95}</code> - overlay color for isolate mode</li>
+<li><code>hs.window.highlight.ui.isolateColorInverted = {1,1,1,0.95}</code> - overlay color for isolate mode when colors are inverted</li>
+<li><code>hs.window.highlight.ui.frameWidth = 10</code> - draw a frame around the focused window in overlay mode; 0 to disable</li>
+<li><code>hs.window.highlight.ui.frameColor = {0,0.6,1,0.5}</code> - frame color</li>
+<li><code>hs.window.highlight.ui.frameColorInvert = {1,0.4,0,0.5}</code></li>
+<li><code>hs.window.highlight.ui.flashDuration = 0</code> - duration in seconds of a brief flash over windows as they're shown/hidden;
+disabled if 0; if desired, 0.3 is a good value</li>
+<li><code>hs.window.highlight.ui.windowShownFlashColor = {0,1,0,0.8}</code> - flash color when a window is shown (created or unhidden)</li>
+<li><code>hs.window.highlight.ui.windowHiddenFlashColor = {1,0,0,0.8}</code> - flash color when a window is hidden (destroyed or hidden)</li>
+<li><code>hs.window.highlight.ui.windowShownFlashColorInvert = {1,0,1,0.8}</code></li>
+<li><code>hs.window.highlight.ui.windowHiddenFlashColorInvert = {0,1,1,0.8}</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="start">
+            <a name="//apple_ref/cpp/Function/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.highlight.start([windowfilterIsolate[, windowfilterOverlay]])</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Starts the module</p>
+<p>Parameters:</p>
+<ul>
+<li>windowfilterIsolate - (optional) an <code>hs.window.filter</code> instance that automatically enable "isolate" mode
+whenever one of the allowed windows is focused; alternatively, you can just provide a list of application
+names and a windowfilter will be created for you that enables isolate mode whenever one of these apps is focused;
+if omitted or nil, isolate mode won't be toggled automatically, but you can still toggle it manually via
+<code>hs.window.higlight.toggleIsolate()</code></li>
+<li>windowfilterOverlay - (optional) an <code>hs.window.filter</code> instance that determines which windows to consider
+for "overlay" mode when focused; if omitted or nil, the default windowfilter will be used</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>overlay mode is disabled by default - see <code>hs.window.highlight.ui.overlayColor</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Function/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.highlight.stop()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops the module and disables focused window highlighting (both "overlay" and "isolate" mode)</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="toggleIsolate">
+            <a name="//apple_ref/cpp/Function/toggleIsolate" class="dashAnchor"></a>
+            <h5><a href="#toggleIsolate">toggleIsolate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.window.highlight.toggleIsolate([v])</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets or clears the user override for "isolate" mode.</p>
+<p>This function should be bound to a hotkey, e.g.:
+<code>hs.hotkey.bind('ctrl-cmd','\','Isolate',hs.window.highlight.toggleIsolate)</code></p>
+<p>Parameters:</p>
+<ul>
+<li>v - (optional) a boolean; if true, enable isolate mode; if false, disable isolate mode,
+even when <code>windowfilterIsolate</code> passed to <code>.start()</code> would otherwise enable it; if omitted or nil,
+toggle the override, i.e. clear it if it's currently enforced, or set it to the opposite of the current
+isolate mode status otherwise.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

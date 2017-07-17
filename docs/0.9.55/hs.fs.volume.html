@@ -1,0 +1,290 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.fs.volume</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.fs.volume</h1>
+      <p>Interact with OS X filesystem volumes</p>
+<p>This is distinct from hs.fs in that hs.fs deals with UNIX filesystem operations, while hs.fs.volume interacts with the higher level OS X concept of volumes</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#didMount">didMount</a></li>
+            <li><a href="#didRename">didRename</a></li>
+            <li><a href="#didUnmount">didUnmount</a></li>
+            <li><a href="#willUnmount">willUnmount</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#allVolumes">allVolumes</a></li>
+            <li><a href="#eject">eject</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="didMount">
+            <a name="//apple_ref/cpp/Constant/didMount" class="dashAnchor"></a>
+            <h5><a href="#didMount">didMount</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.volume.didMount</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A volume was mounted</p>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="didRename">
+            <a name="//apple_ref/cpp/Constant/didRename" class="dashAnchor"></a>
+            <h5><a href="#didRename">didRename</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.volume.didRename</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A volume changed either its name or mountpoint (or more likely, both)</p>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="didUnmount">
+            <a name="//apple_ref/cpp/Constant/didUnmount" class="dashAnchor"></a>
+            <h5><a href="#didUnmount">didUnmount</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.volume.didUnmount</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A volume was unmounted</p>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="willUnmount">
+            <a name="//apple_ref/cpp/Constant/willUnmount" class="dashAnchor"></a>
+            <h5><a href="#willUnmount">willUnmount</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.volume.willUnmount</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A volume is about to be unmounted</p>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="allVolumes">
+            <a name="//apple_ref/cpp/Function/allVolumes" class="dashAnchor"></a>
+            <h5><a href="#allVolumes">allVolumes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.volume.allVolumes([showHidden]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table of information about disk volumes attached to the system</p>
+<p>Parameters:</p>
+<ul>
+<li>showHidden - An optional boolean, true to show hidden volumes, false to not show hidden volumes. Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table of information, where the keys are the paths of disk volumes</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This is an alias for <code>hs.host.volumeInformation()</code></li>
+<li>The possible keys in the table are:<ul>
+<li>NSURLVolumeTotalCapacityKey - Size of the volume in bytes</li>
+<li>NSURLVolumeAvailableCapacityKey - Available space on the volume in bytes</li>
+<li>NSURLVolumeIsAutomountedKey - Boolean indicating if the volume was automounted</li>
+<li>NSURLVolumeIsBrowsableKey - Boolean indicating if the volume can be browsed</li>
+<li>NSURLVolumeIsEjectableKey - Boolean indicating if the volume can be ejected</li>
+<li>NSURLVolumeIsInternalKey - Boolean indicating if the volume is an internal drive or an external drive</li>
+<li>NSURLVolumeIsLocalKey - Boolean indicating if the volume is a local or remote drive</li>
+<li>NSURLVolumeIsReadOnlyKey - Boolean indicating if the volume is read only</li>
+<li>NSURLVolumeIsRemovableKey - Boolean indicating if the volume is removable</li>
+<li>NSURLVolumeMaximumFileSizeKey - Maximum file size the volume can support, in bytes</li>
+<li>NSURLVolumeUUIDStringKey - The UUID of volume's filesystem</li>
+<li>NSURLVolumeURLForRemountingKey - For remote volumes, the network URL of the volume</li>
+<li>NSURLVolumeLocalizedNameKey - Localized version of the volume's name</li>
+<li>NSURLVolumeNameKey - The volume's name</li>
+<li>NSURLVolumeLocalizedFormatDescriptionKey - Localized description of the volume</li>
+<li>Not all keys will be present for all volumes</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="eject">
+            <a name="//apple_ref/cpp/Function/eject" class="dashAnchor"></a>
+            <h5><a href="#eject">eject</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.volume.eject(path) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Unmounts and ejects a volume</p>
+<p>Parameters:</p>
+<ul>
+<li>path - An absolute path to the volume you wish to eject</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if the volume was ejected, otherwise false</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.volume.new(fn) -&gt; watcher</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a watcher object for volume events</p>
+<p>Parameters:</p>
+<ul>
+<li>fn - A function that will be called when volume events happen. It should accept two parameters:<ul>
+<li>An event type (see the constants defined above)</li>
+<li>A table that will contain relevant information</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.fs.volume</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.volume:start()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Starts the volume watcher</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.fs.volume</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.volume:stop()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops the volume watcher</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.fs.volume</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

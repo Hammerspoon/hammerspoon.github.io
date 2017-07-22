@@ -18,7 +18,7 @@ title: Contributors
 * You can read the Crashlytics Privacy Policy at [their website](https://github.com/Hammerspoon/hammerspoon/issues/139#issuecomment-77907712).
 
 ## Why do we do this?
- * It is very important to us that Hammerspoon contain as few bugs as possible, particularly ones which case it to crash.
+ * It is very important to us that Hammerspoon contain as few bugs as possible, particularly ones which cause it to crash.
  * We need your help to make this happen, so we collect low level information about which part of Hammerspoon has caused a crash, so we can fix it.
 
 ## Promises

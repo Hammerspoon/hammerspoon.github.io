@@ -1,0 +1,1288 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.audiodevice</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.audiodevice</h1>
+      <p>Manipulate the system's audio devices</p>
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.audiodevice.datasource.html">hs.audiodevice.datasource</a></li>
+        <li><a href="hs.audiodevice.watcher.html">hs.audiodevice.watcher</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#allDevices">allDevices</a></li>
+            <li><a href="#allInputDevices">allInputDevices</a></li>
+            <li><a href="#allOutputDevices">allOutputDevices</a></li>
+            <li><a href="#current">current</a></li>
+            <li><a href="#defaultInputDevice">defaultInputDevice</a></li>
+            <li><a href="#defaultOutputDevice">defaultOutputDevice</a></li>
+            <li><a href="#findDeviceByName">findDeviceByName</a></li>
+            <li><a href="#findDeviceByUID">findDeviceByUID</a></li>
+            <li><a href="#findInputByName">findInputByName</a></li>
+            <li><a href="#findInputByUID">findInputByUID</a></li>
+            <li><a href="#findOutputByName">findOutputByName</a></li>
+            <li><a href="#findOutputByUID">findOutputByUID</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#allInputDataSources">allInputDataSources</a></li>
+            <li><a href="#allOutputDataSources">allOutputDataSources</a></li>
+            <li><a href="#currentInputDataSource">currentInputDataSource</a></li>
+            <li><a href="#currentOutputDataSource">currentOutputDataSource</a></li>
+            <li><a href="#inputMuted">inputMuted</a></li>
+            <li><a href="#inputVolume">inputVolume</a></li>
+            <li><a href="#isInputDevice">isInputDevice</a></li>
+            <li><a href="#isOutputDevice">isOutputDevice</a></li>
+            <li><a href="#jackConnected">jackConnected</a></li>
+            <li><a href="#muted">muted</a></li>
+            <li><a href="#name">name</a></li>
+            <li><a href="#outputMuted">outputMuted</a></li>
+            <li><a href="#outputVolume">outputVolume</a></li>
+            <li><a href="#setDefaultInputDevice">setDefaultInputDevice</a></li>
+            <li><a href="#setDefaultOutputDevice">setDefaultOutputDevice</a></li>
+            <li><a href="#setInputMuted">setInputMuted</a></li>
+            <li><a href="#setInputVolume">setInputVolume</a></li>
+            <li><a href="#setMuted">setMuted</a></li>
+            <li><a href="#setOutputMuted">setOutputMuted</a></li>
+            <li><a href="#setOutputtVolume">setOutputtVolume</a></li>
+            <li><a href="#setVolume">setVolume</a></li>
+            <li><a href="#supportsInputDataSources">supportsInputDataSources</a></li>
+            <li><a href="#supportsOutputDataSources">supportsOutputDataSources</a></li>
+            <li><a href="#transportType">transportType</a></li>
+            <li><a href="#uid">uid</a></li>
+            <li><a href="#volume">volume</a></li>
+            <li><a href="#watcherCallback">watcherCallback</a></li>
+            <li><a href="#watcherIsRunning">watcherIsRunning</a></li>
+            <li><a href="#watcherStart">watcherStart</a></li>
+            <li><a href="#watcherStop">watcherStop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="allDevices">
+            <a name="//apple_ref/cpp/Function/allDevices" class="dashAnchor"></a>
+            <h5><a href="#allDevices">allDevices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.allDevices() -&gt; hs.audiodevice[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a list of all connected devices</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table of zero or more audio devices connected to the system</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="allInputDevices">
+            <a name="//apple_ref/cpp/Function/allInputDevices" class="dashAnchor"></a>
+            <h5><a href="#allInputDevices">allInputDevices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.allInputDevices() -&gt; audio[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a list of all connected input devices.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table of zero or more audio input devices connected to the system</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="allOutputDevices">
+            <a name="//apple_ref/cpp/Function/allOutputDevices" class="dashAnchor"></a>
+            <h5><a href="#allOutputDevices">allOutputDevices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.allOutputDevices() -&gt; hs.audiodevice[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a list of all connected output devices</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table of zero or more audio output devices connected to the system</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="current">
+            <a name="//apple_ref/cpp/Function/current" class="dashAnchor"></a>
+            <h5><a href="#current">current</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.current([input]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Fetch various metadata about the current default audio devices</p>
+<p>Parameters:</p>
+<ul>
+<li>output - An optional boolean, true to fetch information about the default input device, false for output device. Defaults to false</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table with the following contents:<div class="highlight"><pre><span></span><span class="p">{</span>
+     <span class="n">name</span> <span class="o">=</span> <span class="n">defaultOutputDevice</span><span class="p">():</span><span class="n">name</span><span class="p">(),</span>
+     <span class="n">uid</span> <span class="o">=</span> <span class="n">module</span><span class="p">.</span><span class="n">defaultOutputDevice</span><span class="p">():</span><span class="n">uid</span><span class="p">(),</span>
+     <span class="n">muted</span> <span class="o">=</span> <span class="n">defaultOutputDevice</span><span class="p">():</span><span class="n">muted</span><span class="p">(),</span>
+     <span class="n">volume</span> <span class="o">=</span> <span class="n">defaultOutputDevice</span><span class="p">():</span><span class="n">volume</span><span class="p">(),</span>
+     <span class="n">device</span> <span class="o">=</span> <span class="n">defaultOutputDevice</span><span class="p">(),</span>
+ <span class="p">}</span>
+</pre></div>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="defaultInputDevice">
+            <a name="//apple_ref/cpp/Function/defaultInputDevice" class="dashAnchor"></a>
+            <h5><a href="#defaultInputDevice">defaultInputDevice</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.defaultInputDevice() -&gt; audio or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the currently selected audio input device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.audiodevice object, or nil if no suitable device could be found</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="defaultOutputDevice">
+            <a name="//apple_ref/cpp/Function/defaultOutputDevice" class="dashAnchor"></a>
+            <h5><a href="#defaultOutputDevice">defaultOutputDevice</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.defaultOutputDevice() -&gt; audio or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the currently selected audio output device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.audiodevice object, or nil if no suitable device could be found</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="findDeviceByName">
+            <a name="//apple_ref/cpp/Function/findDeviceByName" class="dashAnchor"></a>
+            <h5><a href="#findDeviceByName">findDeviceByName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.findDeviceByName(name) -&gt; device or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Find an audio device by name</p>
+<p>Parameters:</p>
+<ul>
+<li>name - A string containing the name of an audio device to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.audiodevice</code> object or nil if the device could not be found</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="findDeviceByUID">
+            <a name="//apple_ref/cpp/Function/findDeviceByUID" class="dashAnchor"></a>
+            <h5><a href="#findDeviceByUID">findDeviceByUID</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.findDeviceByUID(uid) -&gt; device or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Find an audio device by UID</p>
+<p>Parameters:</p>
+<ul>
+<li>uid - A string containing the UID of an audio device to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.audiodevice</code> object or nil if the device could not be found</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="findInputByName">
+            <a name="//apple_ref/cpp/Function/findInputByName" class="dashAnchor"></a>
+            <h5><a href="#findInputByName">findInputByName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.findInputByName(name) -&gt; device or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Find an audio input device by name</p>
+<p>Parameters:</p>
+<ul>
+<li>name - A string containing the name of an audio input device to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.audiodevice object or nil if the device could not be found</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="findInputByUID">
+            <a name="//apple_ref/cpp/Function/findInputByUID" class="dashAnchor"></a>
+            <h5><a href="#findInputByUID">findInputByUID</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.findInputByUID(uid) -&gt; device or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Find an audio input device by UID</p>
+<p>Parameters:</p>
+<ul>
+<li>name - A string containing the UID of an audio input device to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.audiodevice object or nil if the device could not be found</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="findOutputByName">
+            <a name="//apple_ref/cpp/Function/findOutputByName" class="dashAnchor"></a>
+            <h5><a href="#findOutputByName">findOutputByName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.findOutputByName(name) -&gt; device or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Find an audio output device by name</p>
+<p>Parameters:</p>
+<ul>
+<li>name - A string containing the name of an audio output device to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.audiodevice object or nil if the device could not be found</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="findOutputByUID">
+            <a name="//apple_ref/cpp/Function/findOutputByUID" class="dashAnchor"></a>
+            <h5><a href="#findOutputByUID">findOutputByUID</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice.findOutputByUID(uid) -&gt; device or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Find an audio output device by UID</p>
+<p>Parameters:</p>
+<ul>
+<li>name - A string containing the UID of an audio output device to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.audiodevice object or nil if the device could not be found</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="allInputDataSources">
+            <a name="//apple_ref/cpp/Method/allInputDataSources" class="dashAnchor"></a>
+            <h5><a href="#allInputDataSources">allInputDataSources</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:allInputDataSources() -&gt; hs.audiodevice.dataSource[] or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets all of the input data sources of an audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A list of hs.audiodevice.dataSource objects, or nil if an error occurred</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="allOutputDataSources">
+            <a name="//apple_ref/cpp/Method/allOutputDataSources" class="dashAnchor"></a>
+            <h5><a href="#allOutputDataSources">allOutputDataSources</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:allOutputDataSources() -&gt; hs.audiodevice.dataSource[] or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets all of the output data sources of an audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A list of hs.audiodevice.dataSource objects, or nil if an error occurred</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="currentInputDataSource">
+            <a name="//apple_ref/cpp/Method/currentInputDataSource" class="dashAnchor"></a>
+            <h5><a href="#currentInputDataSource">currentInputDataSource</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:currentInputDataSource() -&gt; hs.audiodevice.dataSource object or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the current input data source of an audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.audiodevice.dataSource object, or nil if an error occurred</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Before calling this method, you should check the result of hs.audiodevice:supportsInputDataSources()</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="currentOutputDataSource">
+            <a name="//apple_ref/cpp/Method/currentOutputDataSource" class="dashAnchor"></a>
+            <h5><a href="#currentOutputDataSource">currentOutputDataSource</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:currentOutputDataSource() -&gt; hs.audiodevice.dataSource object or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the current output data source of an audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.audiodevice.dataSource object, or nil if an error occurred</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Before calling this method, you should check the result of hs.audiodevice:supportsOutputDataSources()</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="inputMuted">
+            <a name="//apple_ref/cpp/Method/inputMuted" class="dashAnchor"></a>
+            <h5><a href="#inputMuted">inputMuted</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:inputMuted() -&gt; bool or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the Input mutedness state of the audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the audio device's Input is muted. False if it's not muted, nil if it does not support muting</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="inputVolume">
+            <a name="//apple_ref/cpp/Method/inputVolume" class="dashAnchor"></a>
+            <h5><a href="#inputVolume">inputVolume</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:inputVolume() -&gt; number or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the current input volume of this audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A number between 0 and 100, representing the input volume percentage, or nil if the audio device does not support input volume levels</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The return value will be a floating point number</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isInputDevice">
+            <a name="//apple_ref/cpp/Method/isInputDevice" class="dashAnchor"></a>
+            <h5><a href="#isInputDevice">isInputDevice</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:isInputDevice() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Determins if an audio device is an input device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if the device is an input device, false if not</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isOutputDevice">
+            <a name="//apple_ref/cpp/Method/isOutputDevice" class="dashAnchor"></a>
+            <h5><a href="#isOutputDevice">isOutputDevice</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:isOutputDevice() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Determins if an audio device is an output device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if the device is an output device, false if not</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="jackConnected">
+            <a name="//apple_ref/cpp/Method/jackConnected" class="dashAnchor"></a>
+            <h5><a href="#jackConnected">jackConnected</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:jackConnected() -&gt; boolean or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Determines whether an audio jack (e.g. headphones) is connected to an audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if a jack is connected, false if not, or nil if the device does not support jack sense</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="muted">
+            <a name="//apple_ref/cpp/Method/muted" class="dashAnchor"></a>
+            <h5><a href="#muted">muted</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:muted() -&gt; bool or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the mutedness state of the audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the audio device is muted, False if it is not muted, nil if it does not support muting</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If a device is capable of both input and output, this method will prefer the output. See <code>:inputMuted()</code> and <code>:outputMuted()</code> for specific variants.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="name">
+            <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+            <h5><a href="#name">name</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:name() -&gt; string or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the name of the audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A string containing the name of the audio device, or nil if it has no name</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="outputMuted">
+            <a name="//apple_ref/cpp/Method/outputMuted" class="dashAnchor"></a>
+            <h5><a href="#outputMuted">outputMuted</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:outputMuted() -&gt; bool or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the Output mutedness state of the audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the audio device's Output is muted. False if it's not muted, nil if it does not support muting</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="outputVolume">
+            <a name="//apple_ref/cpp/Method/outputVolume" class="dashAnchor"></a>
+            <h5><a href="#outputVolume">outputVolume</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:outputVolume() -&gt; number or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the current output volume of this audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A number between 0 and 100, representing the output volume percentage, or nil if the audio device does not support output volume levels</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The return value will be a floating point number</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setDefaultInputDevice">
+            <a name="//apple_ref/cpp/Method/setDefaultInputDevice" class="dashAnchor"></a>
+            <h5><a href="#setDefaultInputDevice">setDefaultInputDevice</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:setDefaultInputDevice() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Selects this device as the system's audio input device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the audio device was successfully selected, otherwise false.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setDefaultOutputDevice">
+            <a name="//apple_ref/cpp/Method/setDefaultOutputDevice" class="dashAnchor"></a>
+            <h5><a href="#setDefaultOutputDevice">setDefaultOutputDevice</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:setDefaultOutputDevice() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Selects this device as the system's audio output device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the audio device was successfully selected, otherwise false.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setInputMuted">
+            <a name="//apple_ref/cpp/Method/setInputMuted" class="dashAnchor"></a>
+            <h5><a href="#setInputMuted">setInputMuted</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:setInputMuted(state) -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set the mutedness state of the Input of the audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>state - A boolean value. True to mute the device, False to unmute it</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the device's Input mutedness state was set, or False if it does not support muting</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setInputVolume">
+            <a name="//apple_ref/cpp/Method/setInputVolume" class="dashAnchor"></a>
+            <h5><a href="#setInputVolume">setInputVolume</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:setInputVolume(level) -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set the input volume of this audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>level - A number between 0 and 100, representing the input volume as a percentage</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the volume was set, false if the audio device does not support setting an input volume level</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The volume level is a floating point number. Depending on your audio hardware, it may not be possible to increase volume in single digit increments</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setMuted">
+            <a name="//apple_ref/cpp/Method/setMuted" class="dashAnchor"></a>
+            <h5><a href="#setMuted">setMuted</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:setMuted(state) -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set the mutedness state of the audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>state - A boolean value. True to mute the device, False to unmute it</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the device's mutedness state was set, or False if it does not support muting</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If a device is capable of both input and output, this method will prefer the output. See <code>:inputSetMuted()</code> and <code>:outputSetMuted()</code> for specific variants.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setOutputMuted">
+            <a name="//apple_ref/cpp/Method/setOutputMuted" class="dashAnchor"></a>
+            <h5><a href="#setOutputMuted">setOutputMuted</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:setOutputMuted(state) -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set the mutedness state of the Output of the audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>state - A boolean value. True to mute the device, False to unmute it</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the device's Output mutedness state was set, or False if it does not support muting</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setOutputtVolume">
+            <a name="//apple_ref/cpp/Method/setOutputtVolume" class="dashAnchor"></a>
+            <h5><a href="#setOutputtVolume">setOutputtVolume</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:setOutputtVolume(level) -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set the output volume of this audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>level - A number between 0 and 100, representing the output volume as a percentage</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the volume was set, false if the audio device does not support setting an output volume level</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The volume level is a floating point number. Depending on your audio hardware, it may not be possible to increase volume in single digit increments</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setVolume">
+            <a name="//apple_ref/cpp/Method/setVolume" class="dashAnchor"></a>
+            <h5><a href="#setVolume">setVolume</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:setVolume(level) -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set the volume of this audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>level - A number between 0 and 100, representing the volume as a percentage</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>True if the volume was set, false if the audio device does not support setting a volume level.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The volume level is a floating point number. Depending on your audio hardware, it may not be possible to increase volume in single digit increments.</li>
+<li>This method will inspect the device to determine if it is an input or output device, and set the appropriate volume. For devices that are both input and output devices, see <code>:setInputVolume()</code> and <code>:setOutputVolume()</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="supportsInputDataSources">
+            <a name="//apple_ref/cpp/Method/supportsInputDataSources" class="dashAnchor"></a>
+            <h5><a href="#supportsInputDataSources">supportsInputDataSources</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:supportsInputDataSources() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Determines whether an audio device supports input data sources</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if the device supports input data sources, false if not</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="supportsOutputDataSources">
+            <a name="//apple_ref/cpp/Method/supportsOutputDataSources" class="dashAnchor"></a>
+            <h5><a href="#supportsOutputDataSources">supportsOutputDataSources</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:supportsOutputDataSources() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Determines whether an audio device supports output data sources</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if the device supports output data sources, false if not</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="transportType">
+            <a name="//apple_ref/cpp/Method/transportType" class="dashAnchor"></a>
+            <h5><a href="#transportType">transportType</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:transportType() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the hardware transport type of an audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A string containing the transport type, or nil if an error occurred</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="uid">
+            <a name="//apple_ref/cpp/Method/uid" class="dashAnchor"></a>
+            <h5><a href="#uid">uid</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:uid() -&gt; string or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the unique identifier of the audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A string containing the UID of the audio device, or nil if it has no UID.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="volume">
+            <a name="//apple_ref/cpp/Method/volume" class="dashAnchor"></a>
+            <h5><a href="#volume">volume</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:volume() -&gt; number or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the current volume of this audio device</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A number between 0 and 100, representing the volume percentage, or nil if the audio device does not support volume levels</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The return value will be a floating point number</li>
+<li>This method will inspect the device to determine if it is an input or output device, and return the appropriate volume. For devices that are both input and output devices, see <code>:inputVolume()</code> and <code>:outputVolume()</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="watcherCallback">
+            <a name="//apple_ref/cpp/Method/watcherCallback" class="dashAnchor"></a>
+            <h5><a href="#watcherCallback">watcherCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:watcherCallback(fn) -&gt; hs.audiodevice</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets or removes a callback function for an audio device watcher</p>
+<p>Parameters:</p>
+<ul>
+<li>fn - A callback function that will be called when properties of this audio device change, or nil to remove an existing callback. The function should accept four arguments:<ul>
+<li>A string containing the UID of the audio device (see <code>hs.audiodevice.findDeviceByUID()</code>)</li>
+<li>A string containing the name of the event. Possible values are:</li>
+<li>vmvc - Volume changed</li>
+<li>mute - Mute state changed</li>
+<li>jack - Jack sense state changed (usually this means headphones were plugged/unplugged)</li>
+<li>span - Stereo pan changed</li>
+<li>diff - Device configuration changed (if you are caching audio device properties, this event indicates you should flush your cache)</li>
+<li>A string containing the scope of the event. Possible values are:</li>
+<li>glob - This is a global event pertaining to the whole device</li>
+<li>inpt - This is an event pertaining only to the input functions of the device</li>
+<li>outp - This is an event pertaining only to the output functions of the device</li>
+<li>A number containing the element of the event. Typical values are:</li>
+<li>0 - Typically this means the Master channel</li>
+<li>1 - Typically this means the Left channel</li>
+<li>2 - Typically this means the Right channel</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.audiodevice</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You will receive many events to your callback, so filtering on the name/scope/element arguments is vital. For example, on a stereo device, it is not uncommon to receive a <code>volm</code> event for each audio channel when the volume changes, or multiple <code>mute</code> events for channels. Dragging a volume slider in the system Sound preferences will produce a large number of <code>volm</code> events. Plugging/unplugging headphones may trigger <code>volm</code> events in addition to <code>jack</code> ones, etc.</li>
+<li>If you need to use the <code>hs.audiodevice</code> object in your callback, use <code>hs.audiodevice.findDeviceByUID()</code> to obtain it fro the first callback argument</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="watcherIsRunning">
+            <a name="//apple_ref/cpp/Method/watcherIsRunning" class="dashAnchor"></a>
+            <h5><a href="#watcherIsRunning">watcherIsRunning</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:watcherIsRunning() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the status of the <code>hs.audiodevice</code> object watcher</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if the watcher is running, false if not</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="watcherStart">
+            <a name="//apple_ref/cpp/Method/watcherStart" class="dashAnchor"></a>
+            <h5><a href="#watcherStart">watcherStart</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:watcherStart() -&gt; hs.audiodevice or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Starts the watcher on an <code>hs.audiodevice</code> object</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.audiodevice</code> object, or nil if an error occurred</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="watcherStop">
+            <a name="//apple_ref/cpp/Method/watcherStop" class="dashAnchor"></a>
+            <h5><a href="#watcherStop">watcherStop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.audiodevice:watcherStop() -&gt; hs.audiodevice</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops the watcher on an <code>hs.audiodevice</code> object</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.audiodevice</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

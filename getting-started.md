@@ -31,6 +31,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
  * [More complex window movement](#winmovenethack)
  * [Window resizing](#winresize)
  * [Multi-window layouts](#winlayout)
+ * [Window filters](#winfilters)
  * [Simple config reloading](#simplereload)
  * [Fancy config reloading](#fancyreload)
  * [Interacting with application menus](#appmenus)
@@ -270,6 +271,46 @@ The fifth item is a rect that will be given to `hs.window:setFrame()` and should
 The sixth item is similar to the fifth, except it does take the OS menubar and dock into account. This is shown in our example above, which will place the iTunes Mini Player window at the very bottom left of the screen, even if the dock is there. Note that we're using the `hs.geometry.rect()` helper function to construct the rect table and that the `y` value is negative, meaning that the top of the window should start 48 pixels above the bottom of the display.
 
 This may seem like a fairly complex set of options, but it's worth spending some time learning, as it allows for extremely powerful window layouts, particularly in reaction to system events (such as the number of screens changing when you plug in a monitor, or even just press a particular hotkey to restore sanity to your windows).
+
+### <a name="winfilters"></a>Window filters
+
+Wouldn't it be useful to have hotkeys bound in certain contexts or applications but not others? Organize windows and react to events on the basis of position, size, workflow, or any combination thereof? The extremely versatile `hs.window.filter` module allows this, enabling you to create complex window groupings and behaviors with filtering rules and event watchers. The best way to demonstrate the power of this module is through examples.
+
+When copying and pasting content from Safari to Messages.app, all links are jarringly expanded, making the text hard to read:
+
+`Thrushes make up the Turdidae, a family <https://en.wikipedia.org/wiki/Family_(biology)> of passerine <https://en.wikipedia.org/wiki/Passerine> birds <https://en.wikipedia.org/wiki/Bird> that occurs worldwide.`
+
+Only the Safari/Messages pair suffers from this and other OS X applications generally copy and paste without surprises. This annoyance is cleanly rectified with the help of a windowfilter:
+
+```lua
+local function cleanPasteboard()
+  local pb = hs.pasteboard.contentTypes()
+  local contains = hs.fnutils.contains
+  if contains(pb, "com.apple.webarchive") and contains(pb, "public.rtf") then
+    hs.pasteboard.setContents(hs.pasteboard.getContents())
+  end
+end
+
+local messagesWindowFilter = hs.window.filter.new(false):setAppFilter('Messages')
+messagesWindowFilter:subscribe(hs.window.filter.windowFocused, cleanPasteboard)
+```
+
+The `cleanPasteboard` function replaces the Safari 'rich text' on the pasteboard with plain text after checking the pasteboard content metadata types. This ensures that copying and pasting of images from Safari still works. An empty windowfilter is created by initializing with `false` to excludes all windows by default. A Messages 'appfilter' is added so that this windowfilter only observes Messages windows. We then subscribe to the windowfilter so that `cleanPasteboard` is called each time a Messages window gains focus. You can similarly enable/disable custom hotkeys when certain windows or applications have focus.
+
+Windowfilters are dynamic, filtering automatically in the background according to the constraints set. By initializing a windowfilter with a predicate function, you can create arbitrarily complex filtering rules:
+
+```lua
+local wf = hs.window.filter.new(function(win)
+    local fw = hs.window.focusedWindow()
+    return (
+      win:isStandard() and
+      win:application() == fw:application() and
+      win:screen() == fw:screen()
+    )
+  end)
+```
+
+This windowfilter contains all standard (unhidden, non-modal) windows that share both the application and screen of the currently focused window. The windowfilter continually updates so that the currently focused window determines the set of windows in play. This can be used to cycle through focused application windows on the current screen using `hs.window.switcher` or your own custom cycler.
 
 ### <a name="simplereload"></a>Simple configuration reloading
 

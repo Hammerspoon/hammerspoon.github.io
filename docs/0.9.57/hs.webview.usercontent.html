@@ -1,0 +1,211 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.webview.usercontent</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.webview.usercontent</h1>
+      <p>This module provides support for injecting custom JavaScript user content into your webviews and for JavaScript to post messages back to Hammerspoon.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#injectScript">injectScript</a></li>
+            <li><a href="#removeAllScripts">removeAllScripts</a></li>
+            <li><a href="#setCallback">setCallback</a></li>
+            <li><a href="#userScripts">userScripts</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.usercontent.new(name) -&gt; usercontentControllerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Create a new user content controller for a webview and create the message port with the specified name for JavaScript message support.</p>
+<p>Parameters:</p>
+<ul>
+<li>name - the name of the message port which JavaScript in the webview can use to post messages to Hammerspoon.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the usercontentControllerObject</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This object should be provided as the final argument to the <code>hs.webview.new</code> constructor in order to tie the webview to this content controller.  All new windows which are created from this parent webview will also use this controller.</li>
+<li>See <code>hs.webview.usercontent:setCallback</code> for more information about the message port.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="injectScript">
+            <a name="//apple_ref/cpp/Method/injectScript" class="dashAnchor"></a>
+            <h5><a href="#injectScript">injectScript</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.usercontent:injectScript(scriptTable) -&gt; usercontentControllerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Add a script to be injected into webviews which use this user content controller.</p>
+<p>Parameters:</p>
+<ul>
+<li>scriptTable - a table containing the following keys which define the script and how it is to be injected:<ul>
+<li>source        - the javascript which is injected (required)</li>
+<li>mainFrame     - a boolean value which indicates whether this script is only injected for the main webview frame (true) or for all frames within the webview (false).  Defaults to true.</li>
+<li>injectionTime - a string which indicates whether the script is injected at "documentStart" or "documentEnd". Defaults to "documentStart".</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the usercontentControllerObject or nil if the script table was malformed in some way.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="removeAllScripts">
+            <a name="//apple_ref/cpp/Method/removeAllScripts" class="dashAnchor"></a>
+            <h5><a href="#removeAllScripts">removeAllScripts</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.usercontent:removeAllScripts() -&gt; usercontentControllerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Removes all user scripts currently defined for this user content controller.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the usercontentControllerObject
+Notes:</li>
+<li>The WKUserContentController class only allows for removing all scripts.  If you need finer control, make a copy of the current scripts with <code>hs.webview.usercontent.userScripts()</code> first so you can recreate the scripts you want to keep.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setCallback">
+            <a name="//apple_ref/cpp/Method/setCallback" class="dashAnchor"></a>
+            <h5><a href="#setCallback">setCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.usercontent:setCallback(fn) -&gt; usercontentControllerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set or remove the callback function to handle message posted to this user content's message port.</p>
+<p>Parameters:</p>
+<ul>
+<li>fn - The function which should receive messages posted to this user content's message port.  Specify an explicit nil to disable the callback.  The function should take one argument which will be the message posted and any returned value will be ignored.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the usercontentControllerObject</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>Within your (injected or served) JavaScript, you can post messages via the message port created with the constructor like this:</p>
+<p>try {</p>
+
+<pre><code>  webkit.messageHandlers.*name*&gt;.postMessage(*message-object*);
+</code></pre>
+<p>} catch(err) {</p>
+
+<pre><code>  console.log('The controller does not exist yet');
+</code></pre>
+<p>}</p>
+</li>
+<li><p>Where <em>name</em> matches the name specified in the constructor and <em>message-object</em> is the object to post to the function.  This object can be a number, string, date, array, dictionary(table), or nil.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="userScripts">
+            <a name="//apple_ref/cpp/Method/userScripts" class="dashAnchor"></a>
+            <h5><a href="#userScripts">userScripts</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.usercontent:userScripts() -&gt; array</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get a table containing all of the currently defined injection scripts for this user content controller</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An array of injected user scripts.  Each entry in the array will be a table containing the following keys:<ul>
+<li>source        - the javascript which is injected</li>
+<li>mainFrame     - a boolean value which indicates whether this script is only injected for the main webview frame (true) or for all frames within the webview (false)</li>
+<li>injectionTime - a string which indicates whether the script is injected at "documentStart" or "documentEnd".</li>
+</ul>
+</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Because the WKUserContentController class only allows for removing all scripts, you can use this method to generate a list of all scripts, modify it, and then use it in a loop to reapply the scripts if you need to remove just a few scripts.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

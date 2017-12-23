@@ -34,6 +34,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
  * [Window filters](#winfilters)
  * [Simple config reloading](#simplereload)
  * [Fancy config reloading](#fancyreload)
+ * [Smart config reloading with Spoons](#smartreload)
  * [Interacting with application menus](#appmenus)
  * [Creating a simple menubar item](#simplemenubar)
  * [Reacting to application events](#appevents)
@@ -356,6 +357,21 @@ We then create a new path watcher using this path, and tell it to call our `relo
 In this example we've implemented the config reloading function as a separate, named function, which we pass as an argument to `hs.pathwatcher.new()`. It's entirely up to you whether you pass around named functions, or use anonymous ones in-line.
 
 This function accepts a single argument, which is a table containing all the names of files that have been modifier. It iterates over that list and checks each file to see if it ends with `.lua`. If any Lua files have been changed, it then tells Hammerspoon to destroy the current Lua setup and reload its configuration files.
+
+### <a name="smartreload"></a>Smart configuration reloading with Spoons
+
+Hammerspoon supports Lua plugins that we call "Spoons". They allow anyone to build useful functionality with Hammerspoon's APIs and then distribute that to other people.
+
+Since configuration reloading is something that many users are likely to want, it's an ideal candidate for a Spoon, and one exists in the official Spoons repository [here](http://www.hammerspoon.org/Spoons/ReloadConfiguration.html).
+
+To start with, click on the Download link on the Spoon's webpage - this should download the Zip file and extract it to your `Downloads` folder, where it will appear with a spoon icon. Open that file and Hammerspoon will automatically import the Spoon to `~/.hammerspoon/Spoons/`.
+
+Then add the following to your `init.lua` and you're done:
+
+```lua
+hs.loadSpoon("ReloadConfiguration")
+spoon.ReloadConfiguration:start()
+```
 
 ### <a name="appmenus"></a>Interacting with application menus
 

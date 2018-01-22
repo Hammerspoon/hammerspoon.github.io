@@ -1935,12 +1935,6 @@
     "type": "Module"
   },
   {
-    "desc": "A boolean value of true will log Hammerspoon's crash log with NSLog, false will silently capture messages in case of a crash. Defaults to false.",
-    "module": "hs.crash",
-    "name": "crashLogToNSLog",
-    "type": "Variable"
-  },
-  {
     "desc": "Attempts to reduce RAM usage of Hammerspoon",
     "module": "hs.crash",
     "name": "attemptMemoryRelease",

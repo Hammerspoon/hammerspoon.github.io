@@ -9,7 +9,7 @@ title: Contributors
 * This feature is enabled by default. Users can opt-out using the Hammerspoon preferences window.
 * Crash Data is uploaded securely to the Crashlytics servers.
 * Crashlytics is owned by Twitter.
-* No personally identifying data is collected or transmitted by Hammerspoon.
+* No personally identifying data is collected or transmitted by Hammerspoon, with the possible exception of path names. If you run Hammerspoon from a path that contains your name (e.g. `/Users/MyRealNameIsBobAnderson/Applications/Hammerspoon.app` then your name would be included in Crash Data.
 * No Crashlytics features have been enabled that collect or transmit any personal information about the user.
 * Some information about the hardware and operating system is collected and transmitted.
 * The location of the Hammerspoon app bundle in your filesystem, is collected (e.g. `/Applications/Hammerspoon.app`).
@@ -24,11 +24,11 @@ title: Contributors
 ## Promises
 * We will never attempt to identify Hammerspoon users using the Crash Data.
 * We will never sell any Hammerspoon Crash Data.
-* We will never distribute any Hammerspoon Crash Data for any other purpose than the fixing of bugs.
+* We will never distribute any Hammerspoon Crash Data for any other purpose than the fixing of bugs (but for example we may share Crash Data with other developers who are assisting with fixing crash bugs).
 * Some Crash Data may be distributed in the form of GitHub Issues (i.e. bug reports) if it is important/relevant for the discussion of a bug.
 
 ## If you do not want to upload Crash Data
-* Click on the Hammerspoon menu icon and choose `Preferences`, untick `Send crash data`, quit Hammerspoon and re-open it. The Crashlytics framework will no longer be initialised.
+* Click on the Hammerspoon menu icon and choose `Preferences`, untick `Send crash data`, quit Hammerspoon and re-open it. The Crashlytics framework will no longer be initialised. We understand that many people wish to protect their privacy, or may run Hammerspoon in an environment where transmitting any data is unacceptable. We ask that if at all possible, you help us to keep Hammerspoon as bug-free as possible, by enabling `Send crash data` if you can.
 
 ## Feedback
 * If you have any suggestions or comments about this feature of Hammerspoon, or the contents of this Privacy Policy, please [file an issue on GitHub](https://github.com/Hammerspoon/hammerspoon/issues/new).

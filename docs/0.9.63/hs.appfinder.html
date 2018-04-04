@@ -1,0 +1,180 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.appfinder</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.appfinder</h1>
+      <p>Easily find <code>hs.application</code> and <code>hs.window</code> objects</p>
+<p>This module is <em>deprecated</em>; you can use <code>hs.window.find()</code>, <code>hs.window.get()</code>, <code>hs.application.find()</code>,
+<code>hs.application.get()</code>, <code>hs.application:findWindow()</code> and <code>hs.application:getWindow()</code> instead.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#appFromName">appFromName</a></li>
+            <li><a href="#appFromWindowTitle">appFromWindowTitle</a></li>
+            <li><a href="#appFromWindowTitlePattern">appFromWindowTitlePattern</a></li>
+            <li><a href="#windowFromWindowTitle">windowFromWindowTitle</a></li>
+            <li><a href="#windowFromWindowTitlePattern">windowFromWindowTitlePattern</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="appFromName">
+            <a name="//apple_ref/cpp/Function/appFromName" class="dashAnchor"></a>
+            <h5><a href="#appFromName">appFromName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.appfinder.appFromName(name) -&gt; app or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Finds an application by its name (e.g. "Safari")</p>
+<p>Parameters:</p>
+<ul>
+<li>name - A string containing the name of the application to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.application object if one can be found, otherwise nil</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="appFromWindowTitle">
+            <a name="//apple_ref/cpp/Function/appFromWindowTitle" class="dashAnchor"></a>
+            <h5><a href="#appFromWindowTitle">appFromWindowTitle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.appfinder.appFromWindowTitle(title) -&gt; app or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Finds an application by its window title (e.g. "Activity Monitor (All Processes)")</p>
+<p>Parameters:</p>
+<ul>
+<li>title - A string containing a window title of the application to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.application object if one can be found, otherwise nil</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="appFromWindowTitlePattern">
+            <a name="//apple_ref/cpp/Function/appFromWindowTitlePattern" class="dashAnchor"></a>
+            <h5><a href="#appFromWindowTitlePattern">appFromWindowTitlePattern</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.appfinder.appFromWindowTitlePattern(pattern) -&gt; app or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Finds an application by Lua pattern in its window title (e.g."Inbox %(%d+ messages.*)")</p>
+<p>Parameters:</p>
+<ul>
+<li>pattern - a Lua pattern describing a window title of the application to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.application object if one can be found, otherwise nil</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>For more about Lua patterns, see <a href="http://lua-users.org/wiki/PatternsTutorial">http://lua-users.org/wiki/PatternsTutorial</a> and <a href="http://www.lua.org/manual/5.2/manual.html#6.4.1">http://www.lua.org/manual/5.2/manual.html#6.4.1</a></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowFromWindowTitle">
+            <a name="//apple_ref/cpp/Function/windowFromWindowTitle" class="dashAnchor"></a>
+            <h5><a href="#windowFromWindowTitle">windowFromWindowTitle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.appfinder.windowFromWindowTitle(title) -&gt; win or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Finds a window by its title (e.g. "Activity Monitor (All Processes)")</p>
+<p>Parameters:</p>
+<ul>
+<li>title - A string containing the title of the window to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.window object if one can be found, otherwise nil</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowFromWindowTitlePattern">
+            <a name="//apple_ref/cpp/Function/windowFromWindowTitlePattern" class="dashAnchor"></a>
+            <h5><a href="#windowFromWindowTitlePattern">windowFromWindowTitlePattern</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.appfinder.windowFromWindowTitlePattern(pattern) -&gt; app or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Finds a window by Lua pattern in its title (e.g."Inbox %(%d+ messages.*)")</p>
+<p>Parameters:</p>
+<ul>
+<li>pattern - a Lua pattern describing a window title of the window to search for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An hs.window object if one can be found, otherwise nil</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>For more about Lua patterns, see <a href="http://lua-users.org/wiki/PatternsTutorial">http://lua-users.org/wiki/PatternsTutorial</a> and <a href="http://www.lua.org/manual/5.2/manual.html#6.4.1">http://www.lua.org/manual/5.2/manual.html#6.4.1</a></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

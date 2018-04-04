@@ -1,0 +1,221 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.uielement</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.uielement</h1>
+      <p>A generalized framework for working with OSX UI elements</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.uielement.watcher.html">hs.uielement.watcher</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#focusedElement">focusedElement</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#newWatcher">newWatcher</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#isApplication">isApplication</a></li>
+            <li><a href="#isWindow">isWindow</a></li>
+            <li><a href="#role">role</a></li>
+            <li><a href="#selectedText">selectedText</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="focusedElement">
+            <a name="//apple_ref/cpp/Function/focusedElement" class="dashAnchor"></a>
+            <h5><a href="#focusedElement">focusedElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.uielement.focusedElement() -&gt; element or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the currently focused UI element</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.uielement</code> object or nil if no object could be found</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="newWatcher">
+            <a name="//apple_ref/cpp/Constructor/newWatcher" class="dashAnchor"></a>
+            <h5><a href="#newWatcher">newWatcher</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.uielement:newWatcher(handler[, userData]) -&gt; hs.uielement.watcher or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new watcher for the element represented by self (the object the method is being invoked for).</p>
+<p>Parameters:</p>
+<ul>
+<li>a function to be called when a watched event occurs.  The argument will be passed the following arguments:<ul>
+<li>element: The element the event occurred on. Note this is not always the element being watched.</li>
+<li>event: The name of the event that occurred.</li>
+<li>watcher: The watcher object being created.</li>
+<li>userData: The userData you included, if any.</li>
+</ul>
+</li>
+<li>an optional userData object which will be included as the final argument to the callback function when it is called.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.uielement.watcher</code> object, or <code>nil</code> if an error occurred</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="isApplication">
+            <a name="//apple_ref/cpp/Method/isApplication" class="dashAnchor"></a>
+            <h5><a href="#isApplication">isApplication</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.uielement:isApplication() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether the UI element represents an application.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if the UI element is an application</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isWindow">
+            <a name="//apple_ref/cpp/Method/isWindow" class="dashAnchor"></a>
+            <h5><a href="#isWindow">isWindow</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.uielement:isWindow() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether the UI element represents a window.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if the UI element is a window, otherwise false</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="role">
+            <a name="//apple_ref/cpp/Method/role" class="dashAnchor"></a>
+            <h5><a href="#role">role</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.uielement:role() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the role of the element.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A string containing the role of the UI element</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="selectedText">
+            <a name="//apple_ref/cpp/Method/selectedText" class="dashAnchor"></a>
+            <h5><a href="#selectedText">selectedText</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.uielement:selectedText() -&gt; string or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the selected text in the element</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A string containing the selected text, or nil if none could be found</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Many applications (e.g. Safari, Mail, Firefox) do not implement the necessary accessibility features for this to work in their web views</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

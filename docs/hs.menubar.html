@@ -388,7 +388,7 @@
             <table>
               <tr>
                 <th>Signature</th>
-                <td><code>hs.menubar:setClickCallback(fn) -&gt; menubaritem</code></td>
+                <td><code>hs.menubar:setClickCallback([fn]) -&gt; menubaritem</code></td>
               </tr>
               <tr>
                 <th>Type</th>
@@ -399,7 +399,7 @@
                 <td><p>Registers a function to be called when the menubar item is clicked</p>
 <p>Parameters:</p>
 <ul>
-<li><code>fn</code> - A function to be called when the menubar item is clicked. If the argument is <code>nil</code>, any existing function will be removed. The function can optionally accept a single argument, which will be a table containing boolean values indicating which keyboard modifiers were held down when the menubar item was clicked; The possible keys are:<ul>
+<li><code>fn</code> - An optional function to be called when the menubar item is clicked. If this argument is not provided, any existing function will be removed. The function can optionally accept a single argument, which will be a table containing boolean values indicating which keyboard modifiers were held down when the menubar item was clicked; The possible keys are:<ul>
 <li>cmd</li>
 <li>alt</li>
 <li>shift</li>

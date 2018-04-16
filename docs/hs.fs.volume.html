@@ -153,11 +153,11 @@
 <li>NSURLVolumeAvailableCapacityKey - Available space on the volume in bytes</li>
 <li>NSURLVolumeIsAutomountedKey - Boolean indicating if the volume was automounted</li>
 <li>NSURLVolumeIsBrowsableKey - Boolean indicating if the volume can be browsed</li>
-<li>NSURLVolumeIsEjectableKey - Boolean indicating if the volume can be ejected</li>
+<li>NSURLVolumeIsEjectableKey - Boolean indicating if the volume should be ejected before its media is removed</li>
 <li>NSURLVolumeIsInternalKey - Boolean indicating if the volume is an internal drive or an external drive</li>
 <li>NSURLVolumeIsLocalKey - Boolean indicating if the volume is a local or remote drive</li>
 <li>NSURLVolumeIsReadOnlyKey - Boolean indicating if the volume is read only</li>
-<li>NSURLVolumeIsRemovableKey - Boolean indicating if the volume is removable</li>
+<li>NSURLVolumeIsRemovableKey - Boolean indicating if the volume's media can be physically ejected from the drive (e.g. a DVD)</li>
 <li>NSURLVolumeMaximumFileSizeKey - Maximum file size the volume can support, in bytes</li>
 <li>NSURLVolumeUUIDStringKey - The UUID of volume's filesystem</li>
 <li>NSURLVolumeURLForRemountingKey - For remote volumes, the network URL of the volume</li>
@@ -165,6 +165,7 @@
 <li>NSURLVolumeNameKey - The volume's name</li>
 <li>NSURLVolumeLocalizedFormatDescriptionKey - Localized description of the volume</li>
 <li>Not all keys will be present for all volumes</li>
+<li>The meanings of NSURLVolumeIsEjectableKey and NSURLVolumeIsRemovableKey are not generally what they sound like. If you want a simple test as to whether or not a volume is a removable drive (e.g. a USB hard disk), check for NSURLVolumeIsInternalKey being false (this is what Finder does)</li>
 </ul>
 </li>
 </ul>

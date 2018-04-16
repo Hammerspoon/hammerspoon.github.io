@@ -1,0 +1,238 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.network.host</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.network.host</h1>
+      <p>This sub-module provides functions for acquiring host information, such as hostnames, addresses, and reachability.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#addressesForHostname">addressesForHostname</a></li>
+            <li><a href="#hostnamesForAddress">hostnamesForAddress</a></li>
+            <li><a href="#reachabilityForAddress">reachabilityForAddress</a></li>
+            <li><a href="#reachabilityForHostname">reachabilityForHostname</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#cancel">cancel</a></li>
+            <li><a href="#isRunning">isRunning</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="addressesForHostname">
+            <a name="//apple_ref/cpp/Function/addressesForHostname" class="dashAnchor"></a>
+            <h5><a href="#addressesForHostname">addressesForHostname</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.host.addressesForHostname(name[, fn]) -&gt; table | hostObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get IP addresses for the hostname specified.</p>
+<p>Parameters:</p>
+<ul>
+<li>name - the hostname to lookup IP addresses for</li>
+<li>fn   - an optional callback function which, when provided, will perform the address resolution in an asynchronous, non-blocking manner.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If this function is called without a callback function, returns a table containing the IP addresses for the specified name.  If a callback function is specified, then a host object is returned.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If no callback function is provided, the resolution occurs in a blocking manner which may be noticeable when network access is slow or erratic.</li>
+<li>If a callback function is provided, this function acts as a constructor, returning a host object and the callback function will be invoked when resolution is complete.  The callback function should take two parameters: the string "addresses", indicating that an address resolution occurred, and a table containing the IP addresses identified.</li>
+<li>Generates an error if network access is currently disabled or the hostname is invalid.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="hostnamesForAddress">
+            <a name="//apple_ref/cpp/Function/hostnamesForAddress" class="dashAnchor"></a>
+            <h5><a href="#hostnamesForAddress">hostnamesForAddress</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.host.hostnamesForAddress(address[, fn]) -&gt; table | hostObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get hostnames for the IP address specified.</p>
+<p>Parameters:</p>
+<ul>
+<li>address - a string or number representing an IPv4 or IPv6 network address to lookup hostnames for.  If the argument is a number, it is treated as the 32 bit numerical representation of an IPv4 address.</li>
+<li>fn      - an optional callback function which, when provided, will perform the hostname resolution in an asynchronous, non-blocking manner.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If this function is called without a callback function, returns a table containing the hostnames for the specified address.  If a callback function is specified, then a host object is returned.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If no callback function is provided, the resolution occurs in a blocking manner which may be noticeable when network access is slow or erratic.</li>
+<li>If a callback function is provided, this function acts as a constructor, returning a host object and the callback function will be invoked when resolution is complete.  The callback function should take two parameters: the string "names", indicating that hostname resolution occurred, and a table containing the hostnames identified.</li>
+<li>Generates an error if network access is currently disabled or the IP address is invalid.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="reachabilityForAddress">
+            <a name="//apple_ref/cpp/Function/reachabilityForAddress" class="dashAnchor"></a>
+            <h5><a href="#reachabilityForAddress">reachabilityForAddress</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.host.reachabilityForAddress(address[, fn]) -&gt; integer | hostObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the reachability status for the IP address specified.</p>
+<p>Parameters:</p>
+<ul>
+<li>address - a string or number representing an IPv4 or IPv6 network address to check the reachability for.  If the argument is a number, it is treated as the 32 bit numerical representation of an IPv4 address.</li>
+<li>fn      - an optional callback function which, when provided, will determine the address reachability in an asynchronous, non-blocking manner.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If this function is called without a callback function, returns the numeric representation of the address reachability status.  If a callback function is specified, then a host object is returned.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If no callback function is provided, the resolution occurs in a blocking manner which may be noticeable when network access is slow or erratic.</li>
+<li>If a callback function is provided, this function acts as a constructor, returning a host object and the callback function will be invoked when resolution is complete.  The callback function should take two parameters: the string "reachability", indicating that reachability was determined, and the numeric representation of the address reachability status.</li>
+<li>Generates an error if network access is currently disabled or the IP address is invalid.</li>
+<li>The numeric representation is made up from a combination of the flags defined in <code>hs.network.reachability.flags</code>.</li>
+<li>Performs the same reachability test as <code>hs.network.reachability.forAddress</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="reachabilityForHostname">
+            <a name="//apple_ref/cpp/Function/reachabilityForHostname" class="dashAnchor"></a>
+            <h5><a href="#reachabilityForHostname">reachabilityForHostname</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.host.reachabilityForHostname(name[, fn]) -&gt; integer | hostObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get the reachability status for the IP address specified.</p>
+<p>Parameters:</p>
+<ul>
+<li>name - the hostname to check the reachability for.  If the argument is a number, it is treated as the 32 bit numerical representation of an IPv4 address.</li>
+<li>fn   - an optional callback function which, when provided, will determine the address reachability in an asynchronous, non-blocking manner.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If this function is called without a callback function, returns the numeric representation of the hostname reachability status.  If a callback function is specified, then a host object is returned.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If no callback function is provided, the resolution occurs in a blocking manner which may be noticeable when network access is slow or erratic.</li>
+<li>If a callback function is provided, this function acts as a constructor, returning a host object and the callback function will be invoked when resolution is complete.  The callback function should take two parameters: the string "reachability", indicating that reachability was determined, and the numeric representation of the hostname reachability status.</li>
+<li>Generates an error if network access is currently disabled or the IP address is invalid.</li>
+<li>The numeric representation is made up from a combination of the flags defined in <code>hs.network.reachability.flags</code>.</li>
+<li>Performs the same reachability test as <code>hs.network.reachability.forHostName</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="cancel">
+            <a name="//apple_ref/cpp/Method/cancel" class="dashAnchor"></a>
+            <h5><a href="#cancel">cancel</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.host:cancel() -&gt; hostObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Cancels an in-progress asynchronous host resolution.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the hostObject</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method has no effect if the resolution has already completed.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isRunning">
+            <a name="//apple_ref/cpp/Method/isRunning" class="dashAnchor"></a>
+            <h5><a href="#isRunning">isRunning</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.host:isRunning() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether or not resolution is still in progress for an asynchronous query.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>true, if resolution is still in progress, or false if resolution has already completed.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

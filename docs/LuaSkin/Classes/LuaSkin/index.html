@@ -282,6 +282,94 @@ function disclosure_triangle(elt) {
 <hr class="afterClassOrHeaderInfo">
 <br><a name="HeaderDoc_groups"><h2 class="h2tight">Groups</h2></a>
 
+<h3>Checking Lua arguments in Objective C functions</h3>
+<div class="group_desc_indent">
+</div>
+<h4>Group members:</h4>
+<div class="group_indent">
+<dl>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/checkArgs:" logicalPath="//apple_ref/occ/instm/LuaSkin/checkArgs:" target="_top">-checkArgs:</a></tt></dt>
+<dd>
+<p>Ensures a Lua-&gt;C call has the right arguments
+</p>
+<p>@remark If the arguments are incorrect, this call will never return and the user will get a nice Lua traceback instead
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:forNSObject:" target="_top">-luaRef:forNSObject:</a></tt></dt>
+<dd>
+<p>Stores a reference for an NSObject in the supplied table.
+</p>
+<p>@remark Use luaUnref:ref: to release an object retained by this method. Returns LUA_NOREF if canPushNSObject: returns NO.
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRelease:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRelease:forNSObject:" target="_top">-luaRelease:forNSObject:</a></tt></dt>
+<dd>
+<p>Release a lua reference for an NSObject
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRetain:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRetain:forNSObject:" target="_top">-luaRetain:forNSObject:</a></tt></dt>
+<dd>
+<p>Adds a lua reference to an NSObject to prevent garbage collection
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaTypeAtIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaTypeAtIndex:" target="_top">-luaTypeAtIndex:</a></tt></dt>
+<dd>
+<p>Returns the effective Lua type for the item at the specified stack index.
+</p>
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Utility methods</h3>
+<div class="group_desc_indent">
+</div>
+<h4>Group members:</h4>
+<div class="group_indent">
+<dl>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/countNatIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/countNatIndex:" target="_top">-countNatIndex:</a></tt></dt>
+<dd>
+<p>Returns the number of keys in the table at the specified index.
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/getValidUTF8AtIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/getValidUTF8AtIndex:" target="_top">-getValidUTF8AtIndex:</a></tt></dt>
+<dd>
+<p>Returns an NSString for the string at the specified index with invalid UTF8 byte sequences converted to the Unicode Invalid Character code.
+</p>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This method uses luaL_tolstring so __tostring metamethods will be used if the index does not refer to a string or a number.</p></div>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/growStack:withMessage:" logicalPath="//apple_ref/occ/instm/LuaSkin/growStack:withMessage:" target="_top">-growStack:withMessage:</a></tt></dt>
+<dd>
+<p>Increases the size of Lua's stack
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/isValidUTF8AtIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/isValidUTF8AtIndex:" target="_top">-isValidUTF8AtIndex:</a></tt></dt>
+<dd>
+<p>Determines if the string in the lua stack is valid UTF8 or not
+</p>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This method is used internally to determine if a string should be treated as an NSString or an NSData object.  It is included as a public method because it has uses outside of this as well
+</p></div>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This method uses lua_tolstring, which will convert a number on the stack to a string.  As described in the Lua documentation, this will causes problems if you're using lua_next with the same index location
+</p></div>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/maxNatIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/maxNatIndex:" target="_top">-maxNatIndex:</a></tt></dt>
+<dd>
+<p>Returns the largest integer key in the table at the specified index.
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/requireModule:" logicalPath="//apple_ref/occ/instm/LuaSkin/requireModule:" target="_top">-requireModule:</a></tt></dt>
+<dd>
+<p>Loads a module and places its return value (usually a table of functions) on the stack
+</p>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This method performs the equivalent of the lua command `require(...)` and places the return value (usually a table of functions) on the stack, or an error string on the stack if it was unable to load the specified module
+</p></div>
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
 <h3>Logging methods</h3>
 <div class="group_desc_indent">
 </div>
@@ -337,152 +425,6 @@ function disclosure_triangle(elt) {
 </dl>
 </div>
 <p>&nbsp;</p>
-<h3>Utility methods</h3>
-<div class="group_desc_indent">
-</div>
-<h4>Group members:</h4>
-<div class="group_indent">
-<dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/countNatIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/countNatIndex:" target="_top">-countNatIndex:</a></tt></dt>
-<dd>
-<p>Returns the number of keys in the table at the specified index.
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/getValidUTF8AtIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/getValidUTF8AtIndex:" target="_top">-getValidUTF8AtIndex:</a></tt></dt>
-<dd>
-<p>Returns an NSString for the string at the specified index with invalid UTF8 byte sequences converted to the Unicode Invalid Character code.
-</p>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This method uses luaL_tolstring so __tostring metamethods will be used if the index does not refer to a string or a number.</p></div>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/growStack:withMessage:" logicalPath="//apple_ref/occ/instm/LuaSkin/growStack:withMessage:" target="_top">-growStack:withMessage:</a></tt></dt>
-<dd>
-<p>Increases the size of Lua's stack
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/isValidUTF8AtIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/isValidUTF8AtIndex:" target="_top">-isValidUTF8AtIndex:</a></tt></dt>
-<dd>
-<p>Determines if the string in the lua stack is valid UTF8 or not
-</p>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This method is used internally to determine if a string should be treated as an NSString or an NSData object.  It is included as a public method because it has uses outside of this as well
-</p></div>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This method uses lua_tolstring, which will convert a number on the stack to a string.  As described in the Lua documentation, this will causes problems if you're using lua_next with the same index location
-</p></div>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/maxNatIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/maxNatIndex:" target="_top">-maxNatIndex:</a></tt></dt>
-<dd>
-<p>Returns the largest integer key in the table at the specified index.
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/requireModule:" logicalPath="//apple_ref/occ/instm/LuaSkin/requireModule:" target="_top">-requireModule:</a></tt></dt>
-<dd>
-<p>Loads a module and places its return value (usually a table of functions) on the stack
-</p>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This method performs the equivalent of the lua command `require(...)` and places the return value (usually a table of functions) on the stack, or an error string on the stack if it was unable to load the specified module
-</p></div>
-</dd>
-</dl>
-</div>
-<p>&nbsp;</p>
-<h3>Checking Lua arguments in Objective C functions</h3>
-<div class="group_desc_indent">
-</div>
-<h4>Group members:</h4>
-<div class="group_indent">
-<dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/checkArgs:" logicalPath="//apple_ref/occ/instm/LuaSkin/checkArgs:" target="_top">-checkArgs:</a></tt></dt>
-<dd>
-<p>Ensures a Lua-&gt;C call has the right arguments
-</p>
-<p>@remark If the arguments are incorrect, this call will never return and the user will get a nice Lua traceback instead
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:forNSObject:" target="_top">-luaRef:forNSObject:</a></tt></dt>
-<dd>
-<p>Stores a reference for an NSObject in the supplied table.
-</p>
-<p>@remark Use luaUnref:ref: to release an object retained by this method. Returns LUA_NOREF if canPushNSObject: returns NO.
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRelease:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRelease:forNSObject:" target="_top">-luaRelease:forNSObject:</a></tt></dt>
-<dd>
-<p>Release a lua reference for an NSObject
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRetain:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRetain:forNSObject:" target="_top">-luaRetain:forNSObject:</a></tt></dt>
-<dd>
-<p>Adds a lua reference to an NSObject to prevent garbage collection
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaTypeAtIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaTypeAtIndex:" target="_top">-luaTypeAtIndex:</a></tt></dt>
-<dd>
-<p>Returns the effective Lua type for the item at the specified stack index.
-</p>
-</dd>
-</dl>
-</div>
-<p>&nbsp;</p>
-<h3>Referencing Lua objects in Objective C</h3>
-<div class="group_desc_indent">
-</div>
-<h4>Group members:</h4>
-<div class="group_indent">
-<dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:" target="_top">-luaRef:</a></tt></dt>
-<dd>
-<p>Stores a reference to the object at the top of the Lua stack, in the supplied table, and pops the object off the stack
-@remark This method is functionally analogous to luaL_ref(), it just takes care of pushing the supplied table ref onto the stack, and removes it afterwards
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:atIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:atIndex:" target="_top">-luaRef:atIndex:</a></tt></dt>
-<dd>
-<p>Stores a reference to the object at the specified position of the Lua stack, in the supplied table, without removing the object from the stack
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaUnref:ref:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaUnref:ref:" target="_top">-luaUnref:ref:</a></tt></dt>
-<dd>
-<p>Removes a reference from the supplied table
-</p>
-<p>@remark This method is functionally analogous to luaL_unref(), it just takes care of pushing the supplied table ref onto the Lua stack, and removes it afterwards
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushLuaRef:ref:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushLuaRef:ref:" target="_top">-pushLuaRef:ref:</a></tt></dt>
-<dd>
-<p>Pushes a stored reference onto the Lua stack
-</p>
-<p>@remark This method is functionally analogous to lua_rawgeti(), it just takes care of pushing the supplied table ref onto the Lua stack, and removes it afterwards
-</p>
-</dd>
-</dl>
-</div>
-<p>&nbsp;</p>
-<h3>Lua state lifecycle</h3>
-<div class="group_desc_indent">
-</div>
-<h4>Group members:</h4>
-<div class="group_indent">
-<dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/createLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/createLuaState" target="_top">-createLuaState</a></tt></dt>
-<dd>
-<p>Prepares the Lua environment in the LuaSkin object
-</p>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This method should only ever be called after an explicit call to destroyLuaState.
-There is no need to call it when initialising a LuaSkin instance
-</p></div>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/destroyLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/destroyLuaState" target="_top">-destroyLuaState</a></tt></dt>
-<dd><p>Destroys the Lua environment in the LuaSkin object
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/resetLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/resetLuaState" target="_top">-resetLuaState</a></tt></dt>
-<dd><p>Recreates the Lua environment in the LuaSkin object, from scratch
-</p></dd>
-</dl>
-</div>
-<p>&nbsp;</p>
 <h3>Calling Lua functions from Objective C</h3>
 <div class="group_desc_indent">
 </div>
@@ -494,24 +436,6 @@ There is no need to call it when initialising a LuaSkin instance
 </p></dd>
 <dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/protectedCallAndTraceback:nresults:" logicalPath="//apple_ref/occ/instm/LuaSkin/protectedCallAndTraceback:nresults:" target="_top">-protectedCallAndTraceback:nresults:</a></tt></dt>
 <dd><p>Calls lua_pcall() with debug.traceback() as the message handler
-</p></dd>
-</dl>
-</div>
-<p>&nbsp;</p>
-<h3>Registering module libraries with Lua</h3>
-<div class="group_desc_indent">
-</div>
-<h4>Group members:</h4>
-<div class="group_indent">
-<dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerLibrary:metaFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerLibrary:metaFunctions:" target="_top">-registerLibrary:metaFunctions:</a></tt></dt>
-<dd><p>Defines a Lua library and creates a references table for the library
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerLibraryWithObject:functions:metaFunctions:objectFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerLibraryWithObject:functions:metaFunctions:objectFunctions:" target="_top">-registerLibraryWithObject:functions:metaFunctions:objectFunctions:</a></tt></dt>
-<dd><p>Defines a Lua library that creates objects, which have methods
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerObject:objectFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerObject:objectFunctions:" target="_top">-registerObject:objectFunctions:</a></tt></dt>
-<dd><p>Defines a Lua object with methods
 </p></dd>
 </dl>
 </div>
@@ -596,6 +520,82 @@ There is no need to call it when initialising a LuaSkin instance
 <p>Return an NSObject containing the best representation of the lua data structure at the specified index
 </p>
 </dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Referencing Lua objects in Objective C</h3>
+<div class="group_desc_indent">
+</div>
+<h4>Group members:</h4>
+<div class="group_indent">
+<dl>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:" target="_top">-luaRef:</a></tt></dt>
+<dd>
+<p>Stores a reference to the object at the top of the Lua stack, in the supplied table, and pops the object off the stack
+@remark This method is functionally analogous to luaL_ref(), it just takes care of pushing the supplied table ref onto the stack, and removes it afterwards
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:atIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:atIndex:" target="_top">-luaRef:atIndex:</a></tt></dt>
+<dd>
+<p>Stores a reference to the object at the specified position of the Lua stack, in the supplied table, without removing the object from the stack
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaUnref:ref:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaUnref:ref:" target="_top">-luaUnref:ref:</a></tt></dt>
+<dd>
+<p>Removes a reference from the supplied table
+</p>
+<p>@remark This method is functionally analogous to luaL_unref(), it just takes care of pushing the supplied table ref onto the Lua stack, and removes it afterwards
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushLuaRef:ref:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushLuaRef:ref:" target="_top">-pushLuaRef:ref:</a></tt></dt>
+<dd>
+<p>Pushes a stored reference onto the Lua stack
+</p>
+<p>@remark This method is functionally analogous to lua_rawgeti(), it just takes care of pushing the supplied table ref onto the Lua stack, and removes it afterwards
+</p>
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Registering module libraries with Lua</h3>
+<div class="group_desc_indent">
+</div>
+<h4>Group members:</h4>
+<div class="group_indent">
+<dl>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerLibrary:metaFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerLibrary:metaFunctions:" target="_top">-registerLibrary:metaFunctions:</a></tt></dt>
+<dd><p>Defines a Lua library and creates a references table for the library
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerLibraryWithObject:functions:metaFunctions:objectFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerLibraryWithObject:functions:metaFunctions:objectFunctions:" target="_top">-registerLibraryWithObject:functions:metaFunctions:objectFunctions:</a></tt></dt>
+<dd><p>Defines a Lua library that creates objects, which have methods
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerObject:objectFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerObject:objectFunctions:" target="_top">-registerObject:objectFunctions:</a></tt></dt>
+<dd><p>Defines a Lua object with methods
+</p></dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Lua state lifecycle</h3>
+<div class="group_desc_indent">
+</div>
+<h4>Group members:</h4>
+<div class="group_indent">
+<dl>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/createLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/createLuaState" target="_top">-createLuaState</a></tt></dt>
+<dd>
+<p>Prepares the Lua environment in the LuaSkin object
+</p>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This method should only ever be called after an explicit call to destroyLuaState.
+There is no need to call it when initialising a LuaSkin instance
+</p></div>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/destroyLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/destroyLuaState" target="_top">-destroyLuaState</a></tt></dt>
+<dd><p>Destroys the Lua environment in the LuaSkin object
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/resetLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/resetLuaState" target="_top">-resetLuaState</a></tt></dt>
+<dd><p>Recreates the Lua environment in the LuaSkin object, from scratch
+</p></dd>
 </dl>
 </div>
 <p>&nbsp;</p>

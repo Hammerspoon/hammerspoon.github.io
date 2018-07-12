@@ -1,0 +1,184 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.spotlight.group</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.spotlight.group</h1>
+      <p>This sub-module is used to access results to a spotlightObject query which have been grouped by one or more attribute values.</p>
+<p>A spotlightGroupObject is a special object created when you specify one or more grouping attributes with <a href="#groupingAttributes">hs.spotlight:groupingAttributes</a>. Spotlight items which match the Spotlight query and share a common value for the specified attribute will be grouped in objects you can retrieve with the <a href="#groupedResults">hs.spotlight:groupedResults</a> method. This method returns an array of spotlightGroupObjects.</p>
+<p>For each spotlightGroupObject you can identify the attribute and value the grouping represents with the <a href="#attribute">hs.spotlight.group:attribute</a> and <a href="#value">hs.spotlight.group:value</a> methods.  An array of the results which belong to the group can be retrieved with the <a href="#resultAtIndex">hs.spotlight.group:resultAtIndex</a> method.  For convenience, metamethods have been added to the spotlightGroupObject which make accessing individual results easier:  an individual spotlightItemObject may be accessed from a spotlightGroupObject by treating the spotlightGroupObject like an array; e.g. <code>spotlightGroupObject[n]</code> will access the n'th spotlightItemObject in the grouped results.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#attribute">attribute</a></li>
+            <li><a href="#count">count</a></li>
+            <li><a href="#resultAtIndex">resultAtIndex</a></li>
+            <li><a href="#subgroups">subgroups</a></li>
+            <li><a href="#value">value</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="attribute">
+            <a name="//apple_ref/cpp/Method/attribute" class="dashAnchor"></a>
+            <h5><a href="#attribute">attribute</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight.group:attribute() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the name of the attribute the spotlightGroupObject results are grouped by.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the attribute name as a string</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="count">
+            <a name="//apple_ref/cpp/Method/count" class="dashAnchor"></a>
+            <h5><a href="#count">count</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight.group:count() -&gt; integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the number of query results contained in the spotlightGroupObject.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>an integer specifying the number of results that match the attribute and value represented by this spotlightGroup object.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>For convenience, metamethods have been added to the spotlightGroupObject which allow you to use <code>#spotlightGroupObject</code> as a shortcut for <code>spotlightGroupObject:count()</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="resultAtIndex">
+            <a name="//apple_ref/cpp/Method/resultAtIndex" class="dashAnchor"></a>
+            <h5><a href="#resultAtIndex">resultAtIndex</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight.group:resultAtIndex(index) -&gt; spotlightItemObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the spotlightItemObject at the specified index of the spotlightGroupObject</p>
+<p>Parameters:</p>
+<ul>
+<li><code>index</code> - an integer specifying the index of the result to return.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the spotlightItemObject at the specified index or an error if the index is out of bounds.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>For convenience, metamethods have been added to the spotlightGroupObject which allow you to use <code>spotlightGroupObject[index]</code> as a shortcut for <code>spotlightGroupObject:resultAtIndex(index)</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="subgroups">
+            <a name="//apple_ref/cpp/Method/subgroups" class="dashAnchor"></a>
+            <h5><a href="#subgroups">subgroups</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight.group:subgroups() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the subgroups of the spotlightGroupObject</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>an array table containing the subgroups of the spotlightGroupObject or nil if no subgroups exist</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Subgroups are created when you supply more than one grouping attribute to <code>hs.spotlight:groupingAttributes</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="value">
+            <a name="//apple_ref/cpp/Method/value" class="dashAnchor"></a>
+            <h5><a href="#value">value</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight.group:value() -&gt; value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the value for the attribute the spotlightGroupObject results are grouped by.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the attribute value as an appropriate data type</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.canvas.drawing</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.canvas.drawing</h1>
+      <p>An wrapper to replace <code>hs.drawing</code> with <code>hs.canvas</code>.</p>
+<p>The intention is for this wrapper to provide all of the same functionality that <code>hs.drawing</code> does without requiring any additional changes to your currently existing code.</p>
+<h3>Known issues/differences between the wrapper and <code>hs.drawing</code>:</h3>
+<ul>
+<li><p>images which are "template images" (i.e. some of the images with names in <code>hs.image.systemImageNames</code> and any image retrieved from an <code>hs.menubar</code> object) are displayed with an implicit <code>imageAlpha</code> of 0.5.  This closely mimics the NSImageView behavior observed with <code>hs.drawing</code>, but since Apple has not provided full details on how a template image is rendered when it is <em>not</em> used as a template, this is just a guess.</p>
+</li>
+<li><p>image frames from <code>hs.drawing</code> are approximated with additional canvas elements inserted into the canvas; since this module now allows you to create as complex a frame as you like... consider these as "examples".</p>
+</li>
+</ul>
+<p>The wrapper is not enabled by default.  See the <code>hs.canvas.drawingWrapper</code> function for details on how to enable or disable this wrapper.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#drawingWrapper">drawingWrapper</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="drawingWrapper">
+            <a name="//apple_ref/cpp/Function/drawingWrapper" class="dashAnchor"></a>
+            <h5><a href="#drawingWrapper">drawingWrapper</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.drawingWrapper([state]) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not <code>hs.drawing</code> is replaced by a wrapper which uses this module.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>state</code> - an optional boolean specifying whether or not <code>hs.drawing</code> should be replaced with a wrapper using this module.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the current, possibly newly changed, state.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This module was designed to address some of the limitations found with the <code>hs.drawing</code> module.  It is expected that at some point this module may completely replace the existing <code>hs.drawing</code> as it provides more flexibility and will be easier to extend with future additions. This function allows you to choose whether or not you wish to migrate fully to this new drawing model now to facilitate the testing of the wrapper or not.</li>
+<li><p>This wrapper was designed to fully mimic the current <code>hs.drawing</code> functions and methods -- you should not need to change your existing code in any way once this wrapper is enabled.  If you find that you do need to make adjustments or that something in the wrapper does not work as expected, please log an issue at <a href="https://github.com/Hammerspoon/hammerspoon/issues">https://github.com/Hammerspoon/hammerspoon/issues</a>.</p>
+</li>
+<li><p>When you change the wrapper state with this function, you must reload or restart your Hammerspoon application for the changes to go into effect.  It is expected that you will run this command from the Hammerspoon console like <code>hs.canvas.drawingWrapper(true)</code> and then reload your Hammerspoon configuration.  You will not need to do this again unless you wish to change back to the original <code>hs.drawing</code> module.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

@@ -1,0 +1,339 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.speech.listener</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.speech.listener</h1>
+      <p>This module provides access to the Speech Recognizer component of OS X.</p>
+<p>The speech recognizer functions and methods provide a way to add commands which may be issued to Hammerspoon through spoken words and phrases to trigger a callback.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#blocksOtherRecognizers">blocksOtherRecognizers</a></li>
+            <li><a href="#commands">commands</a></li>
+            <li><a href="#delete">delete</a></li>
+            <li><a href="#foregroundOnly">foregroundOnly</a></li>
+            <li><a href="#isListening">isListening</a></li>
+            <li><a href="#setCallback">setCallback</a></li>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+            <li><a href="#title">title</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.speech.listener.new([title]) -&gt; recognizerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new speech recognizer object for use by Hammerspoon.</p>
+<p>Parameters:</p>
+<ul>
+<li>title - an optional parameter specifying the title under which commands assigned to this speech recognizer will be listed in the Dictation Commands display when it is visible.  Defaults to "Hammerspoon".</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a speech recognizer object or nil, if the system was unable to create a new recognizer.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can change the title later with the <code>hs.speech.listener:title</code> method.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="blocksOtherRecognizers">
+            <a name="//apple_ref/cpp/Method/blocksOtherRecognizers" class="dashAnchor"></a>
+            <h5><a href="#blocksOtherRecognizers">blocksOtherRecognizers</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.speech.listener:blocksOtherRecognizers([flag]) -&gt; recognizerObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the speech recognizer should block other recognizers when it is active.</p>
+<p>Parameters:</p>
+<ul>
+<li>flag - an optional boolean indicating whether or not the speech recognizer should block other speech recognizers when it is active. Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If no parameter is provided, returns the current value; otherwise returns the recognizer object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="commands">
+            <a name="//apple_ref/cpp/Method/commands" class="dashAnchor"></a>
+            <h5><a href="#commands">commands</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.speech.listener:commands([commandsArray]) -&gt; recognizerObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the commands this speech recognizer will listen for.</p>
+<p>Parameters:</p>
+<ul>
+<li>commandsArray - an optional array of strings which specify the commands the recognizer will listen for.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If no parameter is provided, returns the current value; otherwise returns the recognizer object.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The list of commands will appear in the Dictation Commands window, if it is visible, under the title of this speech recognizer.  The text of each command is a possible value which may be sent as the second argument to a callback function for this speech recognizer, if one is defined.</li>
+<li>Setting this to an empty list does not disable the speech recognizer, but it does make it of limited use, other than to provide a title in the Dictation Commands window.  To disable the recognizer, use the <code>hs.speech.listener:stop</code> or <code>hs.speech.listener:delete</code> methods.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="delete">
+            <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+            <h5><a href="#delete">delete</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.speech.listener:delete() -&gt; recognizerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Disables the speech recognizer and removes it from the possible available speech recognizers.</p>
+<p>Parameters:</p>
+<ul>
+<li>None.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>this disables the speech recognizer and removes it from the list in the Dictation Commands window.  The object is effectively destroyed, so you will need to create a new one with <code>hs.speech.listener.new</code> if you want to bring it back.</li>
+<li>if this was the only speech recognizer currently available, the Dictation Commands window and feedback display will be removed from the users display.</li>
+<li>this method is automatically called during a reload or restart of Hammerspoon.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="foregroundOnly">
+            <a name="//apple_ref/cpp/Method/foregroundOnly" class="dashAnchor"></a>
+            <h5><a href="#foregroundOnly">foregroundOnly</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.speech.listener:foregroundOnly([flag]) -&gt; recognizerObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the speech recognizer is active only when the Hammerspoon application is active.</p>
+<p>Parameters:</p>
+<ul>
+<li>flag - an optional boolean indicating whether or not the speech recognizer should respond to commands only when Hammerspoon is the active application or not. Defaults to true.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If no parameter is provided, returns the current value; otherwise returns the recognizer object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isListening">
+            <a name="//apple_ref/cpp/Method/isListening" class="dashAnchor"></a>
+            <h5><a href="#isListening">isListening</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.speech.listener:isListening() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a boolean value indicating whether or not the recognizer is currently enabled (started).</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>true if the listener is listening (has been started) or false if it is not.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setCallback">
+            <a name="//apple_ref/cpp/Method/setCallback" class="dashAnchor"></a>
+            <h5><a href="#setCallback">setCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.speech.listener:setCallback(fn | nil) -&gt; recognizerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets or removes a callback function for the speech recognizer.</p>
+<p>Parameters:</p>
+<ul>
+<li>fn - a function to set as the callback for this speech synthesizer.  If the value provided is nil, any currently existing callback function is removed.  The callback function should accept two arguments and return none.  The arguments will be the speech recognizer object itself and the string of the command which was spoken.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the recognizer object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Possible string values for the command spoken are set with the <code>hs.speech.listener:commands</code> method.</li>
+<li>Removing the callback does not disable the speech recognizer, but it does make it of limited use, other than to provide a list in the Dictation Commands window.  To disable the recognizer, use the <code>hs.speech.listener:stop</code> or <code>hs.speech.listener:delete</code> methods.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.speech.listener:start() -&gt; recognizerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Make the speech recognizer active.</p>
+<p>Parameters:</p>
+<ul>
+<li>None.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>returns the recognizer object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.speech.listener:stop() -&gt; recognizerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Disables the speech recognizer.</p>
+<p>Parameters:</p>
+<ul>
+<li>None.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>returns the recognizer object.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>this only disables the speech recognizer.  To completely remove it from the list in the Dictation Commands window, use <code>hs.speech.listener:delete</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="title">
+            <a name="//apple_ref/cpp/Method/title" class="dashAnchor"></a>
+            <h5><a href="#title">title</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.speech.listener:title([title]) -&gt; recognizerObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the title for a speech recognizer.</p>
+<p>Parameters:</p>
+<ul>
+<li>title - an optional parameter specifying the title under which commands assigned to this speech recognizer will be listed in the Dictation Commands display when it is visible.  If you provide an explicit <code>nil</code>, it will reset to the default of "Hammerspoon".</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If no parameter is provided, returns the current value; otherwise returns the recognizer object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

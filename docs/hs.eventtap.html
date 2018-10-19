@@ -31,6 +31,7 @@ It also provides convenience wrappers for sending mouse and keyboard events. If 
             <li><a href="#checkKeyboardModifiers">checkKeyboardModifiers</a></li>
             <li><a href="#checkMouseButtons">checkMouseButtons</a></li>
             <li><a href="#doubleClickInterval">doubleClickInterval</a></li>
+            <li><a href="#isSecureInputEnabled">isSecureInputEnabled</a></li>
             <li><a href="#keyRepeatDelay">keyRepeatDelay</a></li>
             <li><a href="#keyRepeatInterval">keyRepeatInterval</a></li>
             <li><a href="#keyStroke">keyStroke</a></li>
@@ -148,6 +149,38 @@ and optionally</li>
 <p>Returns:</p>
 <ul>
 <li>A number containing the maximum number of seconds between two mouse click events, for a double click event to be registered</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isSecureInputEnabled">
+            <a name="//apple_ref/cpp/Function/isSecureInputEnabled" class="dashAnchor"></a>
+            <h5><a href="#isSecureInputEnabled">isSecureInputEnabled</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.isSecureInputEnabled() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Checks if macOS is preventing keyboard events from being sent to event taps</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if secure input is enabled, otherwise false</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If secure input is enabled, Hammerspoon is not able to intercept keyboard events</li>
+<li>Secure input is enabled generally only in situations where an password field is focused in a web browser, system dialog or terminal</li>
 </ul>
 </td>
               </tr>

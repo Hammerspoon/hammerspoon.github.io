@@ -282,6 +282,138 @@ function disclosure_triangle(elt) {
 <hr class="afterClassOrHeaderInfo">
 <br><a name="HeaderDoc_groups"><h2 class="h2tight">Groups</h2></a>
 
+<h3>Referencing Lua objects in Objective C</h3>
+<div class="group_desc_indent">
+</div>
+<h4>Group members:</h4>
+<div class="group_indent">
+<dl>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:" target="_top">-luaRef:</a></tt></dt>
+<dd>
+<p>Stores a reference to the object at the top of the Lua stack, in the supplied table, and pops the object off the stack
+@remark This method is functionally analogous to luaL_ref(), it just takes care of pushing the supplied table ref onto the stack, and removes it afterwards
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:atIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:atIndex:" target="_top">-luaRef:atIndex:</a></tt></dt>
+<dd>
+<p>Stores a reference to the object at the specified position of the Lua stack, in the supplied table, without removing the object from the stack
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaUnref:ref:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaUnref:ref:" target="_top">-luaUnref:ref:</a></tt></dt>
+<dd>
+<p>Removes a reference from the supplied table
+</p>
+<p>@remark This method is functionally analogous to luaL_unref(), it just takes care of pushing the supplied table ref onto the Lua stack, and removes it afterwards
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushLuaRef:ref:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushLuaRef:ref:" target="_top">-pushLuaRef:ref:</a></tt></dt>
+<dd>
+<p>Pushes a stored reference onto the Lua stack
+</p>
+<p>@remark This method is functionally analogous to lua_rawgeti(), it just takes care of pushing the supplied table ref onto the Lua stack, and removes it afterwards
+</p>
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Registering module libraries with Lua</h3>
+<div class="group_desc_indent">
+</div>
+<h4>Group members:</h4>
+<div class="group_indent">
+<dl>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerLibrary:metaFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerLibrary:metaFunctions:" target="_top">-registerLibrary:metaFunctions:</a></tt></dt>
+<dd><p>Defines a Lua library and creates a references table for the library
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerLibraryWithObject:functions:metaFunctions:objectFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerLibraryWithObject:functions:metaFunctions:objectFunctions:" target="_top">-registerLibraryWithObject:functions:metaFunctions:objectFunctions:</a></tt></dt>
+<dd><p>Defines a Lua library that creates objects, which have methods
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerObject:objectFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerObject:objectFunctions:" target="_top">-registerObject:objectFunctions:</a></tt></dt>
+<dd><p>Defines a Lua object with methods
+</p></dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Converting NSObject objects into Lua variables</h3>
+<div class="group_desc_indent">
+</div>
+<h4>Group members:</h4>
+<div class="group_indent">
+<dl>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/canPushNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/canPushNSObject:" target="_top">-canPushNSObject:</a></tt></dt>
+<dd>
+<p>Pushes an NSObject to the lua stack
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushNSObject:withOptions:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushNSObject:" target="_top">-pushNSObject:</a></tt></dt>
+<dd>
+<p>Pushes an NSObject to the lua stack
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushNSObject:withOptions:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushNSObject:withOptions:" target="_top">-pushNSObject:withOptions:</a></tt></dt>
+<dd>
+<p>Pushes an NSObject to the lua stack with the specified options
+</p>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushNSPoint:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushNSPoint:" target="_top">-pushNSPoint:</a></tt></dt>
+<dd>
+<p>Push an NSPoint onto the lua stack as a lua geometry object (table with x and y keys)
+</p>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This is included as a separate method because NSPoint is a structure, not an NSObject
+</p></div>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushNSRect:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushNSRect:" target="_top">-pushNSRect:</a></tt></dt>
+<dd>
+<p>Push an NSRect onto the lua stack as a lua geometry object (table with x,y,h, and w keys)
+</p>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This is included as a separate method because NSRect is a structure, not an NSObject
+</p></div>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushNSSize:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushNSSize:" target="_top">-pushNSSize:</a></tt></dt>
+<dd>
+<p>Push an NSSize onto the lua stack as a lua geometry object (table with w and h keys)
+</p>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This is included as a separate method because NSSize is a structure, not an NSObject
+</p></div>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerPushNSHelper:forClass:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerPushNSHelper:forClass:" target="_top">-registerPushNSHelper:forClass:</a></tt></dt>
+<dd>
+<p>Register a helper function for converting an NSObject to its lua equivalent
+</p>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This method allows registering a new NSObject class for conversion by allowing a module to register a helper function
+</p></div>
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Lua state lifecycle</h3>
+<div class="group_desc_indent">
+</div>
+<h4>Group members:</h4>
+<div class="group_indent">
+<dl>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/createLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/createLuaState" target="_top">-createLuaState</a></tt></dt>
+<dd>
+<p>Prepares the Lua environment in the LuaSkin object
+</p>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This method should only ever be called after an explicit call to destroyLuaState.
+There is no need to call it when initialising a LuaSkin instance
+</p></div>
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/destroyLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/destroyLuaState" target="_top">-destroyLuaState</a></tt></dt>
+<dd><p>Destroys the Lua environment in the LuaSkin object
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/resetLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/resetLuaState" target="_top">-resetLuaState</a></tt></dt>
+<dd><p>Recreates the Lua environment in the LuaSkin object, from scratch
+</p></dd>
+</dl>
+</div>
+<p>&nbsp;</p>
 <h3>Converting Lua variables into NSObjects</h3>
 <div class="group_desc_indent">
 </div>
@@ -365,35 +497,94 @@ function disclosure_triangle(elt) {
 </dl>
 </div>
 <p>&nbsp;</p>
-<h3>Referencing Lua objects in Objective C</h3>
+<h3>Logging methods</h3>
 <div class="group_desc_indent">
 </div>
 <h4>Group members:</h4>
 <div class="group_indent">
 <dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:" target="_top">-luaRef:</a></tt></dt>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logAtLevel:withMessage:" logicalPath="//apple_ref/occ/instm/LuaSkin/logAtLevel:withMessage:" target="_top">-logAtLevel:withMessage:</a></tt></dt>
+<dd><p>Log the specified message with at the specified level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logBreadcrumb:" logicalPath="//apple_ref/occ/instm/LuaSkin/logBreadcrumb:" target="_top">-logBreadcrumb:</a></tt></dt>
+<dd><p>Log the specified message with LS_LOG_BREADCRUMB level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logBreadcrumb:" logicalPath="//apple_ref/occ/clm/LuaSkin/logBreadcrumb:" target="_top">+logBreadcrumb:</a></tt></dt>
+<dd><p>Log the specified message from any thread with LS_LOG_BREADCRUMB level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logDebug:" logicalPath="//apple_ref/occ/instm/LuaSkin/logDebug:" target="_top">-logDebug:</a></tt></dt>
+<dd><p>Log the specified message with LS_LOG_DEBUG level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logDebug:" logicalPath="//apple_ref/occ/clm/LuaSkin/logDebug:" target="_top">+logDebug:</a></tt></dt>
+<dd><p>Log the specified message from any thread with LS_LOG_DEBUG level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logError:" logicalPath="//apple_ref/occ/instm/LuaSkin/logError:" target="_top">-logError:</a></tt></dt>
+<dd><p>Log the specified message with LS_LOG_ERROR level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logError:" logicalPath="//apple_ref/occ/clm/LuaSkin/logError:" target="_top">+logError:</a></tt></dt>
+<dd><p>Log the specified message from any thread with LS_LOG_ERROR level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logInfo:" logicalPath="//apple_ref/occ/instm/LuaSkin/logInfo:" target="_top">-logInfo:</a></tt></dt>
+<dd><p>Log the specified message with LS_LOG_INFO level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logInfo:" logicalPath="//apple_ref/occ/clm/LuaSkin/logInfo:" target="_top">+logInfo:</a></tt></dt>
+<dd><p>Log the specified message from any thread with LS_LOG_INFO level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logVerbose:" logicalPath="//apple_ref/occ/instm/LuaSkin/logVerbose:" target="_top">-logVerbose:</a></tt></dt>
+<dd><p>Log the specified message with LS_LOG_VERBOSE level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logVerbose:" logicalPath="//apple_ref/occ/clm/LuaSkin/logVerbose:" target="_top">+logVerbose:</a></tt></dt>
+<dd><p>Log the specified message from any thread with LS_LOG_VERBOSE level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logWarn:" logicalPath="//apple_ref/occ/instm/LuaSkin/logWarn:" target="_top">-logWarn:</a></tt></dt>
+<dd><p>Log the specified message with LS_LOG_WARN level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logWarn:" logicalPath="//apple_ref/occ/clm/LuaSkin/logWarn:" target="_top">+logWarn:</a></tt></dt>
+<dd><p>Log the specified message from any thread with LS_LOG_WARN level
+</p></dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/tracebackWithTag:fromStackPos:" logicalPath="//apple_ref/occ/instm/LuaSkin/tracebackWithTag:fromStackPos:" target="_top">-tracebackWithTag:fromStackPos:</a></tt></dt>
 <dd>
-<p>Stores a reference to the object at the top of the Lua stack, in the supplied table, and pops the object off the stack
-@remark This method is functionally analogous to luaL_ref(), it just takes care of pushing the supplied table ref onto the stack, and removes it afterwards
+<p>Returns a string containing the current stack top, the absolute index position of the stack top, and the output from luaL_traceback.
+</p>
+<p><b>WARNING:</b><br></p>
+<div class="warning_indent"><p>This method is primarily for debugging and may be removed in a future release.</p></div>
+</dd>
+</dl>
+</div>
+<p>&nbsp;</p>
+<h3>Checking Lua arguments in Objective C functions</h3>
+<div class="group_desc_indent">
+</div>
+<h4>Group members:</h4>
+<div class="group_indent">
+<dl>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/checkArgs:" logicalPath="//apple_ref/occ/instm/LuaSkin/checkArgs:" target="_top">-checkArgs:</a></tt></dt>
+<dd>
+<p>Ensures a Lua-&gt;C call has the right arguments
+</p>
+<p>@remark If the arguments are incorrect, this call will never return and the user will get a nice Lua traceback instead
 </p>
 </dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:atIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:atIndex:" target="_top">-luaRef:atIndex:</a></tt></dt>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:forNSObject:" target="_top">-luaRef:forNSObject:</a></tt></dt>
 <dd>
-<p>Stores a reference to the object at the specified position of the Lua stack, in the supplied table, without removing the object from the stack
+<p>Stores a reference for an NSObject in the supplied table.
+</p>
+<p>@remark Use luaUnref:ref: to release an object retained by this method. Returns LUA_NOREF if canPushNSObject: returns NO.
 </p>
 </dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaUnref:ref:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaUnref:ref:" target="_top">-luaUnref:ref:</a></tt></dt>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRelease:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRelease:forNSObject:" target="_top">-luaRelease:forNSObject:</a></tt></dt>
 <dd>
-<p>Removes a reference from the supplied table
-</p>
-<p>@remark This method is functionally analogous to luaL_unref(), it just takes care of pushing the supplied table ref onto the Lua stack, and removes it afterwards
+<p>Release a lua reference for an NSObject
 </p>
 </dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushLuaRef:ref:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushLuaRef:ref:" target="_top">-pushLuaRef:ref:</a></tt></dt>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRetain:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRetain:forNSObject:" target="_top">-luaRetain:forNSObject:</a></tt></dt>
 <dd>
-<p>Pushes a stored reference onto the Lua stack
+<p>Adds a lua reference to an NSObject to prevent garbage collection
 </p>
-<p>@remark This method is functionally analogous to lua_rawgeti(), it just takes care of pushing the supplied table ref onto the Lua stack, and removes it afterwards
+</dd>
+<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaTypeAtIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaTypeAtIndex:" target="_top">-luaTypeAtIndex:</a></tt></dt>
+<dd>
+<p>Returns the effective Lua type for the item at the specified stack index.
 </p>
 </dd>
 </dl>
@@ -460,197 +651,6 @@ function disclosure_triangle(elt) {
 </p></dd>
 <dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/protectedCallAndTraceback:nresults:" logicalPath="//apple_ref/occ/instm/LuaSkin/protectedCallAndTraceback:nresults:" target="_top">-protectedCallAndTraceback:nresults:</a></tt></dt>
 <dd><p>Calls lua_pcall() with debug.traceback() as the message handler
-</p></dd>
-</dl>
-</div>
-<p>&nbsp;</p>
-<h3>Lua state lifecycle</h3>
-<div class="group_desc_indent">
-</div>
-<h4>Group members:</h4>
-<div class="group_indent">
-<dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/createLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/createLuaState" target="_top">-createLuaState</a></tt></dt>
-<dd>
-<p>Prepares the Lua environment in the LuaSkin object
-</p>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This method should only ever be called after an explicit call to destroyLuaState.
-There is no need to call it when initialising a LuaSkin instance
-</p></div>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/destroyLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/destroyLuaState" target="_top">-destroyLuaState</a></tt></dt>
-<dd><p>Destroys the Lua environment in the LuaSkin object
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/resetLuaState" logicalPath="//apple_ref/occ/instm/LuaSkin/resetLuaState" target="_top">-resetLuaState</a></tt></dt>
-<dd><p>Recreates the Lua environment in the LuaSkin object, from scratch
-</p></dd>
-</dl>
-</div>
-<p>&nbsp;</p>
-<h3>Checking Lua arguments in Objective C functions</h3>
-<div class="group_desc_indent">
-</div>
-<h4>Group members:</h4>
-<div class="group_indent">
-<dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/checkArgs:" logicalPath="//apple_ref/occ/instm/LuaSkin/checkArgs:" target="_top">-checkArgs:</a></tt></dt>
-<dd>
-<p>Ensures a Lua-&gt;C call has the right arguments
-</p>
-<p>@remark If the arguments are incorrect, this call will never return and the user will get a nice Lua traceback instead
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRef:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRef:forNSObject:" target="_top">-luaRef:forNSObject:</a></tt></dt>
-<dd>
-<p>Stores a reference for an NSObject in the supplied table.
-</p>
-<p>@remark Use luaUnref:ref: to release an object retained by this method. Returns LUA_NOREF if canPushNSObject: returns NO.
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRelease:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRelease:forNSObject:" target="_top">-luaRelease:forNSObject:</a></tt></dt>
-<dd>
-<p>Release a lua reference for an NSObject
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaRetain:forNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaRetain:forNSObject:" target="_top">-luaRetain:forNSObject:</a></tt></dt>
-<dd>
-<p>Adds a lua reference to an NSObject to prevent garbage collection
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/luaTypeAtIndex:" logicalPath="//apple_ref/occ/instm/LuaSkin/luaTypeAtIndex:" target="_top">-luaTypeAtIndex:</a></tt></dt>
-<dd>
-<p>Returns the effective Lua type for the item at the specified stack index.
-</p>
-</dd>
-</dl>
-</div>
-<p>&nbsp;</p>
-<h3>Converting NSObject objects into Lua variables</h3>
-<div class="group_desc_indent">
-</div>
-<h4>Group members:</h4>
-<div class="group_indent">
-<dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/canPushNSObject:" logicalPath="//apple_ref/occ/instm/LuaSkin/canPushNSObject:" target="_top">-canPushNSObject:</a></tt></dt>
-<dd>
-<p>Pushes an NSObject to the lua stack
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushNSObject:withOptions:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushNSObject:" target="_top">-pushNSObject:</a></tt></dt>
-<dd>
-<p>Pushes an NSObject to the lua stack
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushNSObject:withOptions:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushNSObject:withOptions:" target="_top">-pushNSObject:withOptions:</a></tt></dt>
-<dd>
-<p>Pushes an NSObject to the lua stack with the specified options
-</p>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushNSPoint:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushNSPoint:" target="_top">-pushNSPoint:</a></tt></dt>
-<dd>
-<p>Push an NSPoint onto the lua stack as a lua geometry object (table with x and y keys)
-</p>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This is included as a separate method because NSPoint is a structure, not an NSObject
-</p></div>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushNSRect:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushNSRect:" target="_top">-pushNSRect:</a></tt></dt>
-<dd>
-<p>Push an NSRect onto the lua stack as a lua geometry object (table with x,y,h, and w keys)
-</p>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This is included as a separate method because NSRect is a structure, not an NSObject
-</p></div>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/pushNSSize:" logicalPath="//apple_ref/occ/instm/LuaSkin/pushNSSize:" target="_top">-pushNSSize:</a></tt></dt>
-<dd>
-<p>Push an NSSize onto the lua stack as a lua geometry object (table with w and h keys)
-</p>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This is included as a separate method because NSSize is a structure, not an NSObject
-</p></div>
-</dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerPushNSHelper:forClass:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerPushNSHelper:forClass:" target="_top">-registerPushNSHelper:forClass:</a></tt></dt>
-<dd>
-<p>Register a helper function for converting an NSObject to its lua equivalent
-</p>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This method allows registering a new NSObject class for conversion by allowing a module to register a helper function
-</p></div>
-</dd>
-</dl>
-</div>
-<p>&nbsp;</p>
-<h3>Logging methods</h3>
-<div class="group_desc_indent">
-</div>
-<h4>Group members:</h4>
-<div class="group_indent">
-<dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logAtLevel:withMessage:" logicalPath="//apple_ref/occ/instm/LuaSkin/logAtLevel:withMessage:" target="_top">-logAtLevel:withMessage:</a></tt></dt>
-<dd><p>Log the specified message with at the specified level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logBreadcrumb:" logicalPath="//apple_ref/occ/instm/LuaSkin/logBreadcrumb:" target="_top">-logBreadcrumb:</a></tt></dt>
-<dd><p>Log the specified message with LS_LOG_BREADCRUMB level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logBreadcrumb:" logicalPath="//apple_ref/occ/clm/LuaSkin/logBreadcrumb:" target="_top">+logBreadcrumb:</a></tt></dt>
-<dd><p>Log the specified message from any thread with LS_LOG_BREADCRUMB level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logDebug:" logicalPath="//apple_ref/occ/instm/LuaSkin/logDebug:" target="_top">-logDebug:</a></tt></dt>
-<dd><p>Log the specified message with LS_LOG_DEBUG level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logDebug:" logicalPath="//apple_ref/occ/clm/LuaSkin/logDebug:" target="_top">+logDebug:</a></tt></dt>
-<dd><p>Log the specified message from any thread with LS_LOG_DEBUG level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logError:" logicalPath="//apple_ref/occ/instm/LuaSkin/logError:" target="_top">-logError:</a></tt></dt>
-<dd><p>Log the specified message with LS_LOG_ERROR level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logError:" logicalPath="//apple_ref/occ/clm/LuaSkin/logError:" target="_top">+logError:</a></tt></dt>
-<dd><p>Log the specified message from any thread with LS_LOG_ERROR level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logInfo:" logicalPath="//apple_ref/occ/instm/LuaSkin/logInfo:" target="_top">-logInfo:</a></tt></dt>
-<dd><p>Log the specified message with LS_LOG_INFO level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logInfo:" logicalPath="//apple_ref/occ/clm/LuaSkin/logInfo:" target="_top">+logInfo:</a></tt></dt>
-<dd><p>Log the specified message from any thread with LS_LOG_INFO level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logVerbose:" logicalPath="//apple_ref/occ/instm/LuaSkin/logVerbose:" target="_top">-logVerbose:</a></tt></dt>
-<dd><p>Log the specified message with LS_LOG_VERBOSE level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logVerbose:" logicalPath="//apple_ref/occ/clm/LuaSkin/logVerbose:" target="_top">+logVerbose:</a></tt></dt>
-<dd><p>Log the specified message from any thread with LS_LOG_VERBOSE level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/logWarn:" logicalPath="//apple_ref/occ/instm/LuaSkin/logWarn:" target="_top">-logWarn:</a></tt></dt>
-<dd><p>Log the specified message with LS_LOG_WARN level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/clm/LuaSkin/logWarn:" logicalPath="//apple_ref/occ/clm/LuaSkin/logWarn:" target="_top">+logWarn:</a></tt></dt>
-<dd><p>Log the specified message from any thread with LS_LOG_WARN level
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/tracebackWithTag:fromStackPos:" logicalPath="//apple_ref/occ/instm/LuaSkin/tracebackWithTag:fromStackPos:" target="_top">-tracebackWithTag:fromStackPos:</a></tt></dt>
-<dd>
-<p>Returns a string containing the current stack top, the absolute index position of the stack top, and the output from luaL_traceback.
-</p>
-<p><b>WARNING:</b><br></p>
-<div class="warning_indent"><p>This method is primarily for debugging and may be removed in a future release.</p></div>
-</dd>
-</dl>
-</div>
-<p>&nbsp;</p>
-<h3>Registering module libraries with Lua</h3>
-<div class="group_desc_indent">
-</div>
-<h4>Group members:</h4>
-<div class="group_indent">
-<dl>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerLibrary:metaFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerLibrary:metaFunctions:" target="_top">-registerLibrary:metaFunctions:</a></tt></dt>
-<dd><p>Defines a Lua library and creates a references table for the library
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerLibraryWithObject:functions:metaFunctions:objectFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerLibraryWithObject:functions:metaFunctions:objectFunctions:" target="_top">-registerLibraryWithObject:functions:metaFunctions:objectFunctions:</a></tt></dt>
-<dd><p>Defines a Lua library that creates objects, which have methods
-</p></dd>
-<dt><tt><a machinegenerated="true" href="index.html#//apple_ref/occ/instm/LuaSkin/registerObject:objectFunctions:" logicalPath="//apple_ref/occ/instm/LuaSkin/registerObject:objectFunctions:" target="_top">-registerObject:objectFunctions:</a></tt></dt>
-<dd><p>Defines a Lua object with methods
 </p></dd>
 </dl>
 </div>
@@ -2944,7 +2944,7 @@ char *objectName = "shinyObject";
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Wednesday, October 17, 2018
+<p class="hd_timestamp">Last Updated: Friday, October 19, 2018
 </p>
 </div>
 </td>

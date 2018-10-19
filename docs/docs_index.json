@@ -2882,6 +2882,12 @@
     "type": "Function"
   },
   {
+    "desc": "Checks if macOS is preventing keyboard events from being sent to event taps",
+    "module": "hs.eventtap",
+    "name": "isSecureInputEnabled",
+    "type": "Function"
+  },
+  {
     "desc": "Returns the system-wide setting for the delay before keyboard repeat events begin",
     "module": "hs.eventtap",
     "name": "keyRepeatDelay",

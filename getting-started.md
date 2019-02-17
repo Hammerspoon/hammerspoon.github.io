@@ -25,6 +25,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
 
  * [Hello World](#helloworld)
  * [Fancier Hello World](#fancyhelloworld)
+ * [Spoons](#spoons)
  * [Introduction to window movement](#winmoveintro)
  * [A quick aside on colon syntax](#colonsyntax)
  * [A quick aside on variable lifecycles](#variablelife)
@@ -73,6 +74,20 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
   hs.notify.new({title="Hammerspoon", informativeText="Hello World"}):send()
 end)
 ```
+
+### <a name="spoons"></a>Spoons
+
+Spoons are pre-made plugins for Hammerspoon.
+
+Have a look at the official documentation for Spoons
+[here](https://github.com/Hammerspoon/hammerspoon/blob/master/SPOONS.md)
+about how they work and how to use them.
+
+The official website with the listing of Spoons is
+[https://www.hammerspoon.org/Spoons/](https://www.hammerspoon.org/Spoons/)
+and the official repository is
+[https://github.com/Hammerspoon/Spoons](https://github.com/Hammerspoon/Spoons).
+
 
 ### <a name="winmoveintro"></a>Introduction to window movement
 

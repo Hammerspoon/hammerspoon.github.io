@@ -14,7 +14,7 @@ What gives Hammerspoon its power is a set of extensions that expose specific pie
 
 You can write Lua code that interacts with OS X APIs for applications, windows, mouse pointers, filesystem objects, audio devices, batteries, screens, low-level keyboard/mouse events, clipboards, location services, wifi, and more.
 
-If you want to explore the options Hammerspoon offers, check out the [Getting Started Guide](/go/) and the [full API documentation](/docs/).
+If you want to explore the options Hammerspoon offers, check out the [Getting Started Guide](/go/) and the [full API documentation](/docs/) as well as the already pre-made plugins called [Spoons](https://www.hammerspoon.org/Spoons/).
 
 Typically you would write a configuration file in Lua that connects events to actions. You might want to bind a keyboard shortcut to a series of window operations, or an applescript. You might want to run a series of commands when your wifi interface connects to your home network. You might want to display an alert when your battery drops below a certain percentage. You might want to do something crazy like have iTunes automatically start playing when your Mac detects you are in Paris.
 
@@ -38,7 +38,7 @@ Bugs found on http://www.hammerspoon.org/ can be reported on [GitHub](https://gi
 
 ## Where can I get help?
 
-You can usually get a quick answer in our IRC channel, #hammerspoon on Freenode. A searchable archive of the channel [is available here](https://botbot.me/freenode/hammerspoon/).
+You can usually get a quick answer in our IRC channel, #hammerspoon on Freenode. A searchable archive of the channel [is available here](https://freenode.logbot.info/hammerspoon).
 
 We have a Google Group mailing list [here](https://groups.google.com/forum/#!forum/hammerspoon/)
 

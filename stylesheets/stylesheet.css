@@ -10,6 +10,10 @@ body {
   margin-top: -7px !important;
 }
 
+.navbar-nav li a {
+  padding: 8px 4px;
+}
+
 .brand-photo {
   max-height:  50px;
   max-width:   50px;

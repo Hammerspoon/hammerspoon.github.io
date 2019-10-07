@@ -27,6 +27,7 @@
         <li><a href="hs.audiodevice.html">hs.audiodevice</a></li>
         <li><a href="hs.base64.html">hs.base64</a></li>
         <li><a href="hs.battery.html">hs.battery</a></li>
+        <li><a href="hs.bonjour.html">hs.bonjour</a></li>
         <li><a href="hs.brightness.html">hs.brightness</a></li>
         <li><a href="hs.caffeinate.html">hs.caffeinate</a></li>
         <li><a href="hs.canvas.html">hs.canvas</a></li>
@@ -126,6 +127,7 @@
             <li><a href="#allowAppleScript">allowAppleScript</a></li>
             <li><a href="#autoLaunch">autoLaunch</a></li>
             <li><a href="#automaticallyCheckForUpdates">automaticallyCheckForUpdates</a></li>
+            <li><a href="#cameraState">cameraState</a></li>
             <li><a href="#canCheckForUpdates">canCheckForUpdates</a></li>
             <li><a href="#checkForUpdates">checkForUpdates</a></li>
             <li><a href="#cleanUTF8forConsole">cleanUTF8forConsole</a></li>
@@ -139,6 +141,7 @@
             <li><a href="#hsdocs">hsdocs</a></li>
             <li><a href="#loadSpoon">loadSpoon</a></li>
             <li><a href="#menuIcon">menuIcon</a></li>
+            <li><a href="#microphoneState">microphoneState</a></li>
             <li><a href="#open">open</a></li>
             <li><a href="#openAbout">openAbout</a></li>
             <li><a href="#openConsole">openConsole</a></li>
@@ -430,9 +433,9 @@
 </li>
 <li>Note that strings within the Lua code you pass from AppleScript can be delimited by <code>[[</code> and <code>]]</code> rather than normal quotes</li>
 <li><p>Example:</p>
-<div class="highlight"><pre><span></span><span class="n">tell</span> <span class="n">application</span> <span class="s2">&quot;Hammerspoon&quot;</span>
-  <span class="n">execute</span> <span class="n">lua</span> <span class="n">code</span> <span class="s2">&quot;hs.alert([[Hello from AppleScript]])&quot;</span>
-<span class="kr">end</span> <span class="n">tell</span>
+<div class="highlight"><pre><span></span><span class="n">tell</span> <span class="n">application</span> <span class="s2">&quot;</span><span class="s">Hammerspoon&quot;</span>
+  <span class="n">execute</span> <span class="n">lua</span> <span class="n">code</span> <span class="s2">&quot;</span><span class="s">hs.alert([[Hello from AppleScript]])&quot;</span>
+<span class="k">end</span> <span class="n">tell</span>
 </pre></div>
 </li>
 </ul>
@@ -493,6 +496,36 @@
 <p>Notes:</p>
 <ul>
 <li>If you are running a non-release or locally compiled version of Hammerspoon then the results of this function are unspecified.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="cameraState">
+            <a name="//apple_ref/cpp/Function/cameraState" class="dashAnchor"></a>
+            <h5><a href="#cameraState">cameraState</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.cameraState(shouldPrompt) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Parameters:</p>
+<ul>
+<li>shouldPrompt - an optional boolean value indicating if we should request camear access. Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li><code>true</code> or <code>false</code> indicating whether or not Camera access is enabled for Hammerspoon.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Will always return <code>true</code> on macOS 10.13 or earlier.</li>
 </ul>
 </td>
               </tr>
@@ -902,6 +935,36 @@
               </tr>
             </table>
           </section>
+          <section id="microphoneState">
+            <a name="//apple_ref/cpp/Function/microphoneState" class="dashAnchor"></a>
+            <h5><a href="#microphoneState">microphoneState</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.microphoneState(shouldPrompt) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Parameters:</p>
+<ul>
+<li>shouldPrompt - an optional boolean value indicating if we should request microphone access. Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li><code>true</code> or <code>false</code> indicating whether or not Microphone access is enabled for Hammerspoon.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Will always return <code>true</code> on macOS 10.13 or earlier.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
           <section id="open">
             <a name="//apple_ref/cpp/Function/open" class="dashAnchor"></a>
             <h5><a href="#open">open</a></h5>
@@ -1205,7 +1268,7 @@
             <table>
               <tr>
                 <th>Signature</th>
-                <td><code>hs.updateAvailable() -&gt; string or false</code></td>
+                <td><code>hs.updateAvailable() -&gt; string or false, string</code></td>
               </tr>
               <tr>
                 <th>Type</th>
@@ -1213,14 +1276,15 @@
               </tr>
               <tr>
                 <th>Description</th>
-                <td><p>Gets the version number of an available update</p>
+                <td><p>Gets the version &amp; build number of an available update</p>
 <p>Parameters:</p>
 <ul>
 <li>None</li>
 </ul>
 <p>Returns:</p>
 <ul>
-<li>A string containing the version number of the latest release, or a boolean false if no update is available</li>
+<li>A string containing the display version of the latest release, or a boolean false if no update is available</li>
+<li>A string containing the build number of the latest release, or <code>nil</code> if no update is available</li>
 </ul>
 <p>Notes:</p>
 <ul>

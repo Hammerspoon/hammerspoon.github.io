@@ -196,7 +196,7 @@
 </ul>
 <p>Returns:</p>
 <ul>
-<li>an hs.geometry rect describing the menubar item's frame</li>
+<li>an hs.geometry rect describing the menubar item's frame or nil if the menubar item is not currently in the menubar.</li>
 </ul>
 <p>Notes:</p>
 <ul>
@@ -321,7 +321,7 @@
 <ul>
 <li><p>Default priority levels can be found in the <a href="#priorities">hs.menubar.priorities</a> table.</p>
 </li>
-<li><p>This method uses undocumented methods in the NSStatusBar and NSStatusItem classes; because of this, we cannot guarantee that this method will work with future versions of OS X.  This method has been written so that if the necessary private methods are not present, then a warning will be sent to the Hammerspoon console and no change will occur with respect to the menubar item's priority.</p>
+<li><p>This method uses undocumented methods in the NSStatusBar and NSStatusItem classes, which appear to have been removed in macOS 10.15 (Catalina), so this method will no longer work correctly.</p>
 </li>
 </ul>
 </td>

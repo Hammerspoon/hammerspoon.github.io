@@ -78,7 +78,7 @@
 </ul>
 </li>
 <li>streamCallbackFn - A optional callback function to be called whenever the task outputs data to stdout or stderr. The function must return a boolean value - true to continue calling the streaming callback, false to stop calling it. The function should accept three arguments:<ul>
-<li>task - The hs.task object</li>
+<li>task - The hs.task object or nil if this is the final output of the completed task.</li>
 <li>stdOut - A string containing the standard output received since the last call to this callback</li>
 <li>stdErr - A string containing the standard error output received since the last call to this callback</li>
 </ul>
@@ -92,6 +92,7 @@
 <p>Notes:</p>
 <ul>
 <li>The arguments are not processed via a shell, so you do not need to do any quoting or escaping. They are passed to the executable exactly as provided.</li>
+<li>When using a stream callback, the callback may be invoked one last time after the termination callback has already been invoked. In this case, the <code>task</code> argument to the stream callback will be <code>nil</code> rather than the task userdata object and the return value of the stream callback will be ignored.</li>
 </ul>
 </td>
               </tr>

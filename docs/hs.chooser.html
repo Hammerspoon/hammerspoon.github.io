@@ -34,6 +34,7 @@
           </ul>
         <li>Methods - API calls which can only be made on an object returned by a constructor</li>
           <ul>
+            <li><a href="#attachedToolbar">attachedToolbar</a></li>
             <li><a href="#bgDark">bgDark</a></li>
             <li><a href="#cancel">cancel</a></li>
             <li><a href="#choices">choices</a></li>
@@ -122,6 +123,40 @@
             </table>
           </section>
         <h4 class="documentation-section">Methods</h4>
+          <section id="attachedToolbar">
+            <a name="//apple_ref/cpp/Method/attachedToolbar" class="dashAnchor"></a>
+            <h5><a href="#attachedToolbar">attachedToolbar</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.chooser:attachedToolbar([toolbar | nil]) -&gt; hs.chooser object | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or attach/detach a toolbar to/from the chooser.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>toolbar</code> - if an <code>hs.webview.toolbar</code> object is specified, it will be attached to the chooser.  If an explicit nil is specified, the current toolbar will be removed from the chooser.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if a toolbarObject or explicit nil is specified, returns the hs.chooser object; otherwise returns the current toolbarObject or nil, if no toolbar is attached to the chooser.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>this method is a convenience wrapper for the <code>hs.webview.toolbar.attachToolbar</code> function.</p>
+</li>
+<li><p>If the toolbarObject is currently attached to another window when this method is called, it will be detached from the original window and attached to the chooser.  If you wish to attach the same toolbar to multiple chooser objects, see <code>hs.webview.toolbar:copy</code>.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
           <section id="bgDark">
             <a name="//apple_ref/cpp/Method/bgDark" class="dashAnchor"></a>
             <h5><a href="#bgDark">bgDark</a></h5>
@@ -216,6 +251,7 @@
 </li>
 <li>Any other keys/values in each choice table will be retained by the chooser and returned to the completion callback when a choice is made. This is useful for storing UUIDs or other non-user-facing information, however, it is important to note that you should not store userdata objects in the table - it is run through internal conversion functions, so only basic Lua types should be stored.</li>
 <li>If a function is given, it will be called once, when the chooser window is displayed. The results are then cached until this method is called again, or <code>hs.chooser:refreshChoicesCallback()</code> is called.</li>
+<li>If you're using a hs.styledtext object for text or subText choices, make sure you specify a color, otherwise your text could appear transparent depending on the bgDark setting.</li>
 </ul>
 <p>Example:</p>
 
@@ -229,7 +265,7 @@
    ["subText"] = "I wonder what I should type here?",
    ["uuid"] = "Bbbb"
  },
- { ["text"] = "Third Possibility",
+ { ["text"] = hs.styledtext.new("Third Possibility", {font={size=18}, color=hs.drawing.color.definedCollections.hammerspoon.green}),
    ["subText"] = "What a lot of choosing there is going on here!",
    ["uuid"] = "III3"
  },
@@ -445,7 +481,7 @@
             <table>
               <tr>
                 <th>Signature</th>
-                <td><code>hs.chooser:refreshChoicesCallback() -&gt; hs.chooser object</code></td>
+                <td><code>hs.chooser:refreshChoicesCallback([reload]) -&gt; hs.chooser object</code></td>
               </tr>
               <tr>
                 <th>Type</th>
@@ -456,7 +492,7 @@
                 <td><p>Refreshes the choices data from a callback</p>
 <p>Parameters:</p>
 <ul>
-<li>None</li>
+<li>reload - An optional parameter that reloads the chooser results to take into account the current query string (defaults to <code>false</code>)</li>
 </ul>
 <p>Returns:</p>
 <ul>

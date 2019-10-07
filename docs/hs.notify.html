@@ -210,17 +210,17 @@
 </li>
 <li><p>Since notifications which the user has closed (or cancelled) do not trigger a callback, you can check this table with a timer to see if the user has cleared a notification, e.g.</p>
 <div class="highlight"><pre><span></span><span class="n">myNotification</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">notify</span><span class="p">.</span><span class="n">new</span><span class="p">():</span><span class="n">send</span><span class="p">()</span>
-<span class="n">clearCheck</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">doEvery</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kr">function</span><span class="p">()</span>
- <span class="kr">if</span> <span class="ow">not</span> <span class="n">hs</span><span class="p">.</span><span class="n">fnutils</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">notify</span><span class="p">.</span><span class="n">deliveredNotifications</span><span class="p">(),</span> <span class="n">myNotification</span><span class="p">)</span> <span class="kr">then</span>
-     <span class="kr">if</span> <span class="n">myNotification</span><span class="p">:</span><span class="n">activationType</span><span class="p">()</span> <span class="o">==</span> <span class="n">hs</span><span class="p">.</span><span class="n">notify</span><span class="p">.</span><span class="n">activationTypes</span><span class="p">.</span><span class="n">none</span> <span class="kr">then</span>
-         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You dismissed me!&quot;</span><span class="p">)</span>
-     <span class="kr">else</span>
-         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A regular action occurred, so callback (if any) was invoked&quot;</span><span class="p">)</span>
-     <span class="kr">end</span>
+<span class="n">clearCheck</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">doEvery</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
+ <span class="k">if</span> <span class="ow">not</span> <span class="n">hs</span><span class="p">.</span><span class="n">fnutils</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">notify</span><span class="p">.</span><span class="n">deliveredNotifications</span><span class="p">(),</span> <span class="n">myNotification</span><span class="p">)</span> <span class="k">then</span>
+     <span class="k">if</span> <span class="n">myNotification</span><span class="p">:</span><span class="n">activationType</span><span class="p">()</span> <span class="o">==</span> <span class="n">hs</span><span class="p">.</span><span class="n">notify</span><span class="p">.</span><span class="n">activationTypes</span><span class="p">.</span><span class="n">none</span> <span class="k">then</span>
+         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">You dismissed me!&quot;</span><span class="p">)</span>
+     <span class="k">else</span>
+         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">A regular action occurred, so callback (if any) was invoked&quot;</span><span class="p">)</span>
+     <span class="k">end</span>
      <span class="n">clearCheck</span><span class="p">:</span><span class="n">stop</span><span class="p">()</span> <span class="c1">-- either way, no need to keep polling</span>
      <span class="n">clearCheck</span> <span class="o">=</span> <span class="kc">nil</span>
- <span class="kr">end</span>
-<span class="kr">end</span><span class="p">)</span>
+ <span class="k">end</span>
+<span class="k">end</span><span class="p">)</span>
 </pre></div>
 </li>
 </ul>

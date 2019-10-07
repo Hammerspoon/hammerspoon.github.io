@@ -48,6 +48,10 @@
             <li><a href="#certificateOIDs">certificateOIDs</a></li>
             <li><a href="#windowMasks">windowMasks</a></li>
           </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#titleVisibility">titleVisibility</a></li>
+          </ul>
         <li>Constructors - API calls which return an object, typically one that offers API methods</li>
           <ul>
             <li><a href="#new">new</a></li>
@@ -82,6 +86,7 @@
             <li><a href="#hswindow">hswindow</a></li>
             <li><a href="#html">html</a></li>
             <li><a href="#isOnlySecureContent">isOnlySecureContent</a></li>
+            <li><a href="#isVisible">isVisible</a></li>
             <li><a href="#level">level</a></li>
             <li><a href="#loading">loading</a></li>
             <li><a href="#magnification">magnification</a></li>
@@ -243,6 +248,43 @@
 <ul>
 <li>The Maximize button in the window title is enabled when Resizable is set.</li>
 <li>The Close, Minimize, and Maximize buttons are only visible when the Window is also Titled.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="titleVisibility">
+            <a name="//apple_ref/cpp/Function/titleVisibility" class="dashAnchor"></a>
+            <h5><a href="#titleVisibility">titleVisibility</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:titleVisibility([state]) -&gt; webviewObject | string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the title text appears in the webview window.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>state</code> - an optional string containing the text "visible" or "hidden", specifying whether or not the webview's title text appears when webview's window style includes "titled".</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if a value is provided, returns the webview object; otherwise returns the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>See also <a href="#windowStyle">hs.webview:windowStyle</a> and <a href="#windowMasks">hs.webview.windowMasks</a>.</p>
+</li>
+<li><p>When a toolbar is attached to the webview, this function can be used to specify whether the Toolbar appears underneath the webview window's title ("visible") or in the window's title bar itself, as seen in applications like Safari ("hidden"). When the title is hidden, the toolbar will only display the toolbar items as icons without labels, and ignores changes made with <code>hs.webview.toolbar:displayMode</code>.</p>
+</li>
+<li><p>If a toolbar is attached to the webview, you can achieve the same effect as this method with <code>hs.webview:attachedToolbar():inTitleBar(boolean)</code></p>
+</li>
 </ul>
 </td>
               </tr>
@@ -1178,6 +1220,33 @@
 <p>Returns:</p>
 <ul>
 <li>true if all content current displayed in the web view was loaded over securely encrypted connections; otherwise false.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isVisible">
+            <a name="//apple_ref/cpp/Method/isVisible" class="dashAnchor"></a>
+            <h5><a href="#isVisible">isVisible</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview:isVisible() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Checks to see if a webview window is visible or not.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li><code>true</code> if the webview window is visible, otherwise <code>false</code></li>
 </ul>
 </td>
               </tr>

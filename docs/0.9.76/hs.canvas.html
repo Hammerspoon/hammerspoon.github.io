@@ -1,0 +1,1924 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.canvas</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.canvas</h1>
+      <p>A different approach to drawing in Hammerspoon</p>
+<p><code>hs.drawing</code> approaches graphical images as independant primitives, each "shape" being a separate drawing object based on the core primitives: ellipse, rectangle, point, line, text, etc.  This model works well with graphical elements that are expected to be managed individually and don't have complex clipping interactions, but does not scale well when more complex combinations or groups of drawing elements need to be moved or manipulated as a group, and only allows for simple inclusionary clipping regions.</p>
+<p>This module works by designating a canvas and then assigning a series of graphical primitives to the canvas.  Included in this assignment list are rules about how the individual elements interact with each other within the canvas (compositing and clipping rules), and direct modification of the canvas itself (move, resize, etc.) causes all of the assigned elements to be adjusted as a group.</p>
+<p>The canvas elements are defined in an array, and each entry of the array is a table of key-value pairs describing the element at that position.  Elements are rendered in the order in which they are assigned to the array (i.e. element 1 is drawn before element 2, etc.).</p>
+<p>Attributes for canvas elements are defined in <a href="#attributes">hs.canvas.attributes</a>. All canvas elements require the <code>type</code> field; all other attributes have default values.  Fields required to properly define the element (for example, <code>frame</code> for the <code>rectangle</code> element type) will be copied into the element definition with their default values if they are not specified at the time of creation. Optional attributes will only be assigned in the element definition if they are specified.  When the module requires the value for an element's attribute it first checks the element definition itself, then the defaults are looked for in the canvas defaults, and then finally in the module's built in defaults (specified in the descriptions below).</p>
+<p>Some examples of how to use this module can be found at <a href="https://github.com/asmagill/hammerspoon/wiki/hs.canvas.examples">https://github.com/asmagill/hammerspoon/wiki/hs.canvas.examples</a></p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.canvas.matrix.html">hs.canvas.matrix</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#compositeTypes">compositeTypes</a></li>
+            <li><a href="#windowBehaviors">windowBehaviors</a></li>
+            <li><a href="#windowLevels">windowLevels</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#defaultTextStyle">defaultTextStyle</a></li>
+            <li><a href="#disableScreenUpdates">disableScreenUpdates</a></li>
+            <li><a href="#elementSpec">elementSpec</a></li>
+            <li><a href="#enableScreenUpdates">enableScreenUpdates</a></li>
+            <li><a href="#help">help</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Fields - Variables which can only be accessed from an object returned by a constructor</li>
+          <ul>
+            <li><a href="#attributes">attributes</a></li>
+            <li><a href="#object">object</a></li>
+            <li><a href="#percentages">percentages</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#alpha">alpha</a></li>
+            <li><a href="#appendElements">appendElements</a></li>
+            <li><a href="#assignElement">assignElement</a></li>
+            <li><a href="#behavior">behavior</a></li>
+            <li><a href="#behaviorAsLabels">behaviorAsLabels</a></li>
+            <li><a href="#bringToFront">bringToFront</a></li>
+            <li><a href="#canvasDefaultFor">canvasDefaultFor</a></li>
+            <li><a href="#canvasDefaultKeys">canvasDefaultKeys</a></li>
+            <li><a href="#canvasDefaults">canvasDefaults</a></li>
+            <li><a href="#canvasElements">canvasElements</a></li>
+            <li><a href="#canvasMouseEvents">canvasMouseEvents</a></li>
+            <li><a href="#clickActivating">clickActivating</a></li>
+            <li><a href="#copy">copy</a></li>
+            <li><a href="#delete">delete</a></li>
+            <li><a href="#draggingCallback">draggingCallback</a></li>
+            <li><a href="#elementAttribute">elementAttribute</a></li>
+            <li><a href="#elementBounds">elementBounds</a></li>
+            <li><a href="#elementCount">elementCount</a></li>
+            <li><a href="#elementKeys">elementKeys</a></li>
+            <li><a href="#frame">frame</a></li>
+            <li><a href="#hide">hide</a></li>
+            <li><a href="#imageFromCanvas">imageFromCanvas</a></li>
+            <li><a href="#insertElement">insertElement</a></li>
+            <li><a href="#isOccluded">isOccluded</a></li>
+            <li><a href="#isShowing">isShowing</a></li>
+            <li><a href="#isVisible">isVisible</a></li>
+            <li><a href="#level">level</a></li>
+            <li><a href="#minimumTextSize">minimumTextSize</a></li>
+            <li><a href="#mouseCallback">mouseCallback</a></li>
+            <li><a href="#orderAbove">orderAbove</a></li>
+            <li><a href="#orderBelow">orderBelow</a></li>
+            <li><a href="#removeElement">removeElement</a></li>
+            <li><a href="#replaceElements">replaceElements</a></li>
+            <li><a href="#rotateElement">rotateElement</a></li>
+            <li><a href="#sendToBack">sendToBack</a></li>
+            <li><a href="#show">show</a></li>
+            <li><a href="#size">size</a></li>
+            <li><a href="#topLeft">topLeft</a></li>
+            <li><a href="#transformation">transformation</a></li>
+            <li><a href="#wantsLayer">wantsLayer</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="compositeTypes">
+            <a name="//apple_ref/cpp/Constant/compositeTypes" class="dashAnchor"></a>
+            <h5><a href="#compositeTypes">compositeTypes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.compositeTypes[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table containing the possible compositing rules for elements within the canvas.</p>
+<p>Compositing rules specify how an element assigned to the canvas is combined with the earlier elements of the canvas. The default compositing rule for the canvas is <code>sourceOver</code>, but each element of the canvas can be assigned a composite type which overrides this default for the specific element.</p>
+<p>The available types are as follows:</p>
+<ul>
+<li><code>clear</code>           - Transparent. (R = 0)</li>
+<li><code>copy</code>            - Source image. (R = S)</li>
+<li><code>sourceOver</code>      - Source image wherever source image is opaque, and destination image elsewhere. (R = S + D*(1 - Sa))</li>
+<li><code>sourceIn</code>        - Source image wherever both images are opaque, and transparent elsewhere. (R = S*Da)</li>
+<li><code>sourceOut</code>       - Source image wherever source image is opaque but destination image is transparent, and transparent elsewhere. (R = S*(1 - Da))</li>
+<li><code>sourceAtop</code>      - Source image wherever both images are opaque, destination image wherever destination image is opaque but source image is transparent, and transparent elsewhere. (R = S<em>Da + D</em>(1 - Sa))</li>
+<li><code>destinationOver</code> - Destination image wherever destination image is opaque, and source image elsewhere. (R = S*(1 - Da) + D)</li>
+<li><code>destinationIn</code>   - Destination image wherever both images are opaque, and transparent elsewhere. (R = D*Sa)</li>
+<li><code>destinationOut</code>  - Destination image wherever destination image is opaque but source image is transparent, and transparent elsewhere. (R = D*(1 - Sa))</li>
+<li><code>destinationAtop</code> - Destination image wherever both images are opaque, source image wherever source image is opaque but destination image is transparent, and transparent elsewhere. (R = S<em>(1 - Da) + D</em>Sa)</li>
+<li><code>XOR</code>             - Exclusive OR of source and destination images. (R = S<em>(1 - Da) + D</em>(1 - Sa)). Works best with black and white images and is not recommended for color contexts.</li>
+<li><code>plusDarker</code>      - Sum of source and destination images, with color values approaching 0 as a limit. (R = MAX(0, (1 - D) + (1 - S)))</li>
+<li><code>plusLighter</code>     - Sum of source and destination images, with color values approaching 1 as a limit. (R = MIN(1, S + D))</li>
+</ul>
+<p>In each equation, R is the resulting (premultiplied) color, S is the source color, D is the destination color, Sa is the alpha value of the source color, and Da is the alpha value of the destination color.</p>
+<p>The <code>source</code> object is the individual element as it is rendered in order within the canvas, and the <code>destination</code> object is the combined state of the previous elements as they have been composited within the canvas.</p>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowBehaviors">
+            <a name="//apple_ref/cpp/Constant/windowBehaviors" class="dashAnchor"></a>
+            <h5><a href="#windowBehaviors">windowBehaviors</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.windowBehaviors[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Array of window behavior labels for determining how a canvas or drawing object is handled in Spaces and Exposé</p>
+<ul>
+<li><code>default</code>                   - The window can be associated to one space at a time.</li>
+<li><code>canJoinAllSpaces</code>          - The window appears in all spaces. The menu bar behaves this way.</li>
+<li><code>moveToActiveSpace</code>         - Making the window active does not cause a space switch; the window switches to the active space.</li>
+</ul>
+<p>Only one of these may be active at a time:</p>
+<ul>
+<li><code>managed</code>                   - The window participates in Spaces and Exposé. This is the default behavior if windowLevel is equal to NSNormalWindowLevel.</li>
+<li><code>transient</code>                 - The window floats in Spaces and is hidden by Exposé. This is the default behavior if windowLevel is not equal to NSNormalWindowLevel.</li>
+<li><code>stationary</code>                - The window is unaffected by Exposé; it stays visible and stationary, like the desktop window.</li>
+</ul>
+<p>The following have no effect on <code>hs.canvas</code> or <code>hs.drawing</code> objects, but are included for completness and are expected to be used by future additions.</p>
+<p>Only one of these may be active at a time:</p>
+<ul>
+<li><code>participatesInCycle</code>       - The window participates in the window cycle for use with the Cycle Through Windows Window menu item.</li>
+<li><code>ignoresCycle</code>              - The window is not part of the window cycle for use with the Cycle Through Windows Window menu item.</li>
+</ul>
+<p>Only one of these may be active at a time:</p>
+<ul>
+<li><code>fullScreenPrimary</code>         - A window with this collection behavior has a fullscreen button in the upper right of its titlebar.</li>
+<li><code>fullScreenAuxiliary</code>       - Windows with this collection behavior can be shown on the same space as the fullscreen window.</li>
+</ul>
+<p>Only one of these may be active at a time (Available in OS X 10.11 and later):</p>
+<ul>
+<li><code>fullScreenAllowsTiling</code>    - A window with this collection behavior be a full screen tile window and does not have to have <code>fullScreenPrimary</code> set.</li>
+<li><code>fullScreenDisallowsTiling</code> - A window with this collection behavior cannot be made a fullscreen tile window, but it can have <code>fullScreenPrimary</code> set.  You can use this setting to prevent other windows from being placed in the window’s fullscreen tile.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowLevels">
+            <a name="//apple_ref/cpp/Constant/windowLevels" class="dashAnchor"></a>
+            <h5><a href="#windowLevels">windowLevels</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.windowLevels</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of predefined window levels usable with <a href="#level">hs.canvas:level</a></p>
+<p>Predefined levels are:</p>
+<ul>
+<li>_MinimumWindowLevelKey - lowest allowed window level</li>
+<li>desktop</li>
+<li>desktopIcon            - <a href="#sendToBack">hs.canvas:sendToBack</a> is equivalent to this level - 1</li>
+<li>normal                 - normal application windows</li>
+<li>tornOffMenu</li>
+<li>floating               - equivalent to <a href="#bringToFront">hs.canvas:bringToFront(false)</a>; where "Always Keep On Top" windows are usually set</li>
+<li>modalPanel             - modal alert dialog</li>
+<li>utility</li>
+<li>dock                   - level of the Dock</li>
+<li>mainMenu               - level of the Menubar</li>
+<li>status</li>
+<li>popUpMenu              - level of a menu when displayed (open)</li>
+<li>overlay</li>
+<li>help</li>
+<li>dragging</li>
+<li>screenSaver            - equivalent to <a href="#bringToFront">hs.canvas:bringToFront(true)</a></li>
+<li>assistiveTechHigh</li>
+<li>cursor</li>
+<li>_MaximumWindowLevelKey - highest allowed window level</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>These key names map to the constants used in CoreGraphics to specify window levels and may not actually be used for what the name might suggest. For example, tests suggest that an active screen saver actually runs at a level of 2002, rather than at 1000, which is the window level corresponding to kCGScreenSaverWindowLevelKey.</li>
+<li>Each window level is sorted separately and <a href="#orderAbove">hs.canvas:orderAbove</a> and <a href="#orderBelow">hs.canvas:orderBelow</a> only arrange windows within the same level.</li>
+<li><p>If you use Dock hiding (or in 10.11, Menubar hiding) please note that when the Dock (or Menubar) is popped up, it is done so with an implicit orderAbove, which will place it above any items you may also draw at the Dock (or MainMenu) level.</p>
+</li>
+<li><p>A canvas object with a <a href="#draggingCallback">hs.canvas:draggingCallback</a> function can only accept drag-and-drop items when its window level is at <code>hs.canvas.windowLevels.dragging</code> or lower.</p>
+</li>
+<li>A canvas object with a <a href="#mouseCallback">hs.canvas:mouseCallback</a> function can only reliably receive mouse click events when its window level is at <code>hs.canvas.windowLevels.desktopIcon</code> + 1 or higher.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="defaultTextStyle">
+            <a name="//apple_ref/cpp/Function/defaultTextStyle" class="dashAnchor"></a>
+            <h5><a href="#defaultTextStyle">defaultTextStyle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.defaultTextStyle() -&gt; <code>hs.styledtext</code> attributes table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table containing the default font, size, color, and paragraphStyle used by <code>hs.canvas</code> for text drawing objects.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table containing the default style attributes <code>hs.canvas</code> uses for text drawing objects in the <code>hs.styledtext</code> attributes table format.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method is intended to be used in conjunction with <code>hs.styledtext</code> to create styledtext objects that are based on, or a slight variation of, the defaults used by <code>hs.canvas</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="disableScreenUpdates">
+            <a name="//apple_ref/cpp/Function/disableScreenUpdates" class="dashAnchor"></a>
+            <h5><a href="#disableScreenUpdates">disableScreenUpdates</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.disableScreenUpdates() -&gt; None</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Tells the OS X window server to pause updating the physical displays for a short while.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method can be used to allow multiple changes which are being made to the users display appear as if they all occur simultaneously by holding off on updating the screen on the regular schedule.</li>
+<li><p>This method should always be balanced with a call to <a href="#enableScreenUpdates">hs.canvas.enableScreenUpdates</a> when your updates have been completed.  Failure to do so will be logged in the system logs.</p>
+</li>
+<li><p>The window server will only allow you to pause updates for up to 1 second.  This prevents a rogue or hung process from locking the system`s display completely.  Updates will be resumed when <a href="#enableScreenUpdates">hs.canvas.enableScreenUpdates</a> is encountered or after 1 second, whichever comes first.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementSpec">
+            <a name="//apple_ref/cpp/Function/elementSpec" class="dashAnchor"></a>
+            <h5><a href="#elementSpec">elementSpec</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.elementSpec() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the list of attributes and their specifications that are recognized for canvas elements by this module.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table containing the attributes and specifications defined for this module.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This is primarily for debugging purposes and may be removed in the future.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="enableScreenUpdates">
+            <a name="//apple_ref/cpp/Function/enableScreenUpdates" class="dashAnchor"></a>
+            <h5><a href="#enableScreenUpdates">enableScreenUpdates</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.enableScreenUpdates() -&gt; None</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Tells the OS X window server to resume updating the physical displays after a previous pause.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>In conjunction with <a href="#disableScreenUpdates">hs.canvas.disableScreenUpdates</a>, this method can be used to allow multiple changes which are being made to the users display appear as if they all occur simultaneously by holding off on updating the screen on the regular schedule.</li>
+<li><p>This method should always be preceded by a call to <a href="#disableScreenUpdates">hs.canvas.disableScreenUpdates</a>.  Failure to do so will be logged in the system logs.</p>
+</li>
+<li><p>The window server will only allow you to pause updates for up to 1 second.  This prevents a rogue or hung process from locking the system`s display completely.  Updates will be resumed when this function is encountered  or after 1 second, whichever comes first.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="help">
+            <a name="//apple_ref/cpp/Function/help" class="dashAnchor"></a>
+            <h5><a href="#help">help</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.help([attribute]) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Provides specification information for the recognized attributes, or the specific attribute specified.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>attribute</code> - an optional string specifying an element attribute. If this argument is not provided, all attributes are listed.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a string containing some of the information provided by the <a href="#elementSpec">hs.canvas.elementSpec</a> in a manner that is easy to reference from the Hammerspoon console.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.new(rect) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Create a new canvas object at the specified coordinates</p>
+<p>Parameters:</p>
+<ul>
+<li><code>rect</code> - A rect-table containing the co-ordinates and size for the canvas object</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a new, empty, canvas object, or nil if the canvas cannot be created with the specified coordinates</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The size of the canvas defines the visible area of the canvas -- any portion of a canvas element which extends past the canvas's edges will be clipped.</li>
+<li>a rect-table is a table with key-value pairs specifying the top-left coordinate on the screen for the canvas (keys <code>x</code>  and <code>y</code>) and the size (keys <code>h</code> and <code>w</code>) of the canvas. The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Fields</h4>
+          <section id="attributes">
+            <a name="//apple_ref/cpp/Field/attributes" class="dashAnchor"></a>
+            <h5><a href="#attributes">attributes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.attributes</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Field</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Canvas Element Attributes</p>
+<ul>
+<li><p><code>type</code> - specifies the type of canvas element the table represents. This attribute has no default and must be specified for each element in the canvas array. Valid type strings are:</p>
+<ul>
+<li><code>arc</code>           - an arc inscribed on a circle, defined by <code>radius</code>, <code>center</code>, <code>startAngle</code>, and <code>endAngle</code>.</li>
+<li><code>canvas</code>        - an independent canvas object, displayed as an element within the specified frame. Defined by <code>canvas</code> and <code>frame</code>.</li>
+<li><code>circle</code>        - a circle, defined by <code>radius</code> and <code>center</code>.</li>
+<li><code>ellipticalArc</code> - an arc inscribed on an oval, defined by <code>frame</code>, <code>startAngle</code>, and <code>endAngle</code>.</li>
+<li><code>image</code>         - an image as defined by one of the <code>hs.image</code> constructors.</li>
+<li><code>oval</code>          - an oval, defined by <code>frame</code></li>
+<li><code>points</code>        - a list of points defined in <code>coordinates</code>.</li>
+<li><code>rectangle</code>     - a rectangle, optionally with rounded corners, defined by <code>frame</code>.</li>
+<li><code>resetClip</code>     - a special type -- indicates that the current clipping shape should be reset to the canvas default (the full canvas area).  See <code>Clipping Example</code>.  All other attributes, except <code>action</code> are ignored.</li>
+<li><code>segments</code>      - a list of line segments or bezier curves with control points, defined in <code>coordinates</code>.</li>
+<li><code>text</code>          - a string or <code>hs.styledtext</code> object, defined by <code>text</code> and <code>frame</code>.</li>
+</ul>
+</li>
+<li><p>The following is a list of all valid attributes.  Not all attributes apply to every type, but you can set them for any type.</p>
+<ul>
+<li><code>action</code>              - Default <code>strokeAndFill</code>. A string specifying the action to take for the element in the array.  The following actions are recognized:<ul>
+<li><code>clip</code>          - append the shape to the current clipping region for the canvas. Ignored for <code>canvas</code>, <code>image</code>, and <code>text</code> types.</li>
+<li><code>build</code>         - do not render the element -- its shape is preserved and the next element in the canvas array is appended to it.  This can be used to create complex shapes or clipping regions. The stroke and fill settings for a complex object created in this manner will be those of the final object of the group. Ignored for <code>canvas</code>, <code>image</code>, and <code>text</code> types.</li>
+<li><code>fill</code>          - fill the canvas element, if it is a shape, or display it normally if it is a <code>canvas</code>, <code>image</code> or <code>text</code>.  Ignored for <code>resetClip</code>.</li>
+<li><code>skip</code>          - ignore this element or its effects.  Can be used to temporarily "remove" an object from the canvas.</li>
+<li><code>stroke</code>        - stroke (outline) the canvas element, if it is a shape, or display it normally if it is a <code>canvas</code>, <code>image</code> or <code>text</code>.  Ignored for <code>resetClip</code>.</li>
+<li><code>strokeAndFill</code> - stroke and fill the canvas element, if it is a shape, or display it normally if it is a <code>canvas</code>, <code>image</code> or <code>text</code>.  Ignored for <code>resetClip</code>.</li>
+</ul>
+</li>
+<li><code>absolutePosition</code>    - Default <code>true</code>. If false, numeric location and size attributes (<code>frame</code>, <code>center</code>, <code>radius</code>, and <code>coordinates</code>) will be automatically adjusted when the canvas is resized with <a href="#size">hs.canvas:size</a> or <a href="#frame">hs.canvas:frame</a> so that the element remains in the same relative position in the canvas.</li>
+<li><code>absoluteSize</code>        - Default <code>true</code>. If false, numeric location and size attributes (<code>frame</code>, <code>center</code>, <code>radius</code>, and <code>coordinates</code>) will be automatically adjusted when the canvas is resized with <a href="#size">hs.canvas:size</a> or <a href="#frame">hs.canvas:frame</a> so that the element maintains the same relative size in the canvas.</li>
+<li><code>antialias</code>           - Default <code>true</code>.  Indicates whether or not antialiasing should be enabled for the element.</li>
+<li><code>arcRadii</code>            - Default <code>true</code>. Used by the <code>arc</code> and <code>ellipticalArc</code> types to specify whether or not line segments from the element's center to the start and end angles should be included in the element's visible portion.  This affects whether the object's stroke is a pie-shape or an arc with a chord from the start angle to the end angle.</li>
+<li><code>arcClockwise</code>        - Default <code>true</code>.  Used by the <code>arc</code> and <code>ellipticalArc</code> types to specify whether the arc should be drawn from the start angle to the end angle in a clockwise (true) direction or in a counter-clockwise (false) direction.</li>
+<li><code>canvas</code>                - Defaults to nil. A separate canvas object which is to be displayed as an element in this canvas.  The object must not currently belong to a visible window.  Assign nil to this property to release a previously assigned object for use elsewhere as an element or on its own.</li>
+<li><code>canvasAlpha</code>           - Default <code>1.0</code>.  Specifies the alpha value to apply to the independant canvas element.</li>
+<li><code>compositeRule</code>       - A string, default "sourceOver", specifying how this element should be combined with earlier elements of the canvas.  See <a href="#compositeTypes">hs.canvas.compositeTypes</a> for a list of valid strings and their descriptions.</li>
+<li><code>center</code>              - Default <code>{ x = "50%", y = "50%" }</code>.  Used by the <code>circle</code> and <code>arc</code> types to specify the center of the canvas element.  The <code>x</code> and <code>y</code> fields can be specified as numbers or as a string. When specified as a string, the value is treated as a percentage of the canvas size.  See the section on <a href="#percentages">percentages</a> for more information.</li>
+<li><code>clipToPath</code>          - Default <code>false</code>.   Specifies whether the clipping regions should be temporarily limited to the element's shape while rendering this element or not.  This can be used to produce crisper edges, as seen with <code>hs.drawing</code> but reduces stroke width granularity for widths less than 1.0 and causes occasional "missing" lines with the <code>segments</code> element type. Ignored for the <code>canvas</code>, <code>image</code>, <code>point</code>, and <code>text</code> types.</li>
+<li><code>closed</code>              - Default <code>false</code>.  Used by the <code>segments</code> type to specify whether or not the shape defined by the lines and curves defined should be closed (true) or open (false).  When an object is closed, an implicit line is stroked from the final point back to the initial point of the coordinates listed.</li>
+<li><code>coordinates</code>         - An array containing coordinates used by the <code>segments</code> and <code>points</code> types to define the lines and curves or points that make up the canvas element.  The following keys are recognized and may be specified as numbers or strings (see the section on <a href="#percentages">percentages</a>).<ul>
+<li><code>x</code>   - required for <code>segments</code> and <code>points</code>, specifying the x coordinate of a point.</li>
+<li><code>y</code>   - required for <code>segments</code> and <code>points</code>, specifying the y coordinate of a point.</li>
+<li><code>c1x</code> - optional for <code>segments, specifying the x coordinate of the first control point used to draw a bezier curve between this point and the previous point.  Ignored for</code>points<code>and if present in the first coordinate in the</code>coordinates` array.</li>
+<li><code>c1y</code> - optional for <code>segments, specifying the y coordinate of the first control point used to draw a bezier curve between this point and the previous point.  Ignored for</code>points<code>and if present in the first coordinate in the</code>coordinates` array.</li>
+<li><code>c2x</code> - optional for <code>segments, specifying the x coordinate of the second control point used to draw a bezier curve between this point and the previous point.  Ignored for</code>points<code>and if present in the first coordinate in the</code>coordinates` array.</li>
+<li><code>c2y</code> - optional for <code>segments, specifying the y coordinate of the second control point used to draw a bezier curve between this point and the previous point.  Ignored for</code>points<code>and if present in the first coordinate in the</code>coordinates` array.</li>
+</ul>
+</li>
+<li><code>endAngle</code>            - Default <code>360.0</code>. Used by the <code>arc</code> and <code>ellipticalArc</code> to specify the ending angle position for the inscribed arc.</li>
+<li><code>fillColor</code>           - Default <code>{ red = 1.0 }</code>.  Specifies the color used to fill the canvas element when the <code>action</code> is set to <code>fill</code> or <code>strokeAndFill</code> and <code>fillGradient</code> is equal to <code>none</code>.  Ignored for the <code>canvas</code>, <code>image</code>, <code>points</code>, and <code>text</code> types.</li>
+<li><code>fillGradient</code>        - Default "none".  A string specifying whether a fill gradient should be used instead of the fill color when the action is <code>fill</code> or <code>strokeAndFill</code>.  May be "none", "linear", or "radial".</li>
+<li><code>fillGradientAngle</code>   - Default 0.0.  Specifies the direction of a linear gradient when <code>fillGradient</code> is linear.</li>
+<li><code>fillGradientCenter</code>  - Default <code>{ x = 0.0, y = 0.0 }</code>. Specifies the relative center point within the elements bounds of a radial gradient when <code>fillGradient</code> is <code>radial</code>.  The <code>x</code> and <code>y</code> fields must both be between -1.0 and 1.0 inclusive.</li>
+<li><code>fillGradientColors</code>  - Default <code>{ { white = 0.0 }, { white = 1.0 } }</code>.  Specifies the colors to use for the gradient when <code>fillGradient</code> is not <code>none</code>.  You must specify at least two colors, each of which must be convertible into the RGB color space (i.e. they cannot be an image being used as a color pattern).  The gradient will blend from the first to the next, and so on until the last color.  If more than two colors are specified, the "color stops" will be placed at evenly spaced intervals within the element.</li>
+<li><code>flatness</code>            - Default <code>0.6</code>.  A number which specifies the accuracy (or smoothness) with which curves are rendered. It is also the maximum error tolerance (measured in pixels) for rendering curves, where smaller numbers give smoother curves at the expense of more computation.</li>
+<li><code>flattenPath</code>         - Default <code>false</code>. Specifies whether curved line segments should be converted into straight line approximations. The granularity of the approximations is controlled by the path's current flatness value.</li>
+<li><code>frame</code>               - Default <code>{ x = "0%", y = "0%", h = "100%", w = "100%" }</code>.  Used by the <code>rectangle</code>, <code>oval</code>, <code>ellipticalArc</code>, <code>text</code>, <code>canvas</code> and <code>image</code> types to specify the element's position and size.  When the key value for <code>x</code>, <code>y</code>, <code>h</code>, or <code>w</code> are specified as a string, the value is treated as a percentage of the canvas size.  See the section on <a href="#percentages">percentages</a> for more information.</li>
+<li><code>id</code>                  - An optional string or number which is included in mouse callbacks to identify the element which was the target of the mouse event.  If this is not specified for an element, it's index position is used instead.</li>
+<li><code>image</code>               - Defaults to a blank image.  Used by the <code>image</code> type to specify an <code>hs.image</code> object to display as an image.</li>
+<li><code>imageAlpha</code>          - Defaults to <code>1.0</code>.  A number between 0.0 and 1.0 specifying the alpha value to be applied to the image specified by <code>image</code>.  Note that if an image is a template image, then this attribute will internally default to <code>0.5</code> unless explicitly set for the element.</li>
+<li><code>imageAlignment</code>      - Default "center". A string specifying the alignment of the image within the canvas element's frame.  Valid values for this attribute are "center", "bottom", "topLeft", "bottomLeft", "bottomRight", "left", "right", "top", and "topRight".</li>
+<li><code>imageAnimationFrame</code> - Default <code>0</code>. An integer specifying the image frame to display when the image is from an animated GIF.  This attribute is ignored for other image types.  May be specified as a negative integer indicating that the image frame should be calculated from the last frame and calculated backwards (i.e. specifying <code>-1</code> selects the last frame for the GIF.)</li>
+<li><code>imageAnimates</code>       - Default <code>false</code>. A boolean specifying whether or not an animated GIF should be animated or if only a single frame should be shown.  Ignored for other image types.</li>
+<li><code>imageScaling</code>        - Default "scalePropertionally".  A string specifying how the image should be scaled within the canvas element's frame.  Valid values for this attribute are:<ul>
+<li><code>scaleToFit</code>          - shrink the image, preserving the aspect ratio, to fit the drawing frame only if the image is larger than the drawing frame.</li>
+<li><code>shrinkToFit</code>         - shrink or expand the image to fully fill the drawing frame.  This does not preserve the aspect ratio.</li>
+<li><code>none</code>                - perform no scaling or resizing of the image.</li>
+<li><code>scaleProportionally</code> - shrink or expand the image to fully fill the drawing frame, preserving the aspect ration.</li>
+</ul>
+</li>
+<li><code>miterLimit</code>          - Default <code>10.0</code>. The limit at which miter joins are converted to bevel join when <code>strokeJoinStyle</code> is <code>miter</code>.  The miter limit helps you avoid spikes at the junction of two line segments.  When the ratio of the miter length—the diagonal length of the miter join—to the line thickness exceeds the miter limit, the joint is converted to a bevel join. Ignored for the <code>canvas</code>, <code>text</code>, and <code>image</code> types.</li>
+<li><code>padding</code>             - Default <code>0.0</code>. When an element specifies position information by percentage (i.e. as a string), the actual frame used for calculating position values is inset from the canvas frame on all sides by this amount. If you are using shadows with your elements, the shadow position is not included in the element's size and position specification; this attribute can be used to provide extra space for the shadow to be fully rendered within the canvas.</li>
+<li><code>radius</code>              - Default "50%". Used by the <code>arc</code> and <code>circle</code> types to specify the radius of the circle for the element. May be specified as a string or a number.  When specified as a string, the value is treated as a percentage of the canvas size.  See the section on <a href="#percentages">percentages</a> for more information.</li>
+<li><code>reversePath</code>         - Default <code>false</code>.  Specifies drawing direction for the canvas element.  By default, canvas elements are drawn from the point nearest the origin (top left corner) in a clockwise direction.  Setting this to true causes the element to be drawn in a counter-clockwise direction. This will mostly affect fill and stroke dash patterns, but can also be used with clipping regions to create cut-outs.  Ignored for <code>canvas</code>, <code>image</code>, and <code>text</code> types.</li>
+<li><code>roundedRectRadii</code>    - Default <code>{ xRadis = 0.0, yRadius = 0.0 }</code>.</li>
+<li><code>shadow</code>              - Default <code>{ blurRadius = 5.0, color = { alpha = 1/3 }, offset = { h = -5.0, w = 5.0 } }</code>.  Specifies the shadow blurring, color, and offset to be added to an element which has <code>withShadow</code> set to true.</li>
+<li><code>startAngle</code>          - Default <code>0.0</code>. Used by the <code>arc</code> and <code>ellipticalArc</code> to specify the starting angle position for the inscribed arc.</li>
+<li><code>strokeCapStyle</code>      - Default "butt". A string which specifies the shape of the endpoints of an open path when stroked.  Primarily noticeable for lines rendered with the <code>segments</code> type.  Valid values for this attribute are "butt", "round", and "square".</li>
+<li><code>strokeColor</code>         - Default <code>{ white = 0 }</code>.  Specifies the stroke (outline) color for a canvas element when the action is set to <code>stroke</code> or <code>strokeAndFill</code>.  Ignored for the <code>canvas</code>, <code>text</code>, and <code>image</code> types.</li>
+<li><code>strokeDashPattern</code>   - Default <code>{}</code>.  Specifies an array of numbers specifying a dash pattern for stroked lines when an element's <code>action</code> attribute is set to <code>stroke</code> or <code>strokeAndFill</code>.  The numbers in the array alternate with the first element specifying a dash length in points, the second specifying a gap length in points, the third a dash length, etc.  The array repeats to fully stroke the element.  Ignored for the <code>canvas</code>, <code>image</code>, and <code>text</code> types.</li>
+<li><code>strokeDashPhase</code>     - Default <code>0.0</code>.  Specifies an offset, in points, where the dash pattern specified by <code>strokeDashPattern</code> should start. Ignored for the <code>canvas</code>, <code>image</code>, and <code>text</code> types.</li>
+<li><code>strokeJoinStyle</code>     - Default "miter".  A string which specifies the shape of the joints between connected segments of a stroked path.  Valid values for this attribute are "miter", "round", and "bevel".  Ignored for element types of <code>canvas</code>, <code>image</code>, and <code>text</code>.</li>
+<li><code>strokeWidth</code>         - Default <code>1.0</code>.  Specifies the width of stroked lines when an element's action is set to <code>stroke</code> or <code>strokeAndFill</code>.  Ignored for the <code>canvas</code>, <code>image</code>, and <code>text</code> element types.</li>
+<li><code>text</code>                - Default <code>""</code>.  Specifies the text to display for a <code>text</code> element.  This may be specified as a string, or as an <code>hs.styledtext</code> object.</li>
+<li><code>textAlignment</code>       - Default <code>natural</code>. A string specifying the alignment of the text within a canvas element of type <code>text</code>.  This field is ignored if the text is specified as an <code>hs.styledtext</code> object.  Valid values for this attributes are:<ul>
+<li><code>left</code>      - the text is visually left aligned.</li>
+<li><code>right</code>     - the text is visually right aligned.</li>
+<li><code>center</code>    - the text is visually center aligned.</li>
+<li><code>justified</code> - the text is justified</li>
+<li><code>natural</code>   - the natural alignment of the text’s script</li>
+</ul>
+</li>
+<li><code>textColor</code>           - Default <code>{ white = 1.0 }</code>.  Specifies the color to use when displaying the <code>text</code> element type, if the text is specified as a string.  This field is ignored if the text is specified as an <code>hs.styledtext</code> object.</li>
+<li><code>textFont</code>            - Defaults to the default system font.  A string specifying the name of thefont to use when displaying the <code>text</code> element type, if the text is specified as a string.  This field is ignored if the text is specified as an <code>hs.styledtext</code> object.</li>
+<li><code>textLineBreak</code>       - Default <code>wordWrap</code>. A string specifying how to wrap text which exceeds the canvas element's frame for an element of type <code>text</code>.  This field is ignored if the text is specified as an <code>hs.styledtext</code> object.  Valid values for this attribute are:<ul>
+<li><code>wordWrap</code>       - wrap at word boundaries, unless the word itself doesn’t fit on a single line</li>
+<li><code>charWrap</code>       - wrap before the first character that doesn’t fit</li>
+<li><code>clip</code>           - do not draw past the edge of the drawing object frame</li>
+<li><code>truncateHead</code>   - the line is displayed so that the end fits in the frame and the missing text at the beginning of the line is indicated by an ellipsis</li>
+<li><code>truncateTail</code>   - the line is displayed so that the beginning fits in the frame and the missing text at the end of the line is indicated by an ellipsis</li>
+<li><code>truncateMiddle</code> - the line is displayed so that the beginning and end fit in the frame and the missing text in the middle is indicated by an ellipsis</li>
+</ul>
+</li>
+<li><code>textSize</code>            - Default <code>27.0</code>.  Specifies the font size to use when displaying the <code>text</code> element type, if the text is specified as a string.  This field is ignored if the text is specified as an <code>hs.styledtext</code> object.</li>
+<li><code>trackMouseByBounds</code>  - Default <code>false</code>. If true, mouse events are based on the element's bounds (smallest rectangle which completely contains the element); otherwise, mouse events are based on the visible portion of the canvas element.</li>
+<li><code>trackMouseEnterExit</code> - Default <code>false</code>.  Generates a callback when the mouse enters or exits the canvas element.  For <code>canvas</code> and <code>text</code> types, the <code>frame</code> of the element defines the boundaries of the tracking area.</li>
+<li><code>trackMouseDown</code>      - Default <code>false</code>.  Generates a callback when mouse button is clicked down while the cursor is within the canvas element.  For <code>canvas</code> and <code>text</code> types, the <code>frame</code> of the element defines the boundaries of the tracking area.</li>
+<li><code>trackMouseUp</code>        - Default <code>false</code>.  Generates a callback when mouse button is released while the cursor is within the canvas element.  For <code>canvas</code> and <code>text</code> types, the <code>frame</code> of the element defines the boundaries of the tracking area.</li>
+<li><code>trackMouseMove</code>      - Default <code>false</code>.  Generates a callback when the mouse cursor moves within the canvas element.  For <code>canvas</code> and <code>text</code> types, the <code>frame</code> of the element defines the boundaries of the tracking area.</li>
+<li><code>transformation</code>      - Default <code>{ m11 = 1.0, m12 = 0.0, m21 = 0.0, m22 = 1.0, tX = 0.0, tY = 0.0 }</code>. Specifies a matrix transformation to apply to the element before displaying it.  Transformations may include rotation, translation, scaling, skewing, etc.</li>
+<li><code>windingRule</code>         - Default "nonZero".  A string specifying the winding rule in effect for the canvas element. May be "nonZero" or "evenOdd".  The winding rule determines which portions of an element to fill. This setting will only have a visible effect on compound elements (built with the <code>build</code> action) or elements of type <code>segments</code> when the object is made from lines which cross.</li>
+<li><code>withShadow</code>          - Default <code>false</code>. Specifies whether a shadow effect should be applied to the canvas element.  Ignored for the <code>text</code> type.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="object">
+            <a name="//apple_ref/cpp/Field/object" class="dashAnchor"></a>
+            <h5><a href="#object">object</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.object[index]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Field</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>An array-like method for accessing the attributes for the canvas element at the specified index</p>
+<p>Metamethods are assigned to the canvas object so that you can refer to individual elements of the canvas as if the canvas object was an array.  Each element is represented by a table of key-value pairs, where each key represents an attribute for that element.  Valid index numbers range from 1 to <a href="#elementCount">hs.canvas:elementCount()</a> when getting an element or getting or setting one of its attributes, and from 1 to <a href="#elementCount">hs.canvas:elementCount()</a> + 1 when assign an element table to an index in the canvas.  For example:</p>
+<div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">hs.canvas&quot;</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">new</span><span class="p">{</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">100</span> <span class="p">}:</span><span class="n">show</span><span class="p">()</span>
+<span class="n">a</span><span class="p">:</span><span class="n">insertElement</span><span class="p">({</span> <span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">rectangle&quot;</span><span class="p">,</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">part1&quot;</span><span class="p">,</span> <span class="n">fillColor</span> <span class="o">=</span> <span class="p">{</span> <span class="n">blue</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">})</span>
+<span class="n">a</span><span class="p">:</span><span class="n">insertElement</span><span class="p">({</span> <span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">circle&quot;</span><span class="p">,</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">part2&quot;</span><span class="p">,</span> <span class="n">fillColor</span> <span class="o">=</span> <span class="p">{</span> <span class="n">green</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">})</span>
+</pre></div>
+<p>can also be expressed as:</p>
+<div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">hs.canvas&quot;</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">new</span><span class="p">{</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">100</span> <span class="p">}:</span><span class="n">show</span><span class="p">()</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">rectangle&quot;</span><span class="p">,</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">part1&quot;</span><span class="p">,</span> <span class="n">fillColor</span> <span class="o">=</span> <span class="p">{</span> <span class="n">blue</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">}</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">circle&quot;</span><span class="p">,</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">part2&quot;</span><span class="p">,</span> <span class="n">fillColor</span> <span class="o">=</span> <span class="p">{</span> <span class="n">green</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">}</span>
+</pre></div>
+<p>You can change a canvas element's attributes using this same style: <code>a[2].fillColor.alpha = .5</code> will adjust the alpha value for element 2 of the canvas without adjusting any of the other color fields.  To replace the color entirely, assign it like this: <code>a[2].fillColor = { white = .5, alpha = .25 }</code></p>
+<p>The canvas defaults can also be accessed with the <code>_default</code> field like this: <code>a._default.strokeWidth = 5</code>.</p>
+<p>Attributes which have a string specified as their <code>id</code> attribute can also be accessed as if the <code>id</code> where a <code>key</code> in the table-like canvas: e.g. <code>a.part2.action = "skip"</code></p>
+<p>It is important to note that these methods are a convenience and that the canvas object is not a true table.  The tables are generated dynamically as needed; as such <code>hs.inspect</code> cannot properly display them; however, you can just type in the element or element attribute you wish to see expanded in the Hammerspoon console (or in a <code>print</code> command) to see the assigned attributes, e.g. <code>a[1]</code> or <code>a[2].fillColor</code>, and an inspect-like output will be provided.</p>
+<p>Attributes which allow using a string to specify a percentage (see <a href="#percentages">percentages</a>) can also be retrieved as their actual number for the canvas's current size by appending <code>_raw</code> to the attribute name, e.g. <code>a[2].frame_raw</code>.</p>
+<p>Because the canvas object is actually a Lua userdata, and not a real table, you cannot use the <code>table.insert</code> and <code>table.remove</code> functions on it.  For inserting or removing an element in any position except at the end of the canvas, you must still use <a href="#insertElement">hs.canvas:insertElement</a> and <a href="#removeElement">hs.canvas:removeElement</a>.</p>
+<p>You can, however, remove the last element with <code>a[#a] = nil</code>.</p>
+<p>To print out all of the elements in the canvas with: <code>for i, v in ipairs(a) do print(v) end</code>.  The <code>pairs</code> iterator will also work, and will work on element sub-tables (transformations, fillColor and strokeColor, etc.), but this iterator does not guarantee order.</p>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="percentages">
+            <a name="//apple_ref/cpp/Field/percentages" class="dashAnchor"></a>
+            <h5><a href="#percentages">percentages</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.percentages</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Field</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Canvas attributes which specify the location and size of canvas elements can be specified with an absolute position or as a percentage of the canvas size.</p>
+<p>Percentages may be assigned to the following attributes:</p>
+<ul>
+<li><code>frame</code>       - the frame used by the <code>rectangle</code>, <code>oval</code>, <code>ellipticalArc</code>, <code>text</code>, and <code>image</code> types.  The <code>x</code> and <code>w</code> fields will be a percentage of the canvas's width, and the <code>y</code> and <code>h</code> fields will be a percentage of the canvas's height.</li>
+<li><code>center</code>      - the center point for the <code>circle</code> and <code>arc</code> types.  The <code>x</code> field will be a percentage of the canvas's width and the <code>y</code> field will be a percentage of the canvas's height.</li>
+<li><code>radius</code>      - the radius for the <code>circle</code> and <code>arc</code> types.  The radius will be a percentage of the canvas's width.</li>
+<li><code>coordinates</code> - the point coordinates used by the <code>segments</code> and <code>points</code> types.  X coordinates (fields <code>x</code>, <code>c1x</code>, and <code>c2x</code>) will be a percentage of the canvas's width, and Y coordinates (fields <code>y</code>, <code>c1y</code>, and <code>c2y</code>) will be a percentage of the canvas's height.</li>
+</ul>
+<p>Percentages are assigned to these fields as a string.  If the number in the string ends with a percent sign (%), then the percentage is the whole number which precedes the percent sign.  If no percent sign is present, the percentage is expected in decimal format (e.g. "1.0" is the same as "100%").</p>
+<p>Because a shadow applied to a canvas element is not considered as part of the element's bounds, you can also set the <code>padding</code> attribute to a positive number of points to inset the calculated values by from each edge of the canvas's frame so that the shadow will be fully visible within the canvas, even when an element is set to a width and height of "100%".</p>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="alpha">
+            <a name="//apple_ref/cpp/Method/alpha" class="dashAnchor"></a>
+            <h5><a href="#alpha">alpha</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:alpha([alpha]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the alpha level of the window containing the canvasObject.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>alpha</code> - an optional number specifying the new alpha level (0.0 - 1.0, inclusive) for the canvasObject</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="appendElements">
+            <a name="//apple_ref/cpp/Method/appendElements" class="dashAnchor"></a>
+            <h5><a href="#appendElements">appendElements</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:appendElements(element, ...) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Appends the elements specified to the canvas.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>element</code> - a table containing key-value pairs that define the element to be appended to the canvas.  You can specify one or more elements and they will be appended in the order they are listed.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the canvas object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can also specify multiple elements in a table as an array, where each index in the table contains an element table, and use the array as a single argument to this method if this style works better in your code.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="assignElement">
+            <a name="//apple_ref/cpp/Method/assignElement" class="dashAnchor"></a>
+            <h5><a href="#assignElement">assignElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:assignElement(elementTable, [index]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Assigns a new element to the canvas at the specified index.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>elementTable</code> - a table containing key-value pairs that define the element to be added to the canvas.</li>
+<li><code>index</code>        - an optional integer between 1 and the canvas element count + 1 specifying the index position to put the new element.  Any element currently at that index will be replaced.  Defaults to the canvas element count + 1 (i.e. after the end of the currently defined elements).</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the canvasObject</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>When the index specified is the canvas element count + 1, the behavior of this method is the same as <a href="#insertElement">hs.canvas:insertElement</a>; i.e. it adds the new element to the end of the currently defined element list.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="behavior">
+            <a name="//apple_ref/cpp/Method/behavior" class="dashAnchor"></a>
+            <h5><a href="#behavior">behavior</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:behavior([behavior]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the window behavior settings for the canvas object using labels defined in <a href="#windowBehaviors">hs.canvas.windowBehaviors</a>.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>behavior</code> - if present, the behavior should be a combination of values found in <a href="#windowBehaviors">hs.canvas.windowBehaviors</a> describing the window behavior.  The behavior should be specified as one of the following:<ul>
+<li>integer - a number representing the behavior which can be created by combining values found in <a href="#windowBehaviors">hs.canvas.windowBehaviors</a> with the logical or operator.</li>
+<li>string  - a single key from <a href="#windowBehaviors">hs.canvas.windowBehaviors</a> which will be toggled in the current window behavior.</li>
+<li>table   - a list of keys from <a href="#windowBehaviors">hs.canvas.windowBehaviors</a> which will be combined to make the final behavior by combining their values with the logical or operator.</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if an argument is provided, then the canvasObject is returned; otherwise the current behavior value is returned.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="behaviorAsLabels">
+            <a name="//apple_ref/cpp/Method/behaviorAsLabels" class="dashAnchor"></a>
+            <h5><a href="#behaviorAsLabels">behaviorAsLabels</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:behaviorAsLabels(behaviorTable) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the window behavior settings for the canvas object using labels defined in <a href="#windowBehaviors">hs.canvas.windowBehaviors</a>.</p>
+<p>Parameters:</p>
+<ul>
+<li>behaviorTable - an optional table of strings and/or integers specifying the desired window behavior for the canvas object.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the canvas object; otherwise the current value as a table of strings.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="bringToFront">
+            <a name="//apple_ref/cpp/Method/bringToFront" class="dashAnchor"></a>
+            <h5><a href="#bringToFront">bringToFront</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:bringToFront([aboveEverything]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Places the canvas object on top of normal windows</p>
+<p>Parameters:</p>
+<ul>
+<li>aboveEverything - An optional boolean value that controls how far to the front the canvas should be placed. Defaults to false.<ul>
+<li>if true, place the canvas on top of all windows (including the dock and menubar and fullscreen windows).</li>
+<li>if false, place the canvas above normal windows, but below the dock, menubar and fullscreen windows.</li>
+</ul>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The canvas object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>As of macOS Sierra and later, if you want a <code>hs.canvas</code> object to appear above full-screen windows you must hide the Hammerspoon Dock icon first using: <code>hs.dockicon.hide()</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="canvasDefaultFor">
+            <a name="//apple_ref/cpp/Method/canvasDefaultFor" class="dashAnchor"></a>
+            <h5><a href="#canvasDefaultFor">canvasDefaultFor</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:canvasDefaultFor(keyName, [newValue]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the element default specified by keyName.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>keyName</code> - the element default to examine or modify</li>
+<li><code>value</code>   - an optional new value to set as the default fot his canvas when not specified explicitly in an element declaration.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Not all keys will apply to all element types.</li>
+<li>Currently set and built-in defaults may be retrieved in a table with <a href="#canvasDefaults">hs.canvas:canvasDefaults</a>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="canvasDefaultKeys">
+            <a name="//apple_ref/cpp/Method/canvasDefaultKeys" class="dashAnchor"></a>
+            <h5><a href="#canvasDefaultKeys">canvasDefaultKeys</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:canvasDefaultKeys([module]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a list of the key names for the attributes set for the canvas defaults.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>module</code> - an optional boolean flag, default false, indicating whether the key names for the module defaults (true) should be included in the list.  If false, only those defaults which have been explicitly set for the canvas are included.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table containing the key names for the defaults which are set for this canvas. May also optionally include key names for all attributes which have a default value defined by the module.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="canvasDefaults">
+            <a name="//apple_ref/cpp/Method/canvasDefaults" class="dashAnchor"></a>
+            <h5><a href="#canvasDefaults">canvasDefaults</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:canvasDefaults([module]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get a table of the default key-value pairs which apply to the canvas.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>module</code> - an optional boolean flag, default false, indicating whether module defaults (true) should be included in the table.  If false, only those defaults which have been explicitly set for the canvas are returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table containing key-value pairs for the defaults which apply to the canvas.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Not all keys will apply to all element types.</li>
+<li>To change the defaults for the canvas, use <a href="#canvasDefaultFor">hs.canvas:canvasDefaultFor</a>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="canvasElements">
+            <a name="//apple_ref/cpp/Method/canvasElements" class="dashAnchor"></a>
+            <h5><a href="#canvasElements">canvasElements</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:canvasElements() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns an array containing the elements defined for this canvas.  Each array entry will be a table containing the key-value pairs which have been set for that canvas element.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>an array of element tables which are defined for the canvas.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="canvasMouseEvents">
+            <a name="//apple_ref/cpp/Method/canvasMouseEvents" class="dashAnchor"></a>
+            <h5><a href="#canvasMouseEvents">canvasMouseEvents</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:canvasMouseEvents([down], [up], [enterExit], [move]) -&gt; canvasObject | current values</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not regions of the canvas which are not otherwise covered by an element with mouse tracking enabled should generate a callback for mouse events.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>down</code>      - an optional boolean, or nil placeholder, specifying whether or not the mouse button being pushed down should generate a callback for the canvas areas not otherwise covered by an element with mouse tracking enabled.</li>
+<li><code>up</code>        - an optional boolean, or nil placeholder, specifying whether or not the mouse button being released should generate a callback for the canvas areas not otherwise covered by an element with mouse tracking enabled.</li>
+<li><code>enterExit</code> - an optional boolean, or nil placeholder, specifying whether or not the mouse pointer entering or exiting the canvas bounds should generate a callback for the canvas areas not otherwise covered by an element with mouse tracking enabled.</li>
+<li><code>move</code>      - an optional boolean, or nil placeholder, specifying whether or not the mouse pointer moving within the canvas bounds should generate a callback for the canvas areas not otherwise covered by an element with mouse tracking enabled.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If any arguments are provided, returns the canvas Object, otherwise returns the current values as four separate boolean values (i.e. not in a table).</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>Each value that you wish to set must be provided in the order given above, but you may specify a position as <code>nil</code> to indicate that whatever it's current state, no change should be applied.  For example, to activate a callback for entering and exiting the canvas without changing the current callback status for up or down button clicks, you could use: <code>hs.canvas:canvasMouseTracking(nil, nil, true)</code>.</p>
+</li>
+<li><p>Use <a href="#mouseCallback">hs.canvas:mouseCallback</a> to set the callback function.  The identifier field in the callback's argument list will be "<em>canvas</em>", but otherwise identical to those specified in <a href="#mouseCallback">hs.canvas:mouseCallback</a>.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="clickActivating">
+            <a name="//apple_ref/cpp/Method/clickActivating" class="dashAnchor"></a>
+            <h5><a href="#clickActivating">clickActivating</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:clickActivating([flag]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not clicking on a canvas with a click callback defined should bring all of Hammerspoon's open windows to the front.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>flag</code> - an optional boolean indicating whether or not clicking on a canvas with a click callback function defined should activate Hammerspoon and bring its windows forward. Defaults to true.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, returns the canvas object; otherwise returns the current setting.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Setting this to false changes a canvas object's AXsubrole value and may affect the results of filters used with <code>hs.window.filter</code>, depending upon how they are defined.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="copy">
+            <a name="//apple_ref/cpp/Method/copy" class="dashAnchor"></a>
+            <h5><a href="#copy">copy</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:copy() -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a copy of the canvas.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a copy of the canvas</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The copy of the canvas will be identical in all respectes except:<ul>
+<li>The new canvas will not have a callback function assigned, even if the original canvas does.</li>
+<li>The new canvas will not initially be visible, even if the original is.</li>
+</ul>
+</li>
+<li><p>The new canvas is an independant entity -- any subsequent changes to either canvas will not be reflected in the other canvas.</p>
+</li>
+<li><p>This method allows you to display a canvas in multiple places or use it as a canvas element multiple times.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="delete">
+            <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+            <h5><a href="#delete">delete</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:delete([fadeOutTime]) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Destroys the canvas object, optionally fading it out first (if currently visible).</p>
+<p>Parameters:</p>
+<ul>
+<li><code>fadeOutTime</code> - An optional number of seconds over which to fade out the canvas object. Defaults to zero.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method is automatically called during garbage collection, notably during a Hammerspoon termination or reload, with a fade time of 0.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="draggingCallback">
+            <a name="//apple_ref/cpp/Method/draggingCallback" class="dashAnchor"></a>
+            <h5><a href="#draggingCallback">draggingCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:draggingCallback(fn | nil) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets or remove a callback for accepting dragging and dropping items onto the canvas.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>fn</code>   - A function, can be nil, that will be called when an item is dragged onto the canvas.  An explicit nil, the default, disables drag-and-drop for this canvas.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The canvas object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The callback function should expect 3 arguments and optionally return 1: the canvas object itself, a message specifying the type of dragging event, and a table containing details about the item(s) being dragged.  The key-value pairs of the details table will be the following:<ul>
+<li><code>pasteboard</code> - the name of the pasteboard that contains the items being dragged</li>
+<li><code>sequence</code>   - an integer that uniquely identifies the dragging session.</li>
+<li><code>mouse</code>      - a point table containing the location of the mouse pointer within the canvas corresponding to when the callback occurred.</li>
+<li><code>operation</code>  - a table containing string descriptions of the type of dragging the source application supports. Potentially useful for determining if your callback function should accept the dragged item or not.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>The possible messages the callback function may receive are as follows:</p>
+<ul>
+<li>"enter"   - the user has dragged an item into the canvas.  When your callback receives this message, you can optionally return false to indicate that you do not wish to accept the item being dragged.</li>
+<li>"exit"    - the user has moved the item out of the canvas; if the previous "enter" callback returned false, this message will also occur when the user finally releases the items being dragged.</li>
+<li>"receive" - indicates that the user has released the dragged object while it is still within the canvas frame.  When your callback receives this message, you can optionally return false to indicate to the sending application that you do not want to accept the dragged item -- this may affect the animations provided by the sending application.</li>
+</ul>
+<ul>
+<li><p>You can use the sequence number in the details table to match up an "enter" with an "exit" or "receive" message.</p>
+</li>
+<li><p>You should capture the details you require from the drag-and-drop operation during the callback for "receive" by using the pasteboard field of the details table and the <code>hs.pasteboard</code> module.  Because of the nature of "promised items", it is not guaranteed that the items will still be on the pasteboard after your callback completes handling this message.</p>
+</li>
+<li><p>A canvas object can only accept drag-and-drop items when its window level is at <a href="#windowLevels">hs.canvas.windowLevels.dragging</a> or lower.</p>
+</li>
+<li>a canvas object can only accept drag-and-drop items when it accepts mouse events.  You must define a <a href="#mouseCallback">hs.canvas:mouseCallback</a> function, even if it is only a placeholder, e.g. <code>hs.canvas:mouseCallback(function() end)</code></li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementAttribute">
+            <a name="//apple_ref/cpp/Method/elementAttribute" class="dashAnchor"></a>
+            <h5><a href="#elementAttribute">elementAttribute</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:elementAttribute(index, key, [value]) -&gt; canvasObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the attribute <code>key</code> for the canvas element at the specified index.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>index</code> - the index of the canvas element whose attribute is to be retrieved or set.</li>
+<li><code>key</code>   - the key name of the attribute to get or set.</li>
+<li><code>value</code> - an optional value to assign to the canvas element's attribute.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if a value for the attribute is specified, returns the canvas object; otherwise returns the current value for the specified attribute.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementBounds">
+            <a name="//apple_ref/cpp/Method/elementBounds" class="dashAnchor"></a>
+            <h5><a href="#elementBounds">elementBounds</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:elementBounds(index) -&gt; rectTable</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the smallest rectangle which can fully contain the canvas element at the specified index.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>index</code> - the index of the canvas element to get the bounds for</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a rect table containing the smallest rectangle which can fully contain the canvas element.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>For many elements, this will be the same as the element frame.  For items without a frame (e.g. <code>segments</code>, <code>circle</code>, etc.) this will be the smallest rectangle which can fully contain the canvas element as specified by it's attributes.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementCount">
+            <a name="//apple_ref/cpp/Method/elementCount" class="dashAnchor"></a>
+            <h5><a href="#elementCount">elementCount</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:elementCount() -&gt; integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the number of elements currently defined for the canvas object.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the number of elements currently defined for the canvas object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementKeys">
+            <a name="//apple_ref/cpp/Method/elementKeys" class="dashAnchor"></a>
+            <h5><a href="#elementKeys">elementKeys</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:elementKeys(index, [optional]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a list of the key names for the attributes set for the canvas element at the specified index.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>index</code>    - the index of the element to get the assigned key list from.</li>
+<li><code>optional</code> - an optional boolean, default false, indicating whether optional, but unset, keys relevant to this canvas object should also be included in the list returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table containing the keys that are set for this canvas element.  May also optionally include keys which are not specifically set for this element but use inherited values from the canvas or module defaults.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Any attribute which has been explicitly set for the element will be included in the key list (even if it is ignored for the element type).  If the <code>optional</code> flag is set to true, the <em>additional</em> attribute names added to the list will only include those which are relevant to the element type.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="frame">
+            <a name="//apple_ref/cpp/Method/frame" class="dashAnchor"></a>
+            <h5><a href="#frame">frame</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:frame([rect]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the frame of the canvasObject.</p>
+<p>Parameters:</p>
+<ul>
+<li>rect - An optional rect-table containing the co-ordinates and size the canvas object should be moved and set to</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>a rect-table is a table with key-value pairs specifying the new top-left coordinate on the screen of the canvas (keys <code>x</code>  and <code>y</code>) and the new size (keys <code>h</code> and <code>w</code>).  The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</p>
+</li>
+<li><p>elements in the canvas that have the <code>absolutePosition</code> attribute set to false will be moved so that their relative position within the canvas remains the same with respect to the new size.</p>
+</li>
+<li>elements in the canvas that have the <code>absoluteSize</code> attribute set to false will be resized so that their relative size with respect to the canvas remains the same with respect to the new size.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="hide">
+            <a name="//apple_ref/cpp/Method/hide" class="dashAnchor"></a>
+            <h5><a href="#hide">hide</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:hide([fadeOutTime]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Hides the canvas object</p>
+<p>Parameters:</p>
+<ul>
+<li><code>fadeOutTime</code> - An optional number of seconds over which to fade out the canvas object. Defaults to zero.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The canvas object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="imageFromCanvas">
+            <a name="//apple_ref/cpp/Method/imageFromCanvas" class="dashAnchor"></a>
+            <h5><a href="#imageFromCanvas">imageFromCanvas</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:imageFromCanvas() -&gt; hs.image object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns an image of the canvas contents as an <code>hs.image</code> object.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>an <code>hs.image</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The canvas does not have to be visible in order for an image to be generated from it.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="insertElement">
+            <a name="//apple_ref/cpp/Method/insertElement" class="dashAnchor"></a>
+            <h5><a href="#insertElement">insertElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:insertElement(elementTable, [index]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Insert a new element into the canvas at the specified index.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>elementTable</code> - a table containing key-value pairs that define the element to be added to the canvas.</li>
+<li><code>index</code>        - an optional integer between 1 and the canvas element count + 1 specifying the index position to put the new element.  Any element currently at that index, and those that follow, will be moved one position up in the element array.  Defaults to the canvas element count + 1 (i.e. after the end of the currently defined elements).</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the canvasObject</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>see also <a href="#assignElement">hs.canvas:assignElement</a>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isOccluded">
+            <a name="//apple_ref/cpp/Method/isOccluded" class="dashAnchor"></a>
+            <h5><a href="#isOccluded">isOccluded</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:isOccluded() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether or not the canvas is currently occluded (hidden by other windows, off screen, etc).</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a boolean indicating whether or not the canvas is currently being occluded.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If any part of the canvas is visible (even if that portion of the canvas does not contain any canvas elements), then the canvas is not considered occluded.</li>
+<li>a canvas which is completely covered by one or more opaque windows is considered occluded; however, if the windows covering the canvas are not opaque, then the canvas is not occluded.</li>
+<li>a canvas that is currently hidden or with a height of 0 or a width of 0 is considered occluded.</li>
+<li>See also <a href="#isShowing">hs.canvas:isShowing</a>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isShowing">
+            <a name="//apple_ref/cpp/Method/isShowing" class="dashAnchor"></a>
+            <h5><a href="#isShowing">isShowing</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:isShowing() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether or not the canvas is currently being shown.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a boolean indicating whether or not the canvas is currently being shown (true) or is currently hidden (false).</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method only determines whether or not the canvas is being shown or is hidden -- it does not indicate whether or not the canvas is currently off screen or is occluded by other objects.</li>
+<li>See also <a href="#isOccluded">hs.canvas:isOccluded</a>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isVisible">
+            <a name="//apple_ref/cpp/Method/isVisible" class="dashAnchor"></a>
+            <h5><a href="#isVisible">isVisible</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:isVisible() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether or not the canvas is currently showing and is (at least partially) visible on screen.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a boolean indicating whether or not the canvas is currently visible.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This is syntactic sugar for <code>not hs.canvas:isOccluded()</code>.</li>
+<li>See <a href="#isOccluded">hs.canvas:isOccluded</a> for more details.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="level">
+            <a name="//apple_ref/cpp/Method/level" class="dashAnchor"></a>
+            <h5><a href="#level">level</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:level([level]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets the window level more precisely than sendToBack and bringToFront.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>level</code> - an optional level, specified as a number or as a string, specifying the new window level for the canvasObject. If it is a string, it must match one of the keys in <a href="#windowLevels">hs.canvas.windowLevels</a>.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="minimumTextSize">
+            <a name="//apple_ref/cpp/Method/minimumTextSize" class="dashAnchor"></a>
+            <h5><a href="#minimumTextSize">minimumTextSize</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:minimumTextSize([index], text) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table specifying the size of the rectangle which can fully render the text with the specified style so that is will be completely visible.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>index</code> - an optional index specifying the element in the canvas which contains the text attributes which should be used when determining the size of the text. If not provided, the canvas defaults will be used instead. Ignored if <code>text</code> is an hs.styledtext object.</li>
+<li><code>text</code>  - a string or hs.styledtext object specifying the text.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a size table specifying the height and width of a rectangle which could fully contain the text when displayed in the canvas</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Multi-line text (separated by a newline or return) is supported.  The height will be for the multiple lines and the width returned will be for the longest line.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="mouseCallback">
+            <a name="//apple_ref/cpp/Method/mouseCallback" class="dashAnchor"></a>
+            <h5><a href="#mouseCallback">mouseCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:mouseCallback(mouseCallbackFn) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets a callback for mouse events with respect to the canvas</p>
+<p>Parameters:</p>
+<ul>
+<li><code>mouseCallbackFn</code>   - A function, can be nil, that will be called when a mouse event occurs within the canvas, and an element beneath the mouse's current position has one of the <code>trackMouse...</code> attributes set to true.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The canvas object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The callback function should expect 5 arguments: the canvas object itself, a message specifying the type of mouse event, the canvas element <code>id</code> (or index position in the canvas if the <code>id</code> attribute is not set for the element), the x position of the mouse when the event was triggered within the rendered portion of the canvas element, and the y position of the mouse when the event was triggered within the rendered portion of the canvas element.</li>
+<li><p>See also <a href="#canvasMouseEvents">hs.canvas:canvasMouseEvents</a> for tracking mouse events in regions of the canvas not covered by an element with mouse tracking enabled.</p>
+</li>
+<li><p>The following mouse attributes may be set to true for a canvas element and will invoke the callback with the specified message:</p>
+<ul>
+<li><code>trackMouseDown</code>      - indicates that a callback should be invoked when a mouse button is clicked down on the canvas element.  The message will be "mouseDown".</li>
+<li><code>trackMouseUp</code>        - indicates that a callback should be invoked when a mouse button has been released over the canvas element.  The message will be "mouseUp".</li>
+<li><code>trackMouseEnterExit</code> - indicates that a callback should be invoked when the mouse pointer enters or exits the  canvas element.  The message will be "mouseEnter" or "mouseExit".</li>
+<li><code>trackMouseMove</code>      - indicates that a callback should be invoked when the mouse pointer moves within the canvas element.  The message will be "mouseMove".</li>
+</ul>
+</li>
+<li><p>The callback mechanism uses reverse z-indexing to determine which element will receive the callback -- the topmost element of the canvas which has enabled callbacks for the specified message will be invoked.</p>
+</li>
+<li><p>No distinction is made between the left, right, or other mouse buttons. If you need to determine which specific button was pressed, use <code>hs.eventtap.checkMouseButtons()</code> within your callback to check.</p>
+</li>
+<li><p>The hit point detection occurs by comparing the mouse pointer location to the rendered content of each individual canvas object... if an object which obscures a lower object does not have mouse tracking enabled, the lower object will still receive the event if it does have tracking enabled.</p>
+</li>
+<li><p>Clipping regions which remove content from the visible area of a rendered object are ignored for the purposes of element hit-detection.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="orderAbove">
+            <a name="//apple_ref/cpp/Method/orderAbove" class="dashAnchor"></a>
+            <h5><a href="#orderAbove">orderAbove</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:orderAbove([canvas2]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Moves canvas object above canvas2, or all canvas objects in the same presentation level, if canvas2 is not given.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>canvas2</code> -An optional canvas object to place the canvas object above.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The canvas object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If the canvas object and canvas2 are not at the same presentation level, this method will will move the canvas object as close to the desired relationship as possible without changing the canvas object's presentation level. See <a href="#level">hs.canvas.level</a>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="orderBelow">
+            <a name="//apple_ref/cpp/Method/orderBelow" class="dashAnchor"></a>
+            <h5><a href="#orderBelow">orderBelow</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:orderBelow([canvas2]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Moves canvas object below canvas2, or all canvas objects in the same presentation level, if canvas2 is not given.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>canvas2</code> -An optional canvas object to place the canvas object below.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The canvas object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If the canvas object and canvas2 are not at the same presentation level, this method will will move the canvas object as close to the desired relationship as possible without changing the canvas object's presentation level. See <a href="#level">hs.canvas.level</a>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="removeElement">
+            <a name="//apple_ref/cpp/Method/removeElement" class="dashAnchor"></a>
+            <h5><a href="#removeElement">removeElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:removeElement([index]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Insert a new element into the canvas at the specified index.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>index</code>        - an optional integer between 1 and the canvas element count specifying the index of the canvas element to remove. Any elements that follow, will be moved one position down in the element array.  Defaults to the canvas element count (i.e. the last element of the currently defined elements).</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the canvasObject</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="replaceElements">
+            <a name="//apple_ref/cpp/Method/replaceElements" class="dashAnchor"></a>
+            <h5><a href="#replaceElements">replaceElements</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:replaceElements(element, ...) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Replaces all of the elements in the canvas with the elements specified.  Shortens or lengthens the canvas element count if necessary to accomodate the new canvas elements.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>element</code> - a table containing key-value pairs that define the element to be assigned to the canvas.  You can specify one or more elements and they will be appended in the order they are listed.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the canvas object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You can also specify multiple elements in a table as an array, where each index in the table contains an element table, and use the array as a single argument to this method if this style works better in your code.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="rotateElement">
+            <a name="//apple_ref/cpp/Method/rotateElement" class="dashAnchor"></a>
+            <h5><a href="#rotateElement">rotateElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:rotateElement(index, angle, [point], [append]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Rotates an element about the point specified, or the elements center if no point is specified.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>index</code>  - the index of the element to rotate</li>
+<li><code>angle</code>  - the angle to rotate the object in a clockwise direction</li>
+<li><code>point</code>  - an optional point table, defaulting to the elements center, specifying the point around which the object should be rotated</li>
+<li><code>append</code> - an optional boolean, default false, specifying whether or not the rotation transformation matrix should be appended to the existing transformation assigned to the element (true) or replace it (false).</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the canvas object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>a point-table is a table with key-value pairs specifying a coordinate in the canvas (keys <code>x</code>  and <code>y</code>). The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</li>
+<li>The center of the object is determined by getting the element's bounds with <a href="#elementBounds">hs.canvas:elementBounds</a>.</li>
+<li><p>If the third argument is a boolean value, the <code>point</code> argument is assumed to be the element's center and the boolean value is used as the <code>append</code> argument.</p>
+</li>
+<li><p>This method uses <a href="MATRIX.md">hs.canvas.matrix</a> to generate the rotation transformation and provides a wrapper for <code>hs.canvas.matrix.translate(x, y):rotate(angle):translate(-x, -y)</code> which is then assigned or appended to the element's existing <code>transformation</code> attribute.</p>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendToBack">
+            <a name="//apple_ref/cpp/Method/sendToBack" class="dashAnchor"></a>
+            <h5><a href="#sendToBack">sendToBack</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:sendToBack() -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Places the canvas object behind normal windows, between the desktop wallpaper and desktop icons</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The canvas object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="show">
+            <a name="//apple_ref/cpp/Method/show" class="dashAnchor"></a>
+            <h5><a href="#show">show</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:show([fadeInTime]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Displays the canvas object</p>
+<p>Parameters:</p>
+<ul>
+<li><code>fadeInTime</code> - An optional number of seconds over which to fade in the canvas object. Defaults to zero.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The canvas object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>if the canvas is in use as an element in another canvas, this method will result in an error.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="size">
+            <a name="//apple_ref/cpp/Method/size" class="dashAnchor"></a>
+            <h5><a href="#size">size</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:size([size]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the size of a canvas object</p>
+<p>Parameters:</p>
+<ul>
+<li><code>size</code> - An optional size-table specifying the width and height the canvas object should be resized to</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>a size-table is a table with key-value pairs specifying the size (keys <code>h</code> and <code>w</code>) the canvas should be resized to. The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</p>
+</li>
+<li><p>elements in the canvas that have the <code>absolutePosition</code> attribute set to false will be moved so that their relative position within the canvas remains the same with respect to the new size.</p>
+</li>
+<li>elements in the canvas that have the <code>absoluteSize</code> attribute set to false will be resized so that their relative size with respect to the canvas remains the same with respect to the new size.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="topLeft">
+            <a name="//apple_ref/cpp/Method/topLeft" class="dashAnchor"></a>
+            <h5><a href="#topLeft">topLeft</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:topLeft([point]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the top-left coordinate of the canvas object</p>
+<p>Parameters:</p>
+<ul>
+<li><code>point</code> - An optional point-table specifying the new coordinate the top-left of the canvas object should be moved to</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>a point-table is a table with key-value pairs specifying the new top-left coordinate on the screen of the canvas (keys <code>x</code>  and <code>y</code>). The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="transformation">
+            <a name="//apple_ref/cpp/Method/transformation" class="dashAnchor"></a>
+            <h5><a href="#transformation">transformation</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:transformation([matrix]) -&gt; canvasObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the matrix transformation which is applied to every element in the canvas before being individually processed and added to the canvas.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>matrix</code> - an optional table specifying the matrix table, as defined by the <a href="MATRIX.md">hs.canvas.matrix</a> module, to be applied to every element of the canvas, or an explicit <code>nil</code> to reset the transformation to the identity matrix.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if an argument is provided, returns the canvasObject, otherwise returns the current value</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>An example use for this method would be to change the canvas's origin point { x = 0, y = 0 } from the lower left corner of the canvas to somewhere else, like the middle of the canvas.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="wantsLayer">
+            <a name="//apple_ref/cpp/Method/wantsLayer" class="dashAnchor"></a>
+            <h5><a href="#wantsLayer">wantsLayer</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:wantsLayer([flag]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the canvas object should be rendered by the view or by Core Animation.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>flag</code> - optional boolean (default false) which indicates whether the canvas object should be rendered by the containing view (false) or by Core Animation (true).</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method can help smooth the display of small text objects on non-Retina monitors.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

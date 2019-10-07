@@ -281,6 +281,11 @@
 <li>windowTitleComparator - (optional) Function to use for window title comparison. It is called with two string arguments (below) and its return value is evaluated as a boolean. If no comparator is provided, the '==' operator is used<ul>
 <li>windowTitle: The <code>:title()</code> of the window object being examined</li>
 <li>layoutWindowTitle: The window title string (second field) specified in each element of the layout table</li>
+<li>Optionally a final element, the key "options" and a table value that can contain the following keys:<ul>
+<li><code>absolute_x</code>: A boolean indicating that the x value in a frame rect above, is an absolute co-ordinate (ie useful for negative absolute co-ordinates)</li>
+<li><code>absolute_y</code>: A boolean indicating that the y value in a frame rect above, is an absolute co-ordinate (ie useful for negative absolute co-ordinates)</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

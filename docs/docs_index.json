@@ -83,6 +83,12 @@
     "type": "Function"
   },
   {
+    "desc": "",
+    "module": "hs",
+    "name": "cameraState",
+    "type": "Function"
+  },
+  {
     "desc": "Returns a boolean indicating whether or not the Sparkle framework is available to check for Hammerspoon updates.",
     "module": "hs",
     "name": "canCheckForUpdates",
@@ -161,6 +167,12 @@
     "type": "Function"
   },
   {
+    "desc": "",
+    "module": "hs",
+    "name": "microphoneState",
+    "type": "Function"
+  },
+  {
     "desc": "Opens a file as if it were opened with /usr/bin/open",
     "module": "hs",
     "name": "open",
@@ -227,7 +239,7 @@
     "type": "Function"
   },
   {
-    "desc": "Gets the version number of an available update",
+    "desc": "Gets the version & build number of an available update",
     "module": "hs",
     "name": "updateAvailable",
     "type": "Function"
@@ -1104,6 +1116,160 @@
     "type": "Method"
   },
   {
+    "desc": "Find and publish network services advertised by multicast DNS (Bonjour) with Hammerspoon.",
+    "name": "hs.bonjour",
+    "type": "Module"
+  },
+  {
+    "desc": "Polls a host for the service types it is advertising via multicast DNS.",
+    "module": "hs.bonjour",
+    "name": "machineServices",
+    "type": "Function"
+  },
+  {
+    "desc": "Returns a list of service types being advertised on your local network.",
+    "module": "hs.bonjour",
+    "name": "networkServices",
+    "type": "Function"
+  },
+  {
+    "desc": "Creates a new network service browser that finds published services on a network using multicast DNS.",
+    "module": "hs.bonjour",
+    "name": "new",
+    "type": "Constructor"
+  },
+  {
+    "desc": "Return a list of zero-conf and bonjour domains visibile to the users computer.",
+    "module": "hs.bonjour",
+    "name": "findBrowsableDomains",
+    "type": "Method"
+  },
+  {
+    "desc": "Return a list of zero-conf and bonjour domains this computer can register services in.",
+    "module": "hs.bonjour",
+    "name": "findRegistrationDomains",
+    "type": "Method"
+  },
+  {
+    "desc": "Find advertised services of the type specified.",
+    "module": "hs.bonjour",
+    "name": "findServices",
+    "type": "Method"
+  },
+  {
+    "desc": "Get or set whether to also browse over peer-to-peer Bluetooth and Wi-Fi, if available.",
+    "module": "hs.bonjour",
+    "name": "includesPeerToPeer",
+    "type": "Method"
+  },
+  {
+    "desc": "Stops a currently running search or resolution for the browser object",
+    "module": "hs.bonjour",
+    "name": "stop",
+    "type": "Method"
+  },
+  {
+    "desc": "Represents the service records that are discovered or published by the hs.bonjour module.",
+    "name": "hs.bonjour.service",
+    "type": "Module"
+  },
+  {
+    "desc": "A list of common service types which can used for discovery through this module.",
+    "module": "hs.bonjour.service",
+    "name": "serviceTypes",
+    "type": "Constant"
+  },
+  {
+    "desc": "Returns a new serviceObject for advertising a service provided by your computer.",
+    "module": "hs.bonjour.service",
+    "name": "new",
+    "type": "Constructor"
+  },
+  {
+    "desc": "Returns a new serviceObject for a remote machine (i.e. not the users computer) on your network offering the specified service.",
+    "module": "hs.bonjour.service",
+    "name": "remote",
+    "type": "Constructor"
+  },
+  {
+    "desc": "Returns a table listing the addresses for the service represented by the serviceObject",
+    "module": "hs.bonjour.service",
+    "name": "addresses",
+    "type": "Method"
+  },
+  {
+    "desc": "Returns the domain the service represented by the serviceObject belongs to.",
+    "module": "hs.bonjour.service",
+    "name": "domain",
+    "type": "Method"
+  },
+  {
+    "desc": "Returns the hostname of the machine the service represented by the serviceObject belongs to.",
+    "module": "hs.bonjour.service",
+    "name": "hostname",
+    "type": "Method"
+  },
+  {
+    "desc": "Get or set whether the service represented by the service object should be published or resolved over peer-to-peer Bluetooth and Wi-Fi, if available.",
+    "module": "hs.bonjour.service",
+    "name": "includesPeerToPeer",
+    "type": "Method"
+  },
+  {
+    "desc": "Monitor the service for changes to its associated text records.",
+    "module": "hs.bonjour.service",
+    "name": "monitor",
+    "type": "Method"
+  },
+  {
+    "desc": "Returns the name of the service represented by the serviceObject.",
+    "module": "hs.bonjour.service",
+    "name": "name",
+    "type": "Method"
+  },
+  {
+    "desc": "Returns the port the service represented by the serviceObject is available on.",
+    "module": "hs.bonjour.service",
+    "name": "port",
+    "type": "Method"
+  },
+  {
+    "desc": "Begin advertising the specified local service.",
+    "module": "hs.bonjour.service",
+    "name": "publish",
+    "type": "Method"
+  },
+  {
+    "desc": "Resolve the address and details for a discovered service.",
+    "module": "hs.bonjour.service",
+    "name": "resolve",
+    "type": "Method"
+  },
+  {
+    "desc": "Stop advertising or resolving the service specified by the serviceObject",
+    "module": "hs.bonjour.service",
+    "name": "stop",
+    "type": "Method"
+  },
+  {
+    "desc": "Stop monitoring a service for changes to its text records.",
+    "module": "hs.bonjour.service",
+    "name": "stopMonitoring",
+    "type": "Method"
+  },
+  {
+    "desc": "Get or set the text records associated with the serviceObject.",
+    "module": "hs.bonjour.service",
+    "name": "txtRecord",
+    "type": "Method"
+  },
+  {
+    "desc": "Returns the type of service represented by the serviceObject.",
+    "module": "hs.bonjour.service",
+    "name": "type",
+    "type": "Method"
+  },
+  {
     "desc": "Inspect/manipulate display brightness",
     "name": "hs.brightness",
     "type": "Module"
@@ -1138,13 +1304,19 @@
     "type": "Function"
   },
   {
+    "desc": "Show the Fast User Switch screen (ie a login screen without logging out first)",
+    "module": "hs.caffeinate",
+    "name": "fastUserSwitch",
+    "type": "Function"
+  },
+  {
     "desc": "Queries whether a particular sleep type is being prevented",
     "module": "hs.caffeinate",
     "name": "get",
     "type": "Function"
   },
   {
-    "desc": "Request the system lock the displays",
+    "desc": "Locks the displays",
     "module": "hs.caffeinate",
     "name": "lockScreen",
     "type": "Function"
@@ -1610,17 +1782,6 @@
     "type": "Method"
   },
   {
-    "desc": "An wrapper to replace `hs.drawing` with `hs.canvas`.",
-    "name": "hs.canvas.drawing",
-    "type": "Module"
-  },
-  {
-    "desc": "Get or set whether or not `hs.drawing` is replaced by a wrapper which uses this module.",
-    "module": "hs.canvas.drawing",
-    "name": "drawingWrapper",
-    "type": "Function"
-  },
-  {
     "desc": "A sub module to `hs.canvas` which provides support for basic matrix manipulations which can be used as the values for `transformation` attributes in the `hs.canvas` module.",
     "name": "hs.canvas.matrix",
     "type": "Module"
@@ -1689,6 +1850,12 @@
     "module": "hs.chooser",
     "name": "new",
     "type": "Constructor"
+  },
+  {
+    "desc": "Get or attach/detach a toolbar to/from the chooser.",
+    "module": "hs.chooser",
+    "name": "attachedToolbar",
+    "type": "Method"
   },
   {
     "desc": "Sets the background of the chooser between light and dark",
@@ -2290,9 +2457,15 @@
     "type": "Function"
   },
   {
-    "desc": "Locates the JSON file corresponding to the specified module by searching package.path and package.cpath.",
+    "desc": "Locates the JSON file corresponding to the specified third-party module or Spoon by searching package.path and package.cpath.",
     "module": "hs.doc",
     "name": "locateJSONFile",
+    "type": "Function"
+  },
+  {
+    "desc": "Locates all installed Spoon documentation files and and marks them for loading the next time the [hs.doc.help](#help) function is invoked.",
+    "module": "hs.doc",
+    "name": "preloadSpoonDocs",
     "type": "Function"
   },
   {
@@ -2311,12 +2484,6 @@
     "desc": "Remove a JSON file from the list of registered files.",
     "module": "hs.doc",
     "name": "unregisterJSONFile",
-    "type": "Function"
-  },
-  {
-    "desc": "Validate a JSON file potential inclusion in the Hammerspoon internal documentation.",
-    "module": "hs.doc",
-    "name": "validateJSONFile",
     "type": "Function"
   },
   {
@@ -2419,29 +2586,6 @@
     "type": "Function"
   },
   {
-    "desc": "Provides run-time support for generating and including documentation for installed Hammerspoon Spoon bundles.",
-    "name": "hs.doc.spoonsupport",
-    "type": "Module"
-  },
-  {
-    "desc": "Returns tables describing where spoons are installed and what spoons are currently available.",
-    "module": "hs.doc.spoonsupport",
-    "name": "findSpoons",
-    "type": "Function"
-  },
-  {
-    "desc": "Create the docs.json file for the Spoon bundle at the specified path.",
-    "module": "hs.doc.spoonsupport",
-    "name": "makeDocsFile",
-    "type": "Function"
-  },
-  {
-    "desc": "Creates and updates the included documentation for the installed Spoon bundles if the documentation file is not present or the init.lua file for the Spoon has been modified more recently then the documentation file.",
-    "module": "hs.doc.spoonsupport",
-    "name": "updateDocFiles",
-    "type": "Function"
-  },
-  {
     "desc": "Control Hammerspoon's dock icon",
     "name": "hs.dockicon",
     "type": "Module"
@@ -2477,7 +2621,7 @@
     "type": "Function"
   },
   {
-    "desc": "Primitives for drawing on the screen in various ways",
+    "desc": "DEPRECATED. Primitives for drawing on the screen in various ways.",
     "name": "hs.drawing",
     "type": "Module"
   },
@@ -2830,13 +2974,7 @@
     "type": "Method"
   },
   {
-    "desc": "Gets or sets whether or not the drawing object should be rendered by the view or by Core Animation.",
-    "module": "hs.drawing",
-    "name": "wantsLayer",
-    "type": "Method"
-  },
-  {
-    "desc": "Additions to hs.drawing which provide access to the system color lists and a wider variety of ways to represent color within Hammerspoon.",
+    "desc": "Provides ccess to the system color lists and a wider variety of ways to represent color within Hammerspoon.",
     "name": "hs.drawing.color",
     "type": "Module"
   },
@@ -3115,6 +3253,12 @@
     "type": "Method"
   },
   {
+    "desc": "Gets the single unicode character of an event",
+    "module": "hs.eventtap.event",
+    "name": "getUnicodeString",
+    "type": "Method"
+  },
+  {
     "desc": "Get or set the current mouse pointer location as defined for the event.",
     "module": "hs.eventtap.event",
     "name": "location",
@@ -3154,6 +3298,12 @@
     "desc": "Set the type for this event.",
     "module": "hs.eventtap.event",
     "name": "setType",
+    "type": "Method"
+  },
+  {
+    "desc": "Sets a unicode string as the output of the event",
+    "module": "hs.eventtap.event",
+    "name": "setUnicodeString",
     "type": "Method"
   },
   {
@@ -3388,18 +3538,6 @@
     "type": "Function"
   },
   {
-    "desc": "Returns the Home Directory path as binary encoded bookmark data.",
-    "module": "hs.fs",
-    "name": "getHomeDirectoryAsBookmark",
-    "type": "Function"
-  },
-  {
-    "desc": "Gets the file path from a binary encoded bookmark.",
-    "module": "hs.fs",
-    "name": "getPathFromBookmark",
-    "type": "Function"
-  },
-  {
     "desc": "Creates a link",
     "module": "hs.fs",
     "name": "link",
@@ -3424,9 +3562,21 @@
     "type": "Function"
   },
   {
+    "desc": "Gets the file path from a binary encoded bookmark.",
+    "module": "hs.fs",
+    "name": "pathFromBookmark",
+    "type": "Function"
+  },
+  {
     "desc": "Gets the absolute path of a given path",
     "module": "hs.fs",
     "name": "pathToAbsolute",
+    "type": "Function"
+  },
+  {
+    "desc": "Returns the path as binary encoded bookmark data.",
+    "module": "hs.fs",
+    "name": "pathToBookmark",
     "type": "Function"
   },
   {
@@ -4054,6 +4204,17 @@
     "type": "Function"
   },
   {
+    "desc": "HID LED interface for Hammerspoon, controls the state of keyboard LEDs",
+    "name": "hs.hid.led",
+    "type": "Module"
+  },
+  {
+    "desc": "Assigns HID LED to the desired state",
+    "module": "hs.hid.led",
+    "name": "set",
+    "type": "Function"
+  },
+  {
     "desc": "Switch focus with a transient per-application keyboard shortcut",
     "name": "hs.hints",
     "type": "Module"
@@ -4222,6 +4383,12 @@
     "desc": "Returns a table containing information about the current or specified locale.",
     "module": "hs.host.locale",
     "name": "details",
+    "type": "Function"
+  },
+  {
+    "desc": "Returns the localized string for a specific language code.",
+    "module": "hs.host.locale",
+    "name": "localizedString",
     "type": "Function"
   },
   {
@@ -5321,6 +5488,18 @@
     "type": "Function"
   },
   {
+    "desc": "Decodes JSON file into a table.",
+    "module": "hs.json",
+    "name": "read",
+    "type": "Function"
+  },
+  {
+    "desc": "Encodes a table as JSON to a file",
+    "module": "hs.json",
+    "name": "write",
+    "type": "Function"
+  },
+  {
     "desc": "Convert between key-strings and key-codes. Also provides funcionality for querying and changing keyboard layouts.",
     "name": "hs.keycodes",
     "type": "Module"
@@ -6084,6 +6263,12 @@
     "type": "Module"
   },
   {
+    "desc": "Gets the total number of mice connected to your system.",
+    "module": "hs.mouse",
+    "name": "count",
+    "type": "Function"
+  },
+  {
     "desc": "Gets the absolute co-ordinates of the mouse pointer",
     "module": "hs.mouse",
     "name": "getAbsolutePosition",
@@ -6105,6 +6290,12 @@
     "desc": "Gets the co-ordinates of the mouse pointer, relative to the screen it is on",
     "module": "hs.mouse",
     "name": "getRelativePosition",
+    "type": "Function"
+  },
+  {
+    "desc": "Gets the names of any mice connected to the system.",
+    "module": "hs.mouse",
+    "name": "names",
     "type": "Function"
   },
   {
@@ -7213,6 +7404,12 @@
     "desc": "Gets the screen's InvertedPolarity setting",
     "module": "hs.screen",
     "name": "getInvertedPolarity",
+    "type": "Method"
+  },
+  {
+    "desc": "Gets the UUID of an `hs.screen` object",
+    "module": "hs.screen",
+    "name": "getUUID",
     "type": "Method"
   },
   {
@@ -9741,6 +9938,12 @@
     "type": "Constant"
   },
   {
+    "desc": "Get or set whether or not the title text appears in the webview window.",
+    "module": "hs.webview",
+    "name": "titleVisibility",
+    "type": "Function"
+  },
+  {
     "desc": "Create a webviewObject and optionally modify its preferences.",
     "module": "hs.webview",
     "name": "new",
@@ -9912,6 +10115,12 @@
     "desc": "Returns a boolean value indicating if all content current displayed in the webview was loaded over securely encrypted connections.",
     "module": "hs.webview",
     "name": "isOnlySecureContent",
+    "type": "Method"
+  },
+  {
+    "desc": "Checks to see if a webview window is visible or not.",
+    "module": "hs.webview",
+    "name": "isVisible",
     "type": "Method"
   },
   {
@@ -10141,13 +10350,25 @@
     "type": "Constant"
   },
   {
-    "desc": "Get or attach/detach a toolbar to the console or webview.",
+    "desc": "Get or attach/detach a toolbar to the webview, chooser, or console.",
     "module": "hs.webview.toolbar",
     "name": "attachToolbar",
     "type": "Function"
   },
   {
-    "desc": "Creates a new toolbar for a webview or the console.",
+    "desc": "Get or set whether or not the toolbar appears in the containing window's titlebar, similar to Safari.",
+    "module": "hs.webview.toolbar",
+    "name": "inTitleBar",
+    "type": "Function"
+  },
+  {
+    "desc": "Checks to see is a toolbar name is already in use",
+    "module": "hs.webview.toolbar",
+    "name": "uniqueName",
+    "type": "Function"
+  },
+  {
+    "desc": "Creates a new toolbar for a webview, chooser, or the console.",
     "module": "hs.webview.toolbar",
     "name": "new",
     "type": "Constructor"
@@ -10602,6 +10823,12 @@
     "desc": "Gets the fullscreen state of the window",
     "module": "hs.window",
     "name": "isFullScreen",
+    "type": "Method"
+  },
+  {
+    "desc": "Determines if a window is maximizable",
+    "module": "hs.window",
+    "name": "isMaximizable",
     "type": "Method"
   },
   {

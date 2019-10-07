@@ -28,6 +28,7 @@
         <li>Functions - API calls offered directly by the extension</li>
           <ul>
             <li><a href="#declareUserActivity">declareUserActivity</a></li>
+            <li><a href="#fastUserSwitch">fastUserSwitch</a></li>
             <li><a href="#get">get</a></li>
             <li><a href="#lockScreen">lockScreen</a></li>
             <li><a href="#logOut">logOut</a></li>
@@ -74,6 +75,33 @@
               </tr>
             </table>
           </section>
+          <section id="fastUserSwitch">
+            <a name="//apple_ref/cpp/Function/fastUserSwitch" class="dashAnchor"></a>
+            <h5><a href="#fastUserSwitch">fastUserSwitch</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.caffeinate.fastUserSwitch()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Show the Fast User Switch screen (ie a login screen without logging out first)</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
           <section id="get">
             <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
             <h5><a href="#get">get</a></h5>
@@ -115,7 +143,7 @@
               </tr>
               <tr>
                 <th>Description</th>
-                <td><p>Request the system lock the displays</p>
+                <td><p>Locks the displays</p>
 <p>Parameters:</p>
 <ul>
 <li>None</li>
@@ -123,6 +151,10 @@
 <p>Returns:</p>
 <ul>
 <li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This function uses private Apple APIs and could therefore stop working in any given release of macOS without warning.</li>
 </ul>
 </td>
               </tr>
@@ -237,7 +269,7 @@
 </ul>
 </li>
 <li>aValue - A boolean, true if the specified type of sleep should be prevented, false if it should be allowed</li>
-<li>acAndBattery - A boolean, true if the sleep prevention should apply to both AC power and battery power, false if it should only apply to AC power</li>
+<li>acAndBattery - A boolean, true if the sleep prevention should apply to both AC power and battery power, false if it should only apply to AC power.</li>
 </ul>
 <p>Returns:</p>
 <ul>
@@ -248,6 +280,7 @@
 <li>These calls are not guaranteed to prevent the system sleep behaviours described above. The OS may override them if it feels it must (e.g. if your CPU temperature becomes dangerously high).</li>
 <li>The acAndBattery argument only applies to the <code>system</code> sleep type.</li>
 <li>You can toggle the acAndBattery state by calling <code>hs.caffeinate.set()</code> again and altering the acAndBattery value.</li>
+<li>The acAndBattery option does not appear to work anymore - it is based on private API that is not allowed in macOS 10.15 when running with the Hardened Runtime (which Hammerspoon now uses).</li>
 </ul>
 </td>
               </tr>

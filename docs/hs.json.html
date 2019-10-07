@@ -25,6 +25,8 @@
           <ul>
             <li><a href="#decode">decode</a></li>
             <li><a href="#encode">encode</a></li>
+            <li><a href="#read">read</a></li>
+            <li><a href="#write">write</a></li>
           </ul>
       </ul>
       <h3>API Documentation</h3>
@@ -87,6 +89,63 @@
 <p>Notes:</p>
 <ul>
 <li>This is useful for storing some of the more complex lua table structures as a persistent setting (see <code>hs.settings</code>)</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="read">
+            <a name="//apple_ref/cpp/Function/read" class="dashAnchor"></a>
+            <h5><a href="#read">read</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.json.read(path) -&gt; table | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Decodes JSON file into a table.</p>
+<p>Parameters:</p>
+<ul>
+<li>path - The path and filename of the JSON file to read.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table representing the supplied JSON data, or <code>nil</code> if an error occurs.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="write">
+            <a name="//apple_ref/cpp/Function/write" class="dashAnchor"></a>
+            <h5><a href="#write">write</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.json.write(data, path, [prettyprint], [replace]) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Encodes a table as JSON to a file</p>
+<p>Parameters:</p>
+<ul>
+<li>data - A table containing data to be encoded as JSON</li>
+<li>path - The path and filename of the JSON file to write to</li>
+<li>prettyprint - An optional boolean, <code>true</code> to format the JSON for human readability, <code>false</code> to format the JSON for size efficiency. Defaults to <code>false</code></li>
+<li>replace - An optional boolean, <code>true</code> to replace an existing file at the same path if one exists. Defaults to <code>false</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li><code>true</code> if successful otherwise <code>false</code> if an error has occurred</li>
 </ul>
 </td>
               </tr>

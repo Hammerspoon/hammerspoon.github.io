@@ -17,16 +17,40 @@
       <h1><a href="./index.html">docs</a> &raquo; hs.mouse</h1>
       <p>Inspect/manipulate the position of the mouse pointer</p>
 <p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+<p>This module uses ManyMouse by Ryan C. Gordon.</p>
+<p>MANYMOUSE LICENSE:</p>
+<p>Copyright (c) 2005-2012 Ryan C. Gordon and others.</p>
+<p>This software is provided 'as-is', without any express or implied warranty.
+In no event will the authors be held liable for any damages arising from
+the use of this software.</p>
+<p>Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it
+freely, subject to the following restrictions:</p>
+<ol>
+<li><p>The origin of this software must not be misrepresented; you must not
+claim that you wrote the original software. If you use this software in a
+product, an acknowledgment in the product documentation would be
+appreciated but is not required.</p>
+</li>
+<li><p>Altered source versions must be plainly marked as such, and must not be
+misrepresented as being the original software.</p>
+</li>
+<li><p>This notice may not be removed or altered from any source distribution.</p>
+<p>Ryan C. Gordon <a href="mailto:icculus@icculus.org">icculus@icculus.org</a></p>
+</li>
+</ol>
 
       </header>
       <h3>API Overview</h3>
       <ul>
         <li>Functions - API calls offered directly by the extension</li>
           <ul>
+            <li><a href="#count">count</a></li>
             <li><a href="#getAbsolutePosition">getAbsolutePosition</a></li>
             <li><a href="#getButtons">getButtons</a></li>
             <li><a href="#getCurrentScreen">getCurrentScreen</a></li>
             <li><a href="#getRelativePosition">getRelativePosition</a></li>
+            <li><a href="#names">names</a></li>
             <li><a href="#scrollDirection">scrollDirection</a></li>
             <li><a href="#setAbsolutePosition">setAbsolutePosition</a></li>
             <li><a href="#setRelativePosition">setRelativePosition</a></li>
@@ -35,6 +59,38 @@
       </ul>
       <h3>API Documentation</h3>
         <h4 class="documentation-section">Functions</h4>
+          <section id="count">
+            <a name="//apple_ref/cpp/Function/count" class="dashAnchor"></a>
+            <h5><a href="#count">count</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.count([includeInternal]) -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the total number of mice connected to your system.</p>
+<p>Parameters:</p>
+<ul>
+<li>includeInternal - A boolean which sets whether or not you want to include internal Trackpad's in the count. Defaults to false.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The number of mice connected to your system</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This function leverages code from <a href="http://icculus.org/manymouse/">ManyMouse</a>.</li>
+<li>This function considers any mouse labelled as "Apple Internal Keyboard / Trackpad" to be an internal mouse.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
           <section id="getAbsolutePosition">
             <a name="//apple_ref/cpp/Function/getAbsolutePosition" class="dashAnchor"></a>
             <h5><a href="#getAbsolutePosition">getAbsolutePosition</a></h5>
@@ -151,6 +207,37 @@
 <p>Notes:</p>
 <ul>
 <li>The co-ordinates returned by this function are relative to the top left pixel of the screen the mouse is on (see <code>hs.mouse.getAbsolutePosition</code> if you need the location in the full desktop space)</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="names">
+            <a name="//apple_ref/cpp/Function/names" class="dashAnchor"></a>
+            <h5><a href="#names">names</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.names() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the names of any mice connected to the system.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table containing strings of all the mice connected to the system.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This function leverages code from <a href="http://icculus.org/manymouse/">ManyMouse</a>.</li>
 </ul>
 </td>
               </tr>

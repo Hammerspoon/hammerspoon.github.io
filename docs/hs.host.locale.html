@@ -26,6 +26,7 @@
             <li><a href="#availableLocales">availableLocales</a></li>
             <li><a href="#current">current</a></li>
             <li><a href="#details">details</a></li>
+            <li><a href="#localizedString">localizedString</a></li>
             <li><a href="#preferredLanguages">preferredLanguages</a></li>
             <li><a href="#registerCallback">registerCallback</a></li>
             <li><a href="#unregisterCallback">unregisterCallback</a></li>
@@ -112,7 +113,7 @@
                 <td><p>Returns a table containing information about the current or specified locale.</p>
 <p>Parameters:</p>
 <ul>
-<li><code>identifier</code> - an optional string, specifying the locale to display information about.  If you do not specify an identifier, information about eh user's currently selected locale is returned.</li>
+<li><code>identifier</code> - an optional string, specifying the locale to display information about.  If you do not specify an identifier, information about the user's currently selected locale is returned.</li>
 </ul>
 <p>Returns:</p>
 <ul>
@@ -168,15 +169,48 @@
 </ul>
 <p>Notes:</p>
 <ul>
-<li><p>If you specify a locale identifier as an argument, it should be based on one of the strings returned by <a href="#availableLocales">hs.host.locale.availableLocales</a>.  Use of an arbitrary string may produce unreliable or inconsistent results.</p>
+<li><p>If you specify a locale identifier as an argument, it should be based on one of the strings returned by <a href="#availableLocales">hs.host.locale.availableLocales</a>. Use of an arbitrary string may produce unreliable or inconsistent results.</p>
 </li>
-<li><p>Apple does not provide a documented method for retrieving the users preferences with respect to <code>temperatureUnit</code> or <code>timeFormatIs24Hour</code>.  The methods used to determine these values are based on code from the following sources:</p>
+<li><p>Apple does not provide a documented method for retrieving the users preferences with respect to <code>temperatureUnit</code> or <code>timeFormatIs24Hour</code>. The methods used to determine these values are based on code from the following sources:</p>
 <ul>
 <li><code>temperatureUnit</code>    - <a href="http://stackoverflow.com/a/41263725">http://stackoverflow.com/a/41263725</a></li>
 <li><code>timeFormatIs24Hour</code> - <a href="http://stackoverflow.com/a/1972487">http://stackoverflow.com/a/1972487</a></li>
 </ul>
 </li>
 <li>If you are able to identify additional locale or regional settings that are not provided by this function and have a source which describes a reliable method to retrieve this information, please submit an issue at <a href="https://github.com/Hammerspoon/hammerspoon">https://github.com/Hammerspoon/hammerspoon</a> with the details.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="localizedString">
+            <a name="//apple_ref/cpp/Function/localizedString" class="dashAnchor"></a>
+            <h5><a href="#localizedString">localizedString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.locale.localizedString(localeCode[, baseLocaleCode]) -&gt; string | nil, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the localized string for a specific language code.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>localeCode</code> - The locale code for the locale you want to return the localized string of.</li>
+<li><code>baseLocaleCode</code> - An optional string, specifying the locale to use for the string. If you do not specify a <code>baseLocaleCode</code>, the user's currently selected locale is used.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A string containing the localized string or <code>nil</code> if either the <code>localeCode</code> or <code>baseLocaleCode</code> is invalid. For example, if the <code>localeCode</code> is "de_CH", this will return "German".</li>
+<li>A string containing the localized string including the dialect or <code>nil</code> if either the <code>localeCode</code> or <code>baseLocaleCode</code> is invalid. For example, if the <code>localeCode</code> is "de_CH", this will return "German (Switzerland)".</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The <code>localeCode</code> and optional <code>baseLocaleCode</code> must be one of the strings returned by <a href="#availableLocales">hs.host.locale.availableLocales</a>.</li>
 </ul>
 </td>
               </tr>

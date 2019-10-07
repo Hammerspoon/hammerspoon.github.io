@@ -57,6 +57,7 @@ System Preferences-&gt;Displays-&gt;Arrangement). The origin <code>0,0</code> is
             <li><a href="#getForceToGray">getForceToGray</a></li>
             <li><a href="#getGamma">getGamma</a></li>
             <li><a href="#getInvertedPolarity">getInvertedPolarity</a></li>
+            <li><a href="#getUUID">getUUID</a></li>
             <li><a href="#id">id</a></li>
             <li><a href="#localToAbsolute">localToAbsolute</a></li>
             <li><a href="#name">name</a></li>
@@ -155,6 +156,7 @@ System Preferences-&gt;Displays-&gt;Arrangement). The origin <code>0,0</code> is
 <ul>
 <li>hint - search criterion for the desired screen(s); it can be:<ul>
 <li>a number as per <code>hs.screen:id()</code></li>
+<li>a string containing the UUID of the desired screen</li>
 <li>a string pattern that matches (via <code>string.match</code>) the screen name as per <code>hs.screen:name()</code> (for convenience, the matching will be done on lowercased strings)</li>
 <li>an hs.geometry <em>point</em> object, or constructor argument, with the <em>x and y position</em> of the screen in the current layout as per <code>hs.screen:position()</code></li>
 <li>an hs.geometry <em>size</em> object, or constructor argument, with the <em>resolution</em> of the screen as per <code>hs.screen:fullFrame()</code></li>
@@ -173,11 +175,11 @@ containing the largest part of the rect will be returned</li>
 </ul>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="p">(</span><span class="mi">724562417</span><span class="p">)</span> <span class="c1">--&gt; Color LCD - by id</span>
-<span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="s1">&#39;Dell&#39;</span>      <span class="c1">--&gt; DELL U2414M - by name</span>
-<span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="s1">&#39;0,0&#39;</span>       <span class="c1">--&gt; PHL BDM4065 - by position, same as hs.screen.primaryScreen()</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="s1">&#39;</span><span class="s">Dell&#39;</span>      <span class="c1">--&gt; DELL U2414M - by name</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="s1">&#39;</span><span class="s">0,0&#39;</span>       <span class="c1">--&gt; PHL BDM4065 - by position, same as hs.screen.primaryScreen()</span>
 <span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="p">{</span><span class="n">x</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">}</span>  <span class="c1">--&gt; DELL U2414M - by position, screen to the immediate left of the primary screen</span>
-<span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="s1">&#39;3840x2160&#39;</span> <span class="c1">--&gt; PHL BDM4065 - by screen resolution</span>
-<span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="s1">&#39;-500,240 700x1300&#39;</span> <span class="c1">--&gt; DELL U2414M, by arbitrary rect</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="s1">&#39;</span><span class="s">3840x2160&#39;</span> <span class="c1">--&gt; PHL BDM4065 - by screen resolution</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="s1">&#39;</span><span class="s">-500,240 700x1300&#39;</span> <span class="c1">--&gt; DELL U2414M, by arbitrary rect</span>
 </pre></div>
 </td>
               </tr>
@@ -449,6 +451,10 @@ coordinate space, where <code>0,0</code> is at the screen's top left corner</p>
 <ul>
 <li>the <code>hs.screen</code> object if a new URL was set, otherwise a string containing the current URL</li>
 </ul>
+<p>Notes:</p>
+<ul>
+<li>If the user has set a folder of pictures to be alternated as the desktop background, the path to that folder will be returned.</li>
+</ul>
 </td>
               </tr>
             </table>
@@ -646,6 +652,33 @@ coordinate space, where <code>0,0</code> is at the screen's top left corner</p>
 <p>Returns:</p>
 <ul>
 <li>A boolean, true if the InvertedPolarity mode is set, otherwise false</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="getUUID">
+            <a name="//apple_ref/cpp/Method/getUUID" class="dashAnchor"></a>
+            <h5><a href="#getUUID">getUUID</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.screen:getUUID() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the UUID of an <code>hs.screen</code> object</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A string containing the UUID, or nil if an error occurred.</li>
 </ul>
 </td>
               </tr>

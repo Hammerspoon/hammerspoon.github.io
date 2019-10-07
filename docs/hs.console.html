@@ -127,7 +127,7 @@
 <p>Notes:</p>
 <ul>
 <li>This is an <code>hs.toolbar</code> object that is shown by default in the Hammerspoon Console</li>
-<li>You can remove this toolbar by adding <code>hs.console.toolbar(nil)</code> to your config, or you can replace it with your own <code>hs.toolbar</code> object</li>
+<li>You can remove this toolbar by adding <code>hs.console.toolbar(nil)</code> to your config, or you can replace it with your own <code>hs.webview.toolbar</code> object</li>
 </ul>
 </td>
               </tr>
@@ -376,11 +376,11 @@
 </ul>
 <p>Notes:</p>
 <ul>
-<li>Enabling Dark Mode for the Console only affects the window background, and doesn't automatically change the Console's Background Color, so you will need to add something similar to:<div class="highlight"><pre><span></span><span class="kr">if</span> <span class="n">hs</span><span class="p">.</span><span class="n">console</span><span class="p">.</span><span class="n">darkMode</span><span class="p">()</span> <span class="kr">then</span>
+<li>Enabling Dark Mode for the Console only affects the window background, and doesn't automatically change the Console's Background Color, so you will need to add something similar to:<div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">hs</span><span class="p">.</span><span class="n">console</span><span class="p">.</span><span class="n">darkMode</span><span class="p">()</span> <span class="k">then</span>
     <span class="n">hs</span><span class="p">.</span><span class="n">console</span><span class="p">.</span><span class="n">outputBackgroundColor</span><span class="p">{</span> <span class="n">white</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">}</span>
     <span class="n">hs</span><span class="p">.</span><span class="n">console</span><span class="p">.</span><span class="n">consoleCommandColor</span><span class="p">{</span> <span class="n">white</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">}</span>
     <span class="n">hs</span><span class="p">.</span><span class="n">console</span><span class="p">.</span><span class="n">alpha</span><span class="p">(</span><span class="mf">.8</span><span class="p">)</span>
-<span class="kr">end</span>
+<span class="k">end</span>
 <span class="p">.</span>
 </pre></div>
 </li>
@@ -721,7 +721,10 @@
 </ul>
 <p>Notes:</p>
 <ul>
-<li>When a toolbar is attached to the Hammerspoon console (see the <code>hs.webview.toolbar</code> module documentation), this function can be used to specify whether the Toolbar appears underneath the console window's title ("visible") or in the window's title bar itself, as seen in applications like Safari ("hidden").</li>
+<li><p>When a toolbar is attached to the Hammerspoon console (see the <code>hs.webview.toolbar</code> module documentation), this function can be used to specify whether the Toolbar appears underneath the console window's title ("visible") or in the window's title bar itself, as seen in applications like Safari ("hidden"). When the title is hidden, the toolbar will only display the toolbar items as icons without labels, and ignores changes made with <code>hs.webview.toolbar:displayMode</code>.</p>
+</li>
+<li><p>If a toolbar is attached to the console, you can achieve the same effect as this function with <code>hs.console.toolbar():inTitleBar(boolean)</code></p>
+</li>
 </ul>
 </td>
               </tr>

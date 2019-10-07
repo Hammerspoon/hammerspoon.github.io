@@ -51,6 +51,7 @@
             <li><a href="#getProperty">getProperty</a></li>
             <li><a href="#getRawEventData">getRawEventData</a></li>
             <li><a href="#getType">getType</a></li>
+            <li><a href="#getUnicodeString">getUnicodeString</a></li>
             <li><a href="#location">location</a></li>
             <li><a href="#post">post</a></li>
             <li><a href="#rawFlags">rawFlags</a></li>
@@ -58,6 +59,7 @@
             <li><a href="#setKeyCode">setKeyCode</a></li>
             <li><a href="#setProperty">setProperty</a></li>
             <li><a href="#setType">setType</a></li>
+            <li><a href="#setUnicodeString">setUnicodeString</a></li>
             <li><a href="#systemKey">systemKey</a></li>
             <li><a href="#timestamp">timestamp</a></li>
           </ul>
@@ -415,14 +417,14 @@
 <li>The original version of this constructor utilized a shortcut which merged <code>flagsChanged</code> and <code>keyUp</code>/<code>keyDown</code> events into one.  This approach is still supported for backwards compatibility and because it <em>does</em> work in most cases.</li>
 <li>According to Apple Documentation, the proper way to perform a keypress with modifiers is through multiple key events; for example to generate 'Å', you should do the following:<div class="highlight"><pre><span></span><span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">keycodes</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">shift</span><span class="p">,</span> <span class="kc">true</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
  <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">keycodes</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">alt</span><span class="p">,</span> <span class="kc">true</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
- <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
- <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+ <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">a&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+ <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">a&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
  <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">keycodes</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">alt</span><span class="p">,</span> <span class="kc">false</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
  <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">keycodes</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">shift</span><span class="p">,</span> <span class="kc">false</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
 </pre></div>
 </li>
-<li>The shortcut method is still supported, though if you run into odd behavior or need to generate <code>flagsChanged</code> events without a corresponding <code>keyUp</code> or <code>keyDown</code>, please check out the syntax demonstrated above.<div class="highlight"><pre><span></span><span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">({</span><span class="s2">&quot;shift&quot;</span><span class="p">,</span> <span class="s2">&quot;alt&quot;</span><span class="p">},</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
- <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">({</span><span class="s2">&quot;shift&quot;</span><span class="p">,</span> <span class="s2">&quot;alt&quot;</span><span class="p">},</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+<li>The shortcut method is still supported, though if you run into odd behavior or need to generate <code>flagsChanged</code> events without a corresponding <code>keyUp</code> or <code>keyDown</code>, please check out the syntax demonstrated above.<div class="highlight"><pre><span></span><span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">({</span><span class="s2">&quot;</span><span class="s">shift&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">alt&quot;</span><span class="p">},</span> <span class="s2">&quot;</span><span class="s">a&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+ <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">({</span><span class="s2">&quot;</span><span class="s">shift&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">alt&quot;</span><span class="p">},</span> <span class="s2">&quot;</span><span class="s">a&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
 </pre></div>
 </li>
 </ul>
@@ -450,9 +452,9 @@
                 <td><p>Creates a new mouse event</p>
 <p>Parameters:</p>
 <ul>
-<li>eventtype - One of the values from <code>hs.eventtap.event.types</code></li>
+<li>eventtype - One of the mouse related values from <code>hs.eventtap.event.types</code></li>
 <li>point - An hs.geometry point table (i.e. of the form <code>{x=123, y=456}</code>) indicating the location where the mouse event should occur</li>
-<li>modifiers - An optional table containing zero or more of the following keys:<ul>
+<li>modifiers - An optional table (e.g. {"cmd", "alt"}) containing zero or more of the following keys:<ul>
 <li>cmd</li>
 <li>alt</li>
 <li>shift</li>
@@ -832,6 +834,33 @@
               </tr>
             </table>
           </section>
+          <section id="getUnicodeString">
+            <a name="//apple_ref/cpp/Method/getUnicodeString" class="dashAnchor"></a>
+            <h5><a href="#getUnicodeString">getUnicodeString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getUnicodeString()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the single unicode character of an event</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A string containing the unicode character</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
           <section id="location">
             <a name="//apple_ref/cpp/Method/location" class="dashAnchor"></a>
             <h5><a href="#location">location</a></h5>
@@ -1041,6 +1070,38 @@
 <p>Returns:</p>
 <ul>
 <li>the <code>hs.eventtap.event</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="setUnicodeString">
+            <a name="//apple_ref/cpp/Method/setUnicodeString" class="dashAnchor"></a>
+            <h5><a href="#setUnicodeString">setUnicodeString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:setUnicodeString(string)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets a unicode string as the output of the event</p>
+<p>Parameters:</p>
+<ul>
+<li>string - A string containing unicode characters, which will be applied to the event</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.eventtap.event</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Calling this method will reset any flags previously set on the event (because they don't make any sense, and you should not try to set flags again)</li>
+<li>This is likely to only work with short unicode strings that resolve to a single character</li>
 </ul>
 </td>
               </tr>

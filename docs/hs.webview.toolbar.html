@@ -19,24 +19,24 @@
 <p>Toolbars are attached to titled windows and provide buttons which can be used to perform various actions within the application. Hammerspoon can use this module to add toolbars to the console or <code>hs.webview</code> objects which have a title bar (see <code>hs.webview.windowMasks</code> and <code>hs.webview:windowStyle</code>). Toolbars are identified by a unique identifier which is used by OS X to identify information which can be auto saved in the application's user defaults to reflect changes the user has made to the toolbar button order or active button list (this requires setting <a href="#autosaves">hs.webview.toolbar:autosaves</a> and <a href="#canCustomize">hs.webview.toolbar:canCustomize</a> both to true).</p>
 <p>Multiple copies of the same toolbar can be made with the <a href="#copy">hs.webview.toolbar:copy</a> method so that multiple webview windows use the same toolbar, for example. If the user customizes a copied toolbar, changes to the active buttons or their order will be reflected in all copies of the toolbar.</p>
 <p>Example:</p>
-<div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">&quot;hs.webview.toolbar&quot;</span><span class="p">)</span>
-<span class="n">a</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;myConsole&quot;</span><span class="p">,</span> <span class="p">{</span>
-        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;select1&quot;</span><span class="p">,</span> <span class="n">selectable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSStatusAvailable&quot;</span><span class="p">)</span> <span class="p">},</span>
-        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;NSToolbarSpaceItem&quot;</span> <span class="p">},</span>
-        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;select2&quot;</span><span class="p">,</span> <span class="n">selectable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSStatusUnavailable&quot;</span><span class="p">)</span> <span class="p">},</span>
-        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;notShown&quot;</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSBonjour&quot;</span><span class="p">)</span> <span class="p">},</span>
-        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;NSToolbarFlexibleSpaceItem&quot;</span> <span class="p">},</span>
-        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;navGroup&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Navigation&quot;</span><span class="p">,</span> <span class="n">groupMembers</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;navLeft&quot;</span><span class="p">,</span> <span class="s2">&quot;navRight&quot;</span> <span class="p">}},</span>
-        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;navLeft&quot;</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSGoLeftTemplate&quot;</span><span class="p">),</span> <span class="n">allowedAlone</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">},</span>
-        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;navRight&quot;</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSGoRightTemplate&quot;</span><span class="p">),</span> <span class="n">allowedAlone</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">},</span>
-        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;NSToolbarFlexibleSpaceItem&quot;</span> <span class="p">},</span>
-        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;cust&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;customize&quot;</span><span class="p">,</span> <span class="n">fn</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="n">t</span><span class="p">:</span><span class="n">customizePanel</span><span class="p">()</span> <span class="kr">end</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSAdvanced&quot;</span><span class="p">)</span> <span class="p">}</span>
+<div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">hs.webview.toolbar&quot;</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">myConsole&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">select1&quot;</span><span class="p">,</span> <span class="n">selectable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">NSStatusAvailable&quot;</span><span class="p">)</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">NSToolbarSpaceItem&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">select2&quot;</span><span class="p">,</span> <span class="n">selectable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">NSStatusUnavailable&quot;</span><span class="p">)</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">notShown&quot;</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">NSBonjour&quot;</span><span class="p">)</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">NSToolbarFlexibleSpaceItem&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">navGroup&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">Navigation&quot;</span><span class="p">,</span> <span class="n">groupMembers</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;</span><span class="s">navLeft&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">navRight&quot;</span> <span class="p">}},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">navLeft&quot;</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">NSGoLeftTemplate&quot;</span><span class="p">),</span> <span class="n">allowedAlone</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">navRight&quot;</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">NSGoRightTemplate&quot;</span><span class="p">),</span> <span class="n">allowedAlone</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">NSToolbarFlexibleSpaceItem&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">cust&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">customize&quot;</span><span class="p">,</span> <span class="n">fn</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="n">t</span><span class="p">:</span><span class="n">customizePanel</span><span class="p">()</span> <span class="k">end</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">NSAdvanced&quot;</span><span class="p">)</span> <span class="p">}</span>
     <span class="p">}):</span><span class="n">canCustomize</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
       <span class="p">:</span><span class="n">autosaves</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
-      <span class="p">:</span><span class="n">selectedItem</span><span class="p">(</span><span class="s2">&quot;select2&quot;</span><span class="p">)</span>
-      <span class="p">:</span><span class="n">setCallback</span><span class="p">(</span><span class="kr">function</span><span class="p">(...)</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">inspect</span><span class="p">(</span><span class="nb">table.pack</span><span class="p">(...)))</span>
-                   <span class="kr">end</span><span class="p">)</span>
+      <span class="p">:</span><span class="n">selectedItem</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">select2&quot;</span><span class="p">)</span>
+      <span class="p">:</span><span class="n">setCallback</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">a&quot;</span><span class="p">,</span> <span class="n">inspect</span><span class="p">(</span><span class="n">table</span><span class="p">.</span><span class="n">pack</span><span class="p">(</span><span class="o">...</span><span class="p">)))</span>
+                   <span class="k">end</span><span class="p">)</span>
 
 <span class="n">t</span><span class="p">.</span><span class="n">attachToolbar</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
@@ -57,6 +57,8 @@
         <li>Functions - API calls offered directly by the extension</li>
           <ul>
             <li><a href="#attachToolbar">attachToolbar</a></li>
+            <li><a href="#inTitleBar">inTitleBar</a></li>
+            <li><a href="#uniqueName">uniqueName</a></li>
           </ul>
         <li>Constructors - API calls which return an object, typically one that offers API methods</li>
           <ul>
@@ -159,24 +161,85 @@
               </tr>
               <tr>
                 <th>Description</th>
-                <td><p>Get or attach/detach a toolbar to the console or webview.</p>
+                <td><p>Get or attach/detach a toolbar to the webview, chooser, or console.</p>
 <p>Parameters:</p>
 <ul>
 <li>if no arguments are present, this function returns the current toolbarObject for the Hammerspoon console, or nil if one is not attached.</li>
 <li>if one argument is provided and it is a toolbarObject or nil, this function will attach or detach a toolbarObject to/from the Hammerspoon console.</li>
-<li>if one argument is provided and it is a webviewObject, this function will return the current toolbarObject for the webview, or nil if one is not attached.</li>
-<li>if two arguments are provided and the first is a webviewObject and the second is a toolbarObject or nil, this function will attach or detach a toolbarObject to/from the webview.</li>
+<li>if one argument is provided and it is an hs.webview or hs.chooser object, this function will return the current toolbarObject for the object, or nil if one is not attached.</li>
+<li>if two arguments are provided and the first is an hs.webview or hs.chooser object and the second is a toolbarObject or nil, this function will attach or detach a toolbarObject to/from the object.</li>
 </ul>
 <p>Returns:</p>
 <ul>
-<li>if the function is used to attach/detach a toolbar, then the first object provided will be returned ; if this function is used to get the current toolbar object for a webview or the console, then the toolbarObject or nil will be returned.</li>
+<li>if the function is used to attach/detach a toolbar, then the first object provided (the target) will be returned ; if this function is used to get the current toolbar object for a webview, chooser, or console, then the toolbarObject or nil will be returned.</li>
 </ul>
 <p>Notes:</p>
 <ul>
-<li><p>This function is not expected to be used directly (though it can be) -- it is added to the <code>hs.webview</code> object metatable so that it may be invoked as <code>hs.webview:attachedToolbar([toolbarObject | nil])</code> and to the <code>hs.console</code> module so that it may be invoked as <code>hs.console.toolbar([toolbarObject | nil])</code>.</p>
+<li><p>This function is not expected to be used directly (though it can be) -- it is added to the <code>hs.webview</code> and <code>hs.chooser</code> object metatables so that it may be invoked as <code>hs.webview:attachedToolbar([toolbarObject | nil])</code>/<code>hs.chooser:attachedToolbar([toolbarObject | nil])</code> and to the <code>hs.console</code> module so that it may be invoked as <code>hs.console.toolbar([toolbarObject | nil])</code>.</p>
 </li>
 <li><p>If the toolbar is currently attached to another window when this function is called, it will be detached from the original window and attached to the new one specified by this function.</p>
 </li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="inTitleBar">
+            <a name="//apple_ref/cpp/Function/inTitleBar" class="dashAnchor"></a>
+            <h5><a href="#inTitleBar">inTitleBar</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:inTitleBar([state]) -&gt; toolbarObject | boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the toolbar appears in the containing window's titlebar, similar to Safari.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>state</code> - an optional boolean specifying whether or not the toolbar should appear in the window's titlebar.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>if a parameter is specified, returns the toolbar object, otherwise the current value.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>When this value is true, the toolbar, when visible, will appear in the window's title bar similar to the toolbar as seen in applications like Safari.  In this state, the toolbar will set the display of the toolbar items to icons without labels, ignoring changes made with <a href="#displayMode">hs.webview.toolbar:displayMode</a>.</li>
+</ul>
+<ul>
+<li>This method is only valid when the toolbar is attached to a webview, chooser, or the console.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="uniqueName">
+            <a name="//apple_ref/cpp/Function/uniqueName" class="dashAnchor"></a>
+            <h5><a href="#uniqueName">uniqueName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar.uniqueName(toolbarName) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Checks to see is a toolbar name is already in use</p>
+<p>Parameters:</p>
+<ul>
+<li>toolbarName  - a string specifying the name of a toolbar</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li><code>true</code> if the name is unique otherwise <code>false</code></li>
 </ul>
 </td>
               </tr>
@@ -197,7 +260,7 @@
               </tr>
               <tr>
                 <th>Description</th>
-                <td><p>Creates a new toolbar for a webview or the console.</p>
+                <td><p>Creates a new toolbar for a webview, chooser, or the console.</p>
 <p>Parameters:</p>
 <ul>
 <li>toolbarName  - a string specifying the name for this toolbar</li>
@@ -209,7 +272,7 @@
 </ul>
 <p>Notes:</p>
 <ul>
-<li>Toolbar names must be unique, but a toolbar may be copied with <a href="#copy">hs.webview.toolbar:copy</a> if you wish to attach it to multiple windows (webview or console).</li>
+<li>Toolbar names must be unique, but a toolbar may be copied with <a href="#copy">hs.webview.toolbar:copy</a> if you wish to attach it to multiple windows (webview, chooser, or console).</li>
 <li>See <a href="#addItems">hs.webview.toolbar:addItems</a> for a description of the format for <code>toolbarTable</code></li>
 </ul>
 </td>
@@ -392,7 +455,7 @@
 </ul>
 <p>Returns:</p>
 <ul>
-<li>a copy of the toolbar which can be attached to another window (webview or console).</li>
+<li>a copy of the toolbar which can be attached to another window (webview, chooser, or console).</li>
 </ul>
 </td>
               </tr>
@@ -918,7 +981,7 @@
 <p>Parameters:</p>
 <ul>
 <li><p>fn - a function to set as the global callback for the toolbar, or nil to remove the global callback.</p>
-<p>The function should expect three (four, if the item is a <code>searchfield</code> or <code>notifyOnChange</code> is true) arguments and return none: the toolbar object, "console" or the webview object the toolbar is attached to, and the toolbar item identifier that was clicked.
+<p>The function should expect three (four, if the item is a <code>searchfield</code> or <code>notifyOnChange</code> is true) arguments and return none: the toolbar object, "console" or the webview/chooser object the toolbar is attached to, and the toolbar item identifier that was clicked.
 Returns:</p>
 </li>
 <li>the toolbar object.</li>

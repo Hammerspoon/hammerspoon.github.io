@@ -1,0 +1,87 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.math</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.math</h1>
+      <p>Various helpful mathematical functions</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#randomFloat">randomFloat</a></li>
+            <li><a href="#randomFromRange">randomFromRange</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="randomFloat">
+            <a name="//apple_ref/cpp/Function/randomFloat" class="dashAnchor"></a>
+            <h5><a href="#randomFloat">randomFloat</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.math.randomFloat() -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a random floating point number between 0 and 1</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A random number between 0 and 1</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="randomFromRange">
+            <a name="//apple_ref/cpp/Function/randomFromRange" class="dashAnchor"></a>
+            <h5><a href="#randomFromRange">randomFromRange</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.math.randomFromRange(start, end) -&gt; integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a random integer between the start and end paramters</p>
+<p>Parameters:</p>
+<ul>
+<li>start - A number to start the range, must be greater than or equal to zero</li>
+<li>end - A number to end the range, must be greater than zero and greater than <code>start</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A randomly chosen integer between <code>start</code> and <code>end</code></li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

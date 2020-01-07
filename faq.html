@@ -22,6 +22,12 @@ It is unlikely, but possible, that the database controlling access to accessibil
 
 It's also possible that your Launch Services database has become confused/corrupt. You can force it to rebuild with the command: <pre>sudo /System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user</pre>
 
+<h3>Hammerspoon is not sending keystokes to other applications after upgrading to Catalina</h3>
+
+Try resetting all of Hammerspoon's permissions by executing this in Terminal:
+
+<pre>tccutil reset All org.hammerspoon.Hammerspoon</pre>
+
 <h2>hs.application issues</h2>
 
 <h3>Application names aren't what I expect</h3>

@@ -47,6 +47,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
  * [Drawing on the screen](#drawing)
  * [Sending iMessage/SMS messages](#imessagesms)
  * [Automating Hammerspoon with URLs](#ipcurl)
+ * [Add the Cmd+X shortcut to finder](#findercut)
  * [Advanced automation of Hammerspoon with Karabiner and URLs](#karabinerurl)
 
 ### <a name="helloworld"></a>Hello World
@@ -637,6 +638,61 @@ end)
 ```
 
 We have now bound a URL event handler for an event named `someAlert` that will show a little on-screen text alert. To trigger this event, in a Terminal, run `open -g hammerspoon://someAlert`. Many applications have the ability to open URLs, so this becomes a very simple way to automate Hammerspoon into taking some action. See the next section for a more concrete (and complex) example of this. Note that the `-g` option for `open` causes the URL to be opened in the background, so as to avoid opening Hammerspoon's Console Window, or giving it keyboard focus.
+
+
+### <a name="findercut"></a>Add the Cmd+X shortcut to finder
+
+This script is a good example of dynamically enabling and disabling hotkeys, to allow changing keystrokes on the fly.
+
+```lua
+do_cut = false
+
+fc = function()
+    hkc:disable()
+    if hs.window.focusedWindow():application():bundleID() == "com.apple.finder" then
+        hs.eventtap.keyStroke({"cmd"}, "C")
+        do_cut = false
+    else
+        hs.eventtap.keyStroke({"cmd"}, "C")
+    end
+    hkc:enable()
+end
+
+fx = function()
+    hkc:disable()
+    hkx:disable()
+    if hs.window.focusedWindow():application():bundleID() == "com.apple.finder" then
+        hs.eventtap.keyStroke({"cmd"}, "C")
+        do_cut = true
+    else
+        hs.eventtap.keyStroke({"cmd"}, "X")
+    end
+    hkc:enable()
+    hkx:enable()
+end
+
+fv = function()
+    hkv:disable()
+    if hs.window.focusedWindow():application():bundleID() == "com.apple.finder" then
+        if do_cut then
+            hs.eventtap.keyStroke({"cmd", "alt"}, "V")
+        else
+            hs.eventtap.keyStroke({"cmd"}, "V")
+        end
+        do_cut = false
+    else
+        hs.eventtap.keyStroke({"cmd"}, "V")
+    end
+    hkv:enable()
+end
+
+hkc = hs.hotkey.new({"cmd"}, "C", fc)
+hkc:enable()
+hkx = hs.hotkey.new({"cmd"}, "X", fx)
+hkx:enable()
+hkv = hs.hotkey.new({"cmd"}, "V", fv)
+hkv:enable()
+```
 
 ### <a name="karabinerurl"></a>Advanced automation of Hammerspoon with Karabiner and URLs
 

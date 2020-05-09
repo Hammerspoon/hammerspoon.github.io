@@ -4,6 +4,9 @@ title: Contributors
 ---
 #Hammerspoon Crash Data Privacy Policy
 
+## Note
+* Hammerspoon used to use Crashlytics for crash reports, but has since switched to Sentry. If you wish to consult our Privacy Policy from when we were using Crashlytics, see [here](https://github.com/Hammerspoon/hammerspoon.github.io/blob/761c843cd65c908ac2305961d8cb63ab385c8fab/privacy.md).
+
 ## Facts
 * Hammerspoon uses Sentry to collect information about crashes in the application and extensions (hereafter known as `Crash Data`).
 * This feature is enabled by default. Users can opt-out using the Hammerspoon preferences window.

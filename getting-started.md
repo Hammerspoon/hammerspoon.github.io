@@ -47,7 +47,6 @@ Lua is a simple programming language. If you have never programmed in Lua before
  * [Drawing on the screen](#drawing)
  * [Sending iMessage/SMS messages](#imessagesms)
  * [Automating Hammerspoon with URLs](#ipcurl)
- * [Advanced automation of Hammerspoon with Karabiner and URLs](#karabinerurl)
 
 ### <a name="helloworld"></a>Hello World
 
@@ -637,61 +636,6 @@ end)
 ```
 
 We have now bound a URL event handler for an event named `someAlert` that will show a little on-screen text alert. To trigger this event, in a Terminal, run `open -g hammerspoon://someAlert`. Many applications have the ability to open URLs, so this becomes a very simple way to automate Hammerspoon into taking some action. See the next section for a more concrete (and complex) example of this. Note that the `-g` option for `open` causes the URL to be opened in the background, so as to avoid opening Hammerspoon's Console Window, or giving it keyboard focus.
-
-### <a name="karabinerurl"></a>Advanced automation of Hammerspoon with Karabiner and URLs
-
-* NOTE: Karabiner does not currently work in macOS Sierra. Its author is working on a new version.
-
-In our [first example](#helloworld) we used `hs.hotkey` to bind a keyboard shortcut to a Lua function, one of the most useful things that Hammerspoon can do. However, those hotkeys are performed using the Carbon API in OS X, which is quite high level in terms of its understanding of keyboard events - for example, it cannot differentiate between which of the <kbd>⌘</kbd> keys has been pressed (since there are two, one on the left of the keyboard, one on the right), nor can it bind hotkeys that involve the <kbd>Fn</kbd> key.
-
-One application that does understand these keyboard events at a very low level, is [Karabiner](https://pqrs.org/osx/karabiner/), which hooks into the OS X kernel to read raw events coming from the keyboard. Usually it is used to remap these key events to other key events (i.e. changing the behaviour of a key on your keyboard), however, it can also translate low level key events into higher level system actions, such as executing a terminal command, or opening a URL.
-
-Consequently, we can combine Karabiner and Hammerspoon to perform some very powerful and flexible hotkey binding. In this example, we're going to bind some keyboard modifiers from the right hand side of the keyboard, to a Lua function in Hammerspoon.
-
-Firstly, install Karabiner and open its configuration app  In the `Misc & Uninstall` tab, click `Open private.xml`. This will display a Finder window showing a file called `private.xml`. Right click on that file and choose `Open With → TextEdit.app`. You will now see TextEdit open, showing an XML document. If you've never used Karabiner before, it will contain:
-
-```xml
-<?xml version="1.0"?>
-<root>
-</root>
-```
-
-In the `<root>` section, add the following:
-
-```xml
-  <vkopenurldef>
-    <name>KeyCode::VK_OPEN_URL_HS_test1</name>
-    <url>hammerspoon://test1?someParam=hello</url>
-    <background/>
-  </vkopenurldef>
-  <item>
-    <name>Hammerspoon test1</name>
-    <identifier>hammerspoon.test1</identifier>
-    <autogen>
-      --KeyToKey--
-      KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_R | ModifierFlag::OPTION_R,
-      KeyCode::VK_OPEN_URL_HS_test1
-    </autogen>
-  </item>
-```
-
-Breaking this down, we first define a URL for Karabiner to emit, using the `<vkopenurldef>` section. It's important to note here that the `<name>` attribute *must* start with `KeyCode::VK_OPEN_URL` and should not contain any spaces. The `<background/>` option means that Karabiner will open the URL without activating Hammerspoon. There are almost no reasons to ever want to pass focus to Hammerspoon, so it is recommended you always use this option.
-
-Having defined the URL as a Virtual Keycode, we then tell Karabiner to listen for the right hand <kbd>⌘</kbd> and the right hand <kbd>⌥</kbd> and the <kbd>→</kbd> cursor key. If those keys are pressed, it will open URL `hammerspoon://test1?someParam=hello`.
-
-Save the `private.xml` document and close TextEdit. Now, in Karabiner, switch back to the `Change Key` tab and click `Reload XML`. Assuming you get no errors, tick the box next to `Hammerspoon test1` and the remapping is configured.
-
-In your Hammerspoon `init.lua`, add the following:
-
-```lua
-hs.urlevent.bind("test1", function(eventName, params)
-  if params["someParam"] then
-    hs.alert.show(params["someParam"])
-  end
-end)
-```
-
-You now have a Lua function in Hammerspoon that will be triggered if you press the <kbd>right ⌘</kbd> + <kbd>right ⌥</kbd> + <kbd>→</kbd>.
 
 # Credits
 

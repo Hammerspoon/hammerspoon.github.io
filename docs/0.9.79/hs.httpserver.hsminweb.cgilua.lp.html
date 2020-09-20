@@ -1,0 +1,172 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.httpserver.hsminweb.cgilua.lp</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.httpserver.hsminweb.cgilua.lp</h1>
+      <p>Support functions for the CGILua compatibility module for including and translating Lua template pages into Lua code for execution within the Hammerspoon environment to provide dynamic content for http requests.</p>
+<p>The most commonly used function is likely to be <a href="#include">cgilua.lp.include</a>, which allows including a template driven file during rendering so that common code can be reused more easily.  While passing in your own environment table for upvalues is possible, this is not recommended for general use because the default environment passed to each included file ensures that all server variables and the CGILua compatibility functions are available with the same names, and any new non-local (i.e. "global") variable defined are shared with the calling environment and not shared with the Hammerspoon global environment.</p>
+<p>If your template file requires the ability to create variables in the Hammerspoon global environment, access the global environment directly through <code>_G</code>.</p>
+<p>Note that the above considerations only apply to creating new "global" variables.  Any currently defined global variables (for example, the <code>hs</code> table where Hammerspoon module functions are stored) are available within the template file as long as no local or CGILua environment variable shares the same name (e.g. <code>_G["hs"]</code> and <code>hs</code> refer to the same table.</p>
+<p>See the documentation for the <a href="#include">cgilua.lp.include</a> for more information.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#compile">compile</a></li>
+            <li><a href="#include">include</a></li>
+            <li><a href="#translate">translate</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="compile">
+            <a name="//apple_ref/cpp/Function/compile" class="dashAnchor"></a>
+            <h5><a href="#compile">compile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb.cgilua.lp.compile(source, name, [env]) -&gt; function</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Converts the specified Lua template source into a Lua function.</p>
+<p>Parameters:</p>
+<ul>
+<li>source - a string containing the contents of a Lua/HTML template to be converted into a function</li>
+<li>name   - a label used in an error message if execution of the returned function results in a run-time error</li>
+<li>env    - an optional table specifying the environment to be used by the lua builtin function <code>load</code> when converting the source into a function.  By default, the function will inherit its caller's environment.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A lua function which should take no arguments.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The source provided is first compared to a stored cache of previously translated templates and will re-use an existing translation if the template has been seen before.  If the source is unique, <a href="#translate">cgilua.lp.translate</a> is called on the template source.</li>
+<li>This function is used internally by <a href="#include">cgilua.lp.include</a>, and probably won't be useful unless you want to translate a dynamically generated template -- which has security implications, depending upon what inputs you use to generate this template, because the resulting Lua code will execute within your Hammerspoon environment.  Be very careful about your inputs if you choose to ignore this warning.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="include">
+            <a name="//apple_ref/cpp/Function/include" class="dashAnchor"></a>
+            <h5><a href="#include">include</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb.cgilua.lp.include(file, [env]) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Includes the template specified by the <code>file</code> parameter.</p>
+<p>Parameters:</p>
+<ul>
+<li>file - a string containing the file system path to the template to include.</li>
+<li>env  - an optional table specifying the environment to be used by the included template.  By default, the template will inherit its caller's environment.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>This function is called by the web server to process the template specified by the requested URL.  Subsequent invocations of this function can be used to include common or re-used code from other template files and will be included in-line where the <code>cgilua.lp.include</code> function is invoked in the originating template.</p>
+<ul>
+<li>During the processing of a web request, the local directory is temporarily changed to match the local directory of the path of the file being served, as determined by the URL of the request.  This is usually different than the Hammerspoon default directory which corresponds to the directory which contains the <code>init.lua</code> file for Hammerspoon.</li>
+</ul>
+</li>
+<li><p>The default template environment provides the following:</p>
+<ul>
+<li>the <code>__index</code> metamethod points to the <code>_G</code> environment variable in the Hammerspoon Lua instance; this means that any global variable in the Hammerspoon environment is available to the lua code in a template file.</li>
+<li><p>the <code>__newindex</code> metamethod points to a function which creates new "global" variables in the template files environment; this means that if a template includes another template file, and that second template file creates a "global" variable, that new variable will be available in the environment of the calling template, but will not be shared with the Hammerspoon global variable space;  "global" variables created in this manner will be released when the HTTP request is completed.</p>
+</li>
+<li><p><code>print</code> is overridden so that its output is streamed into the response body to be returned when the web request completes.  It follows the traditional pattern of the <code>print</code> builtin function: multiple arguments are separated by a tab character, the output is terminated with a new-line character, non-string arguments are converted to strings via the <code>tostring</code> builtin function.</p>
+</li>
+<li><code>write</code> is defined as an alternative to <code>print</code> and differs in the following ways from the <code>print</code> function described above:  no intermediate tabs or newline are included in the output streamed to the response body.</li>
+<li><code>cgilua</code> is defined as a table containing all of the functions included in this support sub-module.</li>
+<li><code>hsminweb</code> is defined as a table which contains the following tables which may be of use:<ul>
+<li>CGIVariables - a table containing key-value pairs of the same data available through the <a href="#servervariable">cgilua.servervariable</a> function.</li>
+<li>id           - a string, generated via <code>hs.host.globallyUniqueString</code>, unique to this specific HTTP request.</li>
+<li>log          - a table/object representing the <code>hs.httpserver.hsminweb</code> instance of <code>hs.logger</code>.  This can be used to log messages to the Hammerspoon console as described in the documentation for <code>hs.logger</code>.</li>
+<li>request      - a table containing data representing the details of the HTTP request as it was made by the web client to the server.  The following keys are commonly found:<ul>
+<li>headers - a table containing key-value pairs representing the headers included in the HTTP request; unlike the values available through <a href="#servervariable">cgilua.servervariable</a> or found in <code>CGIVariables</code>, these are available in their raw form.<ul>
+<li>this table also contains a table with the key "_".  This table contains functions and data used internally, and is described more fully in a supporting document (TBD).  It is targeted primarily at custom error functions designed for use with <code>hs.httpserver.hsminweb</code> and should not generally be necessary for Lua template files.</li>
+</ul>
+</li>
+<li>method  - the method of the HTTP request, most commonly "GET" or "POST"</li>
+<li>path    - the path portion of the requested URL.</li>
+</ul>
+</li>
+<li>response     - a table containing data representing the response being formed for the response to the HTTP request.  This is generally handled for you by the <code>cgilua</code> support functions, but for special cases, you can modify it directly; this should contain only the following keys:<ul>
+<li>body    - a string containing the response body.  As the lua template outputs content, this string is appended to.</li>
+<li>code    - an integer representing the currently expected response code for the HTTP request.</li>
+<li>headers - a table containing key-value pairs of the currently defined response headers</li>
+</ul>
+</li>
+<li>_tmpfiles    - used internally to track temporary files used in the completion of this HTTP request; do not modify directly.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="translate">
+            <a name="//apple_ref/cpp/Function/translate" class="dashAnchor"></a>
+            <h5><a href="#translate">translate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb.cgilua.lp.translate(source) -&gt; luaCode</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Converts the specified Lua template source into Lua code executable within the Hammerspoon environment.</p>
+<p>Parameters:</p>
+<ul>
+<li>source - a string containing the contents of a Lua/HTML template to be converted into true Lua code</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The lua code corresponding to the provided source which can be fed into the <code>load</code> lua builtin to generate a Lua function.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This function is used internally by <a href="#include">cgilua.lp.include</a>, and probably won't be useful unless you want to translate a dynamically generated template -- which has security implications, depending upon what inputs you use to generate this template, because the resulting Lua code will execute within your Hammerspoon environment.  Be very careful about your inputs if you choose to ignore this warning.</li>
+<li>To ensure that the translated code has access to the <code>cgilua</code> support functions, pass <code>_ENV</code> as the environment argument to the <code>load</code> lua builtin; otherwise any output generated by the resulting function will be sent to the Hammerspoon console and not included in the HTTP response sent back to the client.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

@@ -11,7 +11,7 @@ title: Contributors
 * Hammerspoon uses Sentry to collect information about crashes in the application and extensions (hereafter known as `Crash Data`).
 * This feature is enabled by default. Users can opt-out using the Hammerspoon preferences window.
 * Crash Data is uploaded securely to the Sentry servers.
-* No personally identifying data is collected or transmitted by Hammerspoon, with the possible exception of path names. If you run Hammerspoon from a path that contains your name (e.g. `/Users/MyRealNameIsBobAnderson/Applications/Hammerspoon.app` then your name would be included in Crash Data.
+* No personally identifying data is collected or transmitted by Hammerspoon, with the possible exception of path names. If you run Hammerspoon from a path that contains your name (e.g. `/Users/MyRealNameIsBobAnderson/Applications/Hammerspoon.app` then your name would be included in Crash Data. Hammerspoon Console logs are not uploaded anywhere.
 * No Sentry features have been enabled that collect or transmit any personal information about the user.
 * Some information about the hardware and operating system is collected and transmitted.
 * The location of the Hammerspoon app bundle in your filesystem, is collected (e.g. `/Applications/Hammerspoon.app`).

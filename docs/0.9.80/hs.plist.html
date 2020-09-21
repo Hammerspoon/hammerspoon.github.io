@@ -1,0 +1,127 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.plist</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.plist</h1>
+      <p>Read and write Property List files</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#read">read</a></li>
+            <li><a href="#readString">readString</a></li>
+            <li><a href="#write">write</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="read">
+            <a name="//apple_ref/cpp/Function/read" class="dashAnchor"></a>
+            <h5><a href="#read">read</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.plist.read(filepath) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Loads a Property List file</p>
+<p>Parameters:</p>
+<ul>
+<li>filepath - The path and filename of a plist file to read</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The contents of the plist as a Lua table</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="readString">
+            <a name="//apple_ref/cpp/Function/readString" class="dashAnchor"></a>
+            <h5><a href="#readString">readString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.plist.readString(value) -&gt; table | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Interpretes a property list file within a string into a table.</p>
+<p>Parameters:</p>
+<ul>
+<li>value - The contents of the property list as a string</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The contents of the property list as a Lua table or <code>nil</code> if an error occurs</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="write">
+            <a name="//apple_ref/cpp/Function/write" class="dashAnchor"></a>
+            <h5><a href="#write">write</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.plist.write(filepath, data[, binary]) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Writes a Property List file</p>
+<p>Parameters:</p>
+<ul>
+<li>filepath - The path and filename of the plist file to write</li>
+<li>data - A Lua table containing the data to write into the plist</li>
+<li>binary - An optional boolean, if true, the plist will be written as a binary file. Defaults to false</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean, true if the plist was written successfully, otherwise false</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Only simple types can be converted to plist items:<ul>
+<li>Strings</li>
+<li>Numbers</li>
+<li>Booleans</li>
+<li>Tables</li>
+</ul>
+</li>
+<li>You should be careful when reading a plist, modifying and writing it - Hammerspoon may not be able to preserve all of the datatypes via Lua</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

@@ -28,7 +28,7 @@ Out of the box, Hammerspoon does nothing. You will need to create a Lua script i
 
 If you are new to Hammerspoon, read the [Getting Started Guide](/go/) with reference to the [full API documentation](/docs/).
 
-You can learn more about the Lua scripting language at [lua.org](http://www.lua.org/docs.html).
+You can learn more about the Lua scripting language at [lua.org](https://www.lua.org/docs.html).
 
 ## How can I contribute?
 

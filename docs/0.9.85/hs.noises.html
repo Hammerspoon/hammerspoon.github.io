@@ -1,0 +1,135 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.noises</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.noises</h1>
+      <p>Contains two low latency audio recognizers for different mouth noises, which can be used to trigger actions like scrolling or clicking.
+The recognizers are also high accuracy and don't use much CPU time.</p>
+<p>This module was written by <a href="http://thume.ca/">Tristan Hume</a>. If you have any issues with or questions about the recognition, email him.
+All first person references in this module's documentation refer to him.</p>
+<p>The detectors are tuned so that they work for most people and most microphones. For best results use a highly directional headset microphone so that it doesn't pick up other people and background
+noises around you, and put the boom off to the side of your mouth so you aren't directly breathing on it.</p>
+<p>The two mouth noises (and their corresponding event numbers) are:</p>
+<h3>"sssssssssss"</h3>
+<p>The "sssss" noise/syllable is easy to make and can be made continuously. The detector emits an event <code>1</code> when you start saying "sss" and a <code>2</code> after you stop.
+It's good to hook up to variable-length actions like clicking/dragging and scrolling. It can detect very quiet noises so even just barely saying "ssss" under your
+breath should trigger it without annoying anybody else around you too much. It works with most "sss" syllables but I find sharper is better, in crispness that is, loudness doesn't matter much.
+It has a very low false negative rate, but often has false positives. It will obviously trigger in english speech since "s" is a common syllable, but with some microphones breathing in certain ways
+will trigger it as well. Personally I use this to scroll down, it allows me to read long articles and books lying down with my laptop without awkward hand positioning to scroll with the trackpad.</p>
+<h3>Lip Popping</h3>
+<p>Popping your lips is harder to do reliably and can't be done for variable lengths of time. The detector calls your callback with the number <code>3</code> when it detects one.
+This detector has an almost zero false positive rate in my experience and a very low false negative rate (when you manage to make the sound).
+Personally I use this to scroll up by a large increment in case I scroll down too far with "sss", and when my RSS reader is focused it moves to the next article.
+The only false positives I've ever had with this detector are various rare throat clearing noises that make a pop sound very much like a lip pop.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.noises.new(fn) -&gt; listener</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new listener for mouth noise recognition</p>
+<p>Parameters:</p>
+<ul>
+<li>A function that is called when a mouth noise is recognized. It should accept a single parameter which will be a number representing the event type (see module docs).</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.noises</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.noises:start() -&gt; self</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Starts listening to the microphone and passing the audio to the recognizer.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.noises</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.noises:stop() -&gt; self</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops the listener from recording and analyzing microphone input.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.noises</code> object</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

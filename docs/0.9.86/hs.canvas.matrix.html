@@ -1,0 +1,303 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.canvas.matrix</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.canvas.matrix</h1>
+      <p>A sub module to <code>hs.canvas</code> which provides support for basic matrix manipulations which can be used as the values for <code>transformation</code> attributes in the <code>hs.canvas</code> module.</p>
+<p>For mathematical reasons that are beyond the scope of this document, a 3x3 matrix can be used to represent a series of manipulations to be applied to the coordinates of a 2 dimensional drawing object.  These manipulations can include one or more of a combination of translations, rotations, shearing and scaling. Within the 3x3 matrix, only 6 numbers are actually required, and this module represents them as the following keys in a Lua table: <code>m11</code>, <code>m12</code>, <code>m21</code>, <code>m22</code>, <code>tX</code>, and <code>tY</code>. For those of a mathematical bent, the 3x3 matrix used within this module can be visualized as follows:</p>
+
+<pre><code>[  m11,  m12,  0  ]
+[  m21,  m22,  0  ]
+[  tX,   tY,   1  ]
+
+</code></pre>
+<p>This module allows you to generate the table which can represent one or more of the recognized transformations without having to understand the math behind the manipulations or specify the matrix values directly.</p>
+<p>Many of the methods defined in this module can be used both as constructors and as methods chained to a previous method or constructor. Chaining the methods in this manner allows you to combine multiple transformations into one combined table which can then be assigned to an element in your canvas.
+.</p>
+<p>For more information on the mathematics behind these, you can check the web.  One site I used for reference (but there are many more which go into much more detail) can be found at <a href="http://www.cs.trinity.edu/~jhowland/cs2322/2d/2d/">http://www.cs.trinity.edu/~jhowland/cs2322/2d/2d/</a>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#identity">identity</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#append">append</a></li>
+            <li><a href="#invert">invert</a></li>
+            <li><a href="#prepend">prepend</a></li>
+            <li><a href="#rotate">rotate</a></li>
+            <li><a href="#scale">scale</a></li>
+            <li><a href="#shear">shear</a></li>
+            <li><a href="#translate">translate</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="identity">
+            <a name="//apple_ref/cpp/Constructor/identity" class="dashAnchor"></a>
+            <h5><a href="#identity">identity</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.matrix.identity() -&gt; matrixObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Specifies the identity matrix.  Resets all existing transformations when applied as a method to an existing matrixObject.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the identity matrix.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The identity matrix can be thought of as "apply no transformations at all" or "render as specified".</li>
+<li>Mathematically this is represented as:
+<pre><code>[ 1,  0,  0 ]
+[ 0,  1,  0 ]
+[ 0,  0,  1 ]</code></pre>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="append">
+            <a name="//apple_ref/cpp/Method/append" class="dashAnchor"></a>
+            <h5><a href="#append">append</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.matrix:append(matrix) -&gt; matrixObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Appends the specified matrix transformations to the matrix and returns the new matrix.  This method cannot be used as a constructor.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>matrix</code> - the table to append to the current matrix.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the new matrix</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Mathematically this method multiples the original matrix by the new one and returns the result of the multiplication.</li>
+<li>You can use this method to "stack" additional transformations on top of existing transformations, without having to know what the existing transformations in effect for the canvas element are.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="invert">
+            <a name="//apple_ref/cpp/Method/invert" class="dashAnchor"></a>
+            <h5><a href="#invert">invert</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.matrix:invert() -&gt; matrixObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Generates the mathematical inverse of the matrix.  This method cannot be used as a constructor.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the inverted matrix.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Inverting a matrix which represents a series of transformations has the effect of reversing or undoing the original transformations.</li>
+<li>This is useful when used with <a href="#append">hs.canvas.matrix.append</a> to undo a previously applied transformation without actually replacing all of the transformations which may have been applied to a canvas element.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="prepend">
+            <a name="//apple_ref/cpp/Method/prepend" class="dashAnchor"></a>
+            <h5><a href="#prepend">prepend</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.matrix:prepend(matrix) -&gt; matrixObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Prepends the specified matrix transformations to the matrix and returns the new matrix.  This method cannot be used as a constructor.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>matrix</code> - the table to append to the current matrix.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the new matrix</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Mathematically this method multiples the new matrix by the original one and returns the result of the multiplication.</li>
+<li>You can use this method to apply a transformation <em>before</em> the currently applied transformations, without having to know what the existing transformations in effect for the canvas element are.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="rotate">
+            <a name="//apple_ref/cpp/Method/rotate" class="dashAnchor"></a>
+            <h5><a href="#rotate">rotate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.matrix:rotate(angle) -&gt; matrixObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Applies a rotation of the specified number of degrees to the transformation matrix.  This method can be used as a constructor or a method.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>angle</code> - the number of degrees to rotate in a clockwise direction.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the new matrix</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The rotation of an element this matrix is applied to will be rotated about the origin (zero point).  To rotate an object about another point (its center for example), prepend a translation to the point to rotate about, and append a translation reversing the initial translation.<ul>
+<li>e.g. <code>hs.canvas.matrix.translate(x, y):rotate(angle):translate(-x, -y)</code></li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="scale">
+            <a name="//apple_ref/cpp/Method/scale" class="dashAnchor"></a>
+            <h5><a href="#scale">scale</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.matrix:scale(xFactor, [yFactor]) -&gt; matrixObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Applies a scaling transformation to the matrix.  This method can be used as a constructor or a method.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>xFactor</code> - the scaling factor to apply to the object in the horizontal orientation.</li>
+<li><code>yFactor</code> - an optional argument specifying a different scaling factor in the vertical orientation.  If this argument is not provided, the <code>xFactor</code> argument will be used for both orientations.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the new matrix</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="shear">
+            <a name="//apple_ref/cpp/Method/shear" class="dashAnchor"></a>
+            <h5><a href="#shear">shear</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.matrix:shear(xFactor, [yFactor]) -&gt; matrixObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Applies a shearing transformation to the matrix.  This method can be used as a constructor or a method.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>xFactor</code> - the shearing factor to apply to the object in the horizontal orientation.</li>
+<li><code>yFactor</code> - an optional argument specifying a different shearing factor in the vertical orientation.  If this argument is not provided, the <code>xFactor</code> argument will be used for both orientations.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the new matrix</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="translate">
+            <a name="//apple_ref/cpp/Method/translate" class="dashAnchor"></a>
+            <h5><a href="#translate">translate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.matrix:translate(x, y) -&gt; matrixObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Applies a translation transformation to the matrix.  This method can be used as a constructor or a method.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>x</code> - the distance to translate the object in the horizontal direction.</li>
+<li><code>y</code> - the distance to translate the object in the vertical direction.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>the new matrix</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

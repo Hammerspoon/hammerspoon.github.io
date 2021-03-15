@@ -113,7 +113,7 @@
             <table>
               <tr>
                 <th>Signature</th>
-                <td><code>hs.websocket:send(message) -&gt; object</code></td>
+                <td><code>hs.websocket:send(message[, isData]) -&gt; object</code></td>
               </tr>
               <tr>
                 <th>Type</th>
@@ -121,14 +121,22 @@
               </tr>
               <tr>
                 <th>Description</th>
-                <td><p>Sends a message to the websocket client</p>
+                <td><p>Sends a message to the websocket client.</p>
 <p>Parameters:</p>
 <ul>
-<li>message - A string containing the message to send</li>
+<li>message - A string containing the message to send.</li>
+<li>isData - An optional boolean that sends the message as binary data (defaults to true).</li>
 </ul>
 <p>Returns:</p>
 <ul>
 <li>The <code>hs.websocket</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Forcing a text representation by setting isData to <code>false</code> may alter the data if it
+contains invalid UTF8 character sequences (the default string behavior is to make
+sure everything is "printable" by converting invalid sequences into the Unicode
+Invalid Character sequence).</li>
 </ul>
 </td>
               </tr>

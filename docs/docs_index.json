@@ -10597,7 +10597,7 @@
     "type": "Method"
   },
   {
-    "desc": "Sends a message to the websocket client",
+    "desc": "Sends a message to the websocket client.",
     "module": "hs.websocket",
     "name": "send",
     "type": "Method"

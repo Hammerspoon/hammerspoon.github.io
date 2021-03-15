@@ -1,0 +1,611 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.serial</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.serial</h1>
+      <p>Communicate with external devices through a serial port (most commonly RS-232).</p>
+<p>Powered by ORSSerialPort. Thrown together by @latenitefilms.</p>
+<p>Copyright (c) 2011-2012 Andrew R. Madsen (andrew@openreelsoftware.com)</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#availablePortNames">availablePortNames</a></li>
+            <li><a href="#availablePortPaths">availablePortPaths</a></li>
+            <li><a href="#deviceCallback">deviceCallback</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#newFromName">newFromName</a></li>
+            <li><a href="#newFromPath">newFromPath</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#baudRate">baudRate</a></li>
+            <li><a href="#callback">callback</a></li>
+            <li><a href="#close">close</a></li>
+            <li><a href="#dataBits">dataBits</a></li>
+            <li><a href="#isOpen">isOpen</a></li>
+            <li><a href="#name">name</a></li>
+            <li><a href="#open">open</a></li>
+            <li><a href="#parity">parity</a></li>
+            <li><a href="#path">path</a></li>
+            <li><a href="#sendData">sendData</a></li>
+            <li><a href="#shouldEchoReceivedData">shouldEchoReceivedData</a></li>
+            <li><a href="#stopBits">stopBits</a></li>
+            <li><a href="#usesDTRDSRFlowControl">usesDTRDSRFlowControl</a></li>
+            <li><a href="#usesRTSCTSFlowControl">usesRTSCTSFlowControl</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="availablePortNames">
+            <a name="//apple_ref/cpp/Function/availablePortNames" class="dashAnchor"></a>
+            <h5><a href="#availablePortNames">availablePortNames</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial.availablePortNames() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table of currently connected serial ports names.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table containing the names of any connected serial port names as strings.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="availablePortPaths">
+            <a name="//apple_ref/cpp/Function/availablePortPaths" class="dashAnchor"></a>
+            <h5><a href="#availablePortPaths">availablePortPaths</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial.availablePortPaths() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table of currently connected serial ports paths.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A table containing the names of any connected serial port paths as strings.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="deviceCallback">
+            <a name="//apple_ref/cpp/Function/deviceCallback" class="dashAnchor"></a>
+            <h5><a href="#deviceCallback">deviceCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial.deviceCallback(callbackFn) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A callback that's triggered when a serial port is added or removed from the system.</p>
+<p>Parameters:</p>
+<ul>
+<li>callbackFn - the callback function to trigger.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The callback function should expect 1 argument and should not return anything:<ul>
+<li><code>devices</code> - A table containing the names of any serial ports connected as strings.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="newFromName">
+            <a name="//apple_ref/cpp/Constructor/newFromName" class="dashAnchor"></a>
+            <h5><a href="#newFromName">newFromName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial.newFromName(portName) -&gt; serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new <code>hs.serial</code> object using the port name.</p>
+<p>Parameters:</p>
+<ul>
+<li>portName - A string containing the port name.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.serial</code> object or <code>nil</code> if an error occured.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>A valid port name can be found by checking <code>hs.serial.availablePortNames()</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="newFromPath">
+            <a name="//apple_ref/cpp/Constructor/newFromPath" class="dashAnchor"></a>
+            <h5><a href="#newFromPath">newFromPath</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial.newFromPath(path) -&gt; serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new <code>hs.serial</code> object using a path.</p>
+<p>Parameters:</p>
+<ul>
+<li>path - A string containing the path (i.e. "/dev/cu.usbserial").</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.serial</code> object or <code>nil</code> if an error occured.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>A valid port name can be found by checking <code>hs.serial.availablePortPaths()</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="baudRate">
+            <a name="//apple_ref/cpp/Method/baudRate" class="dashAnchor"></a>
+            <h5><a href="#baudRate">baudRate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:baudRate([value], [allowNonStandardBaudRates]) -&gt; number | serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets or sets the baud rate for the serial port.</p>
+<p>Parameters:</p>
+<ul>
+<li>value - An optional number to set the baud rate.</li>
+<li>[allowNonStandardBaudRates] - An optional boolean to enable non-standard baud rates. Defaults to <code>false</code>.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is specified, then this method returns the serial port object. Otherwise this method returns the baud rate as a number</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This function supports the following standard baud rates as numbers: 300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200, 230400.</li>
+<li>If no baud rate is supplied, it defaults to 115200.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="callback">
+            <a name="//apple_ref/cpp/Method/callback" class="dashAnchor"></a>
+            <h5><a href="#callback">callback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:callback(callbackFn | nil) -&gt; serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets or removes a callback function for the <code>hs.serial</code> object.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>callbackFn</code> - a function to set as the callback for this <code>hs.serial</code> object.  If the value provided is <code>nil</code>, any currently existing callback function is removed.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.serial</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The callback function should expect 4 arguments and should not return anything:<ul>
+<li><code>serialPortObject</code> - The serial port object that triggered the callback.</li>
+<li><code>callbackType</code> - A string containing "opened", "closed", "received", "removed" or "error".</li>
+<li><code>message</code> - If the <code>callbackType</code> is "received", then this will be the data received as a string. If the <code>callbackType</code> is "error", this will be the error message as a string.</li>
+<li><code>hexadecimalString</code> - If the <code>callbackType</code> is "received", then this will be the data received as a hexadecimal string.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="close">
+            <a name="//apple_ref/cpp/Method/close" class="dashAnchor"></a>
+            <h5><a href="#close">close</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:close() -&gt; serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Closes the serial port.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.serial</code> object.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="dataBits">
+            <a name="//apple_ref/cpp/Method/dataBits" class="dashAnchor"></a>
+            <h5><a href="#dataBits">dataBits</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:dataBits([value]) -&gt; number | serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets or sets the number of data bits for the serial port.</p>
+<p>Parameters:</p>
+<ul>
+<li>value - An optional number to set the number of data bits. It can be 5 to 8.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is specified, then this method returns the serial port object. Otherwise this method returns the data bits as a number.</li>
+<li>The default value is 8.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="isOpen">
+            <a name="//apple_ref/cpp/Method/isOpen" class="dashAnchor"></a>
+            <h5><a href="#isOpen">isOpen</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:isOpen() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets whether or not a serial port is open.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li><code>true</code> if open, otherwise <code>false</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="name">
+            <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+            <h5><a href="#name">name</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:name() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the name of a <code>hs.serial</code> object.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The name as a string.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="open">
+            <a name="//apple_ref/cpp/Method/open" class="dashAnchor"></a>
+            <h5><a href="#open">open</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:open() -&gt; serialPortObject | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Opens the serial port.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.serial</code> object or <code>nil</code> if the port could not be opened.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="parity">
+            <a name="//apple_ref/cpp/Method/parity" class="dashAnchor"></a>
+            <h5><a href="#parity">parity</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:parity([value]) -&gt; string | serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets or sets the parity for the serial port.</p>
+<p>Parameters:</p>
+<ul>
+<li>value - An optional string to set the parity. It can be "none", "odd" or "even".</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is specified, then this method returns the serial port object. Otherwise this method returns a string value of "none", "odd" or "even".</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="path">
+            <a name="//apple_ref/cpp/Method/path" class="dashAnchor"></a>
+            <h5><a href="#path">path</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:path() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the path of a <code>hs.serial</code> object.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The path as a string.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendData">
+            <a name="//apple_ref/cpp/Method/sendData" class="dashAnchor"></a>
+            <h5><a href="#sendData">sendData</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:sendData(value) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sends data via a serial port.</p>
+<p>Parameters:</p>
+<ul>
+<li>value - A string of data to send.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="shouldEchoReceivedData">
+            <a name="//apple_ref/cpp/Method/shouldEchoReceivedData" class="dashAnchor"></a>
+            <h5><a href="#shouldEchoReceivedData">shouldEchoReceivedData</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:shouldEchoReceivedData([value]) -&gt; boolean | serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets or sets whether the port should echo received data.</p>
+<p>Parameters:</p>
+<ul>
+<li>value - An optional boolean.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is specified, then this method returns the serial port object. Otherwise this method returns a boolean.</li>
+<li>The default value is <code>false</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="stopBits">
+            <a name="//apple_ref/cpp/Method/stopBits" class="dashAnchor"></a>
+            <h5><a href="#stopBits">stopBits</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:stopBits([value]) -&gt; number | serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets or sets the number of stop bits for the serial port.</p>
+<p>Parameters:</p>
+<ul>
+<li>value - An optional number to set the number of stop bits. It can be 1 or 2.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is specified, then this method returns the serial port object. Otherwise this method returns the number of stop bits as a number.</li>
+<li>The default value is 1.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="usesDTRDSRFlowControl">
+            <a name="//apple_ref/cpp/Method/usesDTRDSRFlowControl" class="dashAnchor"></a>
+            <h5><a href="#usesDTRDSRFlowControl">usesDTRDSRFlowControl</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:usesDTRDSRFlowControl([value]) -&gt; boolean | serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets or sets whether the port should use DTR/DSR Flow Control.</p>
+<p>Parameters:</p>
+<ul>
+<li>value - An optional boolean.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is specified, then this method returns the serial port object. Otherwise this method returns a boolean.</li>
+<li>The default value is <code>false</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+          <section id="usesRTSCTSFlowControl">
+            <a name="//apple_ref/cpp/Method/usesRTSCTSFlowControl" class="dashAnchor"></a>
+            <h5><a href="#usesRTSCTSFlowControl">usesRTSCTSFlowControl</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.serial:usesRTSCTSFlowControl([value]) -&gt; boolean | serialPortObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets or sets whether the port should use RTS/CTS Flow Control.</p>
+<p>Parameters:</p>
+<ul>
+<li>value - An optional boolean.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If a value is specified, then this method returns the serial port object. Otherwise this method returns a boolean.</li>
+<li>The default value is <code>false</code>.</li>
+</ul>
+</td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

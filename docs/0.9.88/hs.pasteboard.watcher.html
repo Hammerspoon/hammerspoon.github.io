@@ -1,0 +1,218 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.pasteboard.watcher</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.pasteboard.watcher</h1>
+      <p>Watch for Pasteboard Changes.
+macOS doesn't offer any API for getting Pasteboard notifications, so this extension uses polling to check for Pasteboard changes at a chosen interval (defaults to 0.25).</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#interval">interval</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#running">running</a></li>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="interval">
+            <a name="//apple_ref/cpp/Function/interval" class="dashAnchor"></a>
+            <h5><a href="#interval">interval</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.pasteboard.watcher.interval([value]) -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets or sets the polling interval (i.e. the frequency the pasteboard watcher checks the pasteboard).</p>
+<p>Parameters:</p>
+<ul>
+<li>value - an optional number to set the polling interval to.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The polling interval as a number.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This only affects new watchers, not existing/running ones.</li>
+<li>The default value is 0.25.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/pasteboard/watcher.m#L250">extensions/pasteboard/watcher.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.pasteboard.watcher.new(callbackFn[, name]) -&gt; pasteboardWatcher</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates and starts a new <code>hs.pasteboard.watcher</code> object for watching for Pasteboard changes.</p>
+<p>Parameters:</p>
+<ul>
+<li>callbackFn - A function that will be called when the Pasteboard contents has changed. It should accept one parameter:<ul>
+<li>A string containing the pasteboard contents or <code>nil</code> if the contents is not a valid string.</li>
+</ul>
+</li>
+<li>name - An optional string containing the name of the pasteboard. Defaults to the system pasteboard.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>An <code>hs.pasteboard.watcher</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Internally this extension uses a single <code>NSTimer</code> to check for changes to the pasteboard count every half a second.</li>
+<li>Example usage:<div class="highlight"><pre><span></span><span class="n">generalPBWatcher</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">pasteboard</span><span class="p">.</span><span class="n">watcher</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="kr">function</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="nb">print</span><span class="p">(</span><span class="nb">string.format</span><span class="p">(</span><span class="s2">&quot;General Pasteboard Contents: %s&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="kr">end</span><span class="p">)</span>
+<span class="n">specialPBWatcher</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">pasteboard</span><span class="p">.</span><span class="n">watcher</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="kr">function</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="nb">print</span><span class="p">(</span><span class="nb">string.format</span><span class="p">(</span><span class="s2">&quot;Special Pasteboard Contents: %s&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="kr">end</span><span class="p">,</span> <span class="s2">&quot;special&quot;</span><span class="p">)</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">pasteboard</span><span class="p">.</span><span class="n">writeObjects</span><span class="p">(</span><span class="s2">&quot;This is on the general pasteboard.&quot;</span><span class="p">)</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">pasteboard</span><span class="p">.</span><span class="n">writeObjects</span><span class="p">(</span><span class="s2">&quot;This is on the special pasteboard.&quot;</span><span class="p">,</span> <span class="s2">&quot;special&quot;</span><span class="p">)</span>
+</pre></div>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/pasteboard/watcher.m#L143">extensions/pasteboard/watcher.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="running">
+            <a name="//apple_ref/cpp/Method/running" class="dashAnchor"></a>
+            <h5><a href="#running">running</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.pasteboard.watcher:running() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a boolean indicating whether or not the Pasteboard Watcher is currently running.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A boolean value indicating whether or not the timer is currently running.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/pasteboard/watcher.m#L210">extensions/pasteboard/watcher.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.pasteboard.watcher:start() -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Starts an <code>hs.pasteboard.watcher</code> object</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.pasteboard.watcher</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/pasteboard/watcher.m#L188">extensions/pasteboard/watcher.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.pasteboard.watcher:stop() -&gt; timer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops an <code>hs.pasteboard.watcher</code> object</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.pasteboard.watcher</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/pasteboard/watcher.m#L229">extensions/pasteboard/watcher.m</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

@@ -1,0 +1,308 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.hotkey.modal</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.hotkey.modal</h1>
+      <p>Create/manage modal keyboard shortcut environments</p>
+<p>Usage:</p>
+<div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">hotkey</span><span class="p">.</span><span class="n">modal</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;cmd-shift&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span>
+<span class="kr">function</span> <span class="nc">k</span><span class="p">:</span><span class="nf">entered</span><span class="p">()</span> <span class="n">hs</span><span class="p">.</span><span class="n">alert</span><span class="s1">&#39;Entered mode&#39;</span> <span class="kr">end</span>
+<span class="kr">function</span> <span class="nc">k</span><span class="p">:</span><span class="nf">exited</span><span class="p">()</span>  <span class="n">hs</span><span class="p">.</span><span class="n">alert</span><span class="s1">&#39;Exited mode&#39;</span>  <span class="kr">end</span>
+<span class="n">k</span><span class="p">:</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;escape&#39;</span><span class="p">,</span> <span class="kr">function</span><span class="p">()</span> <span class="n">k</span><span class="p">:</span><span class="n">exit</span><span class="p">()</span> <span class="kr">end</span><span class="p">)</span>
+<span class="n">k</span><span class="p">:</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">,</span> <span class="s1">&#39;Pressed J&#39;</span><span class="p">,</span><span class="kr">function</span><span class="p">()</span> <span class="nb">print</span><span class="s1">&#39;let the record show that J was pressed&#39;</span> <span class="kr">end</span><span class="p">)</span>
+</pre></div>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#bind">bind</a></li>
+            <li><a href="#delete">delete</a></li>
+            <li><a href="#enter">enter</a></li>
+            <li><a href="#entered">entered</a></li>
+            <li><a href="#exit">exit</a></li>
+            <li><a href="#exited">exited</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.modal.new(mods, key, message) -&gt; hs.hotkey.modal object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new modal state, optionally with a global keyboard combination to trigger it</p>
+<p>Parameters:</p>
+<ul>
+<li>mods - A table or a string containing (as elements, or as substrings with any separator) the keyboard modifiers required,
+which should be zero or more of the following:<ul>
+<li>"cmd", "command" or "⌘"</li>
+<li>"ctrl", "control" or "⌃"</li>
+<li>"alt", "option" or "⌥"</li>
+<li>"shift" or "⇧"</li>
+</ul>
+</li>
+<li>key - A string containing the name of a keyboard key (as found in <a href="hs.keycodes.html#map">hs.keycodes.map</a> ), or a raw keycode number</li>
+<li>message - A string containing a message to be displayed via <code>hs.alert()</code> when the hotkey has been triggered, or nil for no alert</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A new <code>hs.hotkey.modal</code> object</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If <code>key</code> is nil, no global hotkey will be registered (all other parameters will be ignored)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/init.lua#L553">extensions/hotkey/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="bind">
+            <a name="//apple_ref/cpp/Method/bind" class="dashAnchor"></a>
+            <h5><a href="#bind">bind</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.modal:bind(mods, key, message, pressedfn, releasedfn, repeatfn) -&gt; hs.hotkey.modal object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a hotkey that is enabled/disabled as the modal is entered/exited</p>
+<p>Parameters:</p>
+<ul>
+<li>mods - A table or a string containing (as elements, or as substrings with any separator) the keyboard modifiers required,
+which should be zero or more of the following:<ul>
+<li>"cmd", "command" or "⌘"</li>
+<li>"ctrl", "control" or "⌃"</li>
+<li>"alt", "option" or "⌥"</li>
+<li>"shift" or "⇧"</li>
+</ul>
+</li>
+<li>key - A string containing the name of a keyboard key (as found in <a href="hs.keycodes.html#map">hs.keycodes.map</a> ), or a raw keycode number</li>
+<li>message - A string containing a message to be displayed via <code>hs.alert()</code> when the hotkey has been triggered, or nil for no alert</li>
+<li>pressedfn - A function that will be called when the hotkey has been pressed, or nil</li>
+<li>releasedfn - A function that will be called when the hotkey has been released, or nil</li>
+<li>repeatfn - A function that will be called when a pressed hotkey is repeating, or nil</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.hotkey.modal</code> object for method chaining</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/init.lua#L483">extensions/hotkey/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="delete">
+            <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+            <h5><a href="#delete">delete</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.modal:delete()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Deletes a modal hotkey object without calling :exited()</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/init.lua#L581">extensions/hotkey/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="enter">
+            <a name="//apple_ref/cpp/Method/enter" class="dashAnchor"></a>
+            <h5><a href="#enter">enter</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.modal:enter() -&gt; hs.hotkey.modal object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Enters a modal state</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.hotkey.modal</code> object for method chaining</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method will enable all of the hotkeys defined in the modal state via <code>hs.hotkey.modal:bind()</code>,
+and disable the hotkey that entered the modal state (if one was defined)</li>
+<li>If the modal state was created with a keyboard combination, this method will be called automatically</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/init.lua#L507">extensions/hotkey/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="entered">
+            <a name="//apple_ref/cpp/Method/entered" class="dashAnchor"></a>
+            <h5><a href="#entered">entered</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.modal:entered()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Optional callback for when a modal is entered</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This is a pre-existing function that you should override if you need to use it; the default implementation does nothing.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/init.lua#L453">extensions/hotkey/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="exit">
+            <a name="//apple_ref/cpp/Method/exit" class="dashAnchor"></a>
+            <h5><a href="#exit">exit</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.modal:exit() -&gt; hs.hotkey.modal object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Exits a modal state</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The <code>hs.hotkey.modal</code> object for method chaining</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This method will disable all of the hotkeys defined in the modal state, and enable the hotkey for entering the modal state (if one was defined)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/init.lua#L531">extensions/hotkey/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="exited">
+            <a name="//apple_ref/cpp/Method/exited" class="dashAnchor"></a>
+            <h5><a href="#exited">exited</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.modal:exited()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Optional callback for when a modal is exited</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This is a pre-existing function that you should override if you need to use it; the default implementation does nothing.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/init.lua#L468">extensions/hotkey/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

@@ -1,0 +1,336 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.host.locale</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.host.locale</h1>
+      <p>Retrieve information about the user's Language and Region settings.</p>
+<p>Locales encapsulate information about linguistic, cultural, and technological conventions and standards. Examples of information encapsulated by a locale include the symbol used for the decimal separator in numbers and the way dates are formatted. Locales are typically used to provide, format, and interpret information about and according to the user’s customs and preferences.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#availableLocales">availableLocales</a></li>
+            <li><a href="#current">current</a></li>
+            <li><a href="#details">details</a></li>
+            <li><a href="#localizedString">localizedString</a></li>
+            <li><a href="#preferredLanguages">preferredLanguages</a></li>
+            <li><a href="#registerCallback">registerCallback</a></li>
+            <li><a href="#unregisterCallback">unregisterCallback</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="availableLocales">
+            <a name="//apple_ref/cpp/Function/availableLocales" class="dashAnchor"></a>
+            <h5><a href="#availableLocales">availableLocales</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.locale.availableLocales() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns an array table containing the identifiers for the locales available on the system.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>an array table of strings specifying the locale identifiers recognized by this system.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>these values can be used with <a href="#details">hs.host.locale.details</a> to get details for a specific locale.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/host/locale/internal.m#L172">extensions/host/locale/internal.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="current">
+            <a name="//apple_ref/cpp/Function/current" class="dashAnchor"></a>
+            <h5><a href="#current">current</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.locale.current() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns an string specifying the user's currently selected locale identifier.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a string specifying the identifier of the user's currently selected locale.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>this value can be used with <a href="#details">hs.host.locale.details</a> to get details for the returned locale.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/host/locale/internal.m#L219">extensions/host/locale/internal.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="details">
+            <a name="//apple_ref/cpp/Function/details" class="dashAnchor"></a>
+            <h5><a href="#details">details</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.locale.details([identifier]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table containing information about the current or specified locale.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>identifier</code> - an optional string, specifying the locale to display information about.  If you do not specify an identifier, information about the user's currently selected locale is returned.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a table containing one or more of the following key-value pairs:<ul>
+<li><code>alternateQuotationBeginDelimiterKey</code> - A string containing the alternating begin quotation symbol associated with the locale. In some locales, when quotations are nested, the quotation characters alternate.</li>
+<li><code>alternateQuotationEndDelimiterKey</code>   - A string containing the alternate end quotation symbol associated with the locale. In some locales, when quotations are nested, the quotation characters alternate.</li>
+<li><code>calendar</code>                            - A table containing key-value pairs describing for calendar associated with the locale. The table will contain one or more of the following pairs:<ul>
+<li><code>AMSymbol</code>                          - The AM symbol for time in the locale's calendar.</li>
+<li><code>calendarIdentifier</code>                - A string representing the calendar identity.</li>
+<li><code>eraSymbols</code>                        - An array table of strings specifying the names of the eras as recognized in the locale's calendar.</li>
+<li><code>firstWeekday</code>                      - The index in <code>weekdaySymbols</code> of the first weekday in the locale's calendar.</li>
+<li><code>longEraSymbols</code>                    - An array table of strings specifying long names of the eras as recognized in the locale's calendar.</li>
+<li><code>minimumDaysInFirstWeek</code>            - The minimum number of days, an integer value, in the first week in the locale's calendar.</li>
+<li><code>monthSymbols</code>                      - An array table of strings for the months of the year in the locale's calendar.</li>
+<li><code>PMSymbol</code>                          - The PM symbol for time in the locale's calendar.</li>
+<li><code>quarterSymbols</code>                    - An array table of strings for the quarters of the year in the locale's calendar.</li>
+<li><code>shortMonthSymbols</code>                 - An array table of short strings for the months of the year in the locale's calendar.</li>
+<li><code>shortQuarterSymbols</code>               - An array table of short strings for the quarters of the year in the locale's calendar.</li>
+<li><code>shortStandaloneMonthSymbols</code>       - An array table of short standalone strings for the months of the year in the locale's calendar.</li>
+<li><code>shortStandaloneQuarterSymbols</code>     - An array table of short standalone strings for the quarters of the year in the locale's calendar.</li>
+<li><code>shortStandaloneWeekdaySymbols</code>     - An array table of short standalone strings for the days of the week in the locale's calendar.</li>
+<li><code>shortWeekdaySymbols</code>               - An array table of short strings for the days of the week in the locale's calendar.</li>
+<li><code>standaloneMonthSymbols</code>            - An array table of standalone strings for the months of the year in the locale's calendar.</li>
+<li><code>standaloneQuarterSymbols</code>          - An array table of standalone strings for the quarters of the year in the locale's calendar.</li>
+<li><code>standaloneWeekdaySymbols</code>          - An array table of standalone strings for the days of the week in the locale's calendar.</li>
+<li><code>veryShortMonthSymbols</code>             - An array table of very short strings for the months of the year in the locale's calendar.</li>
+<li><code>veryShortStandaloneMonthSymbols</code>   - An array table of very short standalone strings for the months of the year in the locale's calendar.</li>
+<li><code>veryShortStandaloneWeekdaySymbols</code> - An array table of very short standalone strings for the days of the week in the locale's calendar.</li>
+<li><code>veryShortWeekdaySymbols</code>           - An array table of very short strings for the days of the week in the locale's calendar.</li>
+<li><code>weekdaySymbols</code>                    - An array table of strings for the days of the week in the locale's calendar.</li>
+</ul>
+</li>
+<li><code>collationIdentifier</code>                 - A string containing the collation associated with the locale.</li>
+<li><code>collatorIdentifier</code>                  - A string containing the collation identifier for the locale.</li>
+<li><code>countryCode</code>                         - A string containing the locale country code.</li>
+<li><code>currencyCode</code>                        - A string containing the currency code associated with the locale.</li>
+<li><code>currencySymbol</code>                      - A string containing the currency symbol associated with the locale.</li>
+<li><code>decimalSeparator</code>                    - A string containing the decimal separator associated with the locale.</li>
+<li><code>exemplarCharacterSet</code>                - An array table of strings which make up the exemplar character set for the locale.</li>
+<li><code>groupingSeparator</code>                   - A string containing the numeric grouping separator associated with the locale.</li>
+<li><code>identifier</code>                          - A string containing the locale identifier.</li>
+<li><code>languageCode</code>                        - A string containing the locale language code.</li>
+<li><code>measurementSystem</code>                   - A string containing the measurement system associated with the locale.</li>
+<li><code>quotationBeginDelimiterKey</code>          - A string containing the begin quotation symbol associated with the locale.</li>
+<li><code>quotationEndDelimiterKey</code>            - A string containing the end quotation symbol associated with the locale.</li>
+<li><code>scriptCode</code>                          - A string containing the locale script code.</li>
+<li><code>temperatureUnit</code>                     - A string containing the preferred measurement system for temperature.</li>
+<li><code>timeFormatIs24Hour</code>                  - A boolean specifying whether time is expressed in a 24 hour format (true) or 12 hour format (false).</li>
+<li><code>usesMetricSystem</code>                    - A boolean specifying whether or not the locale uses the metric system.</li>
+<li><code>variantCode</code>                         - A string containing the locale variant code.</li>
+</ul>
+</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>If you specify a locale identifier as an argument, it should be based on one of the strings returned by <a href="#availableLocales">hs.host.locale.availableLocales</a>. Use of an arbitrary string may produce unreliable or inconsistent results.</p>
+</li>
+<li><p>Apple does not provide a documented method for retrieving the users preferences with respect to <code>temperatureUnit</code> or <code>timeFormatIs24Hour</code>. The methods used to determine these values are based on code from the following sources:</p>
+<ul>
+<li><code>temperatureUnit</code>    - <a href="http://stackoverflow.com/a/41263725">http://stackoverflow.com/a/41263725</a></li>
+<li><code>timeFormatIs24Hour</code> - <a href="http://stackoverflow.com/a/1972487">http://stackoverflow.com/a/1972487</a></li>
+</ul>
+</li>
+<li>If you are able to identify additional locale or regional settings that are not provided by this function and have a source which describes a reliable method to retrieve this information, please submit an issue at <a href="https://github.com/Hammerspoon/hammerspoon">https://github.com/Hammerspoon/hammerspoon</a> with the details.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/host/locale/internal.m#L238">extensions/host/locale/internal.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="localizedString">
+            <a name="//apple_ref/cpp/Function/localizedString" class="dashAnchor"></a>
+            <h5><a href="#localizedString">localizedString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.locale.localizedString(localeCode[, baseLocaleCode]) -&gt; string | nil, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the localized string for a specific language code.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>localeCode</code> - The locale code for the locale you want to return the localized string of.</li>
+<li><code>baseLocaleCode</code> - An optional string, specifying the locale to use for the string. If you do not specify a <code>baseLocaleCode</code>, the user's currently selected locale is used.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>A string containing the localized string or <code>nil</code> if either the <code>localeCode</code> or <code>baseLocaleCode</code> is invalid. For example, if the <code>localeCode</code> is "de_CH", this will return "German".</li>
+<li>A string containing the localized string including the dialect or <code>nil</code> if either the <code>localeCode</code> or <code>baseLocaleCode</code> is invalid. For example, if the <code>localeCode</code> is "de_CH", this will return "German (Switzerland)".</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The <code>localeCode</code> and optional <code>baseLocaleCode</code> must be one of the strings returned by <a href="#availableLocales">hs.host.locale.availableLocales</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/host/locale/internal.m#L317">extensions/host/locale/internal.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="preferredLanguages">
+            <a name="//apple_ref/cpp/Function/preferredLanguages" class="dashAnchor"></a>
+            <h5><a href="#preferredLanguages">preferredLanguages</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.locale.preferredLanguages() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the user's language preference order as an array of strings.</p>
+<p>Parameters:</p>
+<ul>
+<li>None</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>an array table of strings specifying the user's preferred languages as string identifiers.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/host/locale/internal.m#L197">extensions/host/locale/internal.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="registerCallback">
+            <a name="//apple_ref/cpp/Function/registerCallback" class="dashAnchor"></a>
+            <h5><a href="#registerCallback">registerCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.locale.registerCallback(function) -&gt; uuidString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Registers a function to be invoked when anything in the user's locale settings change</p>
+<p>Parameters:</p>
+<ul>
+<li><code>fn</code> - the function to be invoked when a setting changes</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>a uuid string which can be used to unregister a callback function when you no longer require notification of changes</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li><p>The callback function will not receive any arguments and should return none.  You can retrieve the new locale settings with <a href="#localeInformation">hs.host.locale.localeInformation</a> and check its keys to determine if the change is of interest.</p>
+</li>
+<li><p>Any change made within the Language and Region settings panel will trigger this callback, even changes which are not reflected in the locale information provided by <a href="#localeInformation">hs.host.locale.localeInformation</a>.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/host/locale/init.lua#L28">extensions/host/locale/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="unregisterCallback">
+            <a name="//apple_ref/cpp/Function/unregisterCallback" class="dashAnchor"></a>
+            <h5><a href="#unregisterCallback">unregisterCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.locale.unregisterCallback(uuidString) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Unregister a callback function when you no longer care about changes to the user's locale</p>
+<p>Parameters:</p>
+<ul>
+<li><code>uuidString</code> - the uuidString returned by <a href="#registerCallback">hs.host.locale.registerCallback</a> when you registered the callback function</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>true if the callback was successfully unregistered or false if it was not, usually because the uuidString does not correspond to a current callback function.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/host/locale/init.lua#L52">extensions/host/locale/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

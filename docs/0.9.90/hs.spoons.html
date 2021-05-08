@@ -1,0 +1,314 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.spoons</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.spoons</h1>
+      <p>Utility and management functions for Spoons
+Spoons are Lua plugins for Hammerspoon.
+See <a href="https://www.hammerspoon.org/Spoons/">https://www.hammerspoon.org/Spoons/</a> for more information</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#bindHotkeysToSpec">bindHotkeysToSpec</a></li>
+            <li><a href="#isInstalled">isInstalled</a></li>
+            <li><a href="#isLoaded">isLoaded</a></li>
+            <li><a href="#list">list</a></li>
+            <li><a href="#newSpoon">newSpoon</a></li>
+            <li><a href="#resourcePath">resourcePath</a></li>
+            <li><a href="#scriptPath">scriptPath</a></li>
+            <li><a href="#use">use</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="bindHotkeysToSpec">
+            <a name="//apple_ref/cpp/Function/bindHotkeysToSpec" class="dashAnchor"></a>
+            <h5><a href="#bindHotkeysToSpec">bindHotkeysToSpec</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spoons.bindHotkeysToSpec(def, map) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Map a number of hotkeys according to a definition table</p>
+<p>Parameters:</p>
+<ul>
+<li>def - table containing name-to-function definitions for the hotkeys supported by the Spoon. Each key is a hotkey name, and its value must be a function that will be called when the hotkey is invoked.</li>
+<li>map - table containing name-to-hotkey definitions and an optional message to be displayed via <code>hs.alert()</code> when the hotkey has been triggered, as supported by <a href="https://github.com/Hammerspoon/hammerspoon/blob/master/SPOONS.md#hotkeys">bindHotkeys in the Spoon API</a>. Not all the entries in <code>def</code> must be bound, but if any keys in <code>map</code> don't have a definition, an error will be produced.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spoons/init.lua#L123">extensions/spoons/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isInstalled">
+            <a name="//apple_ref/cpp/Function/isInstalled" class="dashAnchor"></a>
+            <h5><a href="#isInstalled">isInstalled</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spoons.isInstalled(name) -&gt; table | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Check if a given Spoon is installed.</p>
+<p>Parameters:</p>
+<ul>
+<li>name - Name of the Spoon to check.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>If the Spoon is installed, it returns a table with the Spoon information as returned by <code>list()</code>. Returns <code>nil</code> if the Spoon is not installed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spoons/init.lua#L182">extensions/spoons/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isLoaded">
+            <a name="//apple_ref/cpp/Function/isLoaded" class="dashAnchor"></a>
+            <h5><a href="#isLoaded">isLoaded</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spoons.isLoaded(name) -&gt; boolean | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Check if a given Spoon is loaded.</p>
+<p>Parameters:</p>
+<ul>
+<li>name - Name of the Spoon to check.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li><code>true</code> if the Spoon is loaded, <code>nil</code> otherwise.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spoons/init.lua#L201">extensions/spoons/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="list">
+            <a name="//apple_ref/cpp/Function/list" class="dashAnchor"></a>
+            <h5><a href="#list">list</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spoons.list() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Return a list of installed/loaded Spoons</p>
+<p>Parameters:</p>
+<ul>
+<li>onlyLoaded - only return loaded Spoons (skips those that are installed but not loaded). Defaults to <code>false</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>Table with a list of installed/loaded spoons (depending on the value of <code>onlyLoaded</code>). Each entry is a table with the following entries:<ul>
+<li><code>name</code> - Spoon name</li>
+<li><code>loaded</code> - boolean indication of whether the Spoon is loaded (<code>true</code>) or only installed (<code>false</code>)</li>
+<li><code>version</code> - Spoon version number. Available only for loaded Spoons.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spoons/init.lua#L148">extensions/spoons/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newSpoon">
+            <a name="//apple_ref/cpp/Function/newSpoon" class="dashAnchor"></a>
+            <h5><a href="#newSpoon">newSpoon</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spoons.newSpoon(name, basedir, metadata, [template]) -&gt; string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Create a skeleton for a new Spoon</p>
+<p>Parameters:</p>
+<ul>
+<li>name: name of the new spoon, without the <code>.spoon</code> extension</li>
+<li>basedir: (optional) directory where to create the template. Defaults to <code>~/.hammerspoon/Spoons</code></li>
+<li>metadata: (optional) table containing metadata values to be inserted in the template. Provided values are merged with the defaults. Defaults to:
+<pre><code>{
+  version = "0.1",
+  author = "Your Name &lt;your@email.org&gt;",
+  homepage = "https://github.com/Hammerspoon/Spoons",
+  license = "MIT - https://opensource.org/licenses/MIT",
+  download_url = "https://github.com/Hammerspoon/Spoons/raw/master/Spoons/"..name..".spoon.zip"
+}</code></pre>
+</li>
+<li>template: (optional) absolute path of the template to use for the <code>init.lua</code> file of the new Spoon. Defaults to the <code>templates/init.tpl</code> file included with Hammerspoon.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>The full directory path where the template was created, or <code>nil</code> if there was an error.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spoons/init.lua#L40">extensions/spoons/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="resourcePath">
+            <a name="//apple_ref/cpp/Function/resourcePath" class="dashAnchor"></a>
+            <h5><a href="#resourcePath">resourcePath</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spoons.resourcePath(partial) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Return full path of an object within a spoon directory, given its partial path.</p>
+<p>Parameters:</p>
+<ul>
+<li>partial - path of a file relative to the Spoon directory. For example <code>images/img1.png</code> will refer to a file within the <code>images</code> directory of the Spoon.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>Absolute path of the file. Note: no existence or other checks are done on the path.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spoons/init.lua#L110">extensions/spoons/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="scriptPath">
+            <a name="//apple_ref/cpp/Function/scriptPath" class="dashAnchor"></a>
+            <h5><a href="#scriptPath">scriptPath</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spoons.scriptPath([n]) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Return path of the current spoon.</p>
+<p>Parameters:</p>
+<ul>
+<li>n - (optional) stack level for which to get the path. Defaults to 2, which will return the path of the spoon which called <code>scriptPath()</code></li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li>String with the path from where the calling code was loaded.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spoons/init.lua#L95">extensions/spoons/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="use">
+            <a name="//apple_ref/cpp/Function/use" class="dashAnchor"></a>
+            <h5><a href="#use">use</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spoons.use(name, arg, [noerror]) -&gt; boolean | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Declaratively load and configure a Spoon</p>
+<p>Parameters:</p>
+<ul>
+<li>name - the name of the Spoon to load (without the <code>.spoon</code> extension).</li>
+<li>arg - if provided, can be used to specify the configuration of the Spoon. The following keys are recognized (all are optional):<ul>
+<li>config - a table containing variables to be stored in the Spoon object to configure it. For example, <code>config = { answer = 42 }</code> will result in <code>spoon.&lt;LoadedSpoon&gt;.answer</code> being set to 42.</li>
+<li>hotkeys - a table containing hotkey bindings. If provided, will be passed as-is to the Spoon's <code>bindHotkeys()</code> method. The special string <code>"default"</code> can be given to use the Spoons <code>defaultHotkeys</code> variable, if it exists.</li>
+<li>fn - a function which will be called with the freshly-loaded Spoon object as its first argument.</li>
+<li>loglevel - if the Spoon has a variable called <code>logger</code>, its <code>setLogLevel()</code> method will be called with this value.</li>
+<li>start - if <code>true</code>, call the Spoon's <code>start()</code> method after configuring everything else.</li>
+</ul>
+</li>
+<li>noerror - if <code>true</code>, don't log an error if the Spoon is not installed, simply return <code>nil</code>.</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li><code>true</code> if the spoon was loaded, <code>nil</code> otherwise</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spoons/init.lua#L220">extensions/spoons/init.lua</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

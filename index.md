@@ -38,7 +38,7 @@ Bugs found on http://www.hammerspoon.org/ can be reported on [GitHub](https://gi
 
 ## Where can I get help?
 
-You can usually get a quick answer in our IRC channel, #hammerspoon on Freenode. A searchable archive of the channel [is available here](https://freenode.logbot.info/hammerspoon).
+You can usually get a quick answer in our IRC channel, #hammerspoon on [Libera](https://libera.chat).
 
 We have a Google Group mailing list [here](https://groups.google.com/forum/#!forum/hammerspoon/)
 

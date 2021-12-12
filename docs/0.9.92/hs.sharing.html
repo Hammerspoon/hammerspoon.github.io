@@ -1,0 +1,817 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.sharing</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.sharing</h1>
+      <p>Share items with the macOS Sharing Services under the control of Hammerspoon.</p>
+<p>This module will allow you to share Hammerspoon items with registered Sharing Services.  Some of the built-in sharing services include sharing through mail, Facebook, AirDrop, etc.  Other applications can add additional services as well.</p>
+<p>For most sharing services (this has not been tested with all), the user will be prompted with the standard sharing dialog showing what is to be shared and offered a chance to submit or cancel.</p>
+<p>This example prepares an email with a screenshot:</p>
+<div class="highlight"><pre><span></span><span class="n">mailer</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">sharing</span><span class="p">.</span><span class="n">newShare</span><span class="p">(</span><span class="s2">&quot;com.apple.share.Mail.compose&quot;</span><span class="p">)</span>
+<span class="n">mailer</span><span class="p">:</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;Screenshot generated at &quot;</span> <span class="o">..</span> <span class="nb">os.date</span><span class="p">()):</span><span class="n">recipients</span><span class="p">({</span> <span class="s2">&quot;user@address.com&quot;</span> <span class="p">})</span>
+<span class="n">mailer</span><span class="p">:</span><span class="n">shareItems</span><span class="p">({</span> <span class="s">[[</span>
+<span class="s">    Add any notes that you wish to add describing the screenshot here and click the Send icon when you are ready to send this</span>
+
+<span class="s">]]</span><span class="p">,</span> <span class="n">hs</span><span class="p">.</span><span class="n">screen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">():</span><span class="n">snapshot</span><span class="p">()</span> <span class="p">})</span>
+</pre></div>
+<p>Common item data types that can be shared with Sharing Services include (but are not necessarily limited to):</p>
+<ul>
+<li>basic data types like strings and numbers</li>
+<li>hs.image objects</li>
+<li>hs.styledtext objects</li>
+<li>web sites and other URLs through the use of the <a href="#URL">hs.sharing.URL</a> function</li>
+<li>local files through the use of file URLs created with the <a href="#fileURL">hs.sharing.fileURL</a> function</li>
+</ul>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#builtinSharingServices">builtinSharingServices</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#fileURL">fileURL</a></li>
+            <li><a href="#shareTypesFor">shareTypesFor</a></li>
+            <li><a href="#URL">URL</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#newShare">newShare</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#accountName">accountName</a></li>
+            <li><a href="#alternateImage">alternateImage</a></li>
+            <li><a href="#attachments">attachments</a></li>
+            <li><a href="#callback">callback</a></li>
+            <li><a href="#canShareItems">canShareItems</a></li>
+            <li><a href="#image">image</a></li>
+            <li><a href="#messageBody">messageBody</a></li>
+            <li><a href="#permanentLink">permanentLink</a></li>
+            <li><a href="#recipients">recipients</a></li>
+            <li><a href="#serviceName">serviceName</a></li>
+            <li><a href="#shareItems">shareItems</a></li>
+            <li><a href="#subject">subject</a></li>
+            <li><a href="#title">title</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="builtinSharingServices">
+            <a name="//apple_ref/cpp/Constant/builtinSharingServices" class="dashAnchor"></a>
+            <h5><a href="#builtinSharingServices">builtinSharingServices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing.builtinSharingServices[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table containing the predefined sharing service labels defined by Apple.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/sharing.lua#L34">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/sharing.lua</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="fileURL">
+            <a name="//apple_ref/cpp/Function/fileURL" class="dashAnchor"></a>
+            <h5><a href="#fileURL">fileURL</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing.fileURL(path) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table representing a file URL for the path specified.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - a string specifying a path to represent as a file URL.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the necessary labels for converting the specified path into a URL as required by the macOS APIs.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is a wrapper to <a href="#URL">hs.sharing.URL</a> which sets the second argument to <code>true</code> for you.</li>
+<li>see <a href="#URL">hs.sharing.URL</a> for more information about the table format returned by this function.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/sharing.lua#L41">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/sharing.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="shareTypesFor">
+            <a name="//apple_ref/cpp/Function/shareTypesFor" class="dashAnchor"></a>
+            <h5><a href="#shareTypesFor">shareTypesFor</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing.shareTypesFor(items) -&gt; identifiersTable</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table containing the sharing service identifiers which can share the items specified.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>items - an array (table) or list of items separated by commas which you wish to share with this module.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an array (table) containing strings which identify sharing service identifiers which may be used by the <a href="#newShare">hs.sharing.newShare</a> constructor to share the specified data.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is intended to be used to determine the identifiers for sharing services available on your computer and that may not be included in the <a href="#builtinSharingServices">hs.sharing.builtinSharingServices</a> table.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L102">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="URL">
+            <a name="//apple_ref/cpp/Function/URL" class="dashAnchor"></a>
+            <h5><a href="#URL">URL</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing.URL(URL, [fileURL]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table representing the URL specified.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>URL     - a string or table specifying the URL.</li>
+<li>fileURL - an optional boolean, default <code>false</code>, specifying whether or not the URL is supposed to represent a file on the local computer.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the necessary labels for representing the specified URL as required by the macOS APIs.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If the URL is specified as a table, it is expected to contain a <code>url</code> key with a string value specifying a proper schema and resource locator.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L146">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="newShare">
+            <a name="//apple_ref/cpp/Constructor/newShare" class="dashAnchor"></a>
+            <h5><a href="#newShare">newShare</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing.newShare(type) -&gt; sharingObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new sharing object of the type specified by the identifier provided.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>type - a string specifying a sharing type identifier as listed in the <a href="#builtinSharingServices">hs.sharing.builtinSharingServices</a> table or returned by the <a href="#shareTypesFor">hs.sharing.shareTypesFor</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a sharingObject or nil if the type identifier cannot be created on this system</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L80">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="accountName">
+            <a name="//apple_ref/cpp/Method/accountName" class="dashAnchor"></a>
+            <h5><a href="#accountName">accountName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:accountName() -&gt; string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>The account name used by the sharing service when posting on Twitter or Sina Weibo.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the account name used by the sharing service, or nil if the sharing service does not provide this.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>According to the Apple API documentation, only the Twitter and Sina Weibo sharing services will set this property, but this has not been fully tested.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L361">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="alternateImage">
+            <a name="//apple_ref/cpp/Method/alternateImage" class="dashAnchor"></a>
+            <h5><a href="#alternateImage">alternateImage</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:alternateImage() -&gt; hs.image object | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns an alternate image, if one exists, representing the sharing service provided by this sharing object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an hs.image object or nil, if no alternate image representation for the sharing service is defined.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L470">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="attachments">
+            <a name="//apple_ref/cpp/Method/attachments" class="dashAnchor"></a>
+            <h5><a href="#attachments">attachments</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:attachments() -&gt; table | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>If the sharing service provides an array of the attachments included when the data was posted, this method will return an array of file URL tables of the attachments.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an array (table) containing the attachment file URLs, or nil if the sharing service selected does not provide this.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>not all sharing services will set a value for this property.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L341">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="callback">
+            <a name="//apple_ref/cpp/Method/callback" class="dashAnchor"></a>
+            <h5><a href="#callback">callback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:callback(fn) -&gt; sharingObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Set or clear the callback for the sharingObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - A function, or nil, to set or remove the callback for the sharingObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the sharingObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the callback should expect 3 or 4 arguments and return no results.  The arguments will be as follows:<ul>
+<li>the sharingObject itself</li>
+<li>the callback message, which will be a string equal to one of the following:<ul>
+<li>"didFail"   - an error occurred while attempting to share the items</li>
+<li>"didShare"  - the sharing service has finished sharing the items</li>
+<li>"willShare" - the sharing service is about to start sharing the items; occurs before sharing actually begins</li>
+</ul>
+</li>
+<li>an array (table) containing the items being shared; if the message is "didFail" or "didShare", the items may be in a different order or converted to a different internal type to facilitate sharing.</li>
+<li>if the message is "didFail", the fourth argument will be a localized description of the error that occurred.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L239">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="canShareItems">
+            <a name="//apple_ref/cpp/Method/canShareItems" class="dashAnchor"></a>
+            <h5><a href="#canShareItems">canShareItems</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:canShareItems(items) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a boolean specifying whether or not all of the items specified can be shared with the sharing service represented by the sharingObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>items - an array (table) or list of items separated by commas which are to be shared by the sharing service</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean value indicating whether or not all of the specified items can be shared with the sharing service represented by the sharingObject.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L216">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="image">
+            <a name="//apple_ref/cpp/Method/image" class="dashAnchor"></a>
+            <h5><a href="#image">image</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:image() -&gt; hs.image object | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns an image, if one exists, representing the sharing service provided by this sharing object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an hs.image object or nil, if no image representation for the sharing service is defined.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L487">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="messageBody">
+            <a name="//apple_ref/cpp/Method/messageBody" class="dashAnchor"></a>
+            <h5><a href="#messageBody">messageBody</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:messageBody() -&gt; string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>If the sharing service provides the message body that was posted when sharing has completed, this method will return the message body as a string.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the message body, or nil if the sharing service selected does not provide this.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>not all sharing services will set a value for this property.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L381">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="permanentLink">
+            <a name="//apple_ref/cpp/Method/permanentLink" class="dashAnchor"></a>
+            <h5><a href="#permanentLink">permanentLink</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:permanentLink() -&gt; URL table | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>If the sharing service provides a permanent link to the post when sharing has completed, this method will return the corresponding URL.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the URL for the permanent link, or nil if the sharing service selected does not provide this.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>not all sharing services will set a value for this property.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L450">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="recipients">
+            <a name="//apple_ref/cpp/Method/recipients" class="dashAnchor"></a>
+            <h5><a href="#recipients">recipients</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:recipients([recipients]) -&gt; current value | sharingObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the subject to be used when the sharing service performs its sharing method.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>recipients - an optional array (table) or list of recipient strings separated by commas which specify the recipients of the shared items.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the sharingObject; otherwise returns the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>not all sharing services will make use of the value set by this method.</li>
+<li>the individual recipients should be specified as strings in the format expected by the sharing service; e.g. for items being shared in an email, the recipients should be email address, etc.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L272">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="serviceName">
+            <a name="//apple_ref/cpp/Method/serviceName" class="dashAnchor"></a>
+            <h5><a href="#serviceName">serviceName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:serviceName() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>The service identifier for the sharing service represented by the sharingObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the identifier for the sharing service.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this string will match the identifier used to create the sharing service object with <a href="#newShare">hs.sharing.newShare</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L421">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="shareItems">
+            <a name="//apple_ref/cpp/Method/shareItems" class="dashAnchor"></a>
+            <h5><a href="#shareItems">shareItems</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:shareItems(items) -&gt; sharingObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Shares the items specified with the sharing service represented by the sharingObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>items - an array (table) or list of items separated by commas which are to be shared by the sharing service</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the sharingObject, or nil if one or more of the items cannot be shared with the sharing service represented by the sharingObject.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>You can check to see if all of your items can be shared with the <a href="#canShareItems">hs.sharing:canShareItems</a> method.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L185">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="subject">
+            <a name="//apple_ref/cpp/Method/subject" class="dashAnchor"></a>
+            <h5><a href="#subject">subject</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:subject([subject]) -&gt; current value | sharingObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the subject to be used when the sharing service performs its sharing method.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>subject - an optional string specifying the subject for the posting of the shared content</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the sharingObject; otherwise returns the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>not all sharing services will make use of the value set by this method.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L315">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="title">
+            <a name="//apple_ref/cpp/Method/title" class="dashAnchor"></a>
+            <h5><a href="#title">title</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.sharing:title() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>The title for the sharing service represented by the sharingObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the title of the sharing service.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this string differs from the identifier used to create the sharing service object with <a href="#newShare">hs.sharing.newShare</a> and is intended to provide a more friendly label for the service if you need to list or refer to it elsewhere.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m#L401">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/sharing/libsharing.m</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

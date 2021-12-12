@@ -80,11 +80,21 @@
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>This callback should accept two parameters:<ul>
+<li>An <code>hs.chooser</code> object</li>
+<li>A string containing the name of the event to handle. Possible values are:</li>
+<li><code>willOpen</code> - An hs.chooser is about to be shown on screen</li>
+<li><code>didClose</code> - An hs.chooser has just been removed from the screen</li>
+</ul>
+</li>
+<li>There is a default global callback that uses the <code>willOpen</code> event to remember which window has focus, and the <code>didClose</code> event to restore focus back to the original window. If you want to use this in addition to your own callback, you can call it as <code>hs.chooser._defaultGlobalCallback(event)</code></li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/init.lua#L29">extensions/chooser/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/chooser.lua#L29">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/chooser.lua</a></td>
               </tr>
             </table>
           </section>
@@ -128,7 +138,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L14">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L14">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -172,7 +182,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/init.lua#L13">extensions/chooser/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/chooser.lua#L13">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/chooser.lua</a></td>
               </tr>
             </table>
           </section>
@@ -215,7 +225,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L541">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L540">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -251,7 +261,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L770">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L769">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -306,7 +316,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L110">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L110">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -342,7 +352,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L446">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L445">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -378,7 +388,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L463">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L462">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -414,7 +424,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L70">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L70">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -458,7 +468,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L200">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L200">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -502,7 +512,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L417">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L416">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -538,7 +548,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L91">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L91">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -574,7 +584,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L332">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L332">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -617,7 +627,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L291">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L291">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -664,7 +674,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L358">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L357">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -707,7 +717,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L257">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L257">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -751,7 +761,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L388">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L387">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -787,7 +797,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L660">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L659">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -830,7 +840,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L586">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L585">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -866,7 +876,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L746">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L745">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -902,7 +912,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L694">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L693">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -938,7 +948,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L723">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L722">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -974,7 +984,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L43">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L43">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -1017,7 +1027,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L229">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L229">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -1053,7 +1063,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L502">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L501">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>
@@ -1096,7 +1106,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/chooser/internal.m#L623">extensions/chooser/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m#L622">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/chooser/libchooser.m</a></td>
               </tr>
             </table>
           </section>

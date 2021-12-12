@@ -1,0 +1,777 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.host</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.host</h1>
+      <p>Inspect information about the machine Hammerspoon is running on</p>
+<p>Notes:</p>
+<ul>
+<li>The network/hostname calls can be slow, as network resolution calls can be called, which are synchronous and will block Hammerspoon until they complete.</li>
+</ul>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.host.locale.html">hs.host.locale</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#addresses">addresses</a></li>
+            <li><a href="#cpuUsage">cpuUsage</a></li>
+            <li><a href="#cpuUsageTicks">cpuUsageTicks</a></li>
+            <li><a href="#globallyUniqueString">globallyUniqueString</a></li>
+            <li><a href="#gpuVRAM">gpuVRAM</a></li>
+            <li><a href="#idleTime">idleTime</a></li>
+            <li><a href="#interfaceStyle">interfaceStyle</a></li>
+            <li><a href="#localizedName">localizedName</a></li>
+            <li><a href="#names">names</a></li>
+            <li><a href="#operatingSystemVersion">operatingSystemVersion</a></li>
+            <li><a href="#operatingSystemVersionString">operatingSystemVersionString</a></li>
+            <li><a href="#thermalState">thermalState</a></li>
+            <li><a href="#uuid">uuid</a></li>
+            <li><a href="#vmStat">vmStat</a></li>
+            <li><a href="#volumeInformation">volumeInformation</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="addresses">
+            <a name="//apple_ref/cpp/Function/addresses" class="dashAnchor"></a>
+            <h5><a href="#addresses">addresses</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.addresses() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets a list of network addresses for the current machine</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table of strings containing the network addresses of the current machine</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The results will include IPv4 and IPv6 addresses</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L12">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="cpuUsage">
+            <a name="//apple_ref/cpp/Function/cpuUsage" class="dashAnchor"></a>
+            <h5><a href="#cpuUsage">cpuUsage</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.cpuUsage([period], [callback]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Query CPU usage statistics for a given time interval using [hs.host.cpuUsageTicks](#cpuUsageTicks) and return the results as percentages.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>period</code>    - an optional value specifying the time between samples collected for calculating CPU usage statistics.<ul>
+<li>If <code>callback</code> is not provided, this is an optional integer, default 100000, specifying the number of microseconds to block between samples collected.  Note that Hammerspoon will block for this period of time during execution of this function.</li>
+<li>If <code>callback</code> is provided, this is an optional number, default 1.0, specifying the number of seconds between samples collected.  Hammerspoon will <em>not</em> block during this time period.</li>
+</ul>
+</li>
+<li><code>callback</code> - an optional callback function which will receive the cpu usage statistics in a table, described below, as its sole argument.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If a callback function is not provided, this function will return a table containing the following:<ul>
+<li>Individual tables, indexed by the core number, for each CPU core with the following keys in each subtable:<ul>
+<li>user   -- percentage of CPU time occupied by user level processes.</li>
+<li>system -- percentage of CPU time occupied by system (kernel) level processes.</li>
+<li>nice   -- percentage of CPU time occupied by user level processes with a positive nice value. (See notes below)</li>
+<li>active -- For convenience, when you just want the total CPU usage, this is the sum of user, system, and nice.</li>
+<li>idle   -- percentage of CPU time spent idle</li>
+</ul>
+</li>
+<li>The key <code>overall</code> containing the same keys as described above but based upon the average of all cores combined.</li>
+<li>The key <code>n</code> containing the number of cores detected.</li>
+</ul>
+</li>
+<li>If a callback function is provided, this function will return a placeholder table with the following metamethods:<ul>
+<li><code>hs.host.cpuUsage:finished()</code> - returns a boolean indicating if the second CPU sample has been collected yet (true) or not (false).</li>
+<li><code>hs.host.cpuUsage:stop()</code>     - abort the sample collection.  The callback function will not be invoked.</li>
+<li>The results of the cpu statistics will be submitted as a table, described above, to the callback function.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If no callback function is provided, Hammerspoon will block (i.e. no other Hammerspoon activity can occur) during execution of this function for <code>period</code> microseconds (1 second = 1,000,000 microseconds).  The default period is 1/10 of a second. If <code>period</code> is too small, it is possible that some of the CPU statistics may result in <code>nan</code> (not-a-number).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/host.lua#L34">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/host.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="cpuUsageTicks">
+            <a name="//apple_ref/cpp/Function/cpuUsageTicks" class="dashAnchor"></a>
+            <h5><a href="#cpuUsageTicks">cpuUsageTicks</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.cpuUsageTicks() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table containing the current cpu usage information for the system in `ticks` since the most recent system boot.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing the following:<ul>
+<li>Individual tables, indexed by the core number, for each CPU core with the following keys in each subtable:<ul>
+<li>user   -- number of ticks the cpu core has spent in user mode since system startup.</li>
+<li>system -- number of ticks the cpu core has spent in system mode since system startup.</li>
+<li>nice   </li>
+<li>active -- For convenience, when you just want the total CPU usage, this is the sum of user, system, and nice.</li>
+<li>idle   -- number of ticks the cpu core has spent idle</li>
+</ul>
+</li>
+<li>The key <code>overall</code> containing the same keys as described above but based upon the combined total of all cpu cores for the system.</li>
+<li>The key <code>n</code> containing the number of cores detected.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>CPU mode ticks are updated during system interrupts and are incremented based upon the mode the CPU is in at the time of the interrupt. By its nature, this is always going to be approximate, and a single call to this function will return the current tick values since the system was last rebooted.</li>
+<li>To generate a snapshot of the system's usage "at this moment", you must take two samples and calculate the difference between them.  The <a href="#cpuUsage">hs.host.cpuUsage</a> function is a wrapper which does this for you and returns the cpu usage statistics as a percentage of the total number of ticks which occurred during the sample period you specify when invoking <code>hs.host.cpuUsage</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L193">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="globallyUniqueString">
+            <a name="//apple_ref/cpp/Function/globallyUniqueString" class="dashAnchor"></a>
+            <h5><a href="#globallyUniqueString">globallyUniqueString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.globallyUniqueString() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a newly generated global unique identifier as a string</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a newly generated global unique identifier as a string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>See also <code>hs.host.uuid</code></li>
+<li>The global unique identifier for a process includes the host name, process ID, and a time stamp, which ensures that the ID is unique for the network. This property generates a new string each time it is invoked, and it uses a counter to guarantee that strings are unique.</li>
+<li>This is often used as a file or directory name in conjunction with <code>hs.host.temporaryDirectory()</code> when creating temporary files.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L490">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="gpuVRAM">
+            <a name="//apple_ref/cpp/Function/gpuVRAM" class="dashAnchor"></a>
+            <h5><a href="#gpuVRAM">gpuVRAM</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.gpuVRAM() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the model and VRAM size for the installed GPUs.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table whose key-value pairs represent the GPUs for the current system.  Each key is a string contining the name for an installed GPU and its value is the GPU's VRAM size in MB.  If the VRAM size cannot be determined for a specific GPU, its value will be -1.0.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If your GPU reports -1.0 as the memory size, please submit an issue to the Hammerspoon github repository and include any information that you can which may be relevant, such as: Macintosh model, macOS version, is the GPU built in or a third party expansion card, the GPU model and VRAM as best you can determine (see the System Information application in the Utilities folder and look at the Graphics/Display section) and anything else that you think might be important.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L644">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="idleTime">
+            <a name="//apple_ref/cpp/Function/idleTime" class="dashAnchor"></a>
+            <h5><a href="#idleTime">idleTime</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.idleTime() -&gt; seconds</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the number of seconds the computer has been idle.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the idle time in seconds</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Idle time is defined as no mouse move nor keyboard entry, etc. and is determined by querying the HID (Human Interface Device) subsystem.</li>
+<li>This code is directly inspired by code found at <a href="http://www.xs-labs.com/en/archives/articles/iokit-idle-time">http://www.xs-labs.com/en/archives/articles/iokit-idle-time</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L509">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="interfaceStyle">
+            <a name="//apple_ref/cpp/Function/interfaceStyle" class="dashAnchor"></a>
+            <h5><a href="#interfaceStyle">interfaceStyle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.interfaceStyle() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the OS X interface style for the current user.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string representing the current user interface style, or nil if the default style is in use.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>As of OS X 10.10.4, other than the default style, only "Dark" is recognized as a valid style.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L454">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="localizedName">
+            <a name="//apple_ref/cpp/Function/localizedName" class="dashAnchor"></a>
+            <h5><a href="#localizedName">localizedName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.localizedName() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the name of the current machine, as displayed in the Finder sidebar</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the name of the current machine</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L72">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="names">
+            <a name="//apple_ref/cpp/Function/names" class="dashAnchor"></a>
+            <h5><a href="#names">names</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.names() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets a list of network names for the current machine</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table of strings containing the network names of the current machine</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function should be used sparingly, as it may involve blocking network access to resolve hostnames</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L42">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="operatingSystemVersion">
+            <a name="//apple_ref/cpp/Function/operatingSystemVersion" class="dashAnchor"></a>
+            <h5><a href="#operatingSystemVersion">operatingSystemVersion</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.operatingSystemVersion() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>The operating system version as a table containing the major, minor, and patch numbers.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The operating system version as a table containing the keys major, minor, and patch corresponding to the version number determined and a key named "exact" or "approximation" depending upon the method used to determine the OS Version information.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Prior to 10.10 (Yosemite), there was no definitive way to reliably get an exact OS X version number without either mapping it to the Darwin kernel version, mapping it to the AppKitVersionNumber (the recommended method), or parsing the result of NSProcessingInfo's <code>operatingSystemVersionString</code> selector, which Apple states is not guaranteed to be reliably parseable.<ul>
+<li>for OS X versions prior to 10.10, the version number is approximately determined by evaluating the AppKitVersionNumber.  For these operating systems, the <code>approximate</code> key is defined and set to true, as the exact patch level cannot be definitively determined.</li>
+<li>for OS X Versions starting at 10.10 and going forward, an exact value for the version number can be determined with NSProcessingInfo's <code>operatingSystemVersion</code> selector and the <code>exact</code> key is defined and set to true if this method is used.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L342">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="operatingSystemVersionString">
+            <a name="//apple_ref/cpp/Function/operatingSystemVersionString" class="dashAnchor"></a>
+            <h5><a href="#operatingSystemVersionString">operatingSystemVersionString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.operatingSystemVersionString() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>The operating system version as a human readable string.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The operating system version as a human readable string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>According to the OS X Developer documentation, "The operating system version string is human readable, localized, and is appropriate for displaying to the user. This string is not appropriate for parsing."</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L282">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="thermalState">
+            <a name="//apple_ref/cpp/Function/thermalState" class="dashAnchor"></a>
+            <h5><a href="#thermalState">thermalState</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.thermalState() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>The current thermal state of the computer, as a human readable string</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The system's thermal state as a human readable string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L300">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="uuid">
+            <a name="//apple_ref/cpp/Function/uuid" class="dashAnchor"></a>
+            <h5><a href="#uuid">uuid</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.uuid() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a newly generated UUID as a string</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a newly generated UUID as a string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>See also <code>hs.host.globallyUniqueString</code></li>
+<li>UUIDs (Universally Unique Identifiers), also known as GUIDs (Globally Unique Identifiers) or IIDs (Interface Identifiers), are 128-bit values. UUIDs created by NSUUID conform to RFC 4122 version 4 and are created with random bytes.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L471">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="vmStat">
+            <a name="//apple_ref/cpp/Function/vmStat" class="dashAnchor"></a>
+            <h5><a href="#vmStat">vmStat</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.vmStat() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table containing virtual memory statistics for the current machine, as well as the page size (in bytes) and physical memory size (in bytes).</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing the following keys:<ul>
+<li>anonymousPages          -- the total number of pages that are anonymous</li>
+<li>cacheHits               -- number of object cache hits</li>
+<li>cacheLookups            -- number of object cache lookups</li>
+<li>fileBackedPages         -- the total number of pages that are file-backed (non-swap)</li>
+<li>memSize                 -- physical memory size in bytes</li>
+<li>pageIns                 -- the total number of requests for pages from a pager (such as the inode pager).</li>
+<li>pageOuts                -- the total number of pages that have been paged out.</li>
+<li>pageSize                -- page size in bytes</li>
+<li>pagesActive             -- the total number of pages currently in use and pageable.</li>
+<li>pagesCompressed         -- the total number of pages that have been compressed by the VM compressor.</li>
+<li>pagesCopyOnWrite        -- the number of faults that caused a page to be copied (generally caused by copy-on-write faults).</li>
+<li>pagesDecompressed       -- the total number of pages that have been decompressed by the VM compressor.</li>
+<li>pagesFree               -- the total number of free pages in the system.</li>
+<li>pagesInactive           -- the total number of pages on the inactive list.</li>
+<li>pagesPurgeable          -- the total number of purgeable pages.</li>
+<li>pagesPurged             -- the total number of pages that have been purged.</li>
+<li>pagesReactivated        -- the total number of pages that have been moved from the inactive list to the active list (reactivated).</li>
+<li>pagesSpeculative        -- the total number of pages on the speculative list.</li>
+<li>pagesThrottled          -- the total number of pages on the throttled list (not wired but not pageable).</li>
+<li>pagesUsedByVMCompressor -- the number of pages used to store compressed VM pages.</li>
+<li>pagesWiredDown          -- the total number of pages wired down. That is, pages that cannot be paged out.</li>
+<li>pagesZeroFilled         -- the total number of pages that have been zero-filled on demand.</li>
+<li>swapIns                 -- the total number of compressed pages that have been swapped out to disk.</li>
+<li>swapOuts                -- the total number of compressed pages that have been swapped back in from disk.</li>
+<li>translationFaults       -- the number of times the "vm_fault" routine has been called.</li>
+<li>uncompressedPages       -- the total number of pages (uncompressed) held within the compressor</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The table returned has a __tostring() metamethod which allows listing it's contents in the Hammerspoon console by typing <code>hs.host.vmStats()</code>.</li>
+<li>Except for the addition of cacheHits, cacheLookups, pageSize and memSize, the results for this function should be identical to the OS X command <code>vm_stat</code>.</li>
+<li>Adapted primarily from the source code to Apple's vm_stat command located at <a href="http://www.opensource.apple.com/source/system_cmds/system_cmds-643.1.1/vm_stat.tproj/vm_stat.c">http://www.opensource.apple.com/source/system_cmds/system_cmds-643.1.1/vm_stat.tproj/vm_stat.c</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L86">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="volumeInformation">
+            <a name="//apple_ref/cpp/Function/volumeInformation" class="dashAnchor"></a>
+            <h5><a href="#volumeInformation">volumeInformation</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.host.volumeInformation([showHidden]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table of information about disk volumes attached to the system</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>showHidden - An optional boolean, true to show hidden volumes, false to not show hidden volumes. Defaults to false.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table of information, where the keys are the paths of disk volumes</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The possible keys in the table are:<ul>
+<li>NSURLVolumeTotalCapacityKey - Size of the volume in bytes</li>
+<li>NSURLVolumeAvailableCapacityKey - Available space on the volume in bytes</li>
+<li>NSURLVolumeIsAutomountedKey - Boolean indicating if the volume was automounted</li>
+<li>NSURLVolumeIsBrowsableKey - Boolean indicating if the volume can be browsed</li>
+<li>NSURLVolumeIsEjectableKey - Boolean indicating if the volume should be ejected before its media is removed</li>
+<li>NSURLVolumeIsInternalKey - Boolean indicating if the volume is an internal drive or an external drive</li>
+<li>NSURLVolumeIsLocalKey - Boolean indicating if the volume is a local or remote drive</li>
+<li>NSURLVolumeIsReadOnlyKey - Boolean indicating if the volume is read only</li>
+<li>NSURLVolumeIsRemovableKey - Boolean indicating if the volume's media can be physically ejected from the drive (e.g. a DVD)</li>
+<li>NSURLVolumeMaximumFileSizeKey - Maximum file size the volume can support, in bytes</li>
+<li>NSURLVolumeUUIDStringKey - The UUID of volume's filesystem</li>
+<li>NSURLVolumeURLForRemountingKey - For remote volumes, the network URL of the volume</li>
+<li>NSURLVolumeLocalizedNameKey - Localized version of the volume's name</li>
+<li>NSURLVolumeNameKey - The volume's name</li>
+<li>NSURLVolumeLocalizedFormatDescriptionKey - Localized description of the volume</li>
+<li>Not all keys will be present for all volumes</li>
+<li>The meanings of NSURLVolumeIsEjectableKey and NSURLVolumeIsRemovableKey are not generally useful for determining if a drive is removable in the modern sense (e.g. a USB drive) as much of this terminology dates back to when USB didn't exist and removable drives were things like Floppy/DVD drives. If you're trying to determine if a drive is not fixed into the computer, you may need to use a combination of these keys, but which exact combination you should use, is not consistent across macOS versions.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m#L571">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/host/libhost.m</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

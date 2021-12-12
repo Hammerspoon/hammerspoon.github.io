@@ -92,11 +92,24 @@ After highlighting enough cells, press enter to move/resize the window to the hi
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li><code>hs.inspect(hs.grid.HINTS)</code> from the console will show you how the table is built</li>
+<li><code>hs.grid.show()</code>
+ When displaying interactive grid, if gird dimensions (<code>hs.grid.setGrid()</code>) are greater than <code>HINTS</code> dimensions,
+ then Hammerspoon merges few cells such that interactive grid dimensions do not exceed <code>HINTS</code> dimensions.
+ This is done to make sure interactive grid cells do not run out of hints. The interactive grid ends up with
+ cells of varying height and width.
+ The actual grid is not affected. If you use API methods like <code>hs.grid.pushWindowDown()</code>, you will not face this
+ issue at all.
+ If you have a grid of higher dimensions and require an interactive gird that accurately models underlying grid
+ then set <code>HINTS</code> variable to a table that has same dimensions as your grid.
+ Following is an example of grid that has 16 columns</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L601">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L601">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -118,7 +131,7 @@ After highlighting enough cells, press enter to move/resize the window to the hi
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L650">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L650">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -156,7 +169,7 @@ After highlighting enough cells, press enter to move/resize the window to the hi
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L372">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L372">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -192,7 +205,7 @@ After highlighting enough cells, press enter to move/resize the window to the hi
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L243">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L243">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -229,7 +242,7 @@ After highlighting enough cells, press enter to move/resize the window to the hi
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L266">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L266">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -272,7 +285,7 @@ After highlighting enough cells, press enter to move/resize the window to the hi
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L117">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L117">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -309,7 +322,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L154">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L154">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -353,7 +366,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L207">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L207">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -389,7 +402,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L400">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L400">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -425,7 +438,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L515">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L515">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -461,7 +474,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L430">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L430">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -497,7 +510,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L454">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L454">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -533,7 +546,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L540">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L540">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -569,7 +582,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L564">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L564">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -612,7 +625,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L577">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L577">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -648,7 +661,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L502">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L502">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -691,7 +704,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L479">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L479">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -729,7 +742,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L295">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L295">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -767,7 +780,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L48">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L48">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -803,7 +816,7 @@ was given via <code>hs.grid.setGrid()</code>, returns the screen's frame</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L98">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L98">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -853,7 +866,7 @@ requirements. See note in <code>HINTS</code>.</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L187">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L187">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -889,7 +902,7 @@ requirements. See note in <code>HINTS</code>.</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L353">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L353">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>
@@ -926,7 +939,7 @@ requirements. See note in <code>HINTS</code>.</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/grid/init.lua#L221">extensions/grid/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua#L221">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/grid/grid.lua</a></td>
               </tr>
             </table>
           </section>

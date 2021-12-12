@@ -99,11 +99,14 @@
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>Count starts at zero. (implemented in Objective-C)</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L1316">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L1316">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -125,7 +128,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L1504">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L1504">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -148,11 +151,16 @@
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>This table should not be modified directly. Use the <code>hs.notify.register(tag, fn)</code> and <code>hs.notify.unregister(id)</code> functions.</li>
+<li>This table has a __tostring metamethod so you can see the list of registered function tags in the console by typing <code>hs.notify.registry</code></li>
+<li>See <a href="#warnAboutMissingFunctionTag">hs.notify.warnAboutMissingFunctionTag</a> for determining the behavior when a notification attempts to perform a callback to a function tag which is not present in this table. This occurrence is most common with notifications which are acted upon by the user after Hammerspoon has been reloaded.</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/init.lua#L255">extensions/notify/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua#L255">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua</a></td>
               </tr>
             </table>
           </section>
@@ -174,7 +182,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/init.lua#L50">extensions/notify/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua#L50">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua</a></td>
               </tr>
             </table>
           </section>
@@ -218,7 +226,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L212">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L212">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -262,7 +270,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/init.lua#L180">extensions/notify/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua#L180">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua</a></td>
               </tr>
             </table>
           </section>
@@ -305,7 +313,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L259">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L259">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -342,7 +350,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/init.lua#L214">extensions/notify/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua#L214">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua</a></td>
               </tr>
             </table>
           </section>
@@ -385,7 +393,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/init.lua#L241">extensions/notify/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua#L241">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua</a></td>
               </tr>
             </table>
           </section>
@@ -428,7 +436,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L177">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L177">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -464,7 +472,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L196">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L196">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -510,7 +518,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/init.lua#L60">extensions/notify/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua#L60">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua</a></td>
               </tr>
             </table>
           </section>
@@ -558,7 +566,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/init.lua#L142">extensions/notify/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua#L142">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua</a></td>
               </tr>
             </table>
           </section>
@@ -603,7 +611,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L556">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L556">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -639,7 +647,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L1256">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L1256">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -682,7 +690,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L1274">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L1274">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -727,7 +735,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L1105">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L1105">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -771,7 +779,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L1166">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L1166">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -815,7 +823,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L674">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L674">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -851,7 +859,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L951">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L951">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -887,7 +895,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L768">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L768">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -931,7 +939,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/init.lua#L275">extensions/notify/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua#L275">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua</a></td>
               </tr>
             </table>
           </section>
@@ -967,7 +975,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L1214">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L1214">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1010,7 +1018,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L738">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L738">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1053,7 +1061,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L638">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L638">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1089,7 +1097,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L913">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L913">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1125,7 +1133,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L519">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L519">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1169,7 +1177,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L597">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L597">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1212,7 +1220,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L1193">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L1193">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1256,7 +1264,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L1077">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L1077">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1300,7 +1308,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L1036">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L1036">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1344,7 +1352,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L346">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L346">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1389,7 +1397,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L312">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L312">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1434,7 +1442,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/init.lua#L311">extensions/notify/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua#L311">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/notify.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1483,7 +1491,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L812">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L812">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1519,7 +1527,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L482">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L482">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1555,7 +1563,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L445">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L445">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1592,7 +1600,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L406">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L406">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>
@@ -1628,7 +1636,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/notify/internal.m#L993">extensions/notify/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m#L993">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/notify/libnotify.m</a></td>
               </tr>
             </table>
           </section>

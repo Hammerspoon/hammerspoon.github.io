@@ -1,0 +1,1564 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.eventtap.event</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.eventtap.event</h1>
+      <p>Create, modify and inspect events for <code>hs.eventtap</code></p>
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+<p><code>hs.eventtap.event.newGesture</code> uses an external library by Calf Trail Software, LLC.</p>
+<p>Touch
+Copyright (C) 2010 Calf Trail Software, LLC</p>
+<p>This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#properties">properties</a></li>
+            <li><a href="#rawFlagMasks">rawFlagMasks</a></li>
+            <li><a href="#types">types</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#newKeyEventSequence">newKeyEventSequence</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#copy">copy</a></li>
+            <li><a href="#newEvent">newEvent</a></li>
+            <li><a href="#newEventFromData">newEventFromData</a></li>
+            <li><a href="#newGesture">newGesture</a></li>
+            <li><a href="#newKeyEvent">newKeyEvent</a></li>
+            <li><a href="#newMouseEvent">newMouseEvent</a></li>
+            <li><a href="#newScrollEvent">newScrollEvent</a></li>
+            <li><a href="#newSystemKeyEvent">newSystemKeyEvent</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#asData">asData</a></li>
+            <li><a href="#getButtonState">getButtonState</a></li>
+            <li><a href="#getCharacters">getCharacters</a></li>
+            <li><a href="#getFlags">getFlags</a></li>
+            <li><a href="#getKeyCode">getKeyCode</a></li>
+            <li><a href="#getProperty">getProperty</a></li>
+            <li><a href="#getRawEventData">getRawEventData</a></li>
+            <li><a href="#getTouchDetails">getTouchDetails</a></li>
+            <li><a href="#getTouches">getTouches</a></li>
+            <li><a href="#getType">getType</a></li>
+            <li><a href="#getUnicodeString">getUnicodeString</a></li>
+            <li><a href="#location">location</a></li>
+            <li><a href="#post">post</a></li>
+            <li><a href="#rawFlags">rawFlags</a></li>
+            <li><a href="#setFlags">setFlags</a></li>
+            <li><a href="#setKeyCode">setKeyCode</a></li>
+            <li><a href="#setProperty">setProperty</a></li>
+            <li><a href="#setType">setType</a></li>
+            <li><a href="#setUnicodeString">setUnicodeString</a></li>
+            <li><a href="#systemKey">systemKey</a></li>
+            <li><a href="#timestamp">timestamp</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="properties">
+            <a name="//apple_ref/cpp/Constant/properties" class="dashAnchor"></a>
+            <h5><a href="#properties">properties</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.properties -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table containing property types for use with `hs.eventtap.event:getProperty()` and `hs.eventtap.event:setProperty()`.  The table supports forward (label to number) and reverse (number to label) lookups to increase its flexibility.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L1407">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="rawFlagMasks">
+            <a name="//apple_ref/cpp/Constant/rawFlagMasks" class="dashAnchor"></a>
+            <h5><a href="#rawFlagMasks">rawFlagMasks</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.rawFlagMasks[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table containing key-value pairs describing the raw modifier flags which can be manipulated with [hs.eventtap.event:rawFlags](#rawFlags).</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L1540">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="types">
+            <a name="//apple_ref/cpp/Constant/types" class="dashAnchor"></a>
+            <h5><a href="#types">types</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.types -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table containing event types to be used with `hs.eventtap.new(...)` and returned by `hs.eventtap.event:type()`.  The table supports forward (label to number) and reverse (number to label) lookups to increase its flexibility.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L1306">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="newKeyEventSequence">
+            <a name="//apple_ref/cpp/Function/newKeyEventSequence" class="dashAnchor"></a>
+            <h5><a href="#newKeyEventSequence">newKeyEventSequence</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.newKeyEventSequence(modifiers, character) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Generates a table containing the keydown and keyup events to generate the keystroke with the specified modifiers.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>modifiers - A table containing the keyboard modifiers to apply ("cmd", "alt", "shift", "ctrl", "rightCmd", "rightAlt", "rightShift", "rightCtrl", or "fn")</li>
+<li>character - A string containing a character to be emitted</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table with events which contains the individual events that Apple recommends for building up a keystroke combination (see <a href="#newKeyEvents">hs.eventtap.event.newKeyEvent</a>) in the order that they should be posted (i.e. the first half will contain keyDown events and the second half will contain keyUp events)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The <code>modifiers</code> table must contain the full name of the modifiers you wish used for the keystroke as defined in <code>hs.keycodes.map</code> -- the Unicode equivalents are not supported by this function.</li>
+<li>The returned table will always contain an even number of events -- the first half will be the keyDown events and the second half will be the keyUp events.</li>
+<li>The events have not been posted; the table can be used without change as the return value for a callback to a watcher defined with <a href="#new">hs.eventtap.new</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/eventtap.lua#L87">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/eventtap.lua</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="copy">
+            <a name="//apple_ref/cpp/Constructor/copy" class="dashAnchor"></a>
+            <h5><a href="#copy">copy</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:copy() -&gt; event</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Duplicates an `hs.eventtap.event` event for further modification or injection</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A new <code>hs.eventtap.event</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L22">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newEvent">
+            <a name="//apple_ref/cpp/Constructor/newEvent" class="dashAnchor"></a>
+            <h5><a href="#newEvent">newEvent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.newEvent() -&gt; event</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a blank event.  You will need to set its type with [hs.eventtap.event:setType](#setType)</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new <code>hs.eventtap.event</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this is an empty event that you should set a type for and whatever other properties may be appropriate before posting.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L41">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newEventFromData">
+            <a name="//apple_ref/cpp/Constructor/newEventFromData" class="dashAnchor"></a>
+            <h5><a href="#newEventFromData">newEventFromData</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.newEventFromData(data) -&gt; event</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates an event from the data encoded in the string provided.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>data - a string containing binary data provided by <a href="#asData">hs.eventtap.event:asData</a> representing an event.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new <code>hs.eventtap.event</code> object or nil if the string did not represent a valid event</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L60">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newGesture">
+            <a name="//apple_ref/cpp/Constructor/newGesture" class="dashAnchor"></a>
+            <h5><a href="#newGesture">newGesture</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.newGesture(gestureType[, gestureValue]) -&gt; event</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates an gesture event.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>gestureType - the type of gesture you want to create as a string (see notes below).</li>
+<li>[gestureValue] - an optional value for the specific gesture (i.e. magnification amount or rotation in degrees).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new <code>hs.eventtap.event</code> object or <code>nil</code> if the <code>gestureType</code> is not valid.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Valid gestureType values are:<ul>
+<li><code>beginMagnify</code> - Starts a magnification event with an optional magnification value as a number (defaults to 0). The exact unit of measurement is unknown.</li>
+<li><code>endMagnify</code> - Starts a magnification event with an optional magnification value as a number (defaults to 0.1). The exact unit of measurement is unknown.</li>
+<li><code>beginRotate</code> - Starts a rotation event with an rotation value in degrees (i.e. a value of 45 turns it 45 degrees left - defaults to 0).</li>
+<li><code>endRotate</code> - Starts a rotation event with an rotation value in degrees (i.e. a value of 45 turns it 45 degrees left - defaults to 45).</li>
+<li><code>beginSwipeLeft</code> - Begin a swipe left.</li>
+<li><code>endSwipeLeft</code> - End a swipe left.</li>
+<li><code>beginSwipeRight</code> - Begin a swipe right.</li>
+<li><code>endSwipeRight</code> - End a swipe right.</li>
+<li><code>beginSwipeUp</code> - Begin a swipe up.</li>
+<li><code>endSwipeUp</code> - End a swipe up.</li>
+<li><code>beginSwipeDown</code> - Begin a swipe down.</li>
+<li><code>endSwipeDown</code> - End a swipe down.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L84">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newKeyEvent">
+            <a name="//apple_ref/cpp/Constructor/newKeyEvent" class="dashAnchor"></a>
+            <h5><a href="#newKeyEvent">newKeyEvent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.newKeyEvent([mods], key, isdown) -&gt; event</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a keyboard event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>mods - An optional table containing zero or more of the following:<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul>
+</li>
+<li>key - A string containing the name of a key (see <code>hs.hotkey</code> for more information) or an integer specifying the virtual keycode for the key.</li>
+<li>isdown - A boolean, true if the event should be a key-down, false if it should be a key-up</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.eventtap.event</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The original version of this constructor utilized a shortcut which merged <code>flagsChanged</code> and <code>keyUp</code>/<code>keyDown</code> events into one.  This approach is still supported for backwards compatibility and because it <em>does</em> work in most cases.</li>
+<li>According to Apple Documentation, the proper way to perform a keypress with modifiers is through multiple key events; for example to generate 'Å', you should do the following:<div class="highlight"><pre><span></span><span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">keycodes</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">shift</span><span class="p">,</span> <span class="kc">true</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+ <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">keycodes</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">alt</span><span class="p">,</span> <span class="kc">true</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+ <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+ <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+ <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">keycodes</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">alt</span><span class="p">,</span> <span class="kc">false</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+ <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">keycodes</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">shift</span><span class="p">,</span> <span class="kc">false</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+</pre></div>
+</li>
+<li>The shortcut method is still supported, though if you run into odd behavior or need to generate <code>flagsChanged</code> events without a corresponding <code>keyUp</code> or <code>keyDown</code>, please check out the syntax demonstrated above.<div class="highlight"><pre><span></span><span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">({</span><span class="s2">&quot;shift&quot;</span><span class="p">,</span> <span class="s2">&quot;alt&quot;</span><span class="p">},</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+ <span class="n">hs</span><span class="p">.</span><span class="n">eventtap</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">newKeyEvent</span><span class="p">({</span><span class="s2">&quot;shift&quot;</span><span class="p">,</span> <span class="s2">&quot;alt&quot;</span><span class="p">},</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">):</span><span class="n">post</span><span class="p">()</span>
+</pre></div>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L828">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newMouseEvent">
+            <a name="//apple_ref/cpp/Constructor/newMouseEvent" class="dashAnchor"></a>
+            <h5><a href="#newMouseEvent">newMouseEvent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.newMouseEvent(eventtype, point[, modifiers) -&gt; event</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new mouse event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>eventtype - One of the mouse related values from <code>hs.eventtap.event.types</code></li>
+<li>point - An hs.geometry point table (i.e. of the form <code>{x=123, y=456}</code>) indicating the location where the mouse event should occur</li>
+<li>modifiers - An optional table (e.g. {"cmd", "alt"}) containing zero or more of the following keys:<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.eventtap</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/eventtap.lua#L113">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/eventtap.lua</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newScrollEvent">
+            <a name="//apple_ref/cpp/Constructor/newScrollEvent" class="dashAnchor"></a>
+            <h5><a href="#newScrollEvent">newScrollEvent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.newScrollEvent(offsets, mods, unit) -&gt; event</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a scroll wheel event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>offsets - A table containing the {horizontal, vertical} amount to scroll. Positive values scroll up or left, negative values scroll down or right.</li>
+<li>mods - A table containing zero or more of the following:<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul>
+</li>
+<li>unit - An optional string containing the name of the unit for scrolling. Either "line" (the default) or "pixel"</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.eventtap.event</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L1007">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newSystemKeyEvent">
+            <a name="//apple_ref/cpp/Constructor/newSystemKeyEvent" class="dashAnchor"></a>
+            <h5><a href="#newSystemKeyEvent">newSystemKeyEvent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event.newSystemKeyEvent(key, isdown) -&gt; event</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a keyboard event for special keys (e.g. media playback)</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>key - A string containing the name of a special key. The possible names are:<ul>
+<li>SOUND_UP</li>
+<li>SOUND_DOWN</li>
+<li>MUTE</li>
+<li>BRIGHTNESS_UP</li>
+<li>BRIGHTNESS_DOWN</li>
+<li>CONTRAST_UP</li>
+<li>CONTRAST_DOWN</li>
+<li>POWER</li>
+<li>LAUNCH_PANEL</li>
+<li>VIDMIRROR</li>
+<li>PLAY</li>
+<li>EJECT</li>
+<li>NEXT</li>
+<li>PREVIOUS</li>
+<li>FAST</li>
+<li>REWIND</li>
+<li>ILLUMINATION_UP</li>
+<li>ILLUMINATION_DOWN</li>
+<li>ILLUMINATION_TOGGLE</li>
+<li>CAPS_LOCK</li>
+<li>HELP</li>
+<li>NUM_LOCK</li>
+</ul>
+</li>
+<li>isdown - A boolean, true if the event should be a key-down, false if it should be a key-up</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.eventtap.event</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>To set modifiers on a system key event (e.g. cmd/ctrl/etc), see the <code>hs.eventtap.event:setFlags()</code> method</li>
+<li>The event names are case sensitive</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L907">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="asData">
+            <a name="//apple_ref/cpp/Method/asData" class="dashAnchor"></a>
+            <h5><a href="#asData">asData</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:asData() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a string containing binary data representing the event.  This can be used to record events for later use.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string representing the event or nil if the event cannot be represented as a string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>You can recreate the event for later posting with <a href="#newEventFromData">hs.eventtap.event.newEventFromData</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L265">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getButtonState">
+            <a name="//apple_ref/cpp/Method/getButtonState" class="dashAnchor"></a>
+            <h5><a href="#getButtonState">getButtonState</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getButtonState(button) -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the state of a mouse button in the event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>button - A number between 0 and 31. The left mouse button is 0, the right mouse button is 1 and the middle mouse button is 2. The meaning of the remaining buttons varies by hardware, and their functionality varies by application (typically they are not present on a mouse and have no effect in an application)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A boolean, true if the specified mouse button is to be clicked by the event</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method should only be called on mouse events</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L769">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getCharacters">
+            <a name="//apple_ref/cpp/Method/getCharacters" class="dashAnchor"></a>
+            <h5><a href="#getCharacters">getCharacters</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getCharacters([clean]) -&gt; string or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the Unicode character, if any, represented by a keyDown or keyUp event.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>clean -- an optional parameter, default <code>false</code>, which indicates if key modifiers, other than Shift, should be stripped from the keypress before converting to Unicode.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the Unicode character represented by the keyDown or keyUp event, or nil if the event is not a keyUp or keyDown.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method should only be used on keyboard events</li>
+<li>If <code>clean</code> is true, all modifiers except for Shift are stripped from the character before converting to the Unicode character represented by the keypress.</li>
+<li>If the keypress does not correspond to a valid Unicode character, an empty string is returned (e.g. if <code>clean</code> is false, then Opt-E will return an empty string, while Opt-Shift-E will return an accent mark).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L512">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getFlags">
+            <a name="//apple_ref/cpp/Method/getFlags" class="dashAnchor"></a>
+            <h5><a href="#getFlags">getFlags</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getFlags() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the keyboard modifiers of an event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing the keyboard modifiers that present in the event - i.e. zero or more of the following keys, each with a value of <code>true</code>:<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul>
+</li>
+<li>The table responds to the following methods:<ul>
+<li>contain(mods) -&gt; boolean</li>
+<li>Returns true if the modifiers contain all of given modifiers</li>
+<li>containExactly(mods) -&gt; boolean</li>
+<li>Returns true if the modifiers contain all of given modifiers exactly and nothing else</li>
+</ul>
+</li>
+<li>Parameter mods is a table containing zero or more of the following:<ul>
+<li>cmd or ⌘</li>
+<li>alt or ⌥</li>
+<li>shift or ⇧</li>
+<li>ctrl or ⌃</li>
+<li>fn</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L386">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getKeyCode">
+            <a name="//apple_ref/cpp/Method/getKeyCode" class="dashAnchor"></a>
+            <h5><a href="#getKeyCode">getKeyCode</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getKeyCode() -&gt; keycode</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the raw keycode for the event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A number containing the raw keycode, taken from <code>hs.keycodes.map</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method should only be used on keyboard events</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L542">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getProperty">
+            <a name="//apple_ref/cpp/Method/getProperty" class="dashAnchor"></a>
+            <h5><a href="#getProperty">getProperty</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getProperty(prop) -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets a property of the event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>prop - A value taken from <code>hs.eventtap.event.properties</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A number containing the value of the requested property</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The properties are <code>CGEventField</code> values, as documented at <a href="https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/index.html#//apple_ref/c/tdef/CGEventField">https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/index.html#//apple_ref/c/tdef/CGEventField</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L737">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getRawEventData">
+            <a name="//apple_ref/cpp/Method/getRawEventData" class="dashAnchor"></a>
+            <h5><a href="#getRawEventData">getRawEventData</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getRawEventData() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns raw data about the event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table with two keys:<ul>
+<li>CGEventData -- a table with keys containing CGEvent data about the event.</li>
+<li>NSEventData -- a table with keys containing NSEvent data about the event.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Most of the data in <code>CGEventData</code> is already available through other methods, but is presented here without any cleanup or parsing.</li>
+<li>This method is expected to be used mostly for testing and expanding the range of possibilities available with the hs.eventtap module.  If you find that you are regularly using specific data from this method for common or re-usable purposes, consider submitting a request for adding a more targeted method to hs.eventtap or hs.eventtap.event -- it will likely be more efficient and faster for common tasks, something eventtaps need to be to minimize affecting system responsiveness.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L459">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getTouchDetails">
+            <a name="//apple_ref/cpp/Method/getTouchDetails" class="dashAnchor"></a>
+            <h5><a href="#getTouchDetails">getTouchDetails</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getTouchDetails() -&gt; table | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table contining more information about some touch related events.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the event is a touch event (i.e. is an event of type <code>hs.eventtap.event.types.gesture</code>), then this method returns a table with zero or more of the following key-value pairs:<ul>
+<li>if the gesture is for a pressure event:<ul>
+<li><code>pressure</code>         - a number between 0.0 and 1.0 inclusive indicating the relative amount of pressure applied by the touch; trackpads which are not pressure sensitive will only report the discrete values of 0.0 and 1.0.</li>
+<li><code>stage</code>            - an integer between 0 and 2 specifying the stage. 0 represents a touch transitioning to a state too light to be considered a touch, usually at the end of a click; 1 represents a touch with enough pressure to be considered a mouseDown event; 2 represents additional pressure, usually what would trigger a "deep" or "force" touch.</li>
+<li><code>stageTransition</code>  - a number between 0.0 and 1.0. As the pressure increases and transition between stages begins, this will rise from 0.0 to 1.0; as the pressure decreases and a transition between stages begins, this will fall from 0.0 to -1.0. When the pressure is solidly within a specific stage, this will remain 0.0.</li>
+<li><code>pressureBehavior</code> - a string specifying the effect or purpose of the pressure. Note that the exact meaning (in terms of haptic feedback or action being performed) of each label is target application or ui element specific. Valid values for this key are:<ul>
+<li>"unknown", "default", "click", "generic", "accelerator", "deepClick", "deepDrag"</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>if the gesture is for a magnification event:<ul>
+<li><code>magnification</code> - a number specifying the change in magnification that should be added to the current scaling of an item to achieve the new scale factor.</li>
+</ul>
+</li>
+<li>if the gesture is for a rotation event:<ul>
+<li><code>rotation</code> - a number specifying in degrees the change in rotation that should be added as specified by this event. Clockwise rotation is indicated by a negative number while counter-clockwise rotation will be positive.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L1244">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getTouches">
+            <a name="//apple_ref/cpp/Method/getTouches" class="dashAnchor"></a>
+            <h5><a href="#getTouches">getTouches</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getTouches() -&gt; table | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table of details containing information about touches on the trackpad associated with this event if the event is of the type `hs.eventtap.event.types.gesture`.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the event is of the type gesture, returns a table; otherwise returns nil.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>if the event is of the type gesture, the table will contain one or more tables in an array. Each member table of the array will have the following key-value pairs:<ul>
+<li><code>device</code>                     - a string containing a unique identifier for the device on which the touch occurred. At present we do not have a way to match the identifier to a specific touch device, but if multiple such devices are attached to the computer, this value will differ between them.</li>
+<li><code>deviceSize</code>                 - a size table containing keys <code>h</code> and <code>w</code> for the height and width of the touch device in points (72 PPI resolution).</li>
+<li><code>force</code>                      - a number representing a measure of the force of the touch when the device is a forcetouch trackpad. This will be 0.0 for non-forcetouch trackpads and the touchbar.</li>
+<li><code>identity</code>                   - a string specifying a unique identifier for the touch guaranteed to be unique for the life of the touch. This identifier may be used to track the movement of a specific touch (e.g. finger) as it moves through successive callbacks.</li>
+<li><code>phase</code>                      - a string specifying the current phase the touch is considered to be in. The possible values are: "began", "moved", "stationary", "ended", or "cancelled".</li>
+<li><code>resting</code>                    - Resting touches occur when a user simply rests their thumb on the trackpad device. Requires that the foreground window has views accepting resting touches.</li>
+<li><code>timestamp</code>                  - a number representing the time the touch was detected. This number corresponds to seconds since the last system boot, not including time the computer has been asleep. Comparable to <code>hs.timer.absoluteTime() / 1000000000</code>.</li>
+<li><code>touching</code>                   - a boolean specifying whether or not the touch phase is "began", "moved", or "stationary" (i.e. is <em>not</em> "ended" or "cancelled").</li>
+<li><code>type</code>                       - a string specifying the type of touch. A "direct" touch will indicate a touchbar, while a trackpad will report "indirect".</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L1200">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getType">
+            <a name="//apple_ref/cpp/Method/getType" class="dashAnchor"></a>
+            <h5><a href="#getType">getType</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getType([nsSpecificType]) -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the type of the event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>nsSpecificType</code> - an optional boolean, default false, specifying whether or not a more specific Cocoa NSEvent type should be returned, if available.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A number containing the type of the event, taken from <code>hs.eventtap.event.types</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>some newer events are grouped into a more generic event for watching purposes and the specific event type is determined by examining the event through the Cocoa API. The primary example of this is for gestures on a trackpad or touches of the touchbar, as all of these are grouped under the <code>hs.eventtap.event.types.gesture</code> event. For example:</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L695">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getUnicodeString">
+            <a name="//apple_ref/cpp/Method/getUnicodeString" class="dashAnchor"></a>
+            <h5><a href="#getUnicodeString">getUnicodeString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:getUnicodeString()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the single unicode character of an event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the unicode character</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L581">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="location">
+            <a name="//apple_ref/cpp/Method/location" class="dashAnchor"></a>
+            <h5><a href="#location">location</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:location([pointTable]) -&gt; event | table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the current mouse pointer location as defined for the event.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>pointTable - an optional point table specifying the x and y coordinates of the mouse pointer location for the event</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if pointTable is provided, returns the <code>hs.eventtap.event</code> object; otherwise returns a point table containing x and y key-value pairs specifying the mouse pointer location as specified for this event.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the use or effect of this method is undefined if the event is not a mouse type event.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L289">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="post">
+            <a name="//apple_ref/cpp/Method/post" class="dashAnchor"></a>
+            <h5><a href="#post">post</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:post([app])</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Posts the event to the OS - i.e. emits the keyboard/mouse input defined by the event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>app - An optional <code>hs.application</code> object. If specified, the event will only be sent to that application</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.eventtap.event</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L653">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="rawFlags">
+            <a name="//apple_ref/cpp/Method/rawFlags" class="dashAnchor"></a>
+            <h5><a href="#rawFlags">rawFlags</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:rawFlags([flags]) -&gt; event | integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Experimental method to get or set the modifier flags for an event directly.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>flags - an optional integer, made by logically combining values from <a href="#rawFlagMasks">hs.eventtap.event.rawFlagMasks</a> specifying the modifier keys which should be set for this event</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if flags is provided, returns the <code>hs.eventtap.event</code> object; otherwise returns the current flags set as an integer</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method is experimental and may undergo changes or even removal in the future</li>
+<li>See <a href="#rawFlagMasks">hs.eventtap.event.rawFlagMasks</a> for more information</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L360">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setFlags">
+            <a name="//apple_ref/cpp/Method/setFlags" class="dashAnchor"></a>
+            <h5><a href="#setFlags">setFlags</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:setFlags(table) -&gt; event</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets the keyboard modifiers of an event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>A table containing the keyboard modifiers to be sent with the event - i.e. zero or more of the following keys, each with a value of <code>true</code>:<ul>
+<li>cmd</li>
+<li>alt</li>
+<li>shift</li>
+<li>ctrl</li>
+<li>fn</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.eventap.event</code> object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L427">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setKeyCode">
+            <a name="//apple_ref/cpp/Method/setKeyCode" class="dashAnchor"></a>
+            <h5><a href="#setKeyCode">setKeyCode</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:setKeyCode(keycode)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets the raw keycode for the event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>keycode - A number containing a raw keycode, taken from <code>hs.keycodes.map</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.eventtap.event</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method should only be used on keyboard events</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L560">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setProperty">
+            <a name="//apple_ref/cpp/Method/setProperty" class="dashAnchor"></a>
+            <h5><a href="#setProperty">setProperty</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:setProperty(prop, value)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets a property of the event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>prop - A value from <code>hs.eventtap.event.properties</code></li>
+<li>value - A number containing the value of the specified property</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.eventtap.event</code> object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The properties are <code>CGEventField</code> values, as documented at <a href="https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/index.html#//apple_ref/c/tdef/CGEventField">https://developer.apple.com/library/mac/documentation/Carbon/Reference/QuartzEventServicesRef/index.html#//apple_ref/c/tdef/CGEventField</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L792">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setType">
+            <a name="//apple_ref/cpp/Method/setType" class="dashAnchor"></a>
+            <h5><a href="#setType">setType</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:setType(type) -&gt; event</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Set the type for this event.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>type - an integer matching one of the event types described in <a href="#types">hs.eventtap.event.types</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the <code>hs.eventtap.event</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L342">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setUnicodeString">
+            <a name="//apple_ref/cpp/Method/setUnicodeString" class="dashAnchor"></a>
+            <h5><a href="#setUnicodeString">setUnicodeString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:setUnicodeString(string)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets a unicode string as the output of the event</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>string - A string containing unicode characters, which will be applied to the event</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.eventtap.event</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Calling this method will reset any flags previously set on the event (because they don't make any sense, and you should not try to set flags again)</li>
+<li>This is likely to only work with short unicode strings that resolve to a single character</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L610">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="systemKey">
+            <a name="//apple_ref/cpp/Method/systemKey" class="dashAnchor"></a>
+            <h5><a href="#systemKey">systemKey</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:systemKey() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the special key and its state if the event is a NSSystemDefined event of subtype AUX_CONTROL_BUTTONS (special-key pressed)</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If the event is a NSSystemDefined event of subtype AUX_CONTROL_BUTTONS, a table with the following keys defined:<ul>
+<li>key    -- a string containing one of the following labels indicating the key involved:<ul>
+<li>SOUND_UP</li>
+<li>SOUND_DOWN</li>
+<li>MUTE</li>
+<li>BRIGHTNESS_UP</li>
+<li>BRIGHTNESS_DOWN</li>
+<li>CONTRAST_UP</li>
+<li>CONTRAST_DOWN</li>
+<li>POWER</li>
+<li>LAUNCH_PANEL</li>
+<li>VIDMIRROR</li>
+<li>PLAY</li>
+<li>EJECT</li>
+<li>NEXT</li>
+<li>PREVIOUS</li>
+<li>FAST</li>
+<li>REWIND</li>
+<li>ILLUMINATION_UP</li>
+<li>ILLUMINATION_DOWN</li>
+<li>ILLUMINATION_TOGGLE</li>
+<li>CAPS_LOCK</li>
+<li>HELP</li>
+<li>NUM_LOCK
+or "undefined" if the key detected is unrecognized.</li>
+</ul>
+</li>
+<li>keyCode -- the numeric keyCode corresponding to the key specified in <code>key</code>.</li>
+<li>down   -- a boolean value indicating if the key is pressed down (true) or just released (false)</li>
+<li>repeat -- a boolean indicating if this event is because the keydown is repeating.  This will always be false for a key release.</li>
+</ul>
+</li>
+<li>If the event does not correspond to a NSSystemDefined event of subtype AUX_CONTROL_BUTTONS, then an empty table is returned.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>CAPS_LOCK seems to sometimes generate 0 or 2 key release events (down == false), especially on builtin laptop keyboards, so it is probably safest (more reliable) to look for cases where down == true only.</li>
+<li>If the key field contains "undefined", you can use the number in keyCode to look it up in <code>/System/Library/Frameworks/IOKit.framework/Headers/hidsystem/ev_keymap.h</code>.  If you believe the numeric value is part of a new system update or was otherwise mistakenly left out, please submit the label (it will defined in the header file as <code>NX_KEYTYPE_something</code>) and number to the Hammerspoon maintainers at <a href="https://github.com/Hammerspoon/hammerspoon">https://github.com/Hammerspoon/hammerspoon</a> with a request for inclusion in the next Hammerspoon update.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L1106">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="timestamp">
+            <a name="//apple_ref/cpp/Method/timestamp" class="dashAnchor"></a>
+            <h5><a href="#timestamp">timestamp</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.eventtap.event:timestamp([absolutetime]) -&gt; event | integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the timestamp of the event.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>absolutetime - an optional integer specifying the timestamp for the event.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if absolutetime is provided, returns the <code>hs.eventtap.event</code> object; otherwise returns the current timestamp for the event.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Synthesized events have a timestamp of 0 by default.</li>
+<li>The timestamp, if specified, is expressed as an integer representing the number of nanoseconds since the system was last booted.  See <code>hs.timer.absoluteTime</code>.</li>
+<li>This field appears to be informational only and is not required when crafting your own events with this module.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m#L315">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/eventtap/libeventtap_event.m</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

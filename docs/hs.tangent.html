@@ -84,11 +84,30 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li><code>alt</code>                     - toggles the 'ALT' function.</li>
+<li><code>nextKnobBank</code>            - switches to the next knob bank.</li>
+<li><code>prevKnobBank</code>            - switches to the previous knob bank.</li>
+<li><code>nextButtonBank</code>          - switches to the next button bank.</li>
+<li><code>prevBasketBank</code>          - switches to the previous button bank.</li>
+<li><code>nextTrackerballBank</code>     - switches to the next trackerball bank.</li>
+<li><code>prevTrackerballBank</code>     - switches to the previous trackerball bank.</li>
+<li><code>nextMode</code>                - switches to the next mode.</li>
+<li><code>prevMode</code>                - switches to the previous mode.</li>
+<li><code>goToMode</code>                - switches to the specified mode, requiring a Argument with the mode ID.</li>
+<li><code>toggleJogShuttle</code>        - toggles jog/shuttle mode.</li>
+<li><code>toggleMouseEmulation</code>    - toggles mouse emulation.</li>
+<li><code>fakeKeypress</code>            - generates a keypress, requiring an Argument with the key code.</li>
+<li><code>showHUD</code>                 - shows the HUD on screen.</li>
+<li><code>goToKnobBank</code>            - goes to the specific knob bank, requiring an Argument with the bank number.</li>
+<li><code>goToButtonBank</code>          - goes to the specific button bank, requiring an Argument with the bank number.</li>
+<li><code>goToTrackerballBank</code>     - goes to the specific trackerball bank, requiring an Argument with the bank number.</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L109">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L109">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -110,11 +129,32 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li><code>connected</code>                       - a connection is established with the Hub.</li>
+<li><code>disconnected</code>                    - the connection is dropped with the Hub.</li>
+<li><code>initiateComms</code>                   - sent when the Hub wants to initiate communications.</li>
+<li><code>parameterChange</code>                 - a parameter was incremented.</li>
+<li><code>parameterReset</code>                  - a parameter was reset.</li>
+<li><code>parameterValueRequest</code>           - the Hub wants the current value of the parameter.</li>
+<li><code>menuChange</code>                      - The menu was changed, <code>+1</code> or <code>-1</code>.</li>
+<li><code>menuReset</code>                       - The menu was reset.</li>
+<li><code>menuStringRequest</code>               - The application should send a <code>menuString</code> with the current value.</li>
+<li><code>actionOn</code>                        - An action button was pressed.</li>
+<li><code>actionOff</code>                       - An action button was released.</li>
+<li><code>modeChange</code>                      - The current mode was changed.</li>
+<li><code>transport</code>                       - The transport.</li>
+<li><code>unmanagedPanelCapabilities</code>      - Send by the Hub to advertise an unmanaged panel.</li>
+<li><code>unmanagedButtonDown</code>             - A button on an unmanaged panel was pressed.</li>
+<li><code>unmanagedButtonUp</code>               - A button on an unmanaged panel was released.</li>
+<li><code>unmanagedEncoderChange</code>          - An encoder (dial/wheel) on an unmanaged panel changed.</li>
+<li><code>unmanagedDisplayRefresh</code>         - Triggered when an unmanaged panel's display needs to update.</li>
+<li><code>panelConnectionState</code>            - A panel's connection state changed.</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L37">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L37">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -136,7 +176,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L169">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L169">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -158,11 +198,15 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li><code>transportRing</code>           - transport ring.</li>
+<li><code>fakeKeypress</code>            - sends a fake keypress.</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L152">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L152">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -184,7 +228,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L90">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L90">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -207,7 +251,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1008">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1008">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -229,7 +273,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L998">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L998">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -251,7 +295,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1003">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1003">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -394,7 +438,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1044">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1044">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -433,7 +477,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1727">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1727">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -469,7 +513,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1128">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1128">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -505,7 +549,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1658">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1658">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -541,7 +585,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1027">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1027">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -587,7 +631,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1141">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1141">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -630,7 +674,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1295">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1295">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -675,7 +719,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1168">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1168">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -724,7 +768,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1342">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1342">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -768,7 +812,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1545">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1545">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -813,7 +857,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1575">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1575">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -859,7 +903,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1256">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1256">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -902,7 +946,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1315">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1315">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -945,7 +989,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1608">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1608">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -990,7 +1034,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1218">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1218">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1036,7 +1080,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1508">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1508">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1084,7 +1128,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1453">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1453">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1127,7 +1171,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1426">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1426">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1163,7 +1207,7 @@ future panels produced by Tangent via the TUBE Hub.</p>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/init.lua#L1013">extensions/tangent/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua#L1013">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/tangent/tangent.lua</a></td>
               </tr>
             </table>
           </section>

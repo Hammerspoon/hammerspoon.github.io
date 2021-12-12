@@ -117,7 +117,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3693">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3720">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -139,7 +139,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3722">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3749">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -161,11 +161,16 @@
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>These key names map to the constants used in CoreGraphics to specify window levels and may not actually be used for what the name might suggest. For example, tests suggest that an active screen saver actually runs at a level of 2002, rather than at 1000, which is the window level corresponding to kCGScreenSaverWindowLevelKey.</li>
+<li>Each window level is sorted separately and <a href="#orderAbove">hs.canvas:orderAbove</a> and <a href="#orderBelow">hs.canvas:orderBelow</a> only arrange windows within the same level.</li>
+<li>If you use Dock hiding (or in 10.11, Menubar hiding) please note that when the Dock (or Menubar) is popped up, it is done so with an implicit orderAbove, which will place it above any items you may also draw at the Dock (or MainMenu) level.</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3781">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3808">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -209,7 +214,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2367">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2387">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -252,7 +257,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2348">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2368">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -288,7 +293,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L714">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L714">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -331,7 +336,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2288">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2308">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -376,7 +381,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2315">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2335">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -399,7 +404,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L15">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L15">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -421,7 +426,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L602">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L602">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -443,7 +448,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L732">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L732">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -487,7 +492,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2446">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2466">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -523,7 +528,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2958">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2978">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -566,7 +571,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L347">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L347">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -610,7 +615,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3629">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3656">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -651,7 +656,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L159">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L159">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -687,7 +692,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L203">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L203">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -734,7 +739,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L285">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L285">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -779,7 +784,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3237">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3264">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -815,7 +820,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3531">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3558">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -859,7 +864,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3498">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3525">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -895,7 +900,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3559">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3586">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -941,7 +946,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2749">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2769">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -984,7 +989,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2714">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2734">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1032,7 +1037,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L430">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L430">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1075,7 +1080,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3142">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3162">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1124,7 +1129,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2400">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2420">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1162,7 +1167,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3376">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3403">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1205,7 +1210,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3577">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3604">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1241,7 +1246,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3481">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3508">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1285,7 +1290,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3440">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3467">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1328,7 +1333,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L246">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L246">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1364,7 +1369,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2627">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2647">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1407,7 +1412,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2839">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2859">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1451,7 +1456,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3294">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3321">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1497,7 +1502,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3207">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3234">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1541,7 +1546,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3179">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3206">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1585,7 +1590,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L332">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L332">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1621,7 +1626,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3027">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3047">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1665,7 +1670,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2482">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2502">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1709,7 +1714,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2663">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2683">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1752,7 +1757,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2995">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3015">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1795,7 +1800,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3011">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3031">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1831,7 +1836,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3343">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3370">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -1874,7 +1879,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L366">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L366">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1922,7 +1927,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L386">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L386">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1958,7 +1963,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/init.lua#L313">extensions/canvas/init.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua#L313">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/canvas.lua</a></td>
               </tr>
             </table>
           </section>
@@ -2001,7 +2006,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2589">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2609">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -2044,7 +2049,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2864">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2884">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -2087,7 +2092,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2802">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2822">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -2130,7 +2135,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L2560">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L2580">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>
@@ -2173,7 +2178,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/internal.m#L3077">extensions/canvas/internal.m</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m#L3097">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/canvas/libcanvas.m</a></td>
               </tr>
             </table>
           </section>

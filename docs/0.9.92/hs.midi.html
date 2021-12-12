@@ -1,0 +1,747 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.midi</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.midi</h1>
+      <p>MIDI Extension for Hammerspoon.</p>
+<p>This extension supports listening, transmitting and synthesizing MIDI commands.</p>
+<p>This extension was thrown together by <a href="http://latenitefilms.com">Chris Hocking</a> for <a href="http://commandpost.io">CommandPost</a>.</p>
+<p>This extension uses <a href="https://github.com/mixedinkey-opensource/MIKMIDI">MIKMIDI</a>, an easy-to-use Objective-C MIDI library created by Andrew Madsen and developed by him and Chris Flesner of <a href="http://www.mixedinkey.com/">Mixed In Key</a>.</p>
+<p>MIKMIDI LICENSE:
+Copyright (c) 2013 Mixed In Key, LLC.
+Original author: <a href="https://github.com/armadsen">Andrew R. Madsen</a> (andrew@mixedinkey.com)</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#commandTypes">commandTypes</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#deviceCallback">deviceCallback</a></li>
+            <li><a href="#devices">devices</a></li>
+            <li><a href="#virtualSources">virtualSources</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+            <li><a href="#newVirtualSource">newVirtualSource</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#callback">callback</a></li>
+            <li><a href="#displayName">displayName</a></li>
+            <li><a href="#identityRequest">identityRequest</a></li>
+            <li><a href="#isOnline">isOnline</a></li>
+            <li><a href="#isVirtual">isVirtual</a></li>
+            <li><a href="#manufacturer">manufacturer</a></li>
+            <li><a href="#model">model</a></li>
+            <li><a href="#name">name</a></li>
+            <li><a href="#sendCommand">sendCommand</a></li>
+            <li><a href="#sendSysex">sendSysex</a></li>
+            <li><a href="#synthesize">synthesize</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="commandTypes">
+            <a name="//apple_ref/cpp/Constant/commandTypes" class="dashAnchor"></a>
+            <h5><a href="#commandTypes">commandTypes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.commandTypes[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table containing the numeric value for the possible flags returned by the `commandType` parameter of the callback function.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1516">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="deviceCallback">
+            <a name="//apple_ref/cpp/Function/deviceCallback" class="dashAnchor"></a>
+            <h5><a href="#deviceCallback">deviceCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.deviceCallback(callbackFn) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A callback that's triggered when a physical or virtual MIDI device is added or removed from the system.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>callbackFn - the callback function to trigger.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The callback function should expect 2 argument and should not return anything:<ul>
+<li><code>devices</code> - A table containing the names of any physically connected MIDI devices as strings.</li>
+<li><code>virtualDevices</code> - A table containing the names of any virtual MIDI devices as strings.</li>
+</ul>
+</li>
+<li>Example Usage:
+<pre><code>hs.midi.deviceCallback(function(devices, virtualDevices)
+     print(hs.inspect(devices))
+     print(hs.inspect(virtualDevices))
+end)</code></pre>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L342">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="devices">
+            <a name="//apple_ref/cpp/Function/devices" class="dashAnchor"></a>
+            <h5><a href="#devices">devices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.devices() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table of currently connected physical MIDI devices.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing the names of any physically connected MIDI devices as strings.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L300">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="virtualSources">
+            <a name="//apple_ref/cpp/Function/virtualSources" class="dashAnchor"></a>
+            <h5><a href="#virtualSources">virtualSources</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.virtualSources() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table of currently available Virtual MIDI sources. This includes devices, such as Native Instruments controllers which present as virtual endpoints rather than physical devices.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing the names of any virtual MIDI sources as strings.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L321">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.new(deviceName) -&gt; <code>hs.midi</code> object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new `hs.midi` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>deviceName - A string containing the device name of the MIDI device. A valid device name can be found by checking <code>hs.midi.devices()</code> and/or <code>hs.midi.virtualSources()</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.midi</code> object or <code>nil</code> if an error occured.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Example Usage:
+<code>hs.midi.new(hs.midi.devices()[1])</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L392">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newVirtualSource">
+            <a name="//apple_ref/cpp/Constructor/newVirtualSource" class="dashAnchor"></a>
+            <h5><a href="#newVirtualSource">newVirtualSource</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.newVirtualSource(virtualSource) -&gt; <code>hs.midi</code> object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new `hs.midi` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>virtualSource - A string containing the virtual source name of the MIDI device. A valid virtual source name can be found by checking <code>hs.midi.virtualSources()</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.midi</code> object or <code>nil</code> if an error occured.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Example Usage:
+<code>hs.midi.new(hs.midi.virtualSources()[1])</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L419">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="callback">
+            <a name="//apple_ref/cpp/Method/callback" class="dashAnchor"></a>
+            <h5><a href="#callback">callback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:callback(callbackFn)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets or removes a callback function for the `hs.midi` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callbackFn</code> - a function to set as the callback for this <code>hs.midi</code> object.  If the value provided is <code>nil</code>, any currently existing callback function is removed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.midi</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Most MIDI keyboards produce a <code>noteOn</code> when you press a key, then <code>noteOff</code> when you release. However, some MIDI keyboards will return a <code>noteOn</code> with 0 <code>velocity</code> instead of <code>noteOff</code>, so you will recieve two <code>noteOn</code> commands for every key press/release.</li>
+<li>The callback function should expect 5 arguments and should not return anything:<ul>
+<li><code>object</code>       - The <code>hs.midi</code> object.</li>
+<li><code>deviceName</code>   - The device name as a string.</li>
+<li><code>commandType</code>  - Type of MIDI message as defined as a string. See <code>hs.midi.commandTypes[]</code> for a list of possibilities.</li>
+<li><code>description</code>  - Description of the event as a string. This is only really useful for debugging.</li>
+<li><code>metadata</code>     - A table of data for the MIDI command (see below).</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L448">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="displayName">
+            <a name="//apple_ref/cpp/Method/displayName" class="dashAnchor"></a>
+            <h5><a href="#displayName">displayName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:displayName() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the display name of a `hs.midi` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The name as a string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1426">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="identityRequest">
+            <a name="//apple_ref/cpp/Method/identityRequest" class="dashAnchor"></a>
+            <h5><a href="#identityRequest">identityRequest</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:identityRequest() -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sends an Identity Request message to the `hs.midi` device. You can use `hs.midi:callback()` to receive the `systemExclusive` response.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Example Usage:
+<pre><code>midiDevice = hs.midi.new(hs.midi.devices()[3])
+midiDevice:callback(function(object, deviceName, commandType, description, metadata)
+                     print("object: " .. tostring(object))
+                     print("deviceName: " .. deviceName)
+                     print("commandType: " .. commandType)
+                     print("description: " .. description)
+                     print("metadata: " .. hs.inspect(metadata))
+                   end)
+midiDevice:identityRequest()</code></pre>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1345">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isOnline">
+            <a name="//apple_ref/cpp/Method/isOnline" class="dashAnchor"></a>
+            <h5><a href="#isOnline">isOnline</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:isOnline() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the online status of a `hs.midi` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if online, otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1480">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isVirtual">
+            <a name="//apple_ref/cpp/Method/isVirtual" class="dashAnchor"></a>
+            <h5><a href="#isVirtual">isVirtual</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:isVirtual() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns `true` if an `hs.midi` object is virtual, otherwise `false`.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if virtual, otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1497">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="manufacturer">
+            <a name="//apple_ref/cpp/Method/manufacturer" class="dashAnchor"></a>
+            <h5><a href="#manufacturer">manufacturer</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:manufacturer() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the manufacturer name of a `hs.midi` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The manufacturer name as a string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1462">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="model">
+            <a name="//apple_ref/cpp/Method/model" class="dashAnchor"></a>
+            <h5><a href="#model">model</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:model() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the model name of a `hs.midi` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The model name as a string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1444">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="name">
+            <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+            <h5><a href="#name">name</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:name() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the name of a `hs.midi` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The name as a string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1408">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendCommand">
+            <a name="//apple_ref/cpp/Method/sendCommand" class="dashAnchor"></a>
+            <h5><a href="#sendCommand">sendCommand</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:sendCommand(commandType, metadata) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sends a command to the `hs.midi` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>commandType</code>    - The type of command you want to send as a string. See <code>hs.midi.commandTypes[]</code>.</li>
+<li><code>metadata</code>       - A table of data for the MIDI command (see notes below).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The <code>metadata</code> table can accept following, depending on the <code>commandType</code> supplied:</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1034">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendSysex">
+            <a name="//apple_ref/cpp/Method/sendSysex" class="dashAnchor"></a>
+            <h5><a href="#sendSysex">sendSysex</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:sendSysex(command) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sends a System Exclusive Command to the `hs.midi` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>command</code> - The system exclusive command you wish to send as a string. White spaces in the string will be ignored.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Example Usage:
+<code>midiDevice:sendSysex("f07e7f06 01f7")</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1013">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="synthesize">
+            <a name="//apple_ref/cpp/Method/synthesize" class="dashAnchor"></a>
+            <h5><a href="#synthesize">synthesize</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:synthesize([value]) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Set or display whether or not the MIDI device should synthesize audio on your computer.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>[value] - <code>true</code> if you want to synthesize audio, otherwise <code>false</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if enabled otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m#L1380">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/midi/libmidi.m</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

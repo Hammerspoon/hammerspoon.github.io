@@ -166,11 +166,30 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>While you can customize the default windowfilter, it's usually advisable to make your customizations on a local copy via <code>mywf=hs.window.filter.new()</code>;
+the default windowfilter can potentially be used in several Hammerspoon modules and changing it might have unintended consequences.
+Common customizations:<ul>
+<li>to exclude fullscreen windows: <code>nofs_wf=hs.window.filter.new():setOverrideFilter{fullscreen=false}</code></li>
+<li>to include invisible windows: <code>inv_wf=windowfilter.new():setDefaultFilter{}</code></li>
+</ul>
+</li>
+<li>If you still want to alter the default windowfilter:<ul>
+<li>you should probably apply your customizations at the top of your <code>init.lua</code>, or at any rate before instantiating any other windowfilter; this
+way copies created via <code>hs.window.filter.new(nil,...)</code> will inherit your modifications</li>
+<li>to list the known exclusions: <code>hs.inspect(hs.window.filter.default:getFilters())</code> from the console</li>
+<li>to add an exclusion: <code>hs.window.filter.default:rejectApp'Cool New Launcher'</code></li>
+<li>to add an app-specific rule: <code>hs.window.filter.default:setAppFilter('My IDE',1)</code>; ignore tooltips/code completion (empty title) in My IDE</li>
+<li>to remove an exclusion (e.g. if you want to have access to Spotlight windows): <code>hs.window.filter.default:allowApp'Spotlight'</code>;
+for specialized uses you can make a specific windowfilter with <code>myfilter=hs.window.filter.new'Spotlight'</code></li>
+</ul>
+</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L742">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L742">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -192,11 +211,14 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>This windowfilter will inherit customizations to the default windowfilter if they're performed <em>before</em> referencing this</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L763">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L763">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -218,11 +240,16 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>callbacks for this event will receive (as the first argument) the last window that was allowed (and is now rejected)</li>
+<li>this pseudo-event won't trigger again until after the windowfilter allows at least one window</li>
+<li>this pseudo-event will be emitted <em>after</em> the <em>actual</em> event(s) (e.g. <code>windowDestroyed</code>) that caused the window to be rejected</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L915">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L915">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -244,11 +271,16 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>callbacks for this event will receive (as the first argument) the window that is now allowed</li>
+<li>this pseudo-event won't trigger again until after the windowfilter reverts to rejecting all windows</li>
+<li>this pseudo-event will be emitted <em>after</em> the <em>actual</em> event(s) (e.g. <code>windowCreated</code>) that caused a window to be allowed</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L906">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L906">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -270,7 +302,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L1759">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L1759">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -292,7 +324,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L1755">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L1755">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -314,7 +346,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L1751">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L1751">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -336,11 +368,14 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>This is the default sort order for all windowfilters</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L1744">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L1744">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -362,11 +397,14 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>this pseudo-event will be emitted <em>before</em> the <em>actual</em> event(s) (e.g. <code>windowCreated</code>) that caused the window to be allowed</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L892">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L892">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -388,7 +426,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L814">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L814">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -410,7 +448,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L818">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L818">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -432,7 +470,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L880">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L880">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -454,7 +492,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L826">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L826">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -476,7 +514,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L846">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L846">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -498,7 +536,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L860">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L860">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -520,7 +558,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L834">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L834">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -542,7 +580,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L822">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L822">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -564,7 +602,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L865">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L865">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -586,7 +624,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L875">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L875">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -608,7 +646,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L855">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L855">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -630,7 +668,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L870">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L870">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -652,11 +690,14 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>this pseudo-event will be emitted <em>after</em> the <em>actual</em> event(s) (e.g. <code>windowDestroyed</code>) that caused the window to be rejected</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L899">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L899">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -678,11 +719,17 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>callbacks for this event will receive (as the first argument) either a random window among the currently allowed ones,
+or nil if the windowfilter is rejecting all windows</li>
+<li>similarly, the second argument passed to callbacks (window's app name) will be nil if the windowfilter is rejecting all windows</li>
+<li>this pseudo-event will be emitted <em>after</em> the <em>actual</em> event(s) that caused the list of allowed windows to change</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L924">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L924">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -704,7 +751,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L888">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L888">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -726,7 +773,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L884">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L884">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -748,7 +795,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L830">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L830">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -770,7 +817,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L842">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L842">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -792,7 +839,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L838">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L838">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -814,7 +861,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L850">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L850">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -837,11 +884,15 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>You can have fine grained control of allowed window roles via the <code>setAppFilter</code>, <code>setDefaultFilter</code>, <code>setOverrideFilter</code> methods.</li>
+<li>If you know what you're doing you can override the allowed window roles globally by changing this variable, but this is discouraged.</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L179">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L179">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -863,11 +914,14 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>If you defined one or more Spaces-aware windowfilters (i.e. when the <code>currentSpace</code> field of a filter is present), windows need refreshing at every space change anyway, so this variable is ignored</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L1510">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L1510">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -889,11 +943,15 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                   <th>Notes</th>
-                  <td></td>
+                  <td><ul>
+<li>As the name implies, even the empty, "allow all" windowfilter will ignore these apps.</li>
+<li>You don't <em>need</em> to keep this table up to date, since non GUI apps will simply never show up anywhere; this table is just used as a "root" filter to gain a (very small) performance improvement.</li>
+</ul>
+</td>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L103">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L103">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -937,7 +995,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2241">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2241">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -980,7 +1038,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2280">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2280">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1023,7 +1081,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2267">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2267">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1066,7 +1124,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2254">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2254">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1102,7 +1160,7 @@ wf_timewaster:subscribe(wf.hasWindow,startAnnoyingMe):subscribe(wf.hasNoWindows,
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L771">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L771">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1152,7 +1210,7 @@ hs.hotkey.bind('ctrl','2',nil,function()hs.window.filter.switchedToSpace(2)end)
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L1471">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L1471">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1191,7 +1249,7 @@ hs.hotkey.bind('ctrl','2',nil,function()hs.window.filter.switchedToSpace(2)end)
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L724">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L724">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1237,7 +1295,7 @@ hs.hotkey.bind('ctrl','2',nil,function()hs.window.filter.switchedToSpace(2)end)
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L672">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L672">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1281,7 +1339,7 @@ hs.hotkey.bind('ctrl','2',nil,function()hs.window.filter.switchedToSpace(2)end)
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L342">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L342">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1327,7 +1385,7 @@ hs.hotkey.bind('ctrl','2',nil,function()hs.window.filter.switchedToSpace(2)end)
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2173">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2173">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1373,7 +1431,7 @@ hs.hotkey.bind('ctrl','2',nil,function()hs.window.filter.switchedToSpace(2)end)
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2223">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2223">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1419,7 +1477,7 @@ hs.hotkey.bind('ctrl','2',nil,function()hs.window.filter.switchedToSpace(2)end)
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2206">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2206">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1465,7 +1523,7 @@ hs.hotkey.bind('ctrl','2',nil,function()hs.window.filter.switchedToSpace(2)end)
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2190">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2190">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1502,7 +1560,7 @@ after performing valid manipulations) to <code>hs.window.filter:setFilters()</co
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L641">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L641">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1538,7 +1596,7 @@ after performing valid manipulations) to <code>hs.window.filter:setFilters()</co
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L1813">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L1813">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1574,7 +1632,7 @@ after performing valid manipulations) to <code>hs.window.filter:setFilters()</co
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L312">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L312">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1610,7 +1668,7 @@ after performing valid manipulations) to <code>hs.window.filter:setFilters()</co
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L192">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L192">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1646,7 +1704,7 @@ after performing valid manipulations) to <code>hs.window.filter:setFilters()</co
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2042">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2042">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1689,7 +1747,7 @@ after performing valid manipulations) to <code>hs.window.filter:setFilters()</co
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L326">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L326">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1725,7 +1783,7 @@ after performing valid manipulations) to <code>hs.window.filter:setFilters()</co
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2027">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2027">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1794,7 +1852,7 @@ after performing valid manipulations) to <code>hs.window.filter:setFilters()</co
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L440">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L440">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1840,7 +1898,7 @@ fields will be left untouched); per-app filters will maintain their <code>curren
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L381">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L381">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1876,7 +1934,7 @@ fields will be left untouched); per-app filters will maintain their <code>curren
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L357">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L357">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1920,7 +1978,7 @@ this also applies to the special default and override filters, if included</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L601">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L601">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1956,7 +2014,7 @@ this also applies to the special default and override filters, if included</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L369">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L369">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -1999,7 +2057,7 @@ this also applies to the special default and override filters, if included</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L403">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L403">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -2043,7 +2101,7 @@ fields will be left untouched); per-app filters will maintain their <code>allowS
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L421">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L421">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -2086,7 +2144,7 @@ fields will be left untouched); per-app filters will maintain their <code>allowS
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L1773">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L1773">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -2138,7 +2196,7 @@ fields will be left untouched); per-app filters will maintain their <code>allowS
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L1867">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L1867">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -2185,7 +2243,7 @@ instead keep references to your functions and pass in those.</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L1944">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L1944">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -2228,7 +2286,7 @@ instead keep references to your functions and pass in those.</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2008">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2008">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -2275,7 +2333,7 @@ instead keep references to your functions and pass in those.</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2102">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2102">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -2322,7 +2380,7 @@ instead keep references to your functions and pass in those.</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2136">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2136">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -2369,7 +2427,7 @@ instead keep references to your functions and pass in those.</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2154">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2154">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>
@@ -2415,7 +2473,7 @@ instead keep references to your functions and pass in those.</li>
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/window/filter.lua#L2120">extensions/window/filter.lua</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua#L2120">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/window/window_filter.lua</a></td>
               </tr>
             </table>
           </section>

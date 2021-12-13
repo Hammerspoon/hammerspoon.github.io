@@ -1,0 +1,425 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.axuielement.observer</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.axuielement.observer</h1>
+      <p>This submodule allows you to create observers for accessibility elements and be notified when they trigger notifications. Not all notifications are supported by all elements and not all elements support notifications, so some trial and error will be necessary, but for compliant applications, this can allow your code to be notified when an application's user interface changes in some way.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#notifications">notifications</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#addWatcher">addWatcher</a></li>
+            <li><a href="#callback">callback</a></li>
+            <li><a href="#isRunning">isRunning</a></li>
+            <li><a href="#removeWatcher">removeWatcher</a></li>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+            <li><a href="#watching">watching</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="notifications">
+            <a name="//apple_ref/cpp/Constant/notifications" class="dashAnchor"></a>
+            <h5><a href="#notifications">notifications</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.observer.notifications[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table of common accessibility object notification names, provided for reference.</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Notifications are application dependent and can be any string that the application developers choose; this list provides the suggested notification names found within the macOS Framework headers, but the list is not exhaustive nor is an application or element required to provide them.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m#L402">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.observer.new(pid) -&gt; observerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new observer object for the application with the specified process ID.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>pid</code> - the process ID of the application.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new observerObject; generates an error if the pid does not exist or if the object cannot be created.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If you already have the <code>hs.application</code> object for an application, you can get its process ID with <code>hs.application:pid()</code></li>
+<li>If you already have an <code>hs.axuielement</code> from the application you wish to observe (it doesn't have to be the application axuielement object, just one belonging to the application), you can get the process ID with <code>hs.axuielement:pid()</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m#L117">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="addWatcher">
+            <a name="//apple_ref/cpp/Method/addWatcher" class="dashAnchor"></a>
+            <h5><a href="#addWatcher">addWatcher</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.observer:addWatcher(element, notification) -&gt; observerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Registers the specified notification for the specified accesibility element with the observer.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>element</code>      - the <code>hs.axuielement</code> representing an accessibility element of the application the observer was created for.</li>
+<li><code>notification</code> - a string specifying the notification.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the observerObject; generates an error if watcher cannot be registered</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>multiple notifications for the same accessibility element can be registered by invoking this method multiple times with the same element but different notification strings.</li>
+<li>if the specified element and notification string are already registered, this method does nothing.</li>
+<li>the notification string is application dependent and can be any string that the application developers choose; some common ones are found in <code>hs.axuielement.observer.notifications</code>, but the list is not exhaustive nor is an application or element required to provide them.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m#L263">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="callback">
+            <a name="//apple_ref/cpp/Method/callback" class="dashAnchor"></a>
+            <h5><a href="#callback">callback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.observer:callback([fn]) -&gt; observerObject | fn | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the callback for the observer.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>fn</code> - a function, specifying the callback to the observer will invoke when the assigned elements generate notifications. If <code>nil</code> is supplied, the existing callback function will be removed</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is provided, the observerObject; otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the callback should expect 4 arguments and return none. The arguments passed to the callback will be as follows:<ul>
+<li>the observerObject itself</li>
+<li>the <code>hs.axuielement</code> object for the accessibility element which generated the notification</li>
+<li>a string specifying the specific notification which was received</li>
+<li>a table containing key-value pairs with more information about the notification, if the element and notification type provide it. Commonly this will be an empty table indicating that no additional detail was provided.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m#L221">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isRunning">
+            <a name="//apple_ref/cpp/Method/isRunning" class="dashAnchor"></a>
+            <h5><a href="#isRunning">isRunning</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.observer:isRunning() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns true or false indicating whether the observer is currently watching for notifications and generating callbacks.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean value indicating whether or not the observer is currently active.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m#L202">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="removeWatcher">
+            <a name="//apple_ref/cpp/Method/removeWatcher" class="dashAnchor"></a>
+            <h5><a href="#removeWatcher">removeWatcher</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.observer:removeWatcher(element, notification) -&gt; observerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Unregisters the specified notification for the specified accessibility element from the observer.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>element</code>      - the <code>hs.axuielement</code> representing an accessibility element of the application the observer was created for.</li>
+<li><code>notification</code> - a string specifying the notification.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the observerObject; generates an error if watcher cannot be unregistered</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>if the specified element and notification string are not currently registered with the observer, this method does nothing.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m#L308">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.observer:start() -&gt; observerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Start observing the application and trigger callbacks for the elements and notifications assigned.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the observerObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method does nothing if the observer is already running</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m#L148">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.observer:stop() -&gt; observerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Stop observing the application; no further callbacks will be generated.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the observerObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method does nothing if the observer is not currently running</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m#L175">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="watching">
+            <a name="//apple_ref/cpp/Method/watching" class="dashAnchor"></a>
+            <h5><a href="#watching">watching</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.observer:watching([element]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table of the notifications currently registered with the observer.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>element</code> - an optional <code>hs.axuielement</code> to return a list of registered notifications for.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the currently registered notifications</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If an element is specified, then the table returned will contain a list of strings specifying the specific notifications that the observer is watching that element for.</li>
+<li>If no argument is specified, then the table will contain key-value pairs in which each key will be an <code>hs.axuielement</code> that is being observed and the corresponding value will be a table containing a list of strings specifying the specific notifications that the observer is watching for from from that element.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master//Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m#L348">/Users/cmsj/hacking/hammerspoon/hammerspoon/extensions/axuielement/observer.m</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

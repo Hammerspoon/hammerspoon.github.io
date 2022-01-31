@@ -8,7 +8,7 @@ permalink: /go/
 
 ## What is Hammerspoon?
 
-Hammerspoon is a desktop automation tool for OS X. It bridges various system level APIs into a Lua scripting engine, allowing you to have powerful effects on your system by writing Lua scripts.
+Hammerspoon is a desktop automation tool for macOS. It bridges various system level APIs into a Lua scripting engine, allowing you to have powerful effects on your system by writing Lua scripts.
 
 ## What is Lua?
 
@@ -66,7 +66,7 @@ What is happening here is that we're telling Hammerspoon to bind an anonymous fu
 
 ### <a name="fancyhelloworld"></a>Fancier Hello World
 
-While `hs.alert` is useful, you might prefer to use the OS X native notifications instead, which you can do by simply modifying the previous example to:
+While `hs.alert` is useful, you might prefer to use the macOS native notifications instead, which you can do by simply modifying the previous example to:
 
 ```lua
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
@@ -295,7 +295,7 @@ When copying and pasting content from Safari to Messages.app, all links are jarr
 
 `Thrushes make up the Turdidae, a family <https://en.wikipedia.org/wiki/Family_(biology)> of passerine <https://en.wikipedia.org/wiki/Passerine> birds <https://en.wikipedia.org/wiki/Bird> that occurs worldwide.`
 
-Only the Safari/Messages pair suffers from this and other OS X applications generally copy and paste without surprises. This annoyance is cleanly rectified with the help of a windowfilter:
+Only the Safari/Messages pair suffers from this and other macOS applications generally copy and paste without surprises. This annoyance is cleanly rectified with the help of a windowfilter:
 
 ```lua
 local function cleanPasteboard()
@@ -623,7 +623,7 @@ wifiWatcher = hs.wifi.watcher.new(ssidChanged)
 wifiWatcher:start()
 ```
 
-As you doubtless noticed, this will send two messages to people whenever your Mac arrives at your favourite trendy coffee shop. You'll need to have OS X's Messages app configured and working for sending both iMessages and SMS (the latter via an iPhone using SMS Relay) for this to work.
+As you doubtless noticed, this will send two messages to people whenever your Mac arrives at your favourite trendy coffee shop. You'll need to have macOS's Messages app configured and working for sending both iMessages and SMS (the latter via an iPhone using SMS Relay) for this to work.
 
 ### <a name="ipcurl"></a>Automating Hammerspoon with URLs
 

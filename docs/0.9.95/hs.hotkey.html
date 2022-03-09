@@ -1,0 +1,642 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.hotkey</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.hotkey</h1>
+      <p>Create and manage global keyboard shortcuts</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.hotkey.modal.html">hs.hotkey.modal</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Variables - Configurable values</li>
+          <ul>
+            <li><a href="#alertDuration">alertDuration</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#assignable">assignable</a></li>
+            <li><a href="#deleteAll">deleteAll</a></li>
+            <li><a href="#disableAll">disableAll</a></li>
+            <li><a href="#getHotkeys">getHotkeys</a></li>
+            <li><a href="#showHotkeys">showHotkeys</a></li>
+            <li><a href="#systemAssigned">systemAssigned</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#bind">bind</a></li>
+            <li><a href="#bindSpec">bindSpec</a></li>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#delete">delete</a></li>
+            <li><a href="#disable">disable</a></li>
+            <li><a href="#enable">enable</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Variables</h4>
+          <section id="alertDuration">
+            <a name="//apple_ref/cpp/Variable/alertDuration" class="dashAnchor"></a>
+            <h5><a href="#alertDuration">alertDuration</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.alertDuration</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Duration of the alert shown when a hotkey created with a `message` parameter is triggered, in seconds. Default is 1.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L31">extensions/hotkey/hotkey.lua line 31</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="assignable">
+            <a name="//apple_ref/cpp/Function/assignable" class="dashAnchor"></a>
+            <h5><a href="#assignable">assignable</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.assignable(mods, key) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Determines whether the hotkey combination can be assigned a callback through Hammerspoon.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>mods - A table or a string containing (as elements, or as substrings with any separator) the keyboard modifiers required, which should be zero or more of the following:<ul>
+<li>&quot;cmd&quot;, &quot;command&quot; or &quot;⌘&quot;</li>
+<li>&quot;ctrl&quot;, &quot;control&quot; or &quot;⌃&quot;</li>
+<li>&quot;alt&quot;, &quot;option&quot; or &quot;⌥&quot;</li>
+<li>&quot;shift&quot; or &quot;⇧&quot;</li>
+</ul>
+</li>
+<li>key - A string containing the name of a keyboard key (as found in <a href="hs.keycodes.html#map">hs.keycodes.map</a> ), or a raw keycode number</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean value, true if the hotkey combination can be given an assignment by Hammerspoon or false if it cannot.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The most common reason a hotkey combination cannot be given an assignment by Hammerspoon is because it is in use by the Mac operating system -- see the Shortcuts tab of Keyboard in the System Preferences application or <a href="#systemAssigned">hs.hotkey.systemAssigned</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L254">extensions/hotkey/hotkey.lua line 254</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="deleteAll">
+            <a name="//apple_ref/cpp/Function/deleteAll" class="dashAnchor"></a>
+            <h5><a href="#deleteAll">deleteAll</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.deleteAll(mods, key)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Deletes all previously set callbacks for a given keyboard combination</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>mods - A table or a string containing (as elements, or as substrings with any separator) the keyboard modifiers required, which should be zero or more of the following:<ul>
+<li>&quot;cmd&quot;, &quot;command&quot; or &quot;⌘&quot;</li>
+<li>&quot;ctrl&quot;, &quot;control&quot; or &quot;⌃&quot;</li>
+<li>&quot;alt&quot;, &quot;option&quot; or &quot;⌥&quot;</li>
+<li>&quot;shift&quot; or &quot;⇧&quot;</li>
+</ul>
+</li>
+<li>key - A string containing the name of a keyboard key (as found in <a href="hs.keycodes.html#map">hs.keycodes.map</a> ), or a raw keycode number</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L304">extensions/hotkey/hotkey.lua line 304</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="disableAll">
+            <a name="//apple_ref/cpp/Function/disableAll" class="dashAnchor"></a>
+            <h5><a href="#disableAll">disableAll</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.disableAll(mods, key)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Disables all previously set callbacks for a given keyboard combination</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>mods - A table or a string containing (as elements, or as substrings with any separator) the keyboard modifiers required, which should be zero or more of the following:<ul>
+<li>&quot;cmd&quot;, &quot;command&quot; or &quot;⌘&quot;</li>
+<li>&quot;ctrl&quot;, &quot;control&quot; or &quot;⌃&quot;</li>
+<li>&quot;alt&quot;, &quot;option&quot; or &quot;⌥&quot;</li>
+<li>&quot;shift&quot; or &quot;⇧&quot;</li>
+</ul>
+</li>
+<li>key - A string containing the name of a keyboard key (as found in <a href="hs.keycodes.html#map">hs.keycodes.map</a> ), or a raw keycode number</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L284">extensions/hotkey/hotkey.lua line 284</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getHotkeys">
+            <a name="//apple_ref/cpp/Function/getHotkeys" class="dashAnchor"></a>
+            <h5><a href="#getHotkeys">getHotkeys</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.getHotkeys() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a list of all currently active hotkeys</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing the hotkeys that are active, i.e. enabled and not &quot;shadowed&quot;, in the current context
+(usually, the global hotkey context, but it could be a modal hotkey context). Every element in the list
+is a table with two fields:<ul>
+<li>idx - a string describing the keyboard combination for the hotkey</li>
+<li>msg - the hotkey message, if provided when the hotkey was created (prefixed with the keyboard combination)</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L326">extensions/hotkey/hotkey.lua line 326</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="showHotkeys">
+            <a name="//apple_ref/cpp/Function/showHotkeys" class="dashAnchor"></a>
+            <h5><a href="#showHotkeys">showHotkeys</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.showHotkeys(mods, key) -&gt; hs.hotkey object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates (and enables) a hotkey that shows all currently active hotkeys (i.e. enabled and not "shadowed" in the current context) while pressed</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>mods - A table or a string containing (as elements, or as substrings with any separator) the keyboard modifiers required, which should be zero or more of the following:<ul>
+<li>&quot;cmd&quot;, &quot;command&quot; or &quot;⌘&quot;</li>
+<li>&quot;ctrl&quot;, &quot;control&quot; or &quot;⌃&quot;</li>
+<li>&quot;alt&quot;, &quot;option&quot; or &quot;⌥&quot;</li>
+<li>&quot;shift&quot; or &quot;⇧&quot;</li>
+</ul>
+</li>
+<li>key - A string containing the name of a keyboard key (as found in <a href="hs.keycodes.html#map">hs.keycodes.map</a> ), or a raw keycode number</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The new <code>hs.hotkey</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L340">extensions/hotkey/hotkey.lua line 340</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="systemAssigned">
+            <a name="//apple_ref/cpp/Function/systemAssigned" class="dashAnchor"></a>
+            <h5><a href="#systemAssigned">systemAssigned</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.systemAssigned(mods, key) -&gt; table | false</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Examine whether a potential hotkey is in use by the macOS system such as the Screen Capture, Universal Access, and Keyboard Navigation keys.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>mods - A table or a string containing (as elements, or as substrings with any separator) the keyboard modifiers required, which should be zero or more of the following:<ul>
+<li>&quot;cmd&quot;, &quot;command&quot; or &quot;⌘&quot;</li>
+<li>&quot;ctrl&quot;, &quot;control&quot; or &quot;⌃&quot;</li>
+<li>&quot;alt&quot;, &quot;option&quot; or &quot;⌥&quot;</li>
+<li>&quot;shift&quot; or &quot;⇧&quot;</li>
+</ul>
+</li>
+<li>key - A string containing the name of a keyboard key (as found in <a href="hs.keycodes.html#map">hs.keycodes.map</a> ), or a raw keycode number</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the hotkey combination is in use by a system function, returns a table containing the following keys:<ul>
+<li>keycode - the numberic keycode for the hotkey</li>
+<li>mods    - a numeric representation of the modifier flags for the htokey</li>
+<li>enabled - a boolean indicating whether or not the key is currently enabled</li>
+</ul>
+</li>
+<li>if the hotkey combination is not in use by the operating system, returns the boolean value <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this is provided for informational purposes and does not provide a reliable test as to whether or not Hammerspoon can use the combination to create a custom hotkey -- some combinations which return a table can be over-ridden by Hammerspoon while others cannot.  See also <a href="#assignable">hs.hotkey.assignable</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L225">extensions/hotkey/hotkey.lua line 225</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="bind">
+            <a name="//apple_ref/cpp/Constructor/bind" class="dashAnchor"></a>
+            <h5><a href="#bind">bind</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.bind(mods, key, [message,] pressedfn, releasedfn, repeatfn) -&gt; hs.hotkey object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new hotkey and enables it immediately</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>mods - A table or a string containing (as elements, or as substrings with any separator) the keyboard modifiers required, which should be zero or more of the following:<ul>
+<li>&quot;cmd&quot;, &quot;command&quot; or &quot;⌘&quot;</li>
+<li>&quot;ctrl&quot;, &quot;control&quot; or &quot;⌃&quot;</li>
+<li>&quot;alt&quot;, &quot;option&quot; or &quot;⌥&quot;</li>
+<li>&quot;shift&quot; or &quot;⇧&quot;</li>
+</ul>
+</li>
+<li>key - A string containing the name of a keyboard key (as found in <a href="hs.keycodes.html#map">hs.keycodes.map</a> ), or a raw keycode number</li>
+<li>message - (optional) A string containing a message to be displayed via <code>hs.alert()</code> when the hotkey has been triggered; if omitted, no alert will be shown</li>
+<li>pressedfn - A function that will be called when the hotkey has been pressed, or nil</li>
+<li>releasedfn - A function that will be called when the hotkey has been released, or nil</li>
+<li>repeatfn - A function that will be called when a pressed hotkey is repeating, or nil</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A new <code>hs.hotkey</code> object or nil if the hotkey could not be enabled</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function is just a wrapper that performs <code>hs.hotkey.new(...):enable()</code></li>
+<li>You can create multiple <code>hs.hotkey</code> objects for the same keyboard combination, but only one can be active
+at any given time - see <code>hs.hotkey:enable()</code></li>
+<li>If <code>message</code> is the empty string <code>&quot;&quot;</code>, the alert will just show the triggered keyboard combination</li>
+<li>If you don't want any alert, you must <em>actually</em> omit the <code>message</code> parameter; a <code>nil</code> in 3rd position
+will be interpreted as a missing <code>pressedfn</code></li>
+<li>You must pass at least one of <code>pressedfn</code>, <code>releasedfn</code> or <code>repeatfn</code>; to delete a hotkey, use <code>hs.hotkey:delete()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L385">extensions/hotkey/hotkey.lua line 385</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="bindSpec">
+            <a name="//apple_ref/cpp/Constructor/bindSpec" class="dashAnchor"></a>
+            <h5><a href="#bindSpec">bindSpec</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.bindSpec(keyspec, ...) -&gt; hs.hotkey object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a hotkey and enables it immediately</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>keyspec - A table containing two items:<ul>
+<li>first, a table containing keyboard modifiers, as specified in <code>hs.hotkey.bind()</code></li>
+<li>second, a string containing the name of a keyboard key, as specified in <code>hs.hotkey.bind()</code></li>
+</ul>
+</li>
+<li>... - All remaining arguments are as specified in <code>hs.hotkey.bind()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A new <code>hs.hotkey</code> object for method chaining</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function is just a wrapper that performs <code>hs.hotkey.bind(keyspec[1], keyspec[2], ...)</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L418">extensions/hotkey/hotkey.lua line 418</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey.new(mods, key, [message,] pressedfn, releasedfn, repeatfn) -&gt; hs.hotkey object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new hotkey</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>mods - A table or a string containing (as elements, or as substrings with any separator) the keyboard modifiers required, which should be zero or more of the following:<ul>
+<li>&quot;cmd&quot;, &quot;command&quot; or &quot;⌘&quot;</li>
+<li>&quot;ctrl&quot;, &quot;control&quot; or &quot;⌃&quot;</li>
+<li>&quot;alt&quot;, &quot;option&quot; or &quot;⌥&quot;</li>
+<li>&quot;shift&quot; or &quot;⇧&quot;</li>
+</ul>
+</li>
+<li>key - A string containing the name of a keyboard key (as found in <a href="hs.keycodes.html#map">hs.keycodes.map</a> ), or a raw keycode number</li>
+<li>message - (optional) A string containing a message to be displayed via <code>hs.alert()</code> when the hotkey has been triggered; if omitted, no alert will be shown</li>
+<li>pressedfn - A function that will be called when the hotkey has been pressed, or nil</li>
+<li>releasedfn - A function that will be called when the hotkey has been released, or nil</li>
+<li>repeatfn - A function that will be called when a pressed hotkey is repeating, or nil</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A new <code>hs.hotkey</code> object or nil if the hotkey could not be enabled</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>You can create multiple <code>hs.hotkey</code> objects for the same keyboard combination, but only one can be active
+at any given time - see <code>hs.hotkey:enable()</code></li>
+<li>If <code>message</code> is the empty string <code>&quot;&quot;</code>, the alert will just show the triggered keyboard combination</li>
+<li>If you don't want any alert, you must <em>actually</em> omit the <code>message</code> parameter; a <code>nil</code> in 3rd position
+will be interpreted as a missing <code>pressedfn</code></li>
+<li>You must pass at least one of <code>pressedfn</code>, <code>releasedfn</code> or <code>repeatfn</code>; to delete a hotkey, use <code>hs.hotkey:delete()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L165">extensions/hotkey/hotkey.lua line 165</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="delete">
+            <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+            <h5><a href="#delete">delete</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey:delete()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Disables and deletes a hotkey object</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L108">extensions/hotkey/hotkey.lua line 108</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="disable">
+            <a name="//apple_ref/cpp/Method/disable" class="dashAnchor"></a>
+            <h5><a href="#disable">disable</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey:disable() -&gt; hs.hotkey object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Disables a hotkey object</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.hotkey</code> object for method chaining</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L82">extensions/hotkey/hotkey.lua line 82</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="enable">
+            <a name="//apple_ref/cpp/Method/enable" class="dashAnchor"></a>
+            <h5><a href="#enable">enable</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hotkey:enable() -&gt; hs.hotkey object | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Enables a hotkey object</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.hotkey</code> object for method chaining or nil if the hotkey could not be enabled for some reason.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>When you enable a hotkey that uses the same keyboard combination as another previously-enabled hotkey, the old
+one will stop working as it's being &quot;shadowed&quot; by the new one. As soon as the new hotkey is disabled or deleted
+the old one will trigger again.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hotkey/hotkey.lua#L40">extensions/hotkey/hotkey.lua line 40</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

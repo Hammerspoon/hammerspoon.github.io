@@ -1,0 +1,1096 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.fs</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.fs</h1>
+      <p>Access/inspect the filesystem</p>
+<p>This module is partial superset of LuaFileSystem 1.8.0 (http://keplerproject.github.io/luafilesystem/). It has been modified to remove functions which do not apply to macOS filesystems and additional functions providing macOS specific filesystem information have been added.</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.fs.volume.html">hs.fs.volume</a></li>
+        <li><a href="hs.fs.xattr.html">hs.fs.xattr</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#attributes">attributes</a></li>
+            <li><a href="#chdir">chdir</a></li>
+            <li><a href="#currentDir">currentDir</a></li>
+            <li><a href="#dir">dir</a></li>
+            <li><a href="#displayName">displayName</a></li>
+            <li><a href="#fileUTI">fileUTI</a></li>
+            <li><a href="#fileUTIalternate">fileUTIalternate</a></li>
+            <li><a href="#getFinderComments">getFinderComments</a></li>
+            <li><a href="#link">link</a></li>
+            <li><a href="#lock">lock</a></li>
+            <li><a href="#lockDir">lockDir</a></li>
+            <li><a href="#mkdir">mkdir</a></li>
+            <li><a href="#pathFromBookmark">pathFromBookmark</a></li>
+            <li><a href="#pathToAbsolute">pathToAbsolute</a></li>
+            <li><a href="#pathToBookmark">pathToBookmark</a></li>
+            <li><a href="#rmdir">rmdir</a></li>
+            <li><a href="#setFinderComments">setFinderComments</a></li>
+            <li><a href="#symlinkAttributes">symlinkAttributes</a></li>
+            <li><a href="#tagsAdd">tagsAdd</a></li>
+            <li><a href="#tagsGet">tagsGet</a></li>
+            <li><a href="#tagsRemove">tagsRemove</a></li>
+            <li><a href="#tagsSet">tagsSet</a></li>
+            <li><a href="#temporaryDirectory">temporaryDirectory</a></li>
+            <li><a href="#touch">touch</a></li>
+            <li><a href="#unlock">unlock</a></li>
+            <li><a href="#urlFromPath">urlFromPath</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="attributes">
+            <a name="//apple_ref/cpp/Function/attributes" class="dashAnchor"></a>
+            <h5><a href="#attributes">attributes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.attributes(filepath [, aName]) -&gt; table or string or nil,error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the attributes of a file</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filepath - A string containing the path of a file to inspect</li>
+<li>aName - An optional attribute name. If this value is specified, only the attribute requested, is returned</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table with the file attributes corresponding to filepath (or nil followed by an error message in case of error). If the second optional argument is given, then a string is returned with the value of the named attribute. attribute mode is a string, all the others are numbers, and the time related attributes use the same time reference of os.time:</li>
+<li>dev - A number containing the device the file resides on</li>
+<li>ino - A number containing the inode of the file</li>
+<li>mode - A string containing the type of the file (possible values are: file, directory, link, socket, named pipe, char device, block device or other)</li>
+<li>nlink - A number containing a count of hard links to the file</li>
+<li>uid - A number containing the user-id of owner</li>
+<li>gid - A number containing the group-id of owner</li>
+<li>rdev - A number containing the type of device, for files that are char/block devices</li>
+<li>access - A number containing the time of last access modification (as seconds since the UNIX epoch)</li>
+<li>change - A number containing the time of last file status change (as seconds since the UNIX epoch)</li>
+<li>modification - A number containing the time of the last file contents change (as seconds since the UNIX epoch)</li>
+<li>permissions - A 9 character string specifying the user access permissions for the file. The first three characters represent Read/Write/Execute permissions for the file owner. The first character will be &quot;r&quot; if the user has read permissions, &quot;-&quot; if they do not; the second will be &quot;w&quot; if they have write permissions, &quot;-&quot; if they do not; the third will be &quot;x&quot; if they have execute permissions, &quot;-&quot; if they do not. The second group of three characters follow the same convention, but refer to whether or not the file's group have Read/Write/Execute permissions, and the final three characters follow the same convention, but apply to other system users not covered by the Owner or Group fields.</li>
+<li>creation - A number containing the time the file was created (as seconds since the UNIX epoch)</li>
+<li>size - A number containing the file size, in bytes</li>
+<li>blocks - A number containing the number of blocks allocated for file</li>
+<li>blksize - A number containing the optimal file system I/O blocksize</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function uses <code>stat()</code> internally thus if the given filepath is a symbolic link, it is followed (if it points to another link the chain is followed recursively) and the information is about the file it refers to. To obtain information about the link itself, see function <code>hs.fs.symlinkAttributes()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L742">extensions/fs/libfs.m line 742</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="chdir">
+            <a name="//apple_ref/cpp/Function/chdir" class="dashAnchor"></a>
+            <h5><a href="#chdir">chdir</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.chdir(path) -&gt; true or (nil,error)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Changes the current working directory to the given path.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - A string containing the path to change working directory to</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If successful, returns true, otherwise returns nil and an error string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L127">extensions/fs/libfs.m line 127</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="currentDir">
+            <a name="//apple_ref/cpp/Function/currentDir" class="dashAnchor"></a>
+            <h5><a href="#currentDir">currentDir</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.currentDir() -&gt; string or (nil,error)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the current working directory</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the current working directory, or if an error occured, nil and an error string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L155">extensions/fs/libfs.m line 155</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="dir">
+            <a name="//apple_ref/cpp/Function/dir" class="dashAnchor"></a>
+            <h5><a href="#dir">dir</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.dir(path) -&gt; iter_fn, dir_obj, nil, dir_obj</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates an iterator for walking a filesystem path</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - A string containing a directory to iterate</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An iterator function</li>
+<li>A data object to pass to the iterator function or an error message as a string</li>
+<li><code>nil</code> as the initial argument for the iterator (unused and unnecessary in this case, but conforms to Lua spec for iterators). Ignore this value if you are not using this function with <code>for</code> (see Notes).</li>
+<li>A second data object used by <code>for</code> to close the directory object immediately when the loop terminates. Ignore this value if you are not using this function with <code>for</code> (see Notes).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Unlike most functions in this module, <code>hs.fs.dir</code> will throw a Lua error if the supplied path cannot be iterated.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L473">extensions/fs/libfs.m line 473</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="displayName">
+            <a name="//apple_ref/cpp/Function/displayName" class="dashAnchor"></a>
+            <h5><a href="#displayName">displayName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.displayName(filepath) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the display name of the file or directory at a specified path.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filepath - The path to the file or directory</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the display name of the file or directory at a specified path; returns nil if no file with the specified path exists.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L1026">extensions/fs/libfs.m line 1026</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="fileUTI">
+            <a name="//apple_ref/cpp/Function/fileUTI" class="dashAnchor"></a>
+            <h5><a href="#fileUTI">fileUTI</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.fileUTI(path) -&gt; string or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the Uniform Type Identifier for the file location specified.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - the path to the file to return the UTI for.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the Uniform Type Identifier for the file location specified or nil if an error occured</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L938">extensions/fs/libfs.m line 938</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="fileUTIalternate">
+            <a name="//apple_ref/cpp/Function/fileUTIalternate" class="dashAnchor"></a>
+            <h5><a href="#fileUTIalternate">fileUTIalternate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.fileUTIalternate(fileUTI, type) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the fileUTI's equivalent form in an alternate type specification format.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>a string containing a file UTI, such as one returned by <code>hs.fs.fileUTI</code>.</li>
+<li>a string specifying the alternate format for the UTI.  This string may be one of the following: * <code>extension</code>  - as a file extension, commonly used for platform independant file sharing when file metadata can't be guaranteed to be cross-platform compatible.  Generally considered unreliable when other file type identification methods are available.<ul>
+<li><code>mime</code>       - as a mime-type, commonly used by Internet applications like web browsers and email applications.</li>
+<li><code>pasteboard</code> - as an NSPasteboard type (see <code>hs.pasteboard</code>).</li>
+<li><code>ostype</code>     - four character file type, most common pre OS X, but still used in some legacy APIs.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the file UTI in the alternate format or nil if the UTI does not have an alternate of the specified type.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L962">extensions/fs/libfs.m line 962</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getFinderComments">
+            <a name="//apple_ref/cpp/Function/getFinderComments" class="dashAnchor"></a>
+            <h5><a href="#getFinderComments">getFinderComments</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.getFinderComments(path) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get the Finder comments for the file or directory at the specified path</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - the path to the file or directory you wish to get the comments of</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the Finder comments for the file or directory specified.  If no comments have been set for the file, returns an empty string.  If an error occurs, most commonly an invalid path, this function will throw a Lua error.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function uses <code>hs.osascript</code> to access the file comments through AppleScript</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/fs.lua#L68">extensions/fs/fs.lua line 68</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="link">
+            <a name="//apple_ref/cpp/Function/link" class="dashAnchor"></a>
+            <h5><a href="#link">link</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.link(old, new[, symlink]) -&gt; true or (nil,error)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a link</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>old - A string containing a path to a filesystem object to link from</li>
+<li>new - A string containing a path to create the link at</li>
+<li>symlink - An optional boolean, true to create a symlink, false to create a hard link. Defaults to false</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>True if the link was created, otherwise nil and an error string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L346">extensions/fs/libfs.m line 346</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="lock">
+            <a name="//apple_ref/cpp/Function/lock" class="dashAnchor"></a>
+            <h5><a href="#lock">lock</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.lock(filehandle, mode[, start[, length]]) -&gt; true or (nil,error)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Locks a file, or part of it</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filehandle - An open file</li>
+<li>mode - A string containing either &quot;r&quot; for a shared read lock, or &quot;w&quot; for an exclusive write lock</li>
+<li>start - An optional number containing an offset into the file to start the lock at. Defaults to 0</li>
+<li>length - An optional number containing the length of the file to lock. Defaults to the full size of the file</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>True if the lock was obtained successfully, otherwise nil and an error string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L209">extensions/fs/libfs.m line 209</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="lockDir">
+            <a name="//apple_ref/cpp/Function/lockDir" class="dashAnchor"></a>
+            <h5><a href="#lockDir">lockDir</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.lockDir(path, [seconds_stale]) -&gt; lock or (nil,error)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Locks a directory</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - A string containing the path to a directory</li>
+<li>seconds_stale - An optional number containing an age (in seconds) beyond which to consider an existing lock as stale. Defaults to INT_MAX (which is, broadly speaking, equivalent to &quot;never&quot;)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If successful, a lock object, otherwise nil and an error string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This is not a low level OS feature, the lock is actually a file created in the path, called <code>lockfile.lfs</code>, so the directory must be writable for this function to succeed</li>
+<li>The returned lock object can be freed with <code>lock:free()</code></li>
+<li>If the lock already exists and is not stale, the error string returned will be &quot;File exists&quot;</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L241">extensions/fs/libfs.m line 241</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="mkdir">
+            <a name="//apple_ref/cpp/Function/mkdir" class="dashAnchor"></a>
+            <h5><a href="#mkdir">mkdir</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.mkdir(dirname) -&gt; true or (nil,error)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new directory</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>dirname - A string containing the path of a directory to create</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>True if the directory was created, otherwise nil and an error string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L382">extensions/fs/libfs.m line 382</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="pathFromBookmark">
+            <a name="//apple_ref/cpp/Function/pathFromBookmark" class="dashAnchor"></a>
+            <h5><a href="#pathFromBookmark">pathFromBookmark</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.pathFromBookmark(data) -&gt; string | nil, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the file path from a binary encoded bookmark.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>data - The binary encoded Bookmark.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the path to the Bookmark URL or <code>nil</code> if an error occurs.</li>
+<li>An error message if an error occurs.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>A bookmark provides a persistent reference to a file-system resource.
+When you resolve a bookmark, you obtain a URL to the resource’s current location.
+A bookmark’s association with a file-system resource (typically a file or folder)
+usually continues to work if the user moves or renames the resource, or if the
+user relaunches your app or restarts the system.</li>
+<li>No volumes are mounted during the resolution of the bookmark data.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L1078">extensions/fs/libfs.m line 1078</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="pathToAbsolute">
+            <a name="//apple_ref/cpp/Function/pathToAbsolute" class="dashAnchor"></a>
+            <h5><a href="#pathToAbsolute">pathToAbsolute</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.pathToAbsolute(filepath) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the absolute path of a given path</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filepath - Any kind of file or directory path, be it relative or not</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the absolute path of <code>filepath</code> (i.e. one that doesn't include <code>.</code>, <code>..</code> or symlinks)</li>
+<li>Note that symlinks will be resolved to their target file</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L999">extensions/fs/libfs.m line 999</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="pathToBookmark">
+            <a name="//apple_ref/cpp/Function/pathToBookmark" class="dashAnchor"></a>
+            <h5><a href="#pathToBookmark">pathToBookmark</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.pathToBookmark(path) -&gt; string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the path as binary encoded bookmark data.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - The path to encode</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>Bookmark data in a binary encoded string or <code>nil</code> if path is invalid.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L1047">extensions/fs/libfs.m line 1047</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="rmdir">
+            <a name="//apple_ref/cpp/Function/rmdir" class="dashAnchor"></a>
+            <h5><a href="#rmdir">rmdir</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.rmdir(dirname) -&gt; true or (nil,error)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Removes an existing directory</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>dirname - A string containing the path to a directory to remove</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>True if the directory was removed, otherwise nil and an error string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L411">extensions/fs/libfs.m line 411</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setFinderComments">
+            <a name="//apple_ref/cpp/Function/setFinderComments" class="dashAnchor"></a>
+            <h5><a href="#setFinderComments">setFinderComments</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.setFinderComments(path, comment) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Set the Finder comments for the file or directory at the specified path to the comment specified</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path    - the path to the file or directory you wish to set the comments of</li>
+<li>comment - a string specifying the comment to set.  If this parameter is missing or is an explicit nil, the existing comment is cleared.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true on success; on error, most commonly an invalid path, this function will throw a Lua error.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function uses <code>hs.osascript</code> to access the file comments through AppleScript</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/fs.lua#L95">extensions/fs/fs.lua line 95</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="symlinkAttributes">
+            <a name="//apple_ref/cpp/Function/symlinkAttributes" class="dashAnchor"></a>
+            <h5><a href="#symlinkAttributes">symlinkAttributes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.symlinkAttributes (filepath [, aname]) -&gt; table or string or nil,error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the attributes of a symbolic link</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filepath - A string containing the path of a link to inspect</li>
+<li>aName - An optional attribute name. If this value is specified, only the attribute requested, is returned</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table or string if the values could be found, otherwise nil and an error string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The return values for this function are identical to those provided by <code>hs.fs.attributes()</code> with the following addition: the attribute name &quot;target&quot; is added and specifies a string containing the absolute path that the symlink points to.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/fs.lua#L127">extensions/fs/fs.lua line 127</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="tagsAdd">
+            <a name="//apple_ref/cpp/Function/tagsAdd" class="dashAnchor"></a>
+            <h5><a href="#tagsAdd">tagsAdd</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.tagsAdd(filepath, tags)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Adds one or more tags to the Finder tags of a file</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filepath - A string containing the path of a file</li>
+<li>tags - A table containing one or more strings, each containing a tag name</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true if the tags were updated; throws a lua error if an error occurs updating the tags</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L857">extensions/fs/libfs.m line 857</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="tagsGet">
+            <a name="//apple_ref/cpp/Function/tagsGet" class="dashAnchor"></a>
+            <h5><a href="#tagsGet">tagsGet</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.tagsGet(filepath) -&gt; table or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the Finder tags of a file</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filepath - A string containing the path of a file</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing the list of the file's tags, or nil if the file has no tags assigned; throws a lua error if an error accessing the file occurs</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L825">extensions/fs/libfs.m line 825</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="tagsRemove">
+            <a name="//apple_ref/cpp/Function/tagsRemove" class="dashAnchor"></a>
+            <h5><a href="#tagsRemove">tagsRemove</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.tagsRemove(filepath, tags)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Removes Finder tags from a file</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filepath - A string containing the path of a file</li>
+<li>tags - A table containing one or more strings, each containing a tag name</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true if the tags were updated; throws a lua error if an error occurs updating the tags</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L901">extensions/fs/libfs.m line 901</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="tagsSet">
+            <a name="//apple_ref/cpp/Function/tagsSet" class="dashAnchor"></a>
+            <h5><a href="#tagsSet">tagsSet</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.tagsSet(filepath, tags)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets the Finder tags of a file, removing any that are already set</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filepath - A string containing the path of a file</li>
+<li>tags - A table containing zero or more strings, each containing a tag name</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true if the tags were set; throws a lua error if an error occurs setting the new tags</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L880">extensions/fs/libfs.m line 880</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="temporaryDirectory">
+            <a name="//apple_ref/cpp/Function/temporaryDirectory" class="dashAnchor"></a>
+            <h5><a href="#temporaryDirectory">temporaryDirectory</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.temporaryDirectory() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the path of the temporary directory for the current user.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The path to the system designated temporary directory for the current user.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L924">extensions/fs/libfs.m line 924</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="touch">
+            <a name="//apple_ref/cpp/Function/touch" class="dashAnchor"></a>
+            <h5><a href="#touch">touch</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.touch(filepath [, atime [, mtime]]) -&gt; true or (nil,error)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Updates the access and modification times of a file</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filepath - A string containing the path of a file to touch</li>
+<li>atime - An optional number containing the new access time of the file to set (as seconds since the Epoch). Defaults to now</li>
+<li>mtime - An optional number containing the new modification time of the file to set (as seconds since the Epoch). Defaults to the value of atime</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>True if the operation was successful, otherwise nil and an error string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L599">extensions/fs/libfs.m line 599</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="unlock">
+            <a name="//apple_ref/cpp/Function/unlock" class="dashAnchor"></a>
+            <h5><a href="#unlock">unlock</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.unlock(filehandle[, start[, length]]) -&gt; true or (nil,error)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Unlocks a file or a part of it.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filehandle - An open file</li>
+<li>start - An optional number containing an offset from the start of the file, to unlock. Defaults to 0</li>
+<li>length - An optional number containing the length of file to unlock. Defaults to the full size of the file</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>True if the unlock succeeded, otherwise nil and an error string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L315">extensions/fs/libfs.m line 315</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="urlFromPath">
+            <a name="//apple_ref/cpp/Function/urlFromPath" class="dashAnchor"></a>
+            <h5><a href="#urlFromPath">urlFromPath</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.fs.urlFromPath(path) -&gt; string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the encoded URL from a path.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - The path</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string or <code>nil</code> if path is invalid.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/fs/libfs.m#L1130">extensions/fs/libfs.m line 1130</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

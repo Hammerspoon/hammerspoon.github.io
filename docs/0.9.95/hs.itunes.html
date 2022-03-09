@@ -1,0 +1,885 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.itunes</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.itunes</h1>
+      <p>Controls for iTunes music player</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#state_paused">state_paused</a></li>
+            <li><a href="#state_playing">state_playing</a></li>
+            <li><a href="#state_stopped">state_stopped</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#displayCurrentTrack">displayCurrentTrack</a></li>
+            <li><a href="#ff">ff</a></li>
+            <li><a href="#getCurrentAlbum">getCurrentAlbum</a></li>
+            <li><a href="#getCurrentArtist">getCurrentArtist</a></li>
+            <li><a href="#getCurrentTrack">getCurrentTrack</a></li>
+            <li><a href="#getDuration">getDuration</a></li>
+            <li><a href="#getPlaybackState">getPlaybackState</a></li>
+            <li><a href="#getPosition">getPosition</a></li>
+            <li><a href="#getVolume">getVolume</a></li>
+            <li><a href="#isPlaying">isPlaying</a></li>
+            <li><a href="#isRunning">isRunning</a></li>
+            <li><a href="#next">next</a></li>
+            <li><a href="#pause">pause</a></li>
+            <li><a href="#play">play</a></li>
+            <li><a href="#playpause">playpause</a></li>
+            <li><a href="#previous">previous</a></li>
+            <li><a href="#rw">rw</a></li>
+            <li><a href="#setPosition">setPosition</a></li>
+            <li><a href="#setVolume">setVolume</a></li>
+            <li><a href="#volumeDown">volumeDown</a></li>
+            <li><a href="#volumeUp">volumeUp</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="state_paused">
+            <a name="//apple_ref/cpp/Constant/state_paused" class="dashAnchor"></a>
+            <h5><a href="#state_paused">state_paused</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.state_paused</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returned by `hs.itunes.getPlaybackState()` to indicates iTunes is paused</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L17">extensions/itunes/itunes.lua line 17</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="state_playing">
+            <a name="//apple_ref/cpp/Constant/state_playing" class="dashAnchor"></a>
+            <h5><a href="#state_playing">state_playing</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.state_playing</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returned by `hs.itunes.getPlaybackState()` to indicates iTunes is playing</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L22">extensions/itunes/itunes.lua line 22</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="state_stopped">
+            <a name="//apple_ref/cpp/Constant/state_stopped" class="dashAnchor"></a>
+            <h5><a href="#state_stopped">state_stopped</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.state_stopped</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returned by `hs.itunes.getPlaybackState()` to indicates iTunes is stopped</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L27">extensions/itunes/itunes.lua line 27</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="displayCurrentTrack">
+            <a name="//apple_ref/cpp/Function/displayCurrentTrack" class="dashAnchor"></a>
+            <h5><a href="#displayCurrentTrack">displayCurrentTrack</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.displayCurrentTrack()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Displays information for current track on screen</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L108">extensions/itunes/itunes.lua line 108</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="ff">
+            <a name="//apple_ref/cpp/Function/ff" class="dashAnchor"></a>
+            <h5><a href="#ff">ff</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.ff()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Skips the current playback forwards by 5 seconds</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L304">extensions/itunes/itunes.lua line 304</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getCurrentAlbum">
+            <a name="//apple_ref/cpp/Function/getCurrentAlbum" class="dashAnchor"></a>
+            <h5><a href="#getCurrentAlbum">getCurrentAlbum</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.getCurrentAlbum() -&gt; string or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the name of the current Album</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the Album of the current track, or nil if an error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L137">extensions/itunes/itunes.lua line 137</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getCurrentArtist">
+            <a name="//apple_ref/cpp/Function/getCurrentArtist" class="dashAnchor"></a>
+            <h5><a href="#getCurrentArtist">getCurrentArtist</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.getCurrentArtist() -&gt; string or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the name of the current Artist</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the Artist of the current track, or nil if an error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L124">extensions/itunes/itunes.lua line 124</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getCurrentTrack">
+            <a name="//apple_ref/cpp/Function/getCurrentTrack" class="dashAnchor"></a>
+            <h5><a href="#getCurrentTrack">getCurrentTrack</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.getCurrentTrack() -&gt; string or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the name of the current track</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the name of the current track, or nil if an error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L150">extensions/itunes/itunes.lua line 150</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getDuration">
+            <a name="//apple_ref/cpp/Function/getDuration" class="dashAnchor"></a>
+            <h5><a href="#getDuration">getDuration</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.getDuration()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the duration (in seconds) of the current song</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The number of seconds long the current song is, 0 if no song is playing</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L290">extensions/itunes/itunes.lua line 290</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getPlaybackState">
+            <a name="//apple_ref/cpp/Function/getPlaybackState" class="dashAnchor"></a>
+            <h5><a href="#getPlaybackState">getPlaybackState</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.getPlaybackState()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the current playback state of iTunes</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing one of the following constants:<ul>
+<li><code>hs.itunes.state_stopped</code></li>
+<li><code>hs.itunes.state_paused</code></li>
+<li><code>hs.itunes.state_playing</code></li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L163">extensions/itunes/itunes.lua line 163</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getPosition">
+            <a name="//apple_ref/cpp/Function/getPosition" class="dashAnchor"></a>
+            <h5><a href="#getPosition">getPosition</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.getPosition()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the playback position (in seconds) of the current song</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A number indicating the current position in the song</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L264">extensions/itunes/itunes.lua line 264</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getVolume">
+            <a name="//apple_ref/cpp/Function/getVolume" class="dashAnchor"></a>
+            <h5><a href="#getVolume">getVolume</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.getVolume()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the current iTunes volume setting</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A number, between 1 and 100, containing the current iTunes playback volume</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L216">extensions/itunes/itunes.lua line 216</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isPlaying">
+            <a name="//apple_ref/cpp/Function/isPlaying" class="dashAnchor"></a>
+            <h5><a href="#isPlaying">isPlaying</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.isPlaying()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether iTunes is currently playing</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A boolean value indicating whether iTunes is currently playing a track, or nil if an error occurred (unknown player state). Also returns false if the application is not running</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L192">extensions/itunes/itunes.lua line 192</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isRunning">
+            <a name="//apple_ref/cpp/Function/isRunning" class="dashAnchor"></a>
+            <h5><a href="#isRunning">isRunning</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.isRunning()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether iTunes is currently open. Most other functions in hs.itunes will automatically start the application, so this function can be used to guard against that.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A boolean value indicating whether the iTunes application is running.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L179">extensions/itunes/itunes.lua line 179</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="next">
+            <a name="//apple_ref/cpp/Function/next" class="dashAnchor"></a>
+            <h5><a href="#next">next</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.next()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Skips to the next itunes track</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L82">extensions/itunes/itunes.lua line 82</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="pause">
+            <a name="//apple_ref/cpp/Function/pause" class="dashAnchor"></a>
+            <h5><a href="#pause">pause</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.pause()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Pauses the current iTunes track</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L69">extensions/itunes/itunes.lua line 69</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="play">
+            <a name="//apple_ref/cpp/Function/play" class="dashAnchor"></a>
+            <h5><a href="#play">play</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.play()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Plays the current iTunes track</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L56">extensions/itunes/itunes.lua line 56</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="playpause">
+            <a name="//apple_ref/cpp/Function/playpause" class="dashAnchor"></a>
+            <h5><a href="#playpause">playpause</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.playpause()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Toggles play/pause of current iTunes track</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L43">extensions/itunes/itunes.lua line 43</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="previous">
+            <a name="//apple_ref/cpp/Function/previous" class="dashAnchor"></a>
+            <h5><a href="#previous">previous</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.previous()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Skips to previous itunes track</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L95">extensions/itunes/itunes.lua line 95</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="rw">
+            <a name="//apple_ref/cpp/Function/rw" class="dashAnchor"></a>
+            <h5><a href="#rw">rw</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.rw()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Skips the current playback backwards by 5 seconds</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L315">extensions/itunes/itunes.lua line 315</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setPosition">
+            <a name="//apple_ref/cpp/Function/setPosition" class="dashAnchor"></a>
+            <h5><a href="#setPosition">setPosition</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.setPosition(pos)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets the playback position of the current song</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>pos - A number indicating the playback position (in seconds) to skip to</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L275">extensions/itunes/itunes.lua line 275</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setVolume">
+            <a name="//apple_ref/cpp/Function/setVolume" class="dashAnchor"></a>
+            <h5><a href="#setVolume">setVolume</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.setVolume(vol)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets the iTunes playback volume</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>vol - A number, between 1 and 100</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L227">extensions/itunes/itunes.lua line 227</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="volumeDown">
+            <a name="//apple_ref/cpp/Function/volumeDown" class="dashAnchor"></a>
+            <h5><a href="#volumeDown">volumeDown</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.volumeDown()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Decreases the iTunes playback volume by 5</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L253">extensions/itunes/itunes.lua line 253</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="volumeUp">
+            <a name="//apple_ref/cpp/Function/volumeUp" class="dashAnchor"></a>
+            <h5><a href="#volumeUp">volumeUp</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.itunes.volumeUp()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Increases the iTunes playback volume by 5</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/itunes/itunes.lua#L242">extensions/itunes/itunes.lua line 242</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

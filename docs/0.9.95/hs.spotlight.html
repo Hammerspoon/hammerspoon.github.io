@@ -1,0 +1,892 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.spotlight</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.spotlight</h1>
+      <p>This module allows Hammerspoon to preform Spotlight metadata queries.</p>
+<p>This module will only be able to perform queries on volumes and folders which are not blocked by the Privacy settings in the System Preferences Spotlight panel.</p>
+<p>A Spotlight query consists of two phases: an initial gathering phase where information currently in the Spotlight database is collected and returned, and a live-update phase which occurs after the gathering phase and consists of changes made to the Spotlight database, such as new entries being added, information in existing entries changing, or entities being removed.</p>
+<p>The syntax for Spotlight Queries is beyond the scope of this module's documentation. It is a subset of the syntax supported by the Objective-C NSPredicate class.  Some references for this syntax can be found at:</p>
+<ul>
+<li>https://developer.apple.com/library/content/documentation/Carbon/Conceptual/SpotlightQuery/Concepts/QueryFormat.html</li>
+<li>https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Predicates/Articles/pSyntax.html</li>
+</ul>
+<p>Depending upon the callback messages enabled with the <a href="#callbackMessages">hs.spotlight:callbackMessages</a> method, your callback assigned with the <a href="#setCallback">hs.spotlight:setCallback</a> method, you can determine the query phase by noting which messages you have received.  During the initial gathering phase, the following callback messages may be observed: &quot;didStart&quot;, &quot;inProgress&quot;, and &quot;didFinish&quot;.  Once the initial gathering phase has completed, you will only observe &quot;didUpdate&quot; messages until the query is stopped with the <a href="#stop">hs.spotlight:stop</a> method.</p>
+<p>You can also check to see if the initial gathering phase is in progress with the <a href="#isGathering">hs.spotlight:isGathering</a> method.</p>
+<p>You can access the individual results of the query with the <a href="#resultAtIndex">hs.spotlight:resultAtIndex</a> method. For convenience, metamethods have been added to the spotlightObject which make accessing individual results easier:  an individual spotlightItemObject may be accessed from a spotlightObject by treating the spotlightObject like an array; e.g. <code>spotlightObject[n]</code> will access the n'th spotlightItemObject in the current results.</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.spotlight.group.html">hs.spotlight.group</a></li>
+        <li><a href="hs.spotlight.item.html">hs.spotlight.item</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#commonAttributeKeys">commonAttributeKeys</a></li>
+            <li><a href="#definedSearchScopes">definedSearchScopes</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+            <li><a href="#newWithin">newWithin</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#callbackMessages">callbackMessages</a></li>
+            <li><a href="#count">count</a></li>
+            <li><a href="#groupedResults">groupedResults</a></li>
+            <li><a href="#groupingAttributes">groupingAttributes</a></li>
+            <li><a href="#isGathering">isGathering</a></li>
+            <li><a href="#isRunning">isRunning</a></li>
+            <li><a href="#queryString">queryString</a></li>
+            <li><a href="#resultAtIndex">resultAtIndex</a></li>
+            <li><a href="#searchScopes">searchScopes</a></li>
+            <li><a href="#setCallback">setCallback</a></li>
+            <li><a href="#sortDescriptors">sortDescriptors</a></li>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+            <li><a href="#updateInterval">updateInterval</a></li>
+            <li><a href="#valueListAttributes">valueListAttributes</a></li>
+            <li><a href="#valueLists">valueLists</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="commonAttributeKeys">
+            <a name="//apple_ref/cpp/Constant/commonAttributeKeys" class="dashAnchor"></a>
+            <h5><a href="#commonAttributeKeys">commonAttributeKeys</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight.commonAttributeKeys[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A list of defined attribute keys as discovered in the macOS 10.12 SDK framework headers.</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This list was generated by searching the Framework header files for string constants which matched one of the following regular expressions: &quot;kMDItem.+&quot;, &quot;NSMetadataItem.+&quot;, and &quot;NSMetadataUbiquitousItem.+&quot;</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L877">extensions/spotlight/libspotlight.m line 877</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="definedSearchScopes">
+            <a name="//apple_ref/cpp/Constant/definedSearchScopes" class="dashAnchor"></a>
+            <h5><a href="#definedSearchScopes">definedSearchScopes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight.definedSearchScopes[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table of key-value pairs describing predefined search scopes for Spotlight queries</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>It is uncertain at this time if the <code>iCloud*</code> search scopes are actually useful within Hammerspoon as Hammerspoon is not a sandboxed application that uses the iCloud API fo document storage. Further information on your experiences with these scopes, if you use them, is welcome in the Hammerspoon Google Group or at the Hammerspoon Github web site.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L847">extensions/spotlight/libspotlight.m line 847</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight.new() -&gt; spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new spotlightObject to use for Spotlight searches.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new spotlightObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L96">extensions/spotlight/libspotlight.m line 96</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newWithin">
+            <a name="//apple_ref/cpp/Constructor/newWithin" class="dashAnchor"></a>
+            <h5><a href="#newWithin">newWithin</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight.newWithin(spotlightObject) -&gt; spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new spotlightObject that limits its searches to the current results of another spotlightObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>spotlightObject</code> - the object whose current results are to be used to limit the scope of the new Spotlight search.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new spotlightObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L112">extensions/spotlight/libspotlight.m line 112</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="callbackMessages">
+            <a name="//apple_ref/cpp/Method/callbackMessages" class="dashAnchor"></a>
+            <h5><a href="#callbackMessages">callbackMessages</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:callbackMessages([messages]) -&gt; table | spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or specify the specific messages that should generate a callback.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>messages</code> - an optional table or list of items specifying the specific callback messages that will generate a callback.  Defaults to { &quot;didFinish&quot; }.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the spotlightObject; otherwise returns the current values</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Valid messages for the table are: &quot;didFinish&quot;, &quot;didStart&quot;, &quot;didUpdate&quot;, and &quot;inProgress&quot;.  See <a href="#setCallback">hs.spotlight:setCallback</a> for more details about the messages.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/spotlight.lua#L81">extensions/spotlight/spotlight.lua line 81</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="count">
+            <a name="//apple_ref/cpp/Method/count" class="dashAnchor"></a>
+            <h5><a href="#count">count</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:count() -&gt; integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the number of results for the spotlightObject's query</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the query has collected results, returns the number of results that match the query; if the query has not been started, this value will be 0.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Just because the result of this method is 0 does not mean that the query has not been started; the query itself may not match any entries in the Spotlight database.</li>
+<li>A query which ran in the past but has been subsequently stopped will retain its queries unless the parameters have been changed.  The result of this method will indicate the number of results still attached to the query, even if it has been previously stopped.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L581">extensions/spotlight/libspotlight.m line 581</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="groupedResults">
+            <a name="//apple_ref/cpp/Method/groupedResults" class="dashAnchor"></a>
+            <h5><a href="#groupedResults">groupedResults</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:groupedResults() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the grouped results for a Spotlight query.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an array table containing the grouped results for the Spotlight query as specified by the <a href="#groupingAttributes">hs.spotlight:groupingAttributes</a> method.  Each member of the array will be a spotlightGroupObject which is detailed in the <code>hs.spotlight.group</code> module documentation.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The spotlightItemObjects available with the <code>hs.spotlight.group:resultAtIndex</code> method are the subset of the full results of the spotlightObject that match the attribute and value of the spotlightGroupObject.  The same item is available through the spotlightObject and the spotlightGroupObject, though likely at different indicies.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L663">extensions/spotlight/libspotlight.m line 663</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="groupingAttributes">
+            <a name="//apple_ref/cpp/Method/groupingAttributes" class="dashAnchor"></a>
+            <h5><a href="#groupingAttributes">groupingAttributes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:groupingAttributes([attributes]) -&gt; table | spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the grouping attributes for the Spotlight query.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>attributes</code> - an optional table or list of items specifying the grouping attributes for the Spotlight query.  Defaults to an empty array.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the spotlightObject; otherwise returns the current values</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Setting this property while a query is running stops the query and discards the current results. The receiver immediately starts a new query.</li>
+<li>Setting this property will increase CPU and memory usage while performing the Spotlight query.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/spotlight.lua#L106">extensions/spotlight/spotlight.lua line 106</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isGathering">
+            <a name="//apple_ref/cpp/Method/isGathering" class="dashAnchor"></a>
+            <h5><a href="#isGathering">isGathering</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:isGathering() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a boolean specifying whether or not the query is in the active gathering phase.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean value of true if the query is in the active gathering phase or false if it is not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>An inactive query will also return false for this method since an inactive query is neither gathering nor waiting for updates.  To determine if a query is active or inactive, use the <a href="#isRunning">hs.spotlight:isRunning</a> method.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L508">extensions/spotlight/libspotlight.m line 508</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isRunning">
+            <a name="//apple_ref/cpp/Method/isRunning" class="dashAnchor"></a>
+            <h5><a href="#isRunning">isRunning</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:isRunning() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a boolean specifying if the query is active or inactive.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean value of true if the query is active or false if it is inactive.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>An active query may be gathering query results (in the initial gathering phase) or listening for changes which should cause a &quot;didUpdate&quot; message (after the initial gathering phase). To determine which state the query may be in, use the <a href="#isGathering">hs.spotlight:isGathering</a> method.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L487">extensions/spotlight/libspotlight.m line 487</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="queryString">
+            <a name="//apple_ref/cpp/Method/queryString" class="dashAnchor"></a>
+            <h5><a href="#queryString">queryString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:queryString(query) -&gt; spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Specify the query string for the spotlightObject</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>a string containing the query for the spotlightObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the spotlightObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Setting this property while a query is running stops the query and discards the current results. The receiver immediately starts a new query.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L529">extensions/spotlight/libspotlight.m line 529</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="resultAtIndex">
+            <a name="//apple_ref/cpp/Method/resultAtIndex" class="dashAnchor"></a>
+            <h5><a href="#resultAtIndex">resultAtIndex</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:resultAtIndex(index) -&gt; spotlightItemObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the spotlightItemObject at the specified index of the spotlightObject</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>index</code> - an integer specifying the index of the result to return.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the spotlightItemObject at the specified index or an error if the index is out of bounds.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>For convenience, metamethods have been added to the spotlightObject which allow you to use <code>spotlightObject[index]</code> as a shortcut for <code>spotlightObject:resultAtIndex(index)</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L605">extensions/spotlight/libspotlight.m line 605</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="searchScopes">
+            <a name="//apple_ref/cpp/Method/searchScopes" class="dashAnchor"></a>
+            <h5><a href="#searchScopes">searchScopes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:searchScopes([scope]) -&gt; table | spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the search scopes allowed for the Spotlight query.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>scope</code> - an optional table or list of items specifying the search scope for the Spotlight query.  Defaults to an empty array, specifying that the search is not limited in scope.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided for <code>scope</code>, returns the spotlightObject; otherwise returns a table containing the current search scopes.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Setting this property while a query is running stops the query and discards the current results. The receiver immediately starts a new query.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/spotlight.lua#L51">extensions/spotlight/spotlight.lua line 51</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setCallback">
+            <a name="//apple_ref/cpp/Method/setCallback" class="dashAnchor"></a>
+            <h5><a href="#setCallback">setCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:setCallback(fn) -&gt; spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Set or remove the callback function for the Spotlight search object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>fn</code> - the function to replace the current callback function.  If this argument is an explicit nil, removes the current callback function and does not replace it.  The function should expect 2 or 3 arguments and should return none.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the spotlightObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Depending upon the messages set with the <a href="#callbackMessages">hs.spotlight:callbackMessages</a> method, the following callbacks may occur:</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L198">extensions/spotlight/libspotlight.m line 198</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sortDescriptors">
+            <a name="//apple_ref/cpp/Method/sortDescriptors" class="dashAnchor"></a>
+            <h5><a href="#sortDescriptors">sortDescriptors</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:sortDescriptors([attributes]) -&gt; table | spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the sorting preferences for the results of a Spotlight query.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>attributes</code> - an optional table or list of items specifying sort descriptors which affect the sorting order of results for a Spotlight query.  Defaults to an empty array.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the spotlightObject; otherwise returns the current values</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Setting this property while a query is running stops the query and discards the current results. The receiver immediately starts a new query.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/spotlight.lua#L164">extensions/spotlight/spotlight.lua line 164</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:start() -&gt; spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Begin the gathering phase of a Spotlight query.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the spotlightObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If the query string set with <a href="#queryString">hs.spotlight:queryString</a> is invalid, an error message will be logged to the Hammerspoon console and the query will not start.  You can test to see if the query is actually running with the <a href="#isRunning">hs.spotlight:isRunning</a> method.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L424">extensions/spotlight/libspotlight.m line 424</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:stop() -&gt; spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Stop the Spotlight query.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the spotlightObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method will prevent further gathering of items either during the initial gathering phase or from updates which may occur after the gathering phase; however it will not discard the results already discovered.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L461">extensions/spotlight/libspotlight.m line 461</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="updateInterval">
+            <a name="//apple_ref/cpp/Method/updateInterval" class="dashAnchor"></a>
+            <h5><a href="#updateInterval">updateInterval</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:updateInterval([interval]) -&gt; number | spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the time interval at which the spotlightObject will send "didUpdate" messages during the initial gathering phase.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>interval</code> - an optional number, default 1.0, specifying how often in seconds the &quot;didUpdate&quot; message should be generated during the initial gathering phase of a Spotlight query.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the spotlightObject object; otherwise returns the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L291">extensions/spotlight/libspotlight.m line 291</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="valueListAttributes">
+            <a name="//apple_ref/cpp/Method/valueListAttributes" class="dashAnchor"></a>
+            <h5><a href="#valueListAttributes">valueListAttributes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:valueListAttributes([attributes]) -&gt; table | spotlightObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the attributes for which value list summaries are produced for the Spotlight query.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>attributes</code> - an optional table or list of items specifying the attributes for which value list summaries are produced for the Spotlight query.  Defaults to an empty array.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the spotlightObject; otherwise returns the current values</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Setting this property while a query is running stops the query and discards the current results. The receiver immediately starts a new query.</li>
+<li>Setting this property will increase CPU and memory usage while performing the Spotlight query.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/spotlight.lua#L135">extensions/spotlight/spotlight.lua line 135</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="valueLists">
+            <a name="//apple_ref/cpp/Method/valueLists" class="dashAnchor"></a>
+            <h5><a href="#valueLists">valueLists</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spotlight:valueLists() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the value list summaries for the Spotlight query</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an array table of the value list summaries for the Spotlight query as specified by the <a href="#valueListAttributes">hs.spotlight:valueListAttributes</a> method.  Each member of the array will be a table with the following keys:<ul>
+<li><code>attribute</code> - the attribute for the summary</li>
+<li><code>value</code>     - the value of the attribute for the summary</li>
+<li><code>count</code>     - the number of Spotlight items in the spotlightObject results for which this attribute has this value</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Value list summaries are a quick way to gather statistics about the number of results which match certain criteria - they do not allow you easy access to the matching members, just information about their numbers.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spotlight/libspotlight.m#L639">extensions/spotlight/libspotlight.m line 639</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

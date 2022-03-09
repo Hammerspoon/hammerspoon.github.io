@@ -1,0 +1,746 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.bonjour.service</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.bonjour.service</h1>
+      <p>Represents the service records that are discovered or published by the hs.bonjour module.</p>
+<p>This module allows you to explore the details of discovered services including ip addresses and text records, and to publish your own multicast DNS advertisements for services on your computer. This can be useful to advertise network services provided by other Hammerspoon modules or other applications on your computer which do not publish their own advertisements already.</p>
+<p>This module will <em>not</em> allow you to publish proxy records for other hosts on your local network.
+Additional submodules which may address this limitation as well as provide additional functions available with Apple's dns-sd library are being considered but there is no estimated timeframe at present.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#serviceTypes">serviceTypes</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+            <li><a href="#remote">remote</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#addresses">addresses</a></li>
+            <li><a href="#domain">domain</a></li>
+            <li><a href="#hostname">hostname</a></li>
+            <li><a href="#includesPeerToPeer">includesPeerToPeer</a></li>
+            <li><a href="#monitor">monitor</a></li>
+            <li><a href="#name">name</a></li>
+            <li><a href="#port">port</a></li>
+            <li><a href="#publish">publish</a></li>
+            <li><a href="#resolve">resolve</a></li>
+            <li><a href="#stop">stop</a></li>
+            <li><a href="#stopMonitoring">stopMonitoring</a></li>
+            <li><a href="#txtRecord">txtRecord</a></li>
+            <li><a href="#type">type</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="serviceTypes">
+            <a name="//apple_ref/cpp/Constant/serviceTypes" class="dashAnchor"></a>
+            <h5><a href="#serviceTypes">serviceTypes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.serviceTypes</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A list of common service types which can used for discovery through this module.</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This list was generated from the output of <code>avahi-browse -b</code> and <code>avahi-browse -bk</code> from the avahi-daemon/stable,now 0.7-4+b1 armhf package under Raspbian GNU/Linux 10.</li>
+<li>This list is by no means complete and is provided solely for the purposes of providing examples. Additional service types can be discovered quite easily using Google or other search engines.</li>
+<li>You can view the contents of this table in the Hammerspoon Console by entering <code>require(&quot;hs.bonjour&quot;).serviceTypes</code> into the input field.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/bonjour.lua#L248">extensions/bonjour/bonjour.lua line 248</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service.new(name, service, port, [domain]) -&gt; serviceObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a new serviceObject for advertising a service provided by your computer.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>name</code>    - The name of the service being advertised. This does not have to be the hostname of the machine. However, if you specify an empty string, the computers hostname will be used.</li>
+<li><code>service</code> - a string specifying the service being advertised. This string should be specified in the format of '_service._protocol.' where _protocol is one of '_tcp' or '_udp'. Examples of common service types can be found in <code>hs.bonjour.serviceTypes</code>.</li>
+<li><code>port</code>    - an integer specifying the tcp or udp port the service is provided at</li>
+<li><code>domain</code>  - an optional string specifying the domain you wish to advertise this service in.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the newly created service object, or nil if there was an error</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If the name specified is not unique on the network for the service type specified, then a number will be appended to the end of the name. This behavior cannot be overridden and can only be detected by checking <a href="#name">hs.bonjour.service:name</a> after <a href="#publish">hs.bonjour.service:publish</a> is invoked to see if the name has been changed from what you originally assigned.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/bonjour.lua#L108">extensions/bonjour/bonjour.lua line 108</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="remote">
+            <a name="//apple_ref/cpp/Constructor/remote" class="dashAnchor"></a>
+            <h5><a href="#remote">remote</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service.remote(name, service, [domain]) -&gt; serviceObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a new serviceObject for a remote machine (i.e. not the users computer) on your network offering the specified service.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>name</code>    - a string specifying the name of the advertised service on the network to locate. Often, but not always, this will be the hostname of the machine providing the desired service.</li>
+<li><code>service</code> - a string specifying the service type. This string should be specified in the format of '_service._protocol.' where _protocol is one of '_tcp' or '_udp'. Examples of common service types can be found in <code>hs.bonjour.serviceTypes</code>.</li>
+<li><code>domain</code>  - an optional string specifying the domain the service belongs to.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the newly created service object, or nil if there was an error</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>In general you should not need to use this constructor, as they will be created automatically for you in the callbacks to <code>hs.bonjour:findServices</code>.</li>
+<li>This method can be used, however, when you already know that a specific service should exist on the network and you wish to resolve its current IP addresses or text records.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/bonjour.lua#L138">extensions/bonjour/bonjour.lua line 138</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="addresses">
+            <a name="//apple_ref/cpp/Method/addresses" class="dashAnchor"></a>
+            <h5><a href="#addresses">addresses</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:addresses() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table listing the addresses for the service represented by the serviceObject</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an array table of strings representing the IPv4 and IPv6 address of the machine which provides the services represented by the serviceObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>for remote serviceObjects, the table will be empty if this method is invoked before <a href="#resolve">hs.bonjour.service:resolve</a>.</li>
+<li>for local (published) serviceObjects, this table will always be empty.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L213">extensions/bonjour/libbonjour_service.m line 213</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="domain">
+            <a name="//apple_ref/cpp/Method/domain" class="dashAnchor"></a>
+            <h5><a href="#domain">domain</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:domain() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the domain the service represented by the serviceObject belongs to.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the domain the service represented by the serviceObject belongs to.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>for remote serviceObjects, this domain will be the domain the service was discovered in.</li>
+<li>for local (published) serviceObjects, this domain will be the domain the service is published in; if you did not specify a domain with <a href="#new">hs.bonjour.service.new</a> then this will be an empty string until <a href="#publish">hs.bonjour.service:publish</a> is invoked.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L248">extensions/bonjour/libbonjour_service.m line 248</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="hostname">
+            <a name="//apple_ref/cpp/Method/hostname" class="dashAnchor"></a>
+            <h5><a href="#hostname">hostname</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:hostname() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the hostname of the machine the service represented by the serviceObject belongs to.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the hostname of the machine the service represented by the serviceObject belongs to.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>for remote serviceObjects, this will be nil if this method is invoked before <a href="#resolve">hs.bonjour.service:resolve</a>.</li>
+<li>for local (published) serviceObjects, this method will always return nil.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L286">extensions/bonjour/libbonjour_service.m line 286</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="includesPeerToPeer">
+            <a name="//apple_ref/cpp/Method/includesPeerToPeer" class="dashAnchor"></a>
+            <h5><a href="#includesPeerToPeer">includesPeerToPeer</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:includesPeerToPeer([value]) -&gt; boolean | serviceObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether the service represented by the service object should be published or resolved over peer-to-peer Bluetooth and Wi-Fi, if available.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>value</code> - an optional boolean, default false, specifying whether advertising and resoloving should occur over peer-to-peer Bluetooth and Wi-Fi, if available.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if <code>value</code> is provided, returns the serviceObject; otherwise returns the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>if you are changing the value of this property, you must call this method before invoking [hs.bonjour.service:publish](#publish] or <a href="#resolve">hs.bonjour.service:resolve</a>, or after stopping publishing or resolving with <a href="#stop">hs.bonjour.service:stop</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L400">extensions/bonjour/libbonjour_service.m line 400</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="monitor">
+            <a name="//apple_ref/cpp/Method/monitor" class="dashAnchor"></a>
+            <h5><a href="#monitor">monitor</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:monitor([callback]) -&gt; serviceObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Monitor the service for changes to its associated text records.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callback</code> - an optional callback function which should expect 3 arguments:<ul>
+<li>the serviceObject userdata</li>
+<li>the string &quot;txtRecord&quot;</li>
+<li>a table containing key-value pairs specifying the new text records for the service</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the serviceObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>When monitoring is active, <a href="#txtRecord">hs.bonjour.service:txtRecord</a> will return the most recent text records observed. If this is the only method by which you check the text records, but you wish to ensure you have the most recent values, you should invoke this method without specifying a callback.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L552">extensions/bonjour/libbonjour_service.m line 552</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="name">
+            <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+            <h5><a href="#name">name</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:name() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the name of the service represented by the serviceObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the name of the service represented by the serviceObject.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L269">extensions/bonjour/libbonjour_service.m line 269</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="port">
+            <a name="//apple_ref/cpp/Method/port" class="dashAnchor"></a>
+            <h5><a href="#port">port</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:port() -&gt; integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the port the service represented by the serviceObject is available on.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a number specifying the port the service represented by the serviceObject is available on.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>for remote serviceObjects, this will be -1 if this method is invoked before <a href="#resolve">hs.bonjour.service:resolve</a>.</li>
+<li>for local (published) serviceObjects, this method will always return the number specified when the serviceObject was created with the <a href="#new">hs.bonjour.service.new</a> constructor.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L324">extensions/bonjour/libbonjour_service.m line 324</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="publish">
+            <a name="//apple_ref/cpp/Method/publish" class="dashAnchor"></a>
+            <h5><a href="#publish">publish</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:publish([allowRename], [callback]) -&gt; serviceObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Begin advertising the specified local service.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>allowRename</code> - an optional boolean, default true, specifying whether to automatically rename the service if the name and type combination is already being published in the service's domain. If renaming is allowed and a conflict occurs, the service name will have <code>-#</code> appended to it where <code>#</code> is an increasing integer starting at 2.</li>
+<li><code>callback</code>    - an optional callback function which should expect 2 or 3 arguments and return none. The arguments to the callback function will be one of the following sets:<ul>
+<li>on successfull publishing: * the serviceObject userdata * the string &quot;published&quot;</li>
+<li>if an error occurs during publishing: * the serviceObject userdata * the string &quot;error&quot; * a string specifying the specific error that occurred</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the serviceObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this method should only be called on serviceObjects which were created with <a href="#new">hs.bonjour.service.new</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L430">extensions/bonjour/libbonjour_service.m line 430</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="resolve">
+            <a name="//apple_ref/cpp/Method/resolve" class="dashAnchor"></a>
+            <h5><a href="#resolve">resolve</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:resolve([timeout], [callback]) -&gt; serviceObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Resolve the address and details for a discovered service.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>timeout</code>  - an optional number, default 0.0, specifying the maximum number of seconds to attempt to resolve the details for this service. Specifying 0.0 means that the resolution should not timeout and that resolution should continue indefinately.</li>
+<li><code>callback</code> - an optional callback function which should expect 2 or 3 arguments and return none.<ul>
+<li>on successfull resolution: * the serviceObject userdata * the string &quot;resolved&quot;</li>
+<li>if an error occurs during resolution: * the serviceObject userdata * the string &quot;error&quot; * a string specifying the specific error that occurred</li>
+<li>if <code>timeout</code> is specified and is any number other than 0.0, the following will be sent to the callback when the timeout has been reached: * the serviceObject userdata * the string &quot;stop&quot;</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the serviceObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this method should only be called on serviceObjects which were returned by an <code>hs.bonjour</code> browserObject or created with <a href="#remote">hs.bonjour.service.remote</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L486">extensions/bonjour/libbonjour_service.m line 486</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:stop() -&gt; serviceObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Stop advertising or resolving the service specified by the serviceObject</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the serviceObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this method will stop the advertising of a service which has been published with <a href="#publish">hs.bonjour.service:publish</a> or is being resolved with <a href="#resolve">hs.bonjour.service:resolve</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L588">extensions/bonjour/libbonjour_service.m line 588</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stopMonitoring">
+            <a name="//apple_ref/cpp/Method/stopMonitoring" class="dashAnchor"></a>
+            <h5><a href="#stopMonitoring">stopMonitoring</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:stopMonitoring() -&gt; serviceObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Stop monitoring a service for changes to its text records.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the serviceObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method will stop updating <a href="#txtRecord">hs.bonjour.service:txtRecord</a> and invoking the callback, if any, assigned with <a href="#monitor">hs.bonjour.service:monitor</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L612">extensions/bonjour/libbonjour_service.m line 612</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="txtRecord">
+            <a name="//apple_ref/cpp/Method/txtRecord" class="dashAnchor"></a>
+            <h5><a href="#txtRecord">txtRecord</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:txtRecord([records]) -&gt; table | serviceObject | false</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the text records associated with the serviceObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>records</code> - an optional table specifying the text record for the advertised service as a series of key-value entries. All keys and values must be specified as strings.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided to this method, returns the serviceObject or false if there was a problem setting the text record for this service. If no argument is provided, returns the current table of text records.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>for remote serviceObjects, this method will return nil if invoked before <a href="#resolve">hs.bonjour.service:resolve</a></li>
+<li>setting the text record for a service replaces the existing records for the serviceObject. If the serviceObject is remote, this change is only visible on the local machine. For a service you are advertising, this change will be advertised to other machines.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L345">extensions/bonjour/libbonjour_service.m line 345</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="type">
+            <a name="//apple_ref/cpp/Method/type" class="dashAnchor"></a>
+            <h5><a href="#type">type</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.service:type() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the type of service represented by the serviceObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the type of service represented by the serviceObject.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjour_service.m#L307">extensions/bonjour/libbonjour_service.m line 307</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

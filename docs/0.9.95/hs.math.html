@@ -1,0 +1,310 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.math</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.math</h1>
+      <p>Various helpful mathematical functions</p>
+<p>This module includes, and is a superset of the built-in Lua <code>math</code> library so it is safe to do something like the following in your own code and still have access to both libraries:</p>
+
+<pre><code>local math = require(&quot;hs.math&quot;)
+local n = math.sin(math.minFloat) -- works even though they're both from different libraries
+
+</code></pre>
+<p>The documentation for the math library can be found at http://www.lua.org/manual/5.3/ or from the Hammerspoon console via the help command: <code>help.lua.math</code>. This includes the following functions and variables:</p>
+<ul>
+<li>hs.math.abs        - help available via <code>help.lua.math.abs</code></li>
+<li>hs.math.acos       - help available via <code>help.lua.math.acos</code></li>
+<li>hs.math.asin       - help available via <code>help.lua.math.asin</code></li>
+<li>hs.math.atan       - help available via <code>help.lua.math.atan</code></li>
+<li>hs.math.ceil       - help available via <code>help.lua.math.ceil</code></li>
+<li>hs.math.cos        - help available via <code>help.lua.math.cos</code></li>
+<li>hs.math.deg        - help available via <code>help.lua.math.deg</code></li>
+<li>hs.math.exp        - help available via <code>help.lua.math.exp</code></li>
+<li>hs.math.floor      - help available via <code>help.lua.math.floor</code></li>
+<li>hs.math.fmod       - help available via <code>help.lua.math.fmod</code></li>
+<li>hs.math.huge       - help available via <code>help.lua.math.huge</code></li>
+<li>hs.math.log        - help available via <code>help.lua.math.log</code></li>
+<li>hs.math.max        - help available via <code>help.lua.math.max</code></li>
+<li>hs.math.maxinteger - help available via <code>help.lua.math.maxinteger</code></li>
+<li>hs.math.min        - help available via <code>help.lua.math.min</code></li>
+<li>hs.math.mininteger - help available via <code>help.lua.math.mininteger</code></li>
+<li>hs.math.modf       - help available via <code>help.lua.math.modf</code></li>
+<li>hs.math.pi         - help available via <code>help.lua.math.pi</code></li>
+<li>hs.math.rad        - help available via <code>help.lua.math.rad</code></li>
+<li>hs.math.random     - help available via <code>help.lua.math.random</code></li>
+<li>hs.math.randomseed - help available via <code>help.lua.math.randomseed</code></li>
+<li>hs.math.sin        - help available via <code>help.lua.math.sin</code></li>
+<li>hs.math.sqrt       - help available via <code>help.lua.math.sqrt</code></li>
+<li>hs.math.tan        - help available via <code>help.lua.math.tan</code></li>
+<li>hs.math.tointeger  - help available via <code>help.lua.math.tointeger</code></li>
+<li>hs.math.type       - help available via <code>help.lua.math.type</code></li>
+<li>hs.math.ult        - help available via <code>help.lua.math.ult</code></li>
+</ul>
+<p>Additional functions and values that are specific to Hammerspoon which provide expanded math support are documented here.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#minFloat">minFloat</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#isFinite">isFinite</a></li>
+            <li><a href="#isInfinite">isInfinite</a></li>
+            <li><a href="#isNaN">isNaN</a></li>
+            <li><a href="#randomFloat">randomFloat</a></li>
+            <li><a href="#randomFromRange">randomFromRange</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="minFloat">
+            <a name="//apple_ref/cpp/Constant/minFloat" class="dashAnchor"></a>
+            <h5><a href="#minFloat">minFloat</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.math.minFloat</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Smallest positive floating point number representable in Hammerspoon</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Because specifying a delay of 0 to <code>hs.timer.doAfter</code> results in the event not triggering, use this value to indicate that the action should occur as soon as possible after the current code block has completed execution.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/math/math.lua#L96">extensions/math/math.lua line 96</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="isFinite">
+            <a name="//apple_ref/cpp/Function/isFinite" class="dashAnchor"></a>
+            <h5><a href="#isFinite">isFinite</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.math.isFinite(value) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether or not the value is a finite number</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>value</code> - the value to be tested</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true if the value is a finite number, or false otherwise</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function returns true if the value is a number and both <a href="#isNaN">hs.math.isNaN</a> and <a href="#isInfinite">hs.math.isInfinite</a> return false.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/math/math.lua#L78">extensions/math/math.lua line 78</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isInfinite">
+            <a name="//apple_ref/cpp/Function/isInfinite" class="dashAnchor"></a>
+            <h5><a href="#isInfinite">isInfinite</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.math.isInfinite(value) -&gt; 1, -1, false</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether or not the value is the mathematical equivalent of either positive or negative "Infinity"</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>value</code> - the value to be tested</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>1 if the value is equivalent to positive infinity, -1 if the value is equivalent to negative infinity, or false otherwise.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function specifically checks if the <code>value</code> is equivalent to positive or negative infinity --- it does not do type checking. If <code>value</code> is not a numeric value (e.g. a string), it <em>cannot</em> be equivalent to positive or negative infinity and will return false.</li>
+<li>Because lua treats any value other than <code>nil</code> and <code>false</code> as <code>true</code>, the return value of this function can be safely used in conditionals when you don't care about the sign of the infinite value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/math/math.lua#L61">extensions/math/math.lua line 61</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isNaN">
+            <a name="//apple_ref/cpp/Function/isNaN" class="dashAnchor"></a>
+            <h5><a href="#isNaN">isNaN</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.math.isNaN(value) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether or not the value is the mathematical equivalent of "Not-A-Number"</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>value</code> - the value to be tested</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true if <code>value</code> is equal to the mathematical &quot;value&quot; of NaN, or false otherwise</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Mathematical <code>NaN</code> represents an impossible value, usually the result of a calculation, yet is still considered within the domain of mathematics. The most common case is the result of <code>n / 0</code> as division by 0 is considered undefined or &quot;impossible&quot;.</li>
+<li>This function specifically checks if the <code>value</code> is <code>NaN</code> --- it does not do type checking. If <code>value</code> is not a numeric value (e.g. a string), it <em>cannot</em> be equivalent to <code>NaN</code> and this function will return false.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/math/math.lua#L44">extensions/math/math.lua line 44</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="randomFloat">
+            <a name="//apple_ref/cpp/Function/randomFloat" class="dashAnchor"></a>
+            <h5><a href="#randomFloat">randomFloat</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.math.randomFloat() -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a random floating point number between 0 and 1</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A random number between 0 and 1</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/math/libmath.m#L6">extensions/math/libmath.m line 6</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="randomFromRange">
+            <a name="//apple_ref/cpp/Function/randomFromRange" class="dashAnchor"></a>
+            <h5><a href="#randomFromRange">randomFromRange</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.math.randomFromRange(start, end) -&gt; integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a random integer between the start and end paramters</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>start - A number to start the range, must be greater than or equal to zero</li>
+<li>end - A number to end the range, must be greater than zero and greater than <code>start</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A randomly chosen integer between <code>start</code> and <code>end</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/math/libmath.m#L26">extensions/math/libmath.m line 26</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

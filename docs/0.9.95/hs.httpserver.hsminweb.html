@@ -1,0 +1,1211 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.httpserver.hsminweb</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.httpserver.hsminweb</h1>
+      <p>Minimalist Web Server for Hammerspoon</p>
+<p>This module aims to be a minimal, but (mostly) standards-compliant web server for use within Hammerspoon.  Expanding upon the Hammerspoon module, <code>hs.httpserver</code>, this module adds support for serving static pages stored at a specified document root as well as serving dynamic content from Lua Template Files interpreted within the Hammerspoon environment and external executables which support the CGI/1.1 framework.</p>
+<p>This module aims to provide a fully functional, and somewhat extendable, web server foundation, but will never replace a true dedicated web server application.  Some limitations include:</p>
+<ul>
+<li>It is single threaded within the Hammerspoon environment and can only serve one resource at a time</li>
+<li>As with all Hammerspoon modules, while dynamic content is being generated, Hammerspoon cannot respond to other callback functions -- a complex or time consuming script may block other Hammerspoon activity in a noticeable manner.</li>
+<li>All document requests and responses are handled in memory only -- because of this, maximum resource size is limited to what you are willing to allow Hammerspoon to consume and memory limitations of your computer.</li>
+</ul>
+<p>While some of these limitations may be mitigated to an extent in the future with additional modules and additions to <code>hs.httpserver</code>, Hammerspoon's web serving capabilities will never replace a dedicated web server when volume or speed is required.</p>
+<p>An example web site is provided in the <code>hsdocs</code> folder of the <code>hs.doc</code> module.  This web site can serve documentation for Hammerspoon dynamically generated from the json file included with the Hammerspoon application for internal documentation.  It serves as a basic example of what is possible with this module.</p>
+<p>You can start this web server by typing the following into your Hammerspoon console:
+<code>require(&quot;hs.doc.hsdocs&quot;).start()</code> and then visiting <code>http://localhost:12345/</code> with your web browser.</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.httpserver.hsminweb.cgilua.html">hs.httpserver.hsminweb.cgilua</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#dateFormatString">dateFormatString</a></li>
+            <li><a href="#statusCodes">statusCodes</a></li>
+          </ul>
+        <li>Variables - Configurable values</li>
+          <ul>
+            <li><a href="#_accessLog">_accessLog</a></li>
+            <li><a href="#_errorHandlers">_errorHandlers</a></li>
+            <li><a href="#_serverAdmin">_serverAdmin</a></li>
+            <li><a href="#_supportMethods">_supportMethods</a></li>
+            <li><a href="#log">log</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#formattedDate">formattedDate</a></li>
+            <li><a href="#urlParts">urlParts</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#accessList">accessList</a></li>
+            <li><a href="#allowDirectory">allowDirectory</a></li>
+            <li><a href="#bonjour">bonjour</a></li>
+            <li><a href="#cgiEnabled">cgiEnabled</a></li>
+            <li><a href="#cgiExtensions">cgiExtensions</a></li>
+            <li><a href="#directoryIndex">directoryIndex</a></li>
+            <li><a href="#dnsLookup">dnsLookup</a></li>
+            <li><a href="#documentRoot">documentRoot</a></li>
+            <li><a href="#interface">interface</a></li>
+            <li><a href="#luaTemplateExtension">luaTemplateExtension</a></li>
+            <li><a href="#maxBodySize">maxBodySize</a></li>
+            <li><a href="#name">name</a></li>
+            <li><a href="#password">password</a></li>
+            <li><a href="#port">port</a></li>
+            <li><a href="#queryLogging">queryLogging</a></li>
+            <li><a href="#scriptTimeout">scriptTimeout</a></li>
+            <li><a href="#ssl">ssl</a></li>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="dateFormatString">
+            <a name="//apple_ref/cpp/Constant/dateFormatString" class="dashAnchor"></a>
+            <h5><a href="#dateFormatString">dateFormatString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb.dateFormatString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A format string, usable with `os.date`, which will display a date in the format expected for HTTP communications as described in RFC 822, updated by RFC 1123.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1592">extensions/httpserver/httpserver_hsminweb.lua line 1592</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="statusCodes">
+            <a name="//apple_ref/cpp/Constant/statusCodes" class="dashAnchor"></a>
+            <h5><a href="#statusCodes">statusCodes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb.statusCodes</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>HTTP Response Status Codes</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The keys and labels in this table have been combined from a variety of sources including, but not limited to:<ul>
+<li>&quot;Official&quot; list at https://en.wikipedia.org/wiki/List_of_HTTP_status_codes</li>
+<li>KeplerProject's wsapi at https://github.com/keplerproject/wsapi</li>
+<li>IIS additions from https://support.microsoft.com/en-us/kb/943891</li>
+</ul>
+</li>
+<li>This table has metatable additions which allow you to review its contents from the Hammerspoon console by typing <code>hs.httpserver.hsminweb.statusCodes</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1644">extensions/httpserver/httpserver_hsminweb.lua line 1644</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Variables</h4>
+          <section id="_accessLog">
+            <a name="//apple_ref/cpp/Variable/_accessLog" class="dashAnchor"></a>
+            <h5><a href="#_accessLog">_accessLog</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb._accessLog</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Accessed as `self._accessLog`.  If query logging is enabled for the web server, an Apache style common log entry will be appended to this string for each request.  See [hs.httpserver.hsminweb:queryLogging](#queryLogging).</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1552">extensions/httpserver/httpserver_hsminweb.lua line 1552</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="_errorHandlers">
+            <a name="//apple_ref/cpp/Variable/_errorHandlers" class="dashAnchor"></a>
+            <h5><a href="#_errorHandlers">_errorHandlers</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb._errorHandlers</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Accessed as `self._errorHandlers[errorCode]`.  A table whose keyed entries specify the function to generate the error response page for an HTTP error.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1556">extensions/httpserver/httpserver_hsminweb.lua line 1556</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="_serverAdmin">
+            <a name="//apple_ref/cpp/Variable/_serverAdmin" class="dashAnchor"></a>
+            <h5><a href="#_serverAdmin">_serverAdmin</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb._serverAdmin</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Accessed as `self._serverAdmin`.  A string containing the administrator for the web server.  Defaults to the currently logged in user's short form username and the computer's localized name as returned by `hs.host.localizedName()` (e.g. "user@computer").</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1546">extensions/httpserver/httpserver_hsminweb.lua line 1546</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="_supportMethods">
+            <a name="//apple_ref/cpp/Variable/_supportMethods" class="dashAnchor"></a>
+            <h5><a href="#_supportMethods">_supportMethods</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb._supportMethods</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Accessed as `self._supportMethods[method]`.  A table whose keyed entries specify whether or not a specified HTTP method is supported by this server.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1574">extensions/httpserver/httpserver_hsminweb.lua line 1574</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="log">
+            <a name="//apple_ref/cpp/Variable/log" class="dashAnchor"></a>
+            <h5><a href="#log">log</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb.log</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>The `hs.logger` instance for the `hs.httpserver.hsminweb` module. See the documentation for `hs.logger` for more information.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1639">extensions/httpserver/httpserver_hsminweb.lua line 1639</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="formattedDate">
+            <a name="//apple_ref/cpp/Function/formattedDate" class="dashAnchor"></a>
+            <h5><a href="#formattedDate">formattedDate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb.formattedDate([date]) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the current or specified time in the format expected for HTTP communications as described in RFC 822, updated by RFC 1123.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>date - an optional integer specifying the date as the number of seconds since 00:00:00 UTC on 1 January 1970.  Defaults to the current time as returned by <code>os.time()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the time indicated as a string in the format expected for HTTP communications as described in RFC 822, updated by RFC 1123.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1597">extensions/httpserver/httpserver_hsminweb.lua line 1597</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="urlParts">
+            <a name="//apple_ref/cpp/Function/urlParts" class="dashAnchor"></a>
+            <h5><a href="#urlParts">urlParts</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb.urlParts(url) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Parse the specified URL into it's constituant parts.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>url - the url to parse</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the constituant parts of the provided url.  The table will contain one or more of the following key-value pairs:<ul>
+<li>fragment           - the anchor name a URL refers to within an HTML document.  Appears after '#' at the end of a URL.  Note that not all web clients include this in an HTTP request since its normal purpose is to indicate where to scroll to within a page after the content has been retrieved.</li>
+<li>host               - the host name portion of the URL, if any</li>
+<li>lastPathComponent  - the last component of the path portion of the URL</li>
+<li>password           - the password specified in the URL.  Note that this is not the password that would be entered when using Basic or Digest authentication; rather it is a password included in the URL itself -- for security reasons, use of this field has been deprecated in most situations and modern browsers will often prompt for confirmation before allowing URL's which contain a password to be transmitted.</li>
+<li>path               - the full path specified in the URL</li>
+<li>pathComponents     - an array containing the path components as individual strings.  Components which specify a sub-directory of the path will end with a &quot;/&quot; character.</li>
+<li>pathExtension      - if the final component of the path refers to a file, the file's extension, if any.</li>
+<li>port               - the port specified in the URL, if any</li>
+<li>query              - the portion of the URL after a '?' character, if any; used to contain query information often from a form submitting it's input with the GET method.</li>
+<li>resourceSpecifier  - the portion of the URL after the scheme</li>
+<li>scheme             - the URL scheme; for web traffic, this will be &quot;http&quot; or &quot;https&quot;</li>
+<li>standardizedURL    - the URL with any path components of &quot;..&quot; or &quot;.&quot; normalized.  The use of &quot;..&quot; that would cause the URL to refer to something preceding its root is simply removed.</li>
+<li>URL                - the URL as it was provided to this function (no changes)</li>
+<li>user               - the user name specified in the URL.  Note that this is not the user name that would be entered when using Basic or Digest authentication; rather it is a user name included in the URL itself -- for security reasons, use of this field has been deprecated in most situations and modern browsers will often prompt for confirmation before allowing URL's which contain a user name to be transmitted.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function differs from the similar function <code>hs.http.urlParts</code> in a few ways:<ul>
+<li>To simplify the logic used by this module to determine if a request for a directory is properly terminated with a &quot;/&quot;, the path components returned by this function do not remove this character from the component, if present.</li>
+<li>Some extraneous or duplicate keys have been removed.</li>
+<li>This function is patterned after RFC 3986 while <code>hs.http.urlParts</code> uses OS X API functions which are patterned after RFC 1808. RFC 3986 obsoletes 1808.  The primary distinction that affects this module is in regards to <code>parameters</code> for path components in the URI -- RFC 3986 disallows them in schema based URI's (like the URL's that are used for web based traffic).</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1608">extensions/httpserver/httpserver_hsminweb.lua line 1608</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb.new([documentRoot]) -&gt; hsminwebTable</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Create a new hsminweb table object representing a Hammerspoon Web Server.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>documentRoot - an optional string specifying the document root for the new web server.  Defaults to the Hammerspoon users <code>Sites</code> sub-directory (i.e. <code>os.getenv(&quot;HOME&quot;)..&quot;/Sites&quot;</code>).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table representing the hsminweb object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>a web server's document root is the directory which contains the documents or files to be served by the web server.</li>
+<li>while an hs.minweb object is actually represented by a Lua table, it has been assigned a meta-table which allows methods to be called directly on it like a user-data object.  For most purposes, you should think of this table as the module's userdata.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1505">extensions/httpserver/httpserver_hsminweb.lua line 1505</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="accessList">
+            <a name="//apple_ref/cpp/Method/accessList" class="dashAnchor"></a>
+            <h5><a href="#accessList">accessList</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:accessList([table]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the access-list table for the hsminweb web server</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>table - an optional table or <code>nil</code> containing the access list for the web server, default <code>nil</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The access-list feature works by comparing the request headers against a list of tests which either accept or reject the request.  If no access list is set (i.e. it is assigned a value of <code>nil</code>), then all requests are served.  If a table is passed into this method, then any request which is not explicitly accepted by one of the tests provided is rejected (i.e. there is an implicit &quot;reject&quot; at the end of the list).</li>
+<li>The access-list table is a list of tests which are evaluated in order.  The first test which matches a given request determines whether or not the request is accepted or rejected.</li>
+<li>Each entry in the access-list table is also a table with the following format:<ul>
+<li>{ 'header', 'value', isPattern, isAccepted }<ul>
+<li>header     - a string value matching the name of a header.  While the header name must match exactly, the comparison is case-insensitive (i.e. &quot;X-Remote-addr&quot; and &quot;x-remote-addr&quot; will both match the actual header name used, which is &quot;X-Remote-Addr&quot;).</li>
+<li>value      - a string value specifying the value to compare the header key's value to.</li>
+<li>isPattern  - a boolean indicating whether or not the header key's value should be compared to <code>value</code> as a pattern match (true) -- see Lua documentation 6.4.1, <code>help.lua._man._6_4_1</code> in the console, or as an exact match (false)</li>
+<li>isAccepted - a boolean indicating whether or not a match should be accepted (true) or rejected (false)</li>
+</ul>
+</li>
+<li>A special entry of the form { '*', '*', '*', true } accepts all further requests and can be used as the final entry if you wish for the access list to function as a list of requests to reject, but to accept any requests which do not match a previous test.</li>
+<li>A special entry of the form { '*', '*', '*', false } rejects all further requests and can be used as the final entry if you wish for the access list to function as a list of requests to accept, but to reject any requests which do not match a previous test.  This is the implicit &quot;default&quot; final test if a table is assigned with the access-list method and does not actually need to be specified, but is included for completeness.</li>
+<li>Note that any entry after an entry in which the first two parameters are equal to '*' will never actually be used.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1367">extensions/httpserver/httpserver_hsminweb.lua line 1367</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="allowDirectory">
+            <a name="//apple_ref/cpp/Method/allowDirectory" class="dashAnchor"></a>
+            <h5><a href="#allowDirectory">allowDirectory</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:allowDirectory([flag]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the whether or not a directory index is returned when the requested URL specifies a directory and no file matching an entry in the directory indexes table is found.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>flag - an optional boolean, defaults to false, indicating whether or not a directory index can be returned when a default file cannot be located.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>if this value is false, then an attempt to retrieve a URL specifying a directory that does not contain a default file as identified by one of the entries in the <a href="#directoryIndex">hs.httpserver.hsminweb:directoryIndex</a> list will result in a &quot;403.2&quot; error.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1183">extensions/httpserver/httpserver_hsminweb.lua line 1183</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="bonjour">
+            <a name="//apple_ref/cpp/Method/bonjour" class="dashAnchor"></a>
+            <h5><a href="#bonjour">bonjour</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:bonjour([flag]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the whether or not the web server should advertise itself via Bonjour when it is running.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>flag - an optional boolean, defaults to true, indicating whether or not the server should advertise itself via Bonjour when it is running.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this flag can only be changed when the server is not running (i.e. the <a href="#start">hs.httpserver.hsminweb:start</a> method has not yet been called, or the <a href="#stop">hs.httpserver.hsminweb:stop</a> method is called first.)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1156">extensions/httpserver/httpserver_hsminweb.lua line 1156</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="cgiEnabled">
+            <a name="//apple_ref/cpp/Method/cgiEnabled" class="dashAnchor"></a>
+            <h5><a href="#cgiEnabled">cgiEnabled</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:cgiEnabled([flag]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the whether or not CGI file execution is enabled.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>flag - an optional boolean, defaults to false, indicating whether or not CGI script execution is enabled for the web server.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1277">extensions/httpserver/httpserver_hsminweb.lua line 1277</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="cgiExtensions">
+            <a name="//apple_ref/cpp/Method/cgiExtensions" class="dashAnchor"></a>
+            <h5><a href="#cgiExtensions">cgiExtensions</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:cgiExtensions([table]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the file extensions which identify files which should be executed as CGI scripts to provide the results to an HTTP request.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>table - an optional table or <code>nil</code>, defaults to <code>{ &quot;cgi&quot;, &quot;pl&quot; }</code>, specifying a list of file extensions which indicate that a file should be executed as CGI scripts to provide the content for an HTTP request.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this list is ignored if <a href="#cgiEnabled">hs.httpserver.hsminweb:cgiEnabled</a> is not also set to true.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1297">extensions/httpserver/httpserver_hsminweb.lua line 1297</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="directoryIndex">
+            <a name="//apple_ref/cpp/Method/directoryIndex" class="dashAnchor"></a>
+            <h5><a href="#directoryIndex">directoryIndex</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:directoryIndex([table]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the file names to look for when the requested URL specifies a directory.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>table - an optional table or <code>nil</code>, defaults to <code>{ &quot;index.html&quot;, &quot;index.htm&quot; }</code>, specifying a list of file names to look for when the requested URL specifies a directory.  If a file with one of the names is found in the directory, this file is served instead of the directory.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Files listed in this table are checked in order, so the first matched is served.  If no file match occurs, then the server will return a generated list of the files in the directory, or a &quot;403.2&quot; error, depending upon the value controlled by <a href="#allowDirectory">hs.httpserver.hsminweb:allowDirectory</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1254">extensions/httpserver/httpserver_hsminweb.lua line 1254</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="dnsLookup">
+            <a name="//apple_ref/cpp/Method/dnsLookup" class="dashAnchor"></a>
+            <h5><a href="#dnsLookup">dnsLookup</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:dnsLookup([flag]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the whether or not DNS lookups are performed.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>flag - an optional boolean, defaults to false, indicating whether or not DNS lookups are performed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>DNS lookups can be time consuming or even block Hammerspoon for a short time, so they are disabled by default.</li>
+<li>Currently DNS lookups are (optionally) performed for CGI scripts, but may be added for other purposes in the future (logging, etc.).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1206">extensions/httpserver/httpserver_hsminweb.lua line 1206</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="documentRoot">
+            <a name="//apple_ref/cpp/Method/documentRoot" class="dashAnchor"></a>
+            <h5><a href="#documentRoot">documentRoot</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:documentRoot([path]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the document root for the web server.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - an optional string, default <code>os.getenv(&quot;HOME&quot;) .. &quot;/Sites&quot;</code>, specifying where documents for the web server should be served from.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1104">extensions/httpserver/httpserver_hsminweb.lua line 1104</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="interface">
+            <a name="//apple_ref/cpp/Method/interface" class="dashAnchor"></a>
+            <h5><a href="#interface">interface</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:interface([interface]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the network interface that the hsminweb web server will listen on</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>interface - an optional string, or nil, specifying the network interface the web server will listen on.  An explicit nil specifies that the web server should listen on all active interfaces for the machine.  Defaults to nil.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>See <code>hs.httpserver.setInterface</code> for a description of valid values that can be specified as the <code>interface</code> argument to this method.</li>
+<li>the interface can only be specified before the hsminweb web server has been started.  If you wish to change the listening interface for a running web server, you must stop it with <a href="#stop">hs.httpserver.hsminweb:stop</a> before invoking this method and then restart it with <a href="#start">hs.httpserver.hsminweb:start</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1417">extensions/httpserver/httpserver_hsminweb.lua line 1417</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="luaTemplateExtension">
+            <a name="//apple_ref/cpp/Method/luaTemplateExtension" class="dashAnchor"></a>
+            <h5><a href="#luaTemplateExtension">luaTemplateExtension</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:luaTemplateExtension([string]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the extension of files which contain Lua code which should be executed within Hammerspoon to provide the results to an HTTP request.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>string - an optional string or <code>nil</code>, defaults to <code>nil</code>, specifying the file extension which indicates that a file should be executed as Lua code within the Hammerspoon environment to provide the content for an HTTP request.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This extension is checked after the extensions given to <a href="#cgiExtensions">hs.httpserver.hsminweb:cgiExtensions</a>; this means that if the same extension set by this method is also in the CGI extensions list, then the file will be interpreted as a CGI script and ignore this setting.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1320">extensions/httpserver/httpserver_hsminweb.lua line 1320</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="maxBodySize">
+            <a name="//apple_ref/cpp/Method/maxBodySize" class="dashAnchor"></a>
+            <h5><a href="#maxBodySize">maxBodySize</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:maxBodySize([size]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the maximum body size for an HTTP request</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>size - An optional integer value specifying the maximum body size allowed for an incoming HTTP request in bytes.  Defaults to 10485760 (10 MB).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Because the Hammerspoon http server processes incoming requests completely in memory, this method puts a limit on the maximum size for a POST or PUT request.</li>
+<li>If the request body excedes this size, <code>hs.httpserver</code> will respond with a status code of 405 for the method before this module ever receives the request.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1075">extensions/httpserver/httpserver_hsminweb.lua line 1075</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="name">
+            <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+            <h5><a href="#name">name</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:name([name]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the name the web server uses in Bonjour advertisement when the web server is running.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>name - an optional string specifying the name the server advertises itself as when Bonjour is enabled and the web server is running.  Defaults to <code>nil</code>, which causes the server to be advertised with the computer's name as defined in the Sharing preferences panel for the computer.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1020">extensions/httpserver/httpserver_hsminweb.lua line 1020</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="password">
+            <a name="//apple_ref/cpp/Method/password" class="dashAnchor"></a>
+            <h5><a href="#password">password</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:password([password]) -&gt; hsminwebTable | boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Set a password for the hsminweb web server, or return a boolean indicating whether or not a password is currently set for the web server.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>password - An optional string that contains the server password, or an explicit <code>nil</code> to remove an existing password.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or a boolean indicathing whether or not a password has been set if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the password, if set, is server wide and causes the server to use the Basic authentication scheme with an empty string for the username.</li>
+<li>this module is an extension to the Hammerspoon core module <code>hs.httpserver</code>, so it has the same limitations regarding server passwords. See the documentation for <code>hs.httpserver.setPassword</code> (<code>help.hs.httpserver.setPassword</code> in the Hammerspoon console).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1045">extensions/httpserver/httpserver_hsminweb.lua line 1045</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="port">
+            <a name="//apple_ref/cpp/Method/port" class="dashAnchor"></a>
+            <h5><a href="#port">port</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:port([port]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the name the port the web server listens on</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>port - an optional integer specifying the TCP port the server listens for requests on when it is running.  Defaults to <code>nil</code>, which causes the server to randomly choose a port when it is started.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>due to security restrictions enforced by OS X, the port must be a number greater than 1023</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L992">extensions/httpserver/httpserver_hsminweb.lua line 992</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="queryLogging">
+            <a name="//apple_ref/cpp/Method/queryLogging" class="dashAnchor"></a>
+            <h5><a href="#queryLogging">queryLogging</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:queryLogging([flag]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the whether or not requests to this web server are logged.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>flag - an optional boolean, defaults to false, indicating whether or not query requests are logged.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If logging is enabled, an Apache common style log entry is appended to <a href="#_accessLog">self._accesslog</a> for each request made to the web server.</li>
+<li>Error messages during content generation are always logged to the Hammerspoon console via the <code>hs.logger</code> instance saved to <a href="#log">hs.httpserver.hsminweb.log</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1230">extensions/httpserver/httpserver_hsminweb.lua line 1230</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="scriptTimeout">
+            <a name="//apple_ref/cpp/Method/scriptTimeout" class="dashAnchor"></a>
+            <h5><a href="#scriptTimeout">scriptTimeout</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:scriptTimeout([integer]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the timeout for a CGI script</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>integer - an optional integer, defaults to 30, specifying the length of time in seconds a CGI script should be allowed to run before being forcibly terminated if it has not yet completed its task.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>With the current functionality available in <code>hs.httpserver</code>, any script which is expected to return content for an HTTP request must run in a blocking manner -- this means that no other Hammerspoon activity can be occurring while the script is executing.  This parameter lets you set the maximum amount of time such a script can hold things up before being terminated.</li>
+<li>An alternative implementation of at least some of the methods available in <code>hs.httpserver</code> is being considered which may make it possible to use <code>hs.task</code> for these scripts, which would alleviate this blocking behavior.  However, even if this is addressed, a timeout for scripts is still desirable so that a client making a request doesn't sit around waiting forever if a script is malformed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1343">extensions/httpserver/httpserver_hsminweb.lua line 1343</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="ssl">
+            <a name="//apple_ref/cpp/Method/ssl" class="dashAnchor"></a>
+            <h5><a href="#ssl">ssl</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:ssl([flag]) -&gt; hsminwebTable | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the whether or not the web server utilizes SSL for HTTP request and response communications.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>flag - an optional boolean, defaults to false, indicating whether or not the server utilizes SSL for HTTP request and response traffic.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminwebTable object if a parameter is provided, or the current value if no parameter is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this flag can only be changed when the server is not running (i.e. the <a href="#start">hs.httpserver.hsminweb:start</a> method has not yet been called, or the <a href="#stop">hs.httpserver.hsminweb:stop</a> method is called first.)</li>
+<li>this module is an extension to the Hammerspoon core module <code>hs.httpserver</code>, so it has the same considerations regarding SSL. See the documentation for <code>hs.httpserver.new</code> (<code>help.hs.httpserver.new</code> in the Hammerspoon console).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1128">extensions/httpserver/httpserver_hsminweb.lua line 1128</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:start() -&gt; hsminwebTable</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Start serving pages for the hsminweb web server.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminWebTable object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1448">extensions/httpserver/httpserver_hsminweb.lua line 1448</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.httpserver.hsminweb:stop() -&gt; hsminwebTable</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Stop serving pages for the hsminweb web server.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hsminWebTable object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this method is called automatically during garbage collection.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/httpserver/httpserver_hsminweb.lua#L1479">extensions/httpserver/httpserver_hsminweb.lua line 1479</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

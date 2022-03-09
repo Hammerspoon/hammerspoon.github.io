@@ -1,0 +1,582 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.network.ping</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.network.ping</h1>
+      <p>This module provides a basic ping function which can test host availability. Ping is a network diagnostic tool commonly found in most operating systems which can be used to test if a route to a specified host exists and if that host is responding to network traffic.</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.network.ping.echoRequest.html">hs.network.ping.echoRequest</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#ping">ping</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#address">address</a></li>
+            <li><a href="#cancel">cancel</a></li>
+            <li><a href="#count">count</a></li>
+            <li><a href="#isPaused">isPaused</a></li>
+            <li><a href="#isRunning">isRunning</a></li>
+            <li><a href="#packets">packets</a></li>
+            <li><a href="#pause">pause</a></li>
+            <li><a href="#resume">resume</a></li>
+            <li><a href="#sent">sent</a></li>
+            <li><a href="#server">server</a></li>
+            <li><a href="#setCallback">setCallback</a></li>
+            <li><a href="#summary">summary</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="ping">
+            <a name="//apple_ref/cpp/Constructor/ping" class="dashAnchor"></a>
+            <h5><a href="#ping">ping</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping.ping(server, [count], [interval], [timeout], [class], [fn]) -&gt; pingObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Test server availability by pinging it with ICMP Echo Requests.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>server</code>   - a string containing the hostname or ip address of the server to test. Both IPv4 and IPv6 addresses are supported.</li>
+<li><code>count</code>    - an optional integer, default 5, specifying the number of ICMP Echo Requests to send to the server.</li>
+<li><code>interval</code> - an optional number, default 1.0, in seconds specifying the delay between the sending of each echo request. To set this parameter, you must supply <code>count</code> as well.</li>
+<li><code>timeout</code>  - an optional number, default 2.0, in seconds specifying how long before an echo reply is considered to have timed-out. To set this parameter, you must supply <code>count</code> and <code>interval</code> as well.</li>
+<li><code>class</code>    - an optional string, default &quot;any&quot;, specifying whether IPv4 or IPv6 should be used to send the ICMP packets. The string must be one of the following:<ul>
+<li><code>any</code>  - uses the IP version which corresponds to the first address the <code>server</code> resolves to</li>
+<li><code>IPv4</code> - use IPv4; if <code>server</code> cannot resolve to an IPv4 address, or if IPv4 traffic is not supported on the network, the ping will fail with an error.</li>
+<li><code>IPv6</code> - use IPv6; if <code>server</code> cannot resolve to an IPv6 address, or if IPv6 traffic is not supported on the network, the ping will fail with an error.</li>
+</ul>
+</li>
+<li><code>fn</code>       - the callback function which receives update messages for the ping process. See the Notes for details regarding the callback function.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a pingObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>For convenience, you can call this constructor as <code>hs.network.ping(server, ...)</code></li>
+<li>the full ping process will take at most <code>count</code> * <code>interval</code> + <code>timeout</code> seconds from <code>didStart</code> to <code>didFinish</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L340">extensions/network/ping/network_ping.lua line 340</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="address">
+            <a name="//apple_ref/cpp/Method/address" class="dashAnchor"></a>
+            <h5><a href="#address">address</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:address() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a string containing the resolved IPv4 or IPv6 address this pingObject is sending echo requests to.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the IPv4 or IPv6 address this pingObject is sending echo requests to or &quot;&lt;unresolved address&gt;&quot; if the address cannot be resolved.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L186">extensions/network/ping/network_ping.lua line 186</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="cancel">
+            <a name="//apple_ref/cpp/Method/cancel" class="dashAnchor"></a>
+            <h5><a href="#cancel">cancel</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:cancel() -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Cancels an in progress ping process, terminating it immediately</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the <code>didFinish</code> message will be sent to the callback function as its final message.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L251">extensions/network/ping/network_ping.lua line 251</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="count">
+            <a name="//apple_ref/cpp/Method/count" class="dashAnchor"></a>
+            <h5><a href="#count">count</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:count([count]) -&gt; integer | pingObject | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the number of ICMP Echo Requests that will be sent by the ping process</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>count</code> - an optional integer specifying the total number of echo requests that the ping process should send. If specified, this number must be greater than the number of requests already sent.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if no argument is specified, returns the current number of echo requests the ping process will send; if an argument is specified and the ping process has not completed, returns the pingObject; if the ping process has already completed, then this method returns nil.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L106">extensions/network/ping/network_ping.lua line 106</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isPaused">
+            <a name="//apple_ref/cpp/Method/isPaused" class="dashAnchor"></a>
+            <h5><a href="#isPaused">isPaused</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:isPaused() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether or not the ping process is currently paused.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A boolean indicating if the ping process is paused (true) or not (false)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L173">extensions/network/ping/network_ping.lua line 173</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isRunning">
+            <a name="//apple_ref/cpp/Method/isRunning" class="dashAnchor"></a>
+            <h5><a href="#isRunning">isRunning</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:isRunning() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether or not the ping process is currently active.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A boolean indicating if the ping process is active (true) or not (false)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method will return false only if the ping process has finished sending all echo requests or if it has been cancelled with <a href="#cancel">hs.network.ping:cancel</a>.  To determine if the process is currently sending out echo requests, see <a href="#isPaused">hs.network.ping:isPaused</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L157">extensions/network/ping/network_ping.lua line 157</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="packets">
+            <a name="//apple_ref/cpp/Method/packets" class="dashAnchor"></a>
+            <h5><a href="#packets">packets</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:packets([sequenceNumber]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table containing information about the ICMP Echo packets sent by this pingObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>sequenceNumber</code> - an optional integer specifying the sequence number of the ICMP Echo packet to return information about.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If <code>sequenceNumber</code> is specified, returns a table with key-value pairs containing information about the specific ICMP Echo packet with that sequence number, or an empty table if no packet with that sequence number has been sent yet. If no sequence number is specified, returns an array table of all ICMP Echo packets this object has sent.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Sequence numbers start at 0 while Lua array tables are indexed starting at 1. If you do not specify a <code>sequenceNumber</code> to this method, index 1 of the array table returned will contain a table describing the ICMP Echo packet with sequence number 0, index 2 will describe the ICMP Echo packet with sequence number 1, etc.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L199">extensions/network/ping/network_ping.lua line 199</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="pause">
+            <a name="//apple_ref/cpp/Method/pause" class="dashAnchor"></a>
+            <h5><a href="#pause">pause</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:pause() -&gt; pingObject | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Pause an in progress ping process.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the ping process is currently active, returns the pingObject; if the process has already completed, returns nil.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L70">extensions/network/ping/network_ping.lua line 70</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="resume">
+            <a name="//apple_ref/cpp/Method/resume" class="dashAnchor"></a>
+            <h5><a href="#resume">resume</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:resume() -&gt; pingObject | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Resume an in progress ping process, if it has been paused.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the ping process is currently active, returns the pingObject; if the process has already completed, returns nil.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L88">extensions/network/ping/network_ping.lua line 88</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sent">
+            <a name="//apple_ref/cpp/Method/sent" class="dashAnchor"></a>
+            <h5><a href="#sent">sent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:sent() -&gt; integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the number of ICMP Echo Requests which have been sent.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The number of echo requests which have been sent so far.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L131">extensions/network/ping/network_ping.lua line 131</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="server">
+            <a name="//apple_ref/cpp/Method/server" class="dashAnchor"></a>
+            <h5><a href="#server">server</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:server() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the hostname or ip address string given to the [hs.network.ping.ping](#ping) constructor.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string matching the hostname or ip address given to the <a href="#ping">hs.network.ping.ping</a> constructor for this object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L144">extensions/network/ping/network_ping.lua line 144</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setCallback">
+            <a name="//apple_ref/cpp/Method/setCallback" class="dashAnchor"></a>
+            <h5><a href="#setCallback">setCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:setCallback(fn) -&gt; pingObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Set or remoce the callback function for the pingObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>fn</code> - the function to set as the callback, or nil if you wish use the default callback.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the pingObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Because the ping process begins immediately upon creation with the <a href="#ping">hs.network.ping.ping</a> constructor, it is preferable to assign the callback with the constructor itself.</li>
+<li>This method is provided as a means of changing the callback based on other events (a change in the current network or location, perhaps.)</li>
+<li>If you truly wish to create a pingObject with no callback, you will need to do something like <code>hs.network.ping.ping(...):setCallback(function() end)</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L265">extensions/network/ping/network_ping.lua line 265</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="summary">
+            <a name="//apple_ref/cpp/Method/summary" class="dashAnchor"></a>
+            <h5><a href="#summary">summary</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.network.ping:summary() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a string containing summary information about the ping process.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a summary string for the current state of the ping process</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The summary string will look similar to the following:</li>
+</ul>
+
+<pre><code>--- hostname ping statistics 
+5 packets transmitted, 5 packets received, 0.0 packet loss
+round-trip min/avg/max = 2.282/4.133/4.926 ms
+</code></pre>
+<ul>
+<li>The numer of packets received will match the number that has currently been sent, not necessarily the value returned by <a href="#count">hs.network.ping:count</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/network/ping/network_ping.lua#L231">extensions/network/ping/network_ping.lua line 231</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

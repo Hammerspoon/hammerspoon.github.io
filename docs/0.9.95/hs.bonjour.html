@@ -1,0 +1,407 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.bonjour</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.bonjour</h1>
+      <p>Find and publish network services advertised by multicast DNS (Bonjour) with Hammerspoon.</p>
+<p>This module will allow you to discover services advertised on your network through multicast DNS and publish services offered by your computer.</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.bonjour.service.html">hs.bonjour.service</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#machineServices">machineServices</a></li>
+            <li><a href="#networkServices">networkServices</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#findBrowsableDomains">findBrowsableDomains</a></li>
+            <li><a href="#findRegistrationDomains">findRegistrationDomains</a></li>
+            <li><a href="#findServices">findServices</a></li>
+            <li><a href="#includesPeerToPeer">includesPeerToPeer</a></li>
+            <li><a href="#stop">stop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="machineServices">
+            <a name="//apple_ref/cpp/Function/machineServices" class="dashAnchor"></a>
+            <h5><a href="#machineServices">machineServices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.machineServices(target, callback) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Polls a host for the service types it is advertising via multicast DNS.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>target</code>   - a string specifying the target host to query for advertised service types</li>
+<li><code>callback</code> - a callback function which will be invoked when the service type query has completed. The callback should expect one argument which will either be an array of strings specifying the service types the target is advertising or a string specifying the error that occurred.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function may not work for all clients implementing multicast DNS; it has been successfully tested with macOS and Linux targets running the Avahi Daemon service, but has generally returned an error when used with minimalist implementations found in common IOT devices and embedded electronics.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/bonjour.lua#L214">extensions/bonjour/bonjour.lua line 214</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="networkServices">
+            <a name="//apple_ref/cpp/Function/networkServices" class="dashAnchor"></a>
+            <h5><a href="#networkServices">networkServices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.networkServices(callback, [timeout]) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a list of service types being advertised on your local network.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callback</code> - a callback function which will be invoked when the services query has completed. The callback should expect one argument: an array of strings specifying the service types discovered on the local network.</li>
+<li><code>timeout</code>  - an optional number, default 5, specifying the maximum number of seconds after the most recently received service type Hammerspoon should wait trying to identify advertised service types before finishing its query and invoking the callback.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function is a convienence wrapper to <a href="#findServices">hs.bonjour:findServices</a> which collects the results from multiple callbacks made to <code>findServices</code> and returns them all at once to the callback function provided as an argument to this function.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/bonjour.lua#L168">extensions/bonjour/bonjour.lua line 168</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour.new() -&gt; browserObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new network service browser that finds published services on a network using multicast DNS.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new browserObject or nil if an error occurs</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjoir.m#L138">extensions/bonjour/libbonjoir.m line 138</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="findBrowsableDomains">
+            <a name="//apple_ref/cpp/Method/findBrowsableDomains" class="dashAnchor"></a>
+            <h5><a href="#findBrowsableDomains">findBrowsableDomains</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour:findBrowsableDomains(callback) -&gt; browserObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Return a list of zero-conf and bonjour domains visibile to the users computer.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callback</code> - a function which will be invoked as visible domains are discovered. The function should accept the following parameters and return none:<ul>
+<li><code>browserObject</code>    - the userdata object for the browserObject which initiated the search</li>
+<li><code>type</code>             - a string which will be 'domain' or 'error' * if <code>type</code> == 'domain', the remaining arguments will be: * <code>added</code>        - a boolean value indicating whether this callback invocation represents a newly discovered or added domain (true) or that the domain has been removed from the network (false) * <code>domain</code>       - a string specifying the name of the domain discovered or removed * <code>moreExpected</code> - a boolean value indicating whether or not the browser expects to discover additional domains or not. * if <code>type</code> == 'error', the remaining arguments will be: * <code>errorString</code>  - a string specifying the error which has occurred</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the browserObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method returns domains which are visible to your machine; however, your machine may or may not be able to access or publish records within the returned domains. See  <a href="#findRegistrationDomains">hs.bonjour:findRegistrationDomains</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjoir.m#L186">extensions/bonjour/libbonjoir.m line 186</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="findRegistrationDomains">
+            <a name="//apple_ref/cpp/Method/findRegistrationDomains" class="dashAnchor"></a>
+            <h5><a href="#findRegistrationDomains">findRegistrationDomains</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour:findRegistrationDomains(callback) -&gt; browserObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Return a list of zero-conf and bonjour domains this computer can register services in.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callback</code> - a function which will be invoked as domains are discovered. The function should accept the following parameters and return none:<ul>
+<li><code>browserObject</code>    - the userdata object for the browserObject which initiated the search</li>
+<li><code>type</code>             - a string which will be 'domain' or 'error' * if <code>type</code> == 'domain', the remaining arguments will be: * <code>added</code>        - a boolean value indicating whether this callback invocation represents a newly discovered or added domain (true) or that the domain has been removed from the network (false) * <code>domain</code>       - a string specifying the name of the domain discovered or removed * <code>moreExpected</code> - a boolean value indicating whether or not the browser expects to discover additional domains or not. * if <code>type</code> == 'error', the remaining arguments will be: * <code>errorString</code>  - a string specifying the error which has occurred</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the browserObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This is the preferred method for accessing domains as it guarantees that the host machine can connect to services in the returned domains. Access to domains outside this list may be more limited. See also <a href="#findBrowsableDomains">hs.bonjour:findBrowsableDomains</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjoir.m#L224">extensions/bonjour/libbonjoir.m line 224</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="findServices">
+            <a name="//apple_ref/cpp/Method/findServices" class="dashAnchor"></a>
+            <h5><a href="#findServices">findServices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour:findServices(type, [domain], [callback]) -&gt; browserObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Find advertised services of the type specified.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>type</code>     - a string specifying the type of service to discover on your network. This string should be specified in the format of '_service._protocol.' where _protocol is one of '_tcp' or '_udp'. Examples of common service types can be found in <a href="#serviceTypes">hs.bonjour.serviceTypes</a>.</li>
+<li><code>domain</code>   - an optional string specifying the domain to look for advertised services in. The domain should end with a period. If you omit this parameter, the default registration domain will be used, usually &quot;local.&quot;</li>
+<li><code>callback</code> - a callback function which will be invoked as service advertisements meeting the specified criteria are discovered. The callback function should expect 2-5 arguments as follows:<ul>
+<li>if a service is discovered or advertising for the service is terminated, the arguments will be: * the browserObject * the string &quot;domain&quot; * a boolean indicating whether the service is being advertised (true) or should be removed because advertisments for the service are being terminated (false) * the serviceObject for the specific advertisement (see <code>hs.bonjour.service</code>) * a boolean indicating if more advertisements are expected (true) or if the macOS believes that there are no more advertisements to be discovered (false).</li>
+<li>if an error occurs, the callback arguments will be: * the browserObject * the string &quot;error&quot; * a string specifying the specific error that occurred</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the browserObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>macOS will indicate when it believes there are no more advertisements of the type specified by <code>type</code> in <code>domain</code> by marking the last argument to your callback function as false. This is a best guess and may not always be accurate if your network is slow or some servers on your network are particularly slow to respond.</li>
+<li>In addition, if you leave the browser running this method, you will get future updates when services are removed because of server shutdowns or added because of new servers being booted up.</li>
+<li>Leaving the browser running does consume some system resources though, so you will have to determine, based upon your specific requirements, if this is a concern for your specific task or not. To terminate the browser when you have rtrieved all of the infomration you reuqire, you can use the <a href="#stop">hs.bonjour:stop</a> method.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/bonjour.lua#L65">extensions/bonjour/bonjour.lua line 65</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="includesPeerToPeer">
+            <a name="//apple_ref/cpp/Method/includesPeerToPeer" class="dashAnchor"></a>
+            <h5><a href="#includesPeerToPeer">includesPeerToPeer</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour:includesPeerToPeer([value]) -&gt; current value | browserObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether to also browse over peer-to-peer Bluetooth and Wi-Fi, if available.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>value</code> - an optional boolean, default false, value specifying whether to also browse over peer-to-peer Bluetooth and Wi-Fi, if available.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if <code>value</code> is provided, returns the browserObject; otherwise returns the current value for this property</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This property must be set before initiating a search to have an effect.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjoir.m#L161">extensions/bonjour/libbonjoir.m line 161</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.bonjour:stop() -&gt; browserObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Stops a currently running search or resolution for the browser object</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the browserObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method should be invoked when you have identified the services or hosts you require to reduce the consumption of system resources.</li>
+<li>Invoking this method on an already idle browser will do nothing</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/bonjour/libbonjoir.m#L292">extensions/bonjour/libbonjoir.m line 292</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

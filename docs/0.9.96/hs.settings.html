@@ -1,0 +1,392 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.settings</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.settings</h1>
+      <p>Serialize simple Lua variables across Hammerspoon launches
+Settings must have a string key and must be made up of serializable Lua objects (string, number, boolean, nil, tables of such, etc.)</p>
+<p>This module is based partially on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#bundleID">bundleID</a></li>
+            <li><a href="#dateFormat">dateFormat</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#clear">clear</a></li>
+            <li><a href="#get">get</a></li>
+            <li><a href="#getKeys">getKeys</a></li>
+            <li><a href="#set">set</a></li>
+            <li><a href="#setData">setData</a></li>
+            <li><a href="#setDate">setDate</a></li>
+            <li><a href="#watchKey">watchKey</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="bundleID">
+            <a name="//apple_ref/cpp/Constant/bundleID" class="dashAnchor"></a>
+            <h5><a href="#bundleID">bundleID</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.settings.bundleID</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A string representing the ID of the bundle Hammerspoon's settings are stored in . You can use this with the command line tool `defaults` or other tools which allow access to the `User Defaults` of applications, to access these outside of Hammerspoon</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/settings/libsettings.m#L326">extensions/settings/libsettings.m line 326</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="dateFormat">
+            <a name="//apple_ref/cpp/Constant/dateFormat" class="dashAnchor"></a>
+            <h5><a href="#dateFormat">dateFormat</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.settings.dateFormat</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A string representing the expected format of date and time when presenting the date and time as a string to `hs.setDate()`.  e.g. `os.date(hs.settings.dateFormat)`</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/settings/libsettings.m#L320">extensions/settings/libsettings.m line 320</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="clear">
+            <a name="//apple_ref/cpp/Function/clear" class="dashAnchor"></a>
+            <h5><a href="#clear">clear</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.settings.clear(key) -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Deletes a setting</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>key - A string containing the name of a setting</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A boolean, true if the setting was deleted, otherwise false</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/settings/libsettings.m#L179">extensions/settings/libsettings.m line 179</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="get">
+            <a name="//apple_ref/cpp/Function/get" class="dashAnchor"></a>
+            <h5><a href="#get">get</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.settings.get(key) -&gt; string or boolean or number or nil or table or binary data</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Loads a setting</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>key - A string containing the name of the setting</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The value of the setting</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function can load all of the datatypes supported by <code>hs.settings.set()</code>, <code>hs.settings.setData()</code> and <code>hs.settings.setDate()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/settings/libsettings.m#L157">extensions/settings/libsettings.m line 157</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getKeys">
+            <a name="//apple_ref/cpp/Function/getKeys" class="dashAnchor"></a>
+            <h5><a href="#getKeys">getKeys</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.settings.getKeys() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets all of the previously stored setting names</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing all of the settings keys in Hammerspoon's settings</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Use <code>ipairs(hs.settings.getKeys())</code> to iterate over all available settings</li>
+<li>Use <code>hs.settings.getKeys()[&quot;someKey&quot;]</code> to test for the existance of a particular key</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/settings/libsettings.m#L200">extensions/settings/libsettings.m line 200</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="set">
+            <a name="//apple_ref/cpp/Function/set" class="dashAnchor"></a>
+            <h5><a href="#set">set</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.settings.set(key[, val])</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Saves a setting with common datatypes</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>key - A string containing the name of the setting</li>
+<li>val - An optional value for the setting. Valid datatypes are:<ul>
+<li>string</li>
+<li>number</li>
+<li>boolean</li>
+<li>nil</li>
+<li>table (which may contain any of the same valid datatypes)</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If no val parameter is provided, it is assumed to be nil</li>
+<li>This function cannot set dates or raw data types, see <code>hs.settings.setDate()</code> and <code>hs.settings.setData()</code></li>
+<li>Assigning a nil value is equivalent to clearing the value with <code>hs.settings.clear</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/settings/libsettings.m#L49">extensions/settings/libsettings.m line 49</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setData">
+            <a name="//apple_ref/cpp/Function/setData" class="dashAnchor"></a>
+            <h5><a href="#setData">setData</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.settings.setData(key, val)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Saves a setting with raw binary data</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>key - A string containing the name of the setting</li>
+<li>val - Some raw binary data</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/settings/libsettings.m#L91">extensions/settings/libsettings.m line 91</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setDate">
+            <a name="//apple_ref/cpp/Function/setDate" class="dashAnchor"></a>
+            <h5><a href="#setDate">setDate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.settings.setDate(key, val)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Saves a setting with a date</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>key - A string containing the name of the setting</li>
+<li>val - A number representing seconds since <code>1970-01-01 00:00:00 +0000</code> (e.g. <code>os.time()</code>), or a string containing a date in RFC3339 format (<code>YYYY-MM-DD[T]HH:MM:SS[Z]</code>)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>See <code>hs.settings.dateFormat</code> for a convenient representation of the RFC3339 format, to use with other time/date related functions</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/settings/libsettings.m#L129">extensions/settings/libsettings.m line 129</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="watchKey">
+            <a name="//apple_ref/cpp/Function/watchKey" class="dashAnchor"></a>
+            <h5><a href="#watchKey">watchKey</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.settings.watchKey(identifier, key, [fn]) -&gt; identifier | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set a watcher to invoke a callback when the specified settings key changes</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>identifier - a required string used as an identifier for this callback</li>
+<li>key        - the settings key to watch for changes to</li>
+<li>fn         - the callback function to be invoked when the specified key changes.  If this is an explicit nil, removes the existing callback.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if a callback is set or removed, returns the identifier; otherwise returns the current callback function or nil if no callback function is currently defined.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the identifier is required so that multiple callbacks for the same key can be registered by separate modules; it's value doesn't affect what is being watched but does need to be unique between multiple watchers of the same key.</li>
+<li>Does not work with keys that include a period (.) in the key name because KVO uses dot notation to specify a sequence of properties.  If you know of a way to escape periods so that they are watchable as NSUSerDefault key names, please file an issue and share!</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/settings/libsettings.m#L230">extensions/settings/libsettings.m line 230</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

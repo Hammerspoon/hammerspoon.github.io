@@ -1,0 +1,542 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.camera</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.camera</h1>
+      <p>Inspect the system's camera devices</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#allCameras">allCameras</a></li>
+            <li><a href="#isWatcherRunning">isWatcherRunning</a></li>
+            <li><a href="#setWatcherCallback">setWatcherCallback</a></li>
+            <li><a href="#startWatcher">startWatcher</a></li>
+            <li><a href="#stopWatcher">stopWatcher</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#connectionID">connectionID</a></li>
+            <li><a href="#isInUse">isInUse</a></li>
+            <li><a href="#isPropertyWatcherRunning">isPropertyWatcherRunning</a></li>
+            <li><a href="#name">name</a></li>
+            <li><a href="#setPropertyWatcherCallback">setPropertyWatcherCallback</a></li>
+            <li><a href="#startPropertyWatcher">startPropertyWatcher</a></li>
+            <li><a href="#stopPropertyWatcher">stopPropertyWatcher</a></li>
+            <li><a href="#uid">uid</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="allCameras">
+            <a name="//apple_ref/cpp/Function/allCameras" class="dashAnchor"></a>
+            <h5><a href="#allCameras">allCameras</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera.allCameras() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get all the cameras known to the system</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing all of the known cameras</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L329">extensions/camera/libcamera.m line 329</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isWatcherRunning">
+            <a name="//apple_ref/cpp/Function/isWatcherRunning" class="dashAnchor"></a>
+            <h5><a href="#isWatcherRunning">isWatcherRunning</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera.isWatcherRunning() -&gt; Boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Checks if the camera devices watcher is running</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A boolean, True if the watcher is running, otherwise False</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L464">extensions/camera/libcamera.m line 464</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setWatcherCallback">
+            <a name="//apple_ref/cpp/Function/setWatcherCallback" class="dashAnchor"></a>
+            <h5><a href="#setWatcherCallback">setWatcherCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera.setWatcherCallback(fn)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets/clears the callback function for the camera devices watcher</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - A callback function, or nil to remove a previously set callback. The callback should accept a two arguments (see Notes below)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The callback will be called when a camera is added or removed from the system</li>
+<li>To watch for changes within a single camera device, see <code>hs.camera:newWatcher()</code></li>
+<li>The callback function arguments are:</li>
+<li>An hs.camera device object for the affected device</li>
+<li>A string, either &quot;Added&quot; or &quot;Removed&quot; depending on whether the device was added or removed from the system</li>
+<li>For &quot;Removed&quot; events, most methods on the hs.camera device object will not function correctly anymore and the device object passed to the callback is likely to be useless. It is recommended you re-check <code>hs.camera.allCameras()</code> and keep records of the cameras you care about</li>
+<li>Passing nil will cause the watcher to stop if it is running</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L482">extensions/camera/libcamera.m line 482</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="startWatcher">
+            <a name="//apple_ref/cpp/Function/startWatcher" class="dashAnchor"></a>
+            <h5><a href="#startWatcher">startWatcher</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera.startWatcher()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Stops the camera devices watcher</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L378">extensions/camera/libcamera.m line 378</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stopWatcher">
+            <a name="//apple_ref/cpp/Function/stopWatcher" class="dashAnchor"></a>
+            <h5><a href="#stopWatcher">stopWatcher</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera.stopWatcher()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Stops the camera devices watcher</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L435">extensions/camera/libcamera.m line 435</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="connectionID">
+            <a name="//apple_ref/cpp/Method/connectionID" class="dashAnchor"></a>
+            <h5><a href="#connectionID">connectionID</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera:connectionID() -&gt; String</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get the raw connection ID of the camera</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A number containing the connection ID of the camera</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L550">extensions/camera/libcamera.m line 550</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isInUse">
+            <a name="//apple_ref/cpp/Method/isInUse" class="dashAnchor"></a>
+            <h5><a href="#isInUse">isInUse</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera:isInUse() -&gt; Boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get the usage status of the camera</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A boolean, True if the camera is in use, otherwise False</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L586">extensions/camera/libcamera.m line 586</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isPropertyWatcherRunning">
+            <a name="//apple_ref/cpp/Method/isPropertyWatcherRunning" class="dashAnchor"></a>
+            <h5><a href="#isPropertyWatcherRunning">isPropertyWatcherRunning</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera:isPropertyWatcherRunning() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Checks if the property watcher on a camera object is running</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A boolean, True if the property watcher is running, otherwise False</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L687">extensions/camera/libcamera.m line 687</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="name">
+            <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+            <h5><a href="#name">name</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera:name() -&gt; String</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get the name of the camera</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the name of the camera</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L568">extensions/camera/libcamera.m line 568</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setPropertyWatcherCallback">
+            <a name="//apple_ref/cpp/Method/setPropertyWatcherCallback" class="dashAnchor"></a>
+            <h5><a href="#setPropertyWatcherCallback">setPropertyWatcherCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera:setPropertyWatcherCallback(fn) -&gt; hs.camera object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets or clears a callback for when the properties of an hs.camera object change</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - A function to be called when properites of the camera change, or nil to clear a previously set callback. The function should accept the following parameters:<ul>
+<li>The hs.camera object that changed</li>
+<li>A string describing the property that changed. Possible values are:</li>
+<li>gone - The device's &quot;in use&quot; status changed (ie another app started using the camera, or stopped using it)</li>
+<li>A string containing the scope of the event, this will likely always be &quot;glob&quot;</li>
+<li>A number containing the element of the event, this will likely always be &quot;0&quot;</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.camera</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L604">extensions/camera/libcamera.m line 604</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="startPropertyWatcher">
+            <a name="//apple_ref/cpp/Method/startPropertyWatcher" class="dashAnchor"></a>
+            <h5><a href="#startPropertyWatcher">startPropertyWatcher</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera:startPropertyWatcher()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Starts the property watcher on a camera</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.camera</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L640">extensions/camera/libcamera.m line 640</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stopPropertyWatcher">
+            <a name="//apple_ref/cpp/Method/stopPropertyWatcher" class="dashAnchor"></a>
+            <h5><a href="#stopPropertyWatcher">stopPropertyWatcher</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera:stopPropertyWatcher()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Stops the property watcher on a camera</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.camera</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L667">extensions/camera/libcamera.m line 667</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="uid">
+            <a name="//apple_ref/cpp/Method/uid" class="dashAnchor"></a>
+            <h5><a href="#uid">uid</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.camera:uid() -&gt; String</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get the UID of the camera</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the UID of the camera</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The UID is not guaranteed to be stable across reboots</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/camera/libcamera.m#L529">extensions/camera/libcamera.m line 529</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

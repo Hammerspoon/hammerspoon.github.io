@@ -1,0 +1,427 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.webview.datastore</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.webview.datastore</h1>
+      <p>Provides methods to list and purge the various types of data used by websites visited with <code>hs.webview</code>.</p>
+<p>This module is only available under OS X 10.11 and later.</p>
+<p>This module allows you to list and selectively purge the types of data stored locally for the websites visited with the <code>hs.webview</code> module.  It also adds support for non-persistent datastores to <code>hs.webview</code> (private browsing) and allows a non-persistent datastore to be shared among multiple instances of <code>hs.webview</code> objects.</p>
+<p>The datastore for a webview contains various types of data including cookies, disk and memory caches, and persistent data such as WebSQL, IndexedDB databases, and local storage.  You can use methods in this module to selectively or completely purge the common datastore (used by all Hammerspoon <code>hs.webview</code> instances that do not use a non-persistent datastore).</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#websiteDataTypes">websiteDataTypes</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#default">default</a></li>
+            <li><a href="#fromWebview">fromWebview</a></li>
+            <li><a href="#newPrivate">newPrivate</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#fetchRecords">fetchRecords</a></li>
+            <li><a href="#persistent">persistent</a></li>
+            <li><a href="#removeRecordsAfter">removeRecordsAfter</a></li>
+            <li><a href="#removeRecordsFor">removeRecordsFor</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="websiteDataTypes">
+            <a name="//apple_ref/cpp/Function/websiteDataTypes" class="dashAnchor"></a>
+            <h5><a href="#websiteDataTypes">websiteDataTypes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.datastore.websiteDataTypes() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a list of the currently available data types within a datastore.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a list of strings where each string is a specific data type stored in a datastore.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>As of the writing of this module, the following data types are defined and returned by this function:<ul>
+<li><code>WKWebsiteDataTypeDiskCache</code>                  - On-disk caches.</li>
+<li><code>WKWebsiteDataTypeOfflineWebApplicationCache</code> - HTML offline web application caches.</li>
+<li><code>WKWebsiteDataTypeMemoryCache</code>                - In-memory caches.</li>
+<li><code>WKWebsiteDataTypeLocalStorage</code>               - HTML local storage.</li>
+<li><code>WKWebsiteDataTypeCookies</code>                    - Cookies.</li>
+<li><code>WKWebsiteDataTypeSessionStorage</code>             - HTML session storage.</li>
+<li><code>WKWebsiteDataTypeIndexedDBDatabases</code>         - WebSQL databases.</li>
+<li><code>WKWebsiteDataTypeWebSQLDatabases</code>            - IndexedDB databases.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_datastore.m#L20">extensions/webview/libwebview_datastore.m line 20</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="default">
+            <a name="//apple_ref/cpp/Constructor/default" class="dashAnchor"></a>
+            <h5><a href="#default">default</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.datastore.default() -&gt; datastoreObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns an object representing the default datastore for Hammerspoon `hs.webview` instances.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a datastoreObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this is the datastore used unless otherwise specified when creating an <code>hs.webview</code> instance.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_datastore.m#L47">extensions/webview/libwebview_datastore.m line 47</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="fromWebview">
+            <a name="//apple_ref/cpp/Constructor/fromWebview" class="dashAnchor"></a>
+            <h5><a href="#fromWebview">fromWebview</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.datastore.fromWebview(webview) -&gt; datastoreObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns an object representing the datastore for the specified `hs.webview` instance.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>webview</code> - an <code>hs.webview</code> instance (webviewObject)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a datastoreObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>When running on a system with OS X 10.11 or later, this method will also be added to the metatable for <code>hs.webview</code> objects so that you can retrieve a webview's datastore with <code>hs.webview:datastore()</code>.</p>
+</li>
+<li><p>This method can be used to identify the datastore in use for a webview if you wish to create a new instance using the same datastore.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_datastore.m#L87">extensions/webview/libwebview_datastore.m line 87</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newPrivate">
+            <a name="//apple_ref/cpp/Constructor/newPrivate" class="dashAnchor"></a>
+            <h5><a href="#newPrivate">newPrivate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.datastore.newPrivate() -&gt; datastoreObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns an object representing a newly created non-persistent (private) datastore for use with a Hammerspoon `hs.webview` instance.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a datastoreObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>The datastore represented by this object will be initially empty.  You can use this function to create a non-persistent datastore that you wish to share among multiple <code>hs.webview</code> instances.  Once a datastore is created, you assign it to a <code>hs.webview</code> instance by including the <code>datastore</code> key in the <code>hs.webvew.new</code> constructor's preferences table and setting it equal to this key.  All webview instances created with this datastore object will share web caches, cookies, etc. but will still be isolated from the default datastore and it will be purged from memory when the webviews are deleted, or Hammerspoon is restarted.</p>
+</li>
+<li><p>Using the <code>datastore</code> key in the webview's constructor differs from the <code>private</code> key -- use of the <code>private</code> key will override the <code>datastore</code> key and will create a separate non-persistent datastore for the webview instance.  See <code>hs.webview.new</code> for more information.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_datastore.m#L66">extensions/webview/libwebview_datastore.m line 66</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="fetchRecords">
+            <a name="//apple_ref/cpp/Method/fetchRecords" class="dashAnchor"></a>
+            <h5><a href="#fetchRecords">fetchRecords</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.datastore:fetchRecords([dataTypes], callback) -&gt; datastoreObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Generates a list of the datastore records of the specified type, and invokes the callback function with the list.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>dataTypes</code> - an optional string or table specifying the data types to fetch from the datastore.  If this parameter is not specified, it defaults to the list returned by <a href="#websiteDataTypes">hs.webview.datastore.websiteDataTypes</a>.</li>
+<li><code>callback</code>  - a function which accepts as it's argument an array-table containing tables with the following key-value pairs:<ul>
+<li><code>displayName</code> - a string containing the site's display name.  Typically, the display name is the domain name with suffix taken from the resource’s security origin (website name).</li>
+<li><code>dataTypes</code>   - a table containing strings representing the types of data stored for the website specified by <code>displayName</code>.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the datastore object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>only those sites with one or more of the specified data types are returned</li>
+<li>for the sites returned, only those data types that were present in the query will be included in the list, even if the site has data of another type in the datastore.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_datastore.m#L117">extensions/webview/libwebview_datastore.m line 117</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="persistent">
+            <a name="//apple_ref/cpp/Method/persistent" class="dashAnchor"></a>
+            <h5><a href="#persistent">persistent</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.datastore:persistent() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether or not the datastore is persistent.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean value indicating whether or not the datastore is persistent (true) or private (false)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Note that this value is the inverse of <code>hs.webview:privateBrowsing()</code>, since private browsing uses a non-persistent datastore.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_datastore.m#L381">extensions/webview/libwebview_datastore.m line 381</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="removeRecordsAfter">
+            <a name="//apple_ref/cpp/Method/removeRecordsAfter" class="dashAnchor"></a>
+            <h5><a href="#removeRecordsAfter">removeRecordsAfter</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.datastore:removeRecordsAfter(date, dataTypes, [callback]) -&gt; datastoreObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Removes the specified types of data from the datastore if the data was added or changed since the given date.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>date</code>         - an integer representing seconds since <code>1970-01-01 00:00:00 +0000</code> (e.g. <code>os.time()</code>), or a string containing a date in RFC3339 format (<code>YYYY-MM-DD[T]HH:MM:SS[Z]</code>).</li>
+<li><code>dataTypes</code>    - a string or array of strings specifying the types of data to remove from the datastore for the specified sites.</li>
+<li><code>callback</code>     - an optional function, which should expect no arguments, that will be called when the specified items have been removed from the datastore.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the datastore object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>Yes, you read the description correctly -- removes data <em>newer</em> then the date specified.  I've not yet found a way to remove data <em>older</em> then the date specified (to expire old data, for example) but updates or suggestions are welcome in the Hammerspoon Google group or Github web site.</p>
+</li>
+<li><p>to specify that all data types that qualify should be removed, specify the function  <a href="#websiteDataTypes">hs.webview.datastore.websiteDataTypes()</a>. as the second argument.</p>
+</li>
+<li><p>For example, to purge the Hammerspoon default datastore of all data, you can do the following:</p>
+</li>
+</ul>
+
+<pre><code>hs.webview.datastore.default():removeRecordsAfter(0, hs.webview.datastore.websiteDataTypes())
+</code></pre>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_datastore.m#L287">extensions/webview/libwebview_datastore.m line 287</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="removeRecordsFor">
+            <a name="//apple_ref/cpp/Method/removeRecordsFor" class="dashAnchor"></a>
+            <h5><a href="#removeRecordsFor">removeRecordsFor</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.datastore:removeRecordsFor(displayNames, dataTypes, [callback]) -&gt; datastoreObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Remove data from the datastore of the specified type(s) for the specified site(s).</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>displayNames</code> - a string or array of strings specifying the display names (sites) to remove records for.</li>
+<li><code>dataTypes</code>    - a string or array of strings specifying the types of data to remove from the datastore for the specified sites.</li>
+<li><code>callback</code>     - an optional function, which should expect no arguments, that will be called when the specified items have been removed from the datastore.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the datastore object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>to specify that all data types that qualify should be removed, specify the function  <a href="#websiteDataTypes">hs.webview.datastore.websiteDataTypes()</a>. as the second argument.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_datastore.m#L186">extensions/webview/libwebview_datastore.m line 186</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

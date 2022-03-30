@@ -1,0 +1,1219 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.tangent</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.tangent</h1>
+      <p>Tangent Control Surface Extension</p>
+<p><strong>API Version:</strong> TUBE Version 3.2 - TIPC Rev 4 (22nd February 2017)</p>
+<p>This plugin allows Hammerspoon to communicate with Tangent's range of panels, such as their Element, Virtual Element Apps, Wave, Ripple and any future panels.</p>
+<p>The Tangent Unified Bridge Engine (TUBE) is made up of two software elements, the Mapper and the Hub. The Hub communicates with your application via the
+TUBE Inter Process Communications (TIPC). TIPC is a standardised protocol to allow any application that supports it to communicate with any current and
+future panels produced by Tangent via the TUBE Hub.</p>
+<p>You can download the Tangent Developer Support Pack &amp; Tangent Hub Installer for Mac <a href="http://www.tangentwave.co.uk/developer-support/">here</a>.</p>
+<p>This extension was thrown together by <a href="https://github.com/latenitefilms">Chris Hocking</a>, then dramatically improved by <a href="https://github.com/randomeizer">David Peterson</a> for <a href="http://commandpost.io">CommandPost</a>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#action">action</a></li>
+            <li><a href="#fromHub">fromHub</a></li>
+            <li><a href="#panelType">panelType</a></li>
+            <li><a href="#parameter">parameter</a></li>
+            <li><a href="#toHub">toHub</a></li>
+          </ul>
+        <li>Variables - Configurable values</li>
+          <ul>
+            <li><a href="#automaticallySendApplicationDefinition">automaticallySendApplicationDefinition</a></li>
+            <li><a href="#ipAddress">ipAddress</a></li>
+            <li><a href="#port">port</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#callback">callback</a></li>
+            <li><a href="#connect">connect</a></li>
+            <li><a href="#connected">connected</a></li>
+            <li><a href="#disconnect">disconnect</a></li>
+            <li><a href="#isTangentHubInstalled">isTangentHubInstalled</a></li>
+            <li><a href="#send">send</a></li>
+            <li><a href="#sendAllChange">sendAllChange</a></li>
+            <li><a href="#sendApplicationDefinition">sendApplicationDefinition</a></li>
+            <li><a href="#sendDisplayText">sendDisplayText</a></li>
+            <li><a href="#sendHighlightControl">sendHighlightControl</a></li>
+            <li><a href="#sendIndicateControl">sendIndicateControl</a></li>
+            <li><a href="#sendMenuString">sendMenuString</a></li>
+            <li><a href="#sendModeValue">sendModeValue</a></li>
+            <li><a href="#sendPanelConnectionStatesRequest">sendPanelConnectionStatesRequest</a></li>
+            <li><a href="#sendParameterValue">sendParameterValue</a></li>
+            <li><a href="#sendRenameControl">sendRenameControl</a></li>
+            <li><a href="#sendUnmanagedDisplayWrite">sendUnmanagedDisplayWrite</a></li>
+            <li><a href="#sendUnmanagedPanelCapabilitiesRequest">sendUnmanagedPanelCapabilitiesRequest</a></li>
+            <li><a href="#setLogLevel">setLogLevel</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="action">
+            <a name="//apple_ref/cpp/Constant/action" class="dashAnchor"></a>
+            <h5><a href="#action">action</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.reserved.action -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Definitions for reserved action IDs.</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><code>alt</code>                     - toggles the 'ALT' function.</li>
+<li><code>nextKnobBank</code>            - switches to the next knob bank.</li>
+<li><code>prevKnobBank</code>            - switches to the previous knob bank.</li>
+<li><code>nextButtonBank</code>          - switches to the next button bank.</li>
+<li><code>prevBasketBank</code>          - switches to the previous button bank.</li>
+<li><code>nextTrackerballBank</code>     - switches to the next trackerball bank.</li>
+<li><code>prevTrackerballBank</code>     - switches to the previous trackerball bank.</li>
+<li><code>nextMode</code>                - switches to the next mode.</li>
+<li><code>prevMode</code>                - switches to the previous mode.</li>
+<li><code>goToMode</code>                - switches to the specified mode, requiring a Argument with the mode ID.</li>
+<li><code>toggleJogShuttle</code>        - toggles jog/shuttle mode.</li>
+<li><code>toggleMouseEmulation</code>    - toggles mouse emulation.</li>
+<li><code>fakeKeypress</code>            - generates a keypress, requiring an Argument with the key code.</li>
+<li><code>showHUD</code>                 - shows the HUD on screen.</li>
+<li><code>goToKnobBank</code>            - goes to the specific knob bank, requiring an Argument with the bank number.</li>
+<li><code>goToButtonBank</code>          - goes to the specific button bank, requiring an Argument with the bank number.</li>
+<li><code>goToTrackerballBank</code>     - goes to the specific trackerball bank, requiring an Argument with the bank number.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L109">extensions/tangent/tangent.lua line 109</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="fromHub">
+            <a name="//apple_ref/cpp/Constant/fromHub" class="dashAnchor"></a>
+            <h5><a href="#fromHub">fromHub</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.fromHub -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Definitions for IPC Commands from the HUB to Hammerspoon.</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><code>connected</code>                       - a connection is established with the Hub.</li>
+<li><code>disconnected</code>                    - the connection is dropped with the Hub.</li>
+<li><code>initiateComms</code>                   - sent when the Hub wants to initiate communications.</li>
+<li><code>parameterChange</code>                 - a parameter was incremented.</li>
+<li><code>parameterReset</code>                  - a parameter was reset.</li>
+<li><code>parameterValueRequest</code>           - the Hub wants the current value of the parameter.</li>
+<li><code>menuChange</code>                      - The menu was changed, <code>+1</code> or <code>-1</code>.</li>
+<li><code>menuReset</code>                       - The menu was reset.</li>
+<li><code>menuStringRequest</code>               - The application should send a <code>menuString</code> with the current value.</li>
+<li><code>actionOn</code>                        - An action button was pressed.</li>
+<li><code>actionOff</code>                       - An action button was released.</li>
+<li><code>modeChange</code>                      - The current mode was changed.</li>
+<li><code>transport</code>                       - The transport.</li>
+<li><code>unmanagedPanelCapabilities</code>      - Send by the Hub to advertise an unmanaged panel.</li>
+<li><code>unmanagedButtonDown</code>             - A button on an unmanaged panel was pressed.</li>
+<li><code>unmanagedButtonUp</code>               - A button on an unmanaged panel was released.</li>
+<li><code>unmanagedEncoderChange</code>          - An encoder (dial/wheel) on an unmanaged panel changed.</li>
+<li><code>unmanagedDisplayRefresh</code>         - Triggered when an unmanaged panel's display needs to update.</li>
+<li><code>panelConnectionState</code>            - A panel's connection state changed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L37">extensions/tangent/tangent.lua line 37</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="panelType">
+            <a name="//apple_ref/cpp/Constant/panelType" class="dashAnchor"></a>
+            <h5><a href="#panelType">panelType</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.panelType -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Tangent Panel Types.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L169">extensions/tangent/tangent.lua line 169</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="parameter">
+            <a name="//apple_ref/cpp/Constant/parameter" class="dashAnchor"></a>
+            <h5><a href="#parameter">parameter</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.reserved.parameter -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table of reserved parameter IDs.</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><code>transportRing</code>           - transport ring.</li>
+<li><code>fakeKeypress</code>            - sends a fake keypress.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L152">extensions/tangent/tangent.lua line 152</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="toHub">
+            <a name="//apple_ref/cpp/Constant/toHub" class="dashAnchor"></a>
+            <h5><a href="#toHub">toHub</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.toHub -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Definitions for IPC Commands from Hammerspoon to the HUB.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L90">extensions/tangent/tangent.lua line 90</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Variables</h4>
+          <section id="automaticallySendApplicationDefinition">
+            <a name="//apple_ref/cpp/Variable/automaticallySendApplicationDefinition" class="dashAnchor"></a>
+            <h5><a href="#automaticallySendApplicationDefinition">automaticallySendApplicationDefinition</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.automaticallySendApplicationDefinition -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Automatically send the "Application Definition" response. Defaults to `true`.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1008">extensions/tangent/tangent.lua line 1008</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="ipAddress">
+            <a name="//apple_ref/cpp/Variable/ipAddress" class="dashAnchor"></a>
+            <h5><a href="#ipAddress">ipAddress</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.ipAddress -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>IP Address that the Tangent Hub is located at. Defaults to 127.0.0.1.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L998">extensions/tangent/tangent.lua line 998</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="port">
+            <a name="//apple_ref/cpp/Variable/port" class="dashAnchor"></a>
+            <h5><a href="#port">port</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.port -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>The port that Tangent Hub monitors. Defaults to 64246.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1003">extensions/tangent/tangent.lua line 1003</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="callback">
+            <a name="//apple_ref/cpp/Function/callback" class="dashAnchor"></a>
+            <h5><a href="#callback">callback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.callback() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets a callback when new messages are received.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>callbackFn - a function to set as the callback for <code>hs.tangent</code>. If the value provided is <code>nil</code>, any currently existing callback function is removed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Full documentation for the Tangent API can be downloaded <a href="http://www.tangentwave.co.uk/download/developer-support-pack/">here</a>.</li>
+<li>The callback function should expect 1 argument and should not return anything.</li>
+<li>The 1 argument will be a table, which can contain one or many commands. Each command is it's own table with the following contents:<ul>
+<li>id - the message ID of the incoming message</li>
+<li>metadata - A table of data for the Tangent command (see below).</li>
+</ul>
+</li>
+<li>The metadata table will return the following, depending on the <code>id</code> for the callback:<ul>
+<li><code>connected</code> - Connection to Tangent Hub successfully established.</li>
+<li><code>disconnected</code> - The connection to Tangent Hub was dropped.</li>
+<li><code>initiateComms</code> - Initiates communication between the Hub and the application.<ul>
+<li><code>protocolRev</code> - The revision number of the protocol.</li>
+<li><code>numPanels</code> - The number of panels connected.</li>
+<li><code>panels</code><ul>
+<li><code>panelID</code> - The ID of the panel.</li>
+<li><code>panelType</code> - The type of panel connected.</li>
+</ul>
+</li>
+<li><code>data</code> - The raw data from the Tangent Hub</li>
+</ul>
+</li>
+<li><code>parameterChange</code> - Requests that the application increment a parameter.<ul>
+<li><code>paramID</code> - The ID value of the parameter.</li>
+<li><code>increment</code> - The incremental value which should be applied to the parameter.</li>
+</ul>
+</li>
+<li><code>parameterReset</code> - Requests that the application changes a parameter to its reset value.<ul>
+<li><code>paramID</code> - The ID value of the parameter.</li>
+</ul>
+</li>
+<li><code>parameterValueRequest</code> - Requests that the application sends a <code>ParameterValue (0x82)</code> command to the Hub.<ul>
+<li><code>paramID</code> - The ID value of the parameter.</li>
+</ul>
+</li>
+<li><code>menuChange</code> - Requests the application change a menu index by +1 or -1.<ul>
+<li><code>menuID</code> - The ID value of the menu.</li>
+<li><code>increment</code> - The incremental amount by which the menu index should be changed which will always be an integer value of +1 or -1.</li>
+</ul>
+</li>
+<li><code>menuReset</code> - Requests that the application changes a menu to its reset value.<ul>
+<li><code>menuID</code> - The ID value of the menu.</li>
+</ul>
+</li>
+<li><code>menuStringRequest</code> - Requests that the application sends a <code>MenuString (0x83)</code> command to the Hub.<ul>
+<li><code>menuID</code> - The ID value of the menu.</li>
+</ul>
+</li>
+<li><code>actionOn</code> - Requests that the application performs the specified action.<ul>
+<li><code>actionID</code> - The ID value of the action.</li>
+</ul>
+</li>
+<li><code>modeChange</code> - Requests that the application changes to the specified mode.<ul>
+<li><code>modeID</code> - The ID value of the mode.</li>
+</ul>
+</li>
+<li><code>transport</code> - Requests the application to move the currently active transport.<ul>
+<li><code>jogValue</code> - The number of jog steps to move the transport.</li>
+<li><code>shuttleValue</code> - An incremental value to add to the shuttle speed.</li>
+</ul>
+</li>
+<li><code>actionOff</code> - Requests that the application cancels the specified action.<ul>
+<li><code>actionID</code> - The ID value of the action.</li>
+</ul>
+</li>
+<li><code>unmanagedPanelCapabilities</code> - Only used when working in Unmanaged panel mode. Sent in response to a <code>UnmanagedPanelCapabilitiesRequest (0xA0)</code> command.<ul>
+<li><code>panelID</code> - The ID of the panel as reported in the <code>InitiateComms</code> command.</li>
+<li><code>numButtons</code> - The number of buttons on the panel.</li>
+<li><code>numEncoders</code> - The number of encoders on the panel.</li>
+<li><code>numDisplays</code> - The number of displays on the panel.</li>
+<li><code>numDisplayLines</code> - The number of lines for each display on the panel.</li>
+<li><code>numDisplayChars</code> - The number of characters on each line of each display on the panel.</li>
+</ul>
+</li>
+<li><code>unmanagedButtonDown</code> - Only used when working in Unmanaged panel mode. Issued when a button has been pressed.<ul>
+<li><code>panelID</code> - The ID of the panel as reported in the <code>InitiateComms</code> command.</li>
+<li><code>buttonID</code> - The hardware ID of the button</li>
+</ul>
+</li>
+<li><code>unmanagedButtonUp</code> - Only used when working in Unmanaged panel mode. Issued when a button has been released.<ul>
+<li><code>panelID</code> - The ID of the panel as reported in the <code>InitiateComms</code> command.</li>
+<li><code>buttonID</code> - The hardware ID of the button.</li>
+</ul>
+</li>
+<li><code>unmanagedEncoderChange</code> - Only used when working in Unmanaged panel mode. Issued when an encoder has been moved.<ul>
+<li><code>panelID</code> - The ID of the panel as reported in the <code>InitiateComms</code> command.</li>
+<li><code>paramID</code> - The hardware ID of the encoder.</li>
+<li><code>increment</code> - The incremental value.</li>
+</ul>
+</li>
+<li><code>unmanagedDisplayRefresh</code> - Only used when working in Unmanaged panel mode. Issued when a panel has been connected or the focus of the panel has been returned to your application.<ul>
+<li><code>panelID</code> - The ID of the panel as reported in the <code>InitiateComms</code> command.</li>
+</ul>
+</li>
+<li><code>panelConnectionState</code><ul>
+<li><code>panelID</code> - The ID of the panel as reported in the <code>InitiateComms</code> command.</li>
+<li><code>state</code> - The connected state of the panel, <code>true</code> if connected, <code>false</code> if disconnected.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1044">extensions/tangent/tangent.lua line 1044</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="connect">
+            <a name="//apple_ref/cpp/Function/connect" class="dashAnchor"></a>
+            <h5><a href="#connect">connect</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.connect(applicationName, systemPath[, userPath]) -&gt; boolean, errorMessage</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Connects to the Tangent Hub.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>applicationName - Your application name as a string</li>
+<li>systemPath - A string containing the absolute path of the directory that contains the Controls and Default Map XML files.</li>
+<li>[userPath] - An optional string containing the absolute path of the directory that contains the User’s Default Map XML files.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>success - <code>true</code> on success, otherwise <code>nil</code></li>
+<li>errorMessage - The error messages as a string or <code>nil</code> if <code>success</code> is <code>true</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1726">extensions/tangent/tangent.lua line 1726</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="connected">
+            <a name="//apple_ref/cpp/Function/connected" class="dashAnchor"></a>
+            <h5><a href="#connected">connected</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.connected() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Checks to see whether or not you're successfully connected to the Tangent Hub.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if connected, otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1128">extensions/tangent/tangent.lua line 1128</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="disconnect">
+            <a name="//apple_ref/cpp/Function/disconnect" class="dashAnchor"></a>
+            <h5><a href="#disconnect">disconnect</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.disconnect() -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Disconnects from the Tangent Hub.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1657">extensions/tangent/tangent.lua line 1657</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isTangentHubInstalled">
+            <a name="//apple_ref/cpp/Function/isTangentHubInstalled" class="dashAnchor"></a>
+            <h5><a href="#isTangentHubInstalled">isTangentHubInstalled</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.isTangentHubInstalled() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Checks to see whether or not the Tangent Hub software is installed.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if Tangent Hub is installed otherwise <code>false</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1027">extensions/tangent/tangent.lua line 1027</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="send">
+            <a name="//apple_ref/cpp/Function/send" class="dashAnchor"></a>
+            <h5><a href="#send">send</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.send(byteString) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sends a "bytestring" message to the Tangent Hub.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>byteString   - The string of bytes to send to tangent.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>success - <code>true</code> if connected, otherwise <code>false</code></li>
+<li>errorMessage - An error message if an error occurs, as a string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This should be a full encoded string for the command you want to send, withouth the leading 'size' section, which the function will calculate automatically.</li>
+<li>In general, you should use the more specific functions that package the command for you, such as <code>sendParameterValue(...)</code>. This function can be used to send a message that this API doesn't yet support.</li>
+<li>Full documentation for the Tangent API can be downloaded <a href="http://www.tangentwave.co.uk/download/developer-support-pack/">here</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1141">extensions/tangent/tangent.lua line 1141</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendAllChange">
+            <a name="//apple_ref/cpp/Function/sendAllChange" class="dashAnchor"></a>
+            <h5><a href="#sendAllChange">sendAllChange</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendAllChange() -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Tells the Hub that a large number of software-controls have changed.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, or <code>false</code> and an error message if not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The Hub responds by requesting all the current values of software-controls it is currently controlling.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1295">extensions/tangent/tangent.lua line 1295</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendApplicationDefinition">
+            <a name="//apple_ref/cpp/Function/sendApplicationDefinition" class="dashAnchor"></a>
+            <h5><a href="#sendApplicationDefinition">sendApplicationDefinition</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendApplicationDefinition([appName, systemPath, userPath]) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sends the application details to the Tangent Hub.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>appName       - The human-readable name of the application.</li>
+<li>systemPath    - A string containing the absolute path of the directory that contains the Controls and Default Map XML files (Path String)</li>
+<li>userPath      - A string containing the absolute path of the directory that contains the User’s Default Map XML files (Path String)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, <code>false</code> and an error message if there was a problem.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If no details are provided the ones stored in the module are used.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1168">extensions/tangent/tangent.lua line 1168</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendDisplayText">
+            <a name="//apple_ref/cpp/Function/sendDisplayText" class="dashAnchor"></a>
+            <h5><a href="#sendDisplayText">sendDisplayText</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendDisplayText(messages[, doubleHeight]) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Updates the Hub with a number of character strings that will be displayed on connected panels if there is space.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>messages      - A list of messages to send.</li>
+<li>doubleHeight  - An optional list of <code>boolean</code>s indicating if the corresponding message is double-height.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, or <code>false</code> and an error message if not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Strings may either be 32 character, single height or 16 character double-height. They will be displayed in the order received; the first string displayed at the top of the display.</li>
+<li>If a string is not defined as double-height then it will occupy the next line.</li>
+<li>If a string is defined as double-height then it will occupy the next 2 lines.</li>
+<li>The maximum number of lines which will be used by the application must be indicated in the Controls XML file.</li>
+<li>Text which exceeds 32 (single-height) or 16 (double-height) characters will be truncated.</li>
+<li>If all text is single-height, the <code>doubleHeight</code> table can be omitted.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Examples</th>
+                  <td></td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1342">extensions/tangent/tangent.lua line 1342</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendHighlightControl">
+            <a name="//apple_ref/cpp/Function/sendHighlightControl" class="dashAnchor"></a>
+            <h5><a href="#sendHighlightControl">sendHighlightControl</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendHighlightControl(targetID, active) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Highlights the control on any panel where this feature is available.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>targetID      - The id of any application defined Parameter, Menu, Action or Mode (Unsigned Int)</li>
+<li>active        - If <code>true</code>, the control is highlighted, otherwise it is not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if sent successfully, <code>false</code> and an error message if no.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>When applied to Modes, buttons which are mapped to the reserved &quot;Go To Mode&quot; action for this particular mode will highlight.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1544">extensions/tangent/tangent.lua line 1544</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendIndicateControl">
+            <a name="//apple_ref/cpp/Function/sendIndicateControl" class="dashAnchor"></a>
+            <h5><a href="#sendIndicateControl">sendIndicateControl</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendIndicateControl(targetID, indicated) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets the Indicator of the control on any panel where this feature is available.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>targetID      - The id of any application defined Parameter, Menu, Action or Mode</li>
+<li>active        - If <code>true</code>, the control is indicated, otherwise it is not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if sent successfully, <code>false</code> and an error message if no.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This indicator is driven by the <code>atDefault</code> argument for Parameters and Menus. This command therefore only applies to controls mapped to Actions and Modes.</li>
+<li>When applied to Modes, buttons which are mapped to the reserved &quot;Go To Mode&quot; action for this particular mode will have their indicator set.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1574">extensions/tangent/tangent.lua line 1574</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendMenuString">
+            <a name="//apple_ref/cpp/Function/sendMenuString" class="dashAnchor"></a>
+            <h5><a href="#sendMenuString">sendMenuString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendMenuString(menuID, value[, atDefault]) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Updates the Hub with a menu value.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>menuID - The ID value of the menu (Unsigned Int)</li>
+<li>value - The current ‘value’ of the parameter represented as a string</li>
+<li>atDefault - if <code>true</code> the value represents the default. Otherwise <code>false</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, or <code>false</code> and an error message if not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The Hub then updates the displays of any panels which are currently showing the menu.</li>
+<li>If a value of <code>nil</code> is sent then the Hub will not attempt to display a value for the menu. However the <code>atDefault</code> flag will still be recognised.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1256">extensions/tangent/tangent.lua line 1256</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendModeValue">
+            <a name="//apple_ref/cpp/Function/sendModeValue" class="dashAnchor"></a>
+            <h5><a href="#sendModeValue">sendModeValue</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendModeValue(modeID) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Updates the Hub with a mode value.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>modeID - The ID value of the mode (Unsigned Int)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, or <code>false</code> and an error message if not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The Hub then changes mode and requests all the current values of software-controls it is controlling.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1315">extensions/tangent/tangent.lua line 1315</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendPanelConnectionStatesRequest">
+            <a name="//apple_ref/cpp/Function/sendPanelConnectionStatesRequest" class="dashAnchor"></a>
+            <h5><a href="#sendPanelConnectionStatesRequest">sendPanelConnectionStatesRequest</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendPanelConnectionStatesRequest())</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Requests the Hub to respond with a sequence of PanelConnectionState (0x35) commands to report the connected/disconnected status of each configured panel</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if sent successfully, <code>false</code> and an error message if not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>A single request may result in multiple state responses.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1607">extensions/tangent/tangent.lua line 1607</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendParameterValue">
+            <a name="//apple_ref/cpp/Function/sendParameterValue" class="dashAnchor"></a>
+            <h5><a href="#sendParameterValue">sendParameterValue</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendParameterValue(paramID, value[, atDefault]) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Updates the Hub with a parameter value.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>paramID - The ID value of the parameter (Unsigned Int)</li>
+<li>value - The current value of the parameter (Float)</li>
+<li>atDefault - if <code>true</code> the value represents the default. Defaults to <code>false</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, or <code>false</code> and an error message if not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The Hub then updates the displays of any panels which are currently showing the parameter value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1218">extensions/tangent/tangent.lua line 1218</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendRenameControl">
+            <a name="//apple_ref/cpp/Function/sendRenameControl" class="dashAnchor"></a>
+            <h5><a href="#sendRenameControl">sendRenameControl</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendRenameControl(targetID, newName) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Renames a control dynamically.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>targetID  - The id of any application defined Parameter, Menu, Action or Mode (Unsigned Int)</li>
+<li>newName   - The new name to apply.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, <code>false</code> and an error message if not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The string supplied will replace the normal text which has been derived from the Controls XML file.</li>
+<li>To remove any existing replacement name set <code>newName</code> to <code>&quot;&quot;</code>, this will remove any renaming and return the system to the normal display text</li>
+<li>When applied to Modes, the string displayed on buttons which mapped to the reserved &quot;Go To Mode&quot; action for this particular mode will also change.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1507">extensions/tangent/tangent.lua line 1507</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendUnmanagedDisplayWrite">
+            <a name="//apple_ref/cpp/Function/sendUnmanagedDisplayWrite" class="dashAnchor"></a>
+            <h5><a href="#sendUnmanagedDisplayWrite">sendUnmanagedDisplayWrite</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendUnmanagedDisplayWrite(panelID, displayID, lineNum, pos, message) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Updates the Hub with text that will be displayed on a specific panel at the given line and starting position where supported by the panel capabilities.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>panelID       - The ID of the panel as reported in the InitiateComms command (Unsigned Int)</li>
+<li>displayID     - The ID of the display to be written to (Unsigned Int)</li>
+<li>lineNum       - The line number of the display to be written to with <code>1</code> as the top line (Unsigned Int)</li>
+<li>pos           - The position on the line to start writing from with <code>1</code> as the first column (Unsigned Int)</li>
+<li>message       - A line of text (Character String)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, or <code>false</code> and an error message if not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Only used when working in Unmanaged panel mode.</li>
+<li>If the most significant bit of any individual text character in <code>message</code> is set it will be displayed as inversed with dark text on a light background.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1452">extensions/tangent/tangent.lua line 1452</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendUnmanagedPanelCapabilitiesRequest">
+            <a name="//apple_ref/cpp/Function/sendUnmanagedPanelCapabilitiesRequest" class="dashAnchor"></a>
+            <h5><a href="#sendUnmanagedPanelCapabilitiesRequest">sendUnmanagedPanelCapabilitiesRequest</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.sendUnmanagedPanelCapabilitiesRequest(panelID) -&gt; boolean, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Requests the Hub to respond with an UnmanagedPanelCapabilities (0x30) command.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>panelID - The ID of the panel as reported in the InitiateComms command (Unsigned Int)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, or <code>false</code> and an error message if not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Only used when working in Unmanaged panel mode</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1425">extensions/tangent/tangent.lua line 1425</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setLogLevel">
+            <a name="//apple_ref/cpp/Function/setLogLevel" class="dashAnchor"></a>
+            <h5><a href="#setLogLevel">setLogLevel</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.tangent.setLogLevel(loglevel) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets the Log Level.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>loglevel - can be 'nothing', 'error', 'warning', 'info', 'debug', or 'verbose'; or a corresponding number between 0 and 5</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/tangent/tangent.lua#L1013">extensions/tangent/tangent.lua line 1013</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

@@ -1,0 +1,1441 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.webview.toolbar</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.webview.toolbar</h1>
+      <p>Create and manipulate toolbars which can be attached to the Hammerspoon console or hs.webview objects.</p>
+<p>Toolbars are attached to titled windows and provide buttons which can be used to perform various actions within the application. Hammerspoon can use this module to add toolbars to the console or <code>hs.webview</code> objects which have a title bar (see <code>hs.webview.windowMasks</code> and <code>hs.webview:windowStyle</code>). Toolbars are identified by a unique identifier which is used by OS X to identify information which can be auto saved in the application's user defaults to reflect changes the user has made to the toolbar button order or active button list (this requires setting <a href="#autosaves">hs.webview.toolbar:autosaves</a> and <a href="#canCustomize">hs.webview.toolbar:canCustomize</a> both to true).</p>
+<p>Multiple copies of the same toolbar can be made with the <a href="#copy">hs.webview.toolbar:copy</a> method so that multiple webview windows use the same toolbar, for example. If the user customizes a copied toolbar, changes to the active buttons or their order will be reflected in all copies of the toolbar.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">&quot;hs.webview.toolbar&quot;</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;myConsole&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;select1&quot;</span><span class="p">,</span> <span class="n">selectable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSStatusAvailable&quot;</span><span class="p">)</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;NSToolbarSpaceItem&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;select2&quot;</span><span class="p">,</span> <span class="n">selectable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSStatusUnavailable&quot;</span><span class="p">)</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;notShown&quot;</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSBonjour&quot;</span><span class="p">)</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;NSToolbarFlexibleSpaceItem&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;navGroup&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Navigation&quot;</span><span class="p">,</span> <span class="n">groupMembers</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;navLeft&quot;</span><span class="p">,</span> <span class="s2">&quot;navRight&quot;</span> <span class="p">}},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;navLeft&quot;</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSGoLeftTemplate&quot;</span><span class="p">),</span> <span class="n">allowedAlone</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;navRight&quot;</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSGoRightTemplate&quot;</span><span class="p">),</span> <span class="n">allowedAlone</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;NSToolbarFlexibleSpaceItem&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;cust&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;customize&quot;</span><span class="p">,</span> <span class="n">fn</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="n">t</span><span class="p">:</span><span class="n">customizePanel</span><span class="p">()</span> <span class="kr">end</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">imageFromName</span><span class="p">(</span><span class="s2">&quot;NSAdvanced&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="p">}):</span><span class="n">canCustomize</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+      <span class="p">:</span><span class="n">autosaves</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+      <span class="p">:</span><span class="n">selectedItem</span><span class="p">(</span><span class="s2">&quot;select2&quot;</span><span class="p">)</span>
+      <span class="p">:</span><span class="n">setCallback</span><span class="p">(</span><span class="kr">function</span><span class="p">(...)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">inspect</span><span class="p">(</span><span class="nb">table.pack</span><span class="p">(...)))</span>
+                   <span class="kr">end</span><span class="p">)</span>
+
+<span class="n">t</span><span class="p">.</span><span class="n">attachToolbar</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+<p>Notes:</p>
+<ul>
+<li>This module is supported in OS X versions prior to 10.10 (for the Hammerspoon console only), even though its parent <code>hs.webview</code> is not. To load this module directly, use <code>require(&quot;hs.webview.toolbar&quot;)</code> instead of relying on module auto-loading.</li>
+<li>Toolbar items are rendered in the order they are supplied, although if the toolbar is marked as customizable, the user may have changed the order.</li>
+</ul>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#itemPriorities">itemPriorities</a></li>
+            <li><a href="#systemToolbarItems">systemToolbarItems</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#attachToolbar">attachToolbar</a></li>
+            <li><a href="#inTitleBar">inTitleBar</a></li>
+            <li><a href="#uniqueName">uniqueName</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#addItems">addItems</a></li>
+            <li><a href="#allowedItems">allowedItems</a></li>
+            <li><a href="#autosaves">autosaves</a></li>
+            <li><a href="#canCustomize">canCustomize</a></li>
+            <li><a href="#copy">copy</a></li>
+            <li><a href="#customizePanel">customizePanel</a></li>
+            <li><a href="#delete">delete</a></li>
+            <li><a href="#deleteItem">deleteItem</a></li>
+            <li><a href="#displayMode">displayMode</a></li>
+            <li><a href="#identifier">identifier</a></li>
+            <li><a href="#insertItem">insertItem</a></li>
+            <li><a href="#isAttached">isAttached</a></li>
+            <li><a href="#isCustomizing">isCustomizing</a></li>
+            <li><a href="#itemDetails">itemDetails</a></li>
+            <li><a href="#items">items</a></li>
+            <li><a href="#modifyItem">modifyItem</a></li>
+            <li><a href="#notifyOnChange">notifyOnChange</a></li>
+            <li><a href="#removeItem">removeItem</a></li>
+            <li><a href="#savedSettings">savedSettings</a></li>
+            <li><a href="#selectedItem">selectedItem</a></li>
+            <li><a href="#selectSearchField">selectSearchField</a></li>
+            <li><a href="#separator">separator</a></li>
+            <li><a href="#setCallback">setCallback</a></li>
+            <li><a href="#sizeMode">sizeMode</a></li>
+            <li><a href="#toolbarStyle">toolbarStyle</a></li>
+            <li><a href="#visible">visible</a></li>
+            <li><a href="#visibleItems">visibleItems</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="itemPriorities">
+            <a name="//apple_ref/cpp/Constant/itemPriorities" class="dashAnchor"></a>
+            <h5><a href="#itemPriorities">itemPriorities</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar.itemPriorities</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table containing some pre-defined toolbar item priority values for use when determining item order in the toolbar.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1938">extensions/webview/libwebview_toolbar.m line 1938</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="systemToolbarItems">
+            <a name="//apple_ref/cpp/Constant/systemToolbarItems" class="dashAnchor"></a>
+            <h5><a href="#systemToolbarItems">systemToolbarItems</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar.systemToolbarItems</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>An array containing string identifiers for supported system defined toolbar items.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1926">extensions/webview/libwebview_toolbar.m line 1926</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="attachToolbar">
+            <a name="//apple_ref/cpp/Function/attachToolbar" class="dashAnchor"></a>
+            <h5><a href="#attachToolbar">attachToolbar</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar.attachToolbar([obj1], [obj2]) -&gt; obj1</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or attach/detach a toolbar to the webview, chooser, or console.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>obj1 - An optional toolbarObject</li>
+<li>obj2 - An optional toolbarObject<ul>
+<li>if no arguments are present, this function returns the current toolbarObject for the Hammerspoon console, or nil if one is not attached.</li>
+<li>if one argument is provided and it is a toolbarObject or nil, this function will attach or detach a toolbarObject to/from the Hammerspoon console.</li>
+<li>if one argument is provided and it is an hs.webview or hs.chooser object, this function will return the current toolbarObject for the object, or nil if one is not attached.</li>
+<li>if two arguments are provided and the first is an hs.webview or hs.chooser object and the second is a toolbarObject or nil, this function will attach or detach a toolbarObject to/from the object.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the function is used to attach/detach a toolbar, then the first object provided (the target) will be returned ; if this function is used to get the current toolbar object for a webview, chooser, or console, then the toolbarObject or nil will be returned.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>This function is not expected to be used directly (though it can be) -- it is added to the <code>hs.webview</code> and <code>hs.chooser</code> object metatables so that it may be invoked as <code>hs.webview:attachedToolbar([toolbarObject | nil])</code>/<code>hs.chooser:attachedToolbar([toolbarObject | nil])</code> and to the <code>hs.console</code> module so that it may be invoked as <code>hs.console.toolbar([toolbarObject | nil])</code>.</p>
+</li>
+<li><p>If the toolbar is currently attached to another window when this function is called, it will be detached from the original window and attached to the new one specified by this function.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L863">extensions/webview/libwebview_toolbar.m line 863</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="inTitleBar">
+            <a name="//apple_ref/cpp/Function/inTitleBar" class="dashAnchor"></a>
+            <h5><a href="#inTitleBar">inTitleBar</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:inTitleBar([state]) -&gt; toolbarObject | boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether or not the toolbar appears in the containing window's titlebar, similar to Safari.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>state</code> - an optional boolean specifying whether or not the toolbar should appear in the window's titlebar.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if a parameter is specified, returns the toolbar object, otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>When this value is true, the toolbar, when visible, will appear in the window's title bar similar to the toolbar as seen in applications like Safari.  In this state, the toolbar will set the display of the toolbar items to icons without labels, ignoring changes made with <a href="#displayMode">hs.webview.toolbar:displayMode</a>.</p>
+</li>
+<li><p>This method is only valid when the toolbar is attached to a webview, chooser, or the console.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L986">extensions/webview/libwebview_toolbar.m line 986</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="uniqueName">
+            <a name="//apple_ref/cpp/Function/uniqueName" class="dashAnchor"></a>
+            <h5><a href="#uniqueName">uniqueName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar.uniqueName(toolbarName) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Checks to see is a toolbar name is already in use</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>toolbarName  - a string specifying the name of a toolbar</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if the name is unique otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L846">extensions/webview/libwebview_toolbar.m line 846</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar.new(toolbarName, [toolbarTable]) -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a new toolbar for a webview, chooser, or the console.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>toolbarName  - a string specifying the name for this toolbar</li>
+<li>toolbarTable - an optional table describing possible items for the toolbar</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a toolbarObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Toolbar names must be unique, but a toolbar may be copied with <a href="#copy">hs.webview.toolbar:copy</a> if you wish to attach it to multiple windows (webview, chooser, or console).</li>
+<li>See <a href="#addItems">hs.webview.toolbar:addItems</a> for a description of the format for <code>toolbarTable</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L809">extensions/webview/libwebview_toolbar.m line 809</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="addItems">
+            <a name="//apple_ref/cpp/Method/addItems" class="dashAnchor"></a>
+            <h5><a href="#addItems">addItems</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:addItems(toolbarTable) -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Add one or more toolbar items to the toolbar</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>toolbarTable</code> - a table describing a single toolbar item, or an array of tables, each describing a separate toolbar item, to be added to the toolbar.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the toolbarObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Each toolbar item is defined as a table of key-value pairs.  The following list describes the valid keys used when describing a toolbar item for this method, the constructor <a href="#new">hs.webview.toolbar.new</a>, and the <a href="#modifyItem">hs.webview.toolbar:modifyItem</a> method.  Note that the <code>id</code> field is <strong>required</strong> for all three uses.<ul>
+<li><code>id</code>           - A unique string identifier required for each toolbar item and group.  This key cannot be changed after an item has been created.</li>
+<li><code>allowedAlone</code> - a boolean value, default true, specifying whether or not the toolbar item can be added to the toolbar, programmatically or through the customization panel, (true) or whether it can only be added as a member of a group (false).</li>
+<li><code>default</code>      - a boolean value, default matching the value of <code>allowedAlone</code> for this item, indicating whether or not this toolbar item or group should be displayed in the toolbar by default, unless overridden by user customization or a saved configuration (when such options are enabled).</li>
+<li><code>enable</code>       - a boolean value, default true, indicating whether or not the toolbar item is active (and can be clicked on) or inactive and greyed out.  This field is ignored when applied to a toolbar group; apply it to the group members instead.</li>
+<li><code>fn</code>           - a callback function, or false to remove, specific to the toolbar item. This property is ignored if assigned to the button group. This function will override the toolbar callback defined with <a href="#setCallback">hs.webview.toolbar:setCallback</a> for this specific item. The function should expect three (four, if the item is a <code>searchfield</code>) arguments and return none.  See <a href="#setCallback">hs.webview.toolbar:setCallback</a> for information about the callback's arguments.</li>
+<li><code>groupMembers</code> - an array (table) of strings specifying the toolbar item ids that are members of this toolbar item group.  If set to false, this field is removed and the item is reset back to being a regular toolbar item.  Note that you cannot change a currently visible toolbar item to or from being a group; it must first be removed from active toolbar with <a href="#removeItem">hs.webview.toolbar:removeItem</a>.</li>
+<li><code>image</code>        - an <code>hs.image</code> object, or false to remove, specifying the image to use as the toolbar item's icon when icon's are displayed in the toolbar or customization panel. This key is ignored for a toolbar item group, but not for it's individual members.</li>
+<li><code>label</code>        - a string label, or false to remove, for the toolbar item or group when text is displayed in the toolbar or in the customization panel. For a toolbar item, the default is the <code>id</code> string; for a group, the default is <code>false</code>. If a group has a label assigned to it, the group label will be displayed for the group of items it contains. If a group does not have a label, the individual items which make up the group will each display their individual labels.</li>
+<li><code>priority</code>     - an integer value used to determine toolbar item order and which items are displayed or put into the overflow menu when the number of items in the toolbar exceed the width of the window in which the toolbar is attached. Some example values are provided in the <a href="#itemPriorities">hs.webview.toolbar.itemPriorities</a> table. If a toolbar item is in a group, it's priority is ignored and the item group is ordered by the item group's priority.</li>
+<li><code>searchfield</code>  - a boolean (default false) specifying whether or not this toolbar item is a search field. If true, the following additional keys are allowed:<ul>
+<li><code>searchHistory</code>                - an array (table) of strings, specifying previous searches to automatically include in the search field menu, if <code>searchPredefinedMenuTitle</code> is not false</li>
+<li><code>searchHistoryAutosaveName</code>    - a string specifying the key name to save search history with in the application deafults (accessible through <code>hs.settings</code>). If this value is set, search history will be maintained through restarts of Hammerspoon.</li>
+<li><code>searchHistoryLimit</code>           - the maximum number of items to store in the search field history.</li>
+<li><code>searchPredefinedMenuTitle</code>    - a string or boolean specifying how a predefined list of search field &quot;response&quot; should be included in the search field menu. If this item is <code>true</code>, this list of items specified for <code>searchPredefinedSearches</code> will be displayed in a submenu with the title &quot;Predefined Searches&quot;. If this item is a string, the list of items will be displayed in a submenu with the title specified by this string value. If this item is <code>false</code>, then the search field menu will only contain the items specified in <code>searchPredefinedSearches</code> and no search history will be included in the menu.</li>
+<li><code>searchPredefinedSearches</code>     - an array (table) of strings specifying the items to be listed in the predefined search submenu. If set to false, any existing menu will be removed and the search field menu will be reset to the default.</li>
+<li><code>searchReleaseFocusOnCallback</code> - a boolean, default false, specifying whether or not focus leaves the search field text box when the callback is invoked. Setting this to true can be useful if you want subsequent keypresses to be caught by the webview after reacting to the value entered into the search field by the user.</li>
+<li><code>searchText</code>                   - a string specifying the text to display in the search field.</li>
+<li><code>searchWidth</code>                  - the width of the search field text entry box.</li>
+</ul>
+</li>
+<li><code>selectable</code>   - a boolean value, default false, indicating whether or not this toolbar item is selectable (i.e. highlights, like a selected tab) when clicked on. Only one selectable toolbar item can be highlighted at a time, and you can get or set/reset the selected item with <a href="#selectedItem">hs.webview.toolbar:selectedItem</a>.</li>
+<li><code>tag</code>          - an integer value which can be used for own purposes; has no affect on the visual aspect of the item or its behavior.</li>
+<li><code>tooltip</code>      - a string label, or false to remove, which is displayed as a tool tip when the user hovers the mouse over the button or button group. If a button is in a group, it's tooltip is ignored in favor of the group tooltip.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/webview_toolbar.lua#L53">extensions/webview/webview_toolbar.lua line 53</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="allowedItems">
+            <a name="//apple_ref/cpp/Method/allowedItems" class="dashAnchor"></a>
+            <h5><a href="#allowedItems">allowedItems</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:allowedItems() -&gt; array</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns an array of all toolbar item identifiers defined for this toolbar.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table as an array of all toolbar item identifiers defined for this toolbar.  See also <a href="#items">hs.webview.toolbar:items</a> and <a href="#visibleItems">hs.webview.toolbar:visibleItems</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1657">extensions/webview/libwebview_toolbar.m line 1657</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="autosaves">
+            <a name="//apple_ref/cpp/Method/autosaves" class="dashAnchor"></a>
+            <h5><a href="#autosaves">autosaves</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:autosaves([bool]) -&gt; toolbarObject | bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether or not the toolbar autosaves changes made to the toolbar.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>an optional boolean value indicating whether or not changes made to the visible toolbar items or their order is automatically saved.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the toolbar object; otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If the toolbar is set to autosave, then a user-defaults entry is created in org.hammerspoon.Hammerspoon domain with the key &quot;NSToolbar Configuration XXX&quot; where XXX is the toolbar identifier specified when the toolbar was created.</li>
+<li>The information saved for the toolbar consists of the following:<ul>
+<li>the default item identifiers that are displayed when the toolbar is first created or when the user drags the default set from the customization panel.</li>
+<li>the current display mode (icon, text, both)</li>
+<li>the current size mode (regular, small)</li>
+<li>whether or not the toolbar is currently visible</li>
+<li>the currently shown identifiers and their order</li>
+</ul>
+</li>
+<li>Note that the labels, icons, callback functions, etc. are not saved -- these are determined at toolbar creation time, by the <a href="#addItems">hs.webview.toolbar:addItems</a>, or by the <a href="#modifyItem">hs.webview.toolbar:modifyItem</a> method and can differ between invocations of toolbars with the same identifier and button identifiers.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1853">extensions/webview/libwebview_toolbar.m line 1853</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="canCustomize">
+            <a name="//apple_ref/cpp/Method/canCustomize" class="dashAnchor"></a>
+            <h5><a href="#canCustomize">canCustomize</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:canCustomize([bool]) -&gt; toolbarObject | bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether or not the user is allowed to customize the toolbar with the Customization Panel.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>an optional boolean value indicating whether or not the user is allowed to customize the toolbar.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the toolbar object; otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the customization panel can be pulled up by right-clicking on the toolbar or by invoking <a href="#customizePanel">hs.webview.toolbar:customizePanel</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1827">extensions/webview/libwebview_toolbar.m line 1827</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="copy">
+            <a name="//apple_ref/cpp/Method/copy" class="dashAnchor"></a>
+            <h5><a href="#copy">copy</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:copy() -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a copy of the toolbar object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a copy of the toolbar which can be attached to another window (webview, chooser, or console).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1040">extensions/webview/libwebview_toolbar.m line 1040</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="customizePanel">
+            <a name="//apple_ref/cpp/Method/customizePanel" class="dashAnchor"></a>
+            <h5><a href="#customizePanel">customizePanel</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:customizePanel() -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Opens the toolbar customization panel.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the toolbar object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1792">extensions/webview/libwebview_toolbar.m line 1792</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="delete">
+            <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+            <h5><a href="#delete">delete</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:delete() -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Deletes the toolbar, removing it from its window if it is currently attached.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L2066">extensions/webview/libwebview_toolbar.m line 2066</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="deleteItem">
+            <a name="//apple_ref/cpp/Method/deleteItem" class="dashAnchor"></a>
+            <h5><a href="#deleteItem">deleteItem</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:deleteItem(identifier) -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Deletes the toolbar item specified completely from the toolbar, removing it first, if the toolbar item is currently active.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>identifier</code> - the toolbar item's identifier</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the toolbar object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method completely removes the toolbar item from the toolbar's definition dictionary, thus removing it from active use in the toolbar as well as removing it from the customization panel, if supported.  If you only want to remove a toolbar item from the active toolbar, consider <a href="#removeItem">hs.webview.toolbar:removeItem</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1557">extensions/webview/libwebview_toolbar.m line 1557</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="displayMode">
+            <a name="//apple_ref/cpp/Method/displayMode" class="dashAnchor"></a>
+            <h5><a href="#displayMode">displayMode</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:displayMode([mode]) -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the toolbar's display mode.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>mode - an optional string to set the size of the toolbar to &quot;default&quot;, &quot;label&quot;, &quot;icon&quot;, or &quot;both&quot;.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the toolbar object; otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1281">extensions/webview/libwebview_toolbar.m line 1281</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="identifier">
+            <a name="//apple_ref/cpp/Method/identifier" class="dashAnchor"></a>
+            <h5><a href="#identifier">identifier</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:identifier() -&gt; identifier</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>The identifier for this toolbar.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The identifier for this toolbar.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1775">extensions/webview/libwebview_toolbar.m line 1775</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="insertItem">
+            <a name="//apple_ref/cpp/Method/insertItem" class="dashAnchor"></a>
+            <h5><a href="#insertItem">insertItem</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:insertItem(id, index) -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Insert or move the toolbar item to the index position specified</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>id    - the string identifier of the toolbar item</li>
+<li>index - the numerical position where the toolbar item should be inserted/moved to.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the toolbar object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the toolbar position must be between 1 and the number of currently active toolbar items.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1177">extensions/webview/libwebview_toolbar.m line 1177</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isAttached">
+            <a name="//apple_ref/cpp/Method/isAttached" class="dashAnchor"></a>
+            <h5><a href="#isAttached">isAttached</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:isAttached() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a boolean indicating whether or not the toolbar is currently attached to a window.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean indicating whether or not the toolbar is currently attached to a window.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1023">extensions/webview/libwebview_toolbar.m line 1023</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isCustomizing">
+            <a name="//apple_ref/cpp/Method/isCustomizing" class="dashAnchor"></a>
+            <h5><a href="#isCustomizing">isCustomizing</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:isCustomizing() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Indicates whether or not the customization panel is currently open for the toolbar.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true or false indicating whether or not the customization panel is open for the toolbar</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1810">extensions/webview/libwebview_toolbar.m line 1810</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="itemDetails">
+            <a name="//apple_ref/cpp/Method/itemDetails" class="dashAnchor"></a>
+            <h5><a href="#itemDetails">itemDetails</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:itemDetails(id) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table containing details about the specified toolbar item</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>id - a string identifier specifying the toolbar item</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the toolbar item definition</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>For a list of the most of the possible toolbar item attribute keys, see <a href="#addItems">hs.webview.toolbar:addItems</a>.</li>
+<li>The table will also include <code>privateCallback</code> which will be a boolean indicating whether or not this toolbar item has a private callback function assigned (true) or uses the toolbar's general callback function (false).</li>
+<li>The returned table may also contain the following keys, if the item is currently assigned to a toolbar:<ul>
+<li><code>toolbar</code>  - the toolbar object the item belongs to</li>
+<li><code>subItems</code> - if the toolbar item is actually a group, this will contain a table with basic information about the members of the group.  If you wish to get the full details for each sub-member, you may iterate on the identifiers provided in <code>groupMembers</code>.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1593">extensions/webview/libwebview_toolbar.m line 1593</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="items">
+            <a name="//apple_ref/cpp/Method/items" class="dashAnchor"></a>
+            <h5><a href="#items">items</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:items() -&gt; array</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns an array of the toolbar item identifiers currently assigned to the toolbar.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table as an array of the currently active (assigned) toolbar item identifiers.  Toolbar items which are in the overflow menu <em>are</em> included in this array.  See also <a href="#visibleItems">hs.webview.toolbar:visibleItems</a> and <a href="#allowedItems">hs.webview.toolbar:allowedItems</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1674">extensions/webview/libwebview_toolbar.m line 1674</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="modifyItem">
+            <a name="//apple_ref/cpp/Method/modifyItem" class="dashAnchor"></a>
+            <h5><a href="#modifyItem">modifyItem</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:modifyItem(table) -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Modify the toolbar item specified by the "id" key in the table argument.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>a table containing an &quot;id&quot; key and the attributes to change for the toolbar item.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the toolbarObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>You cannot change a toolbar item's <code>id</code></li>
+<li>For a list of the possible toolbar item attribute keys, see <a href="#addItems">hs.webview.toolbar:addItems</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1414">extensions/webview/libwebview_toolbar.m line 1414</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="notifyOnChange">
+            <a name="//apple_ref/cpp/Method/notifyOnChange" class="dashAnchor"></a>
+            <h5><a href="#notifyOnChange">notifyOnChange</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:notifyOnChange([bool]) -&gt; toolbarObject | bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether or not the global callback function is invoked when a toolbar item is added or removed from the toolbar.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>an optional boolean value to enable or disable invoking the global callback for toolbar changes.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the toolbar object; otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1155">extensions/webview/libwebview_toolbar.m line 1155</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="removeItem">
+            <a name="//apple_ref/cpp/Method/removeItem" class="dashAnchor"></a>
+            <h5><a href="#removeItem">removeItem</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:removeItem(index | identifier) -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Remove the toolbar item at the index position specified, or with the specified identifier, if currently present in the toolbar.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>index</code> - the numerical position of the toolbar item to remove.</li>
+<li><code>identifier</code> - the identifier of the toolbar item to remove, if currently active in the toolbar</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the toolbar object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the toolbar position must be between 1 and the number of currently active toolbar items.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/webview_toolbar.lua#L97">extensions/webview/webview_toolbar.lua line 97</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="savedSettings">
+            <a name="//apple_ref/cpp/Method/savedSettings" class="dashAnchor"></a>
+            <h5><a href="#savedSettings">savedSettings</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:savedSettings() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table containing the settings which will be saved for the toolbar if [hs.webview.toolbar:autosaves](#autosaves) is true.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the toolbar settings</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If the toolbar is set to autosave, then a user-defaults entry is created in org.hammerspoon.Hammerspoon domain with the key &quot;NSToolbar Configuration XXX&quot; where XXX is the toolbar identifier specified when the toolbar was created.</li>
+<li>This method is provided if you do not wish for changes to the toolbar to be autosaved for every change, but may wish to save it programmatically under specific conditions.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1090">extensions/webview/libwebview_toolbar.m line 1090</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="selectedItem">
+            <a name="//apple_ref/cpp/Method/selectedItem" class="dashAnchor"></a>
+            <h5><a href="#selectedItem">selectedItem</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:selectedItem([item]) -&gt; toolbarObject | item</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the selected toolbar item</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>item - an optional id for the toolbar item to show as selected, or an explicit nil if you wish for no toolbar item to be selected.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the toolbar object; otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Only toolbar items which were defined as <code>selectable</code> when created with <a href="#new">hs.webview.toolbar.new</a> can be selected with this method.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1708">extensions/webview/libwebview_toolbar.m line 1708</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="selectSearchField">
+            <a name="//apple_ref/cpp/Method/selectSearchField" class="dashAnchor"></a>
+            <h5><a href="#selectSearchField">selectSearchField</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:selectSearchField([identifier]) -&gt; toolbarObject | false</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Programmatically focus the search field for keyboard input.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>identifier - an optional string specifying the id of the specific search field to focus.  If this parameter is not provided, this method attempts to focus the first active searchfield found in the toolbar</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the searchfield can be found and is currently in the toolbar, returns the toolbarObject; otherwise returns false.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>if there is current text in the searchfield, it will be selected so that any subsequent typing by the user will replace the current value in the searchfield.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1741">extensions/webview/libwebview_toolbar.m line 1741</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="separator">
+            <a name="//apple_ref/cpp/Method/separator" class="dashAnchor"></a>
+            <h5><a href="#separator">separator</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:separator([bool]) -&gt; toolbarObject | bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether or not the toolbar shows a separator between the toolbar and the main window contents.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>an optional boolean value to enable or disable the separator.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the toolbar object; otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1111">extensions/webview/libwebview_toolbar.m line 1111</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setCallback">
+            <a name="//apple_ref/cpp/Method/setCallback" class="dashAnchor"></a>
+            <h5><a href="#setCallback">setCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:setCallback(fn) -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets or removes the global callback function for the toolbar.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - a function to set as the global callback for the toolbar, or nil to remove the global callback. The function should expect three (four, if the item is a <code>searchfield</code> or <code>notifyOnChange</code> is true) arguments and return none: the toolbar object, &quot;console&quot; or the webview/chooser object the toolbar is attached to, and the toolbar item identifier that was clicked.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the toolbar object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the global callback function is invoked for a toolbar button item that does not have a specific function assigned directly to it.</li>
+<li>if <a href="#notifyOnChange">hs.webview.toolbar:notifyOnChange</a> is set to true, then this callback function will also be invoked when a toolbar item is added or removed from the toolbar either programmatically with <a href="#insertItem">hs.webview.toolbar:insertItem</a> and <a href="#removeItem">hs.webview.toolbar:removeItem</a> or under user control with <a href="#customizePanel">hs.webview.toolbar:customizePanel</a> and the callback function will receive a string of &quot;add&quot; or &quot;remove&quot; as a fourth argument.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1062">extensions/webview/libwebview_toolbar.m line 1062</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sizeMode">
+            <a name="//apple_ref/cpp/Method/sizeMode" class="dashAnchor"></a>
+            <h5><a href="#sizeMode">sizeMode</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:sizeMode([size]) -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the toolbar's size.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>size - an optional string to set the size of the toolbar to &quot;default&quot;, &quot;regular&quot;, or &quot;small&quot;.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the toolbar object; otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1234">extensions/webview/libwebview_toolbar.m line 1234</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="toolbarStyle">
+            <a name="//apple_ref/cpp/Method/toolbarStyle" class="dashAnchor"></a>
+            <h5><a href="#toolbarStyle">toolbarStyle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:toolbarStyle([style]) -&gt; toolbarObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the toolbar's style.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>style - an optional string to set the style of the toolbar to &quot;automatic&quot;, &quot;expanded&quot;, &quot;preference&quot;, &quot;unified&quot;, or &quot;unifiedCompact&quot;.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the toolbar object; otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This is only available for macOS 11.0+. Will return <code>nil</code> if getting on an earlier version of macOS.</li>
+<li><code>automatic</code> - A style indicating that the system determines the toolbar’s appearance and location.</li>
+<li><code>expanded</code> - A style indicating that the toolbar appears below the window title.</li>
+<li><code>preference</code> - A style indicating that the toolbar appears below the window title with toolbar items centered in the toolbar.</li>
+<li><code>unified</code> - A style indicating that the toolbar appears next to the window title.</li>
+<li><code>unifiedCompact</code> - A style indicating that the toolbar appears next to the window title and with reduced margins to allow more focus on the window’s contents.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1333">extensions/webview/libwebview_toolbar.m line 1333</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="visible">
+            <a name="//apple_ref/cpp/Method/visible" class="dashAnchor"></a>
+            <h5><a href="#visible">visible</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:visible([bool]) -&gt; toolbarObject | bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether or not the toolbar is currently visible in the window it is attached to.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>an optional boolean value to show or hide the toolbar.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the toolbar object; otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1133">extensions/webview/libwebview_toolbar.m line 1133</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="visibleItems">
+            <a name="//apple_ref/cpp/Method/visibleItems" class="dashAnchor"></a>
+            <h5><a href="#visibleItems">visibleItems</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.webview.toolbar:visibleItems() -&gt; array</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns an array of the currently visible toolbar item identifiers.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table as an array of the currently visible toolbar item identifiers.  Toolbar items which are in the overflow menu are <em>not</em> included in this array.  See also <a href="#items">hs.webview.toolbar:items</a> and <a href="#allowedItems">hs.webview.toolbar:allowedItems</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview_toolbar.m#L1691">extensions/webview/libwebview_toolbar.m line 1691</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

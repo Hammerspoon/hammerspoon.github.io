@@ -22,6 +22,7 @@
       <ul>
         <li>Constants - Useful values which cannot be changed</li>
           <ul>
+            <li><a href="#imagePositions">imagePositions</a></li>
             <li><a href="#priorities">priorities</a></li>
           </ul>
         <li>Constructors - API calls which return an object, typically one that offers API methods</li>
@@ -34,6 +35,7 @@
             <li><a href="#delete">delete</a></li>
             <li><a href="#frame">frame</a></li>
             <li><a href="#icon">icon</a></li>
+            <li><a href="#imagePosition">imagePosition</a></li>
             <li><a href="#isInMenuBar">isInMenuBar</a></li>
             <li><a href="#popupMenu">popupMenu</a></li>
             <li><a href="#priority">priority</a></li>
@@ -50,6 +52,28 @@
       </ul>
       <h3>API Documentation</h3>
         <h4 class="documentation-section">Constants</h4>
+          <section id="imagePositions">
+            <a name="//apple_ref/cpp/Constant/imagePositions" class="dashAnchor"></a>
+            <h5><a href="#imagePositions">imagePositions</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.menubar.imagePositions[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Pre-defined list of image positions for a menubar item</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1221">extensions/menubar/libmenubar.m line 1221</a></td>
+              </tr>
+            </table>
+          </section>
           <section id="priorities">
             <a name="//apple_ref/cpp/Constant/priorities" class="dashAnchor"></a>
             <h5><a href="#priorities">priorities</a></h5>
@@ -68,7 +92,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1171">extensions/menubar/libmenubar.m line 1171</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1201">extensions/menubar/libmenubar.m line 1201</a></td>
               </tr>
             </table>
           </section>
@@ -163,7 +187,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L530">extensions/menubar/libmenubar.m line 530</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L531">extensions/menubar/libmenubar.m line 531</a></td>
               </tr>
             </table>
           </section>
@@ -200,7 +224,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L842">extensions/menubar/libmenubar.m line 842</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L872">extensions/menubar/libmenubar.m line 872</a></td>
               </tr>
             </table>
           </section>
@@ -243,7 +267,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/menubar.lua#L36">extensions/menubar/menubar.lua line 36</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/menubar.lua#L37">extensions/menubar/menubar.lua line 37</a></td>
               </tr>
             </table>
           </section>
@@ -279,7 +303,43 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1094">extensions/menubar/libmenubar.m line 1094</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1124">extensions/menubar/libmenubar.m line 1124</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="imagePosition">
+            <a name="//apple_ref/cpp/Method/imagePosition" class="dashAnchor"></a>
+            <h5><a href="#imagePosition">imagePosition</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.menubar:imagePosition([position]) -&gt; menubaritem | current-value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the position of a menubar image relative to its text title</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>position - Either one of the values in <code>hs.menubar.imagePositions</code> which will be set, or nothing to return the current position</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>Either the menubar item, if its image position was changed, or the current value of the image position</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L577">extensions/menubar/libmenubar.m line 577</a></td>
               </tr>
             </table>
           </section>
@@ -315,7 +375,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1025">extensions/menubar/libmenubar.m line 1025</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1055">extensions/menubar/libmenubar.m line 1055</a></td>
               </tr>
             </table>
           </section>
@@ -361,7 +421,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L877">extensions/menubar/libmenubar.m line 877</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L907">extensions/menubar/libmenubar.m line 907</a></td>
               </tr>
             </table>
           </section>
@@ -407,7 +467,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1062">extensions/menubar/libmenubar.m line 1062</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1092">extensions/menubar/libmenubar.m line 1092</a></td>
               </tr>
             </table>
           </section>
@@ -443,7 +503,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L960">extensions/menubar/libmenubar.m line 960</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L990">extensions/menubar/libmenubar.m line 990</a></td>
               </tr>
             </table>
           </section>
@@ -479,7 +539,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L993">extensions/menubar/libmenubar.m line 993</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1023">extensions/menubar/libmenubar.m line 1023</a></td>
               </tr>
             </table>
           </section>
@@ -530,7 +590,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L695">extensions/menubar/libmenubar.m line 695</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L725">extensions/menubar/libmenubar.m line 725</a></td>
               </tr>
             </table>
           </section>
@@ -598,7 +658,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L614">extensions/menubar/libmenubar.m line 614</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L644">extensions/menubar/libmenubar.m line 644</a></td>
               </tr>
             </table>
           </section>
@@ -666,7 +726,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L744">extensions/menubar/libmenubar.m line 744</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L774">extensions/menubar/libmenubar.m line 774</a></td>
               </tr>
             </table>
           </section>
@@ -710,7 +770,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L575">extensions/menubar/libmenubar.m line 575</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L605">extensions/menubar/libmenubar.m line 605</a></td>
               </tr>
             </table>
           </section>
@@ -753,7 +813,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L671">extensions/menubar/libmenubar.m line 671</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L701">extensions/menubar/libmenubar.m line 701</a></td>
               </tr>
             </table>
           </section>
@@ -797,7 +857,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1131">extensions/menubar/libmenubar.m line 1131</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1161">extensions/menubar/libmenubar.m line 1161</a></td>
               </tr>
             </table>
           </section>
@@ -833,7 +893,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1040">extensions/menubar/libmenubar.m line 1040</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/menubar/libmenubar.m#L1070">extensions/menubar/libmenubar.m line 1070</a></td>
               </tr>
             </table>
           </section>

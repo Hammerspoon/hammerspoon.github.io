@@ -1,0 +1,379 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.layout</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.layout</h1>
+      <p>Window layout manager</p>
+<p>This extension allows you to trigger window placement/sizing to a number of windows at once</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#left25">left25</a></li>
+            <li><a href="#left30">left30</a></li>
+            <li><a href="#left50">left50</a></li>
+            <li><a href="#left70">left70</a></li>
+            <li><a href="#left75">left75</a></li>
+            <li><a href="#maximized">maximized</a></li>
+            <li><a href="#right25">right25</a></li>
+            <li><a href="#right30">right30</a></li>
+            <li><a href="#right50">right50</a></li>
+            <li><a href="#right70">right70</a></li>
+            <li><a href="#right75">right75</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#apply">apply</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="left25">
+            <a name="//apple_ref/cpp/Constant/left25" class="dashAnchor"></a>
+            <h5><a href="#left25">left25</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.left25</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy the left 25% of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L14">extensions/layout/layout.lua line 14</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="left30">
+            <a name="//apple_ref/cpp/Constant/left30" class="dashAnchor"></a>
+            <h5><a href="#left30">left30</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.left30</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy the left 30% of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L19">extensions/layout/layout.lua line 19</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="left50">
+            <a name="//apple_ref/cpp/Constant/left50" class="dashAnchor"></a>
+            <h5><a href="#left50">left50</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.left50</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy the left 50% of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L24">extensions/layout/layout.lua line 24</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="left70">
+            <a name="//apple_ref/cpp/Constant/left70" class="dashAnchor"></a>
+            <h5><a href="#left70">left70</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.left70</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy the left 70% of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L29">extensions/layout/layout.lua line 29</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="left75">
+            <a name="//apple_ref/cpp/Constant/left75" class="dashAnchor"></a>
+            <h5><a href="#left75">left75</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.left75</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy the left 75% of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L34">extensions/layout/layout.lua line 34</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="maximized">
+            <a name="//apple_ref/cpp/Constant/maximized" class="dashAnchor"></a>
+            <h5><a href="#maximized">maximized</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.maximized</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy all of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L64">extensions/layout/layout.lua line 64</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="right25">
+            <a name="//apple_ref/cpp/Constant/right25" class="dashAnchor"></a>
+            <h5><a href="#right25">right25</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.right25</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy the right 25% of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L39">extensions/layout/layout.lua line 39</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="right30">
+            <a name="//apple_ref/cpp/Constant/right30" class="dashAnchor"></a>
+            <h5><a href="#right30">right30</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.right30</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy the right 30% of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L44">extensions/layout/layout.lua line 44</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="right50">
+            <a name="//apple_ref/cpp/Constant/right50" class="dashAnchor"></a>
+            <h5><a href="#right50">right50</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.right50</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy the right 50% of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L49">extensions/layout/layout.lua line 49</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="right70">
+            <a name="//apple_ref/cpp/Constant/right70" class="dashAnchor"></a>
+            <h5><a href="#right70">right70</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.right70</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy the right 70% of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L54">extensions/layout/layout.lua line 54</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="right75">
+            <a name="//apple_ref/cpp/Constant/right75" class="dashAnchor"></a>
+            <h5><a href="#right75">right75</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.right75</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A unit rect which will make a window occupy the right 75% of a screen</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L59">extensions/layout/layout.lua line 59</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="apply">
+            <a name="//apple_ref/cpp/Function/apply" class="dashAnchor"></a>
+            <h5><a href="#apply">apply</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.layout.apply(table[, windowTitleComparator])</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Applies a layout to applications/windows</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>table - A table describing your desired layout. Each element in the table should be another table describing a set of windows to match, and their desired size/position. The fields in each of these tables are:<ul>
+<li>A string containing an application name, or an <code>hs.application</code> object, or nil</li>
+<li>A string containing a window title, or an <code>hs.window</code> object, or a function, or nil</li>
+<li>A string containing a screen name, or an <code>hs.screen</code> object, or a function that accepts no parameters and returns an <code>hs.screen</code> object, or nil to select the first available screen</li>
+<li>A Unit rect, or a function which is called for each window and returns a unit rect (see <code>hs.window.moveToUnit()</code>). The function should accept one parameter, which is the window object.</li>
+<li>A Frame rect, or a function which is called for each window and returns a frame rect (see <code>hs.screen:frame()</code>). The function should accept one parameter, which is the window object.</li>
+<li>A Full-frame rect, of a function which is called for each window and returns a full-frame rect (see <code>hs.screen:fullFrame()</code>). The function should accept one parameter, which is the window object.</li>
+</ul>
+</li>
+<li>windowTitleComparator - (optional) Function to use for window title comparison. It is called with two string arguments (below) and its return value is evaluated as a boolean. If no comparator is provided, the '==' operator is used<ul>
+<li>windowTitle: The <code>:title()</code> of the window object being examined</li>
+<li>layoutWindowTitle: The window title string (second field) specified in each element of the layout table</li>
+<li>Optionally a final element, the key &quot;options&quot; and a table value that can contain the following keys: * <code>absolute_x</code>: A boolean indicating that the x value in a frame rect above, is an absolute co-ordinate (ie useful for negative absolute co-ordinates) * <code>absolute_y</code>: A boolean indicating that the y value in a frame rect above, is an absolute co-ordinate (ie useful for negative absolute co-ordinates)</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>If the application name argument is nil, window titles will be matched regardless of which app they belong to</p>
+</li>
+<li><p>If the window title argument is nil, all windows of the specified application will be matched</p>
+</li>
+<li><p>If the window title argument is a function, the function will be called with the application name argument (which may be nil), and should return a table of <code>hs.window</code> objects (even if there is only one window it must be in a table)</p>
+</li>
+<li><p>You can specify both application name and window title if you want to match only one window of a particular application</p>
+</li>
+<li><p>If you specify neither application name or window title, no windows will be matched :)</p>
+</li>
+<li><p>Monitor name is a string, as found in <code>hs.screen:name()</code> or <code>hs.screen:getUUID()</code>. You can also pass an <code>hs.screen</code> object, or a function that returns an <code>hs.screen</code> object. If you pass nil, the first screen will be selected</p>
+</li>
+<li><p>The final three arguments use <code>hs.geometry.rect()</code> objects to describe the desired position and size of matched windows:</p>
+<ul>
+<li>Unit rect will be passed to <code>hs.window.moveToUnit()</code></li>
+<li>Frame rect will be passed to <code>hs.window.setFrame()</code> (including menubar and dock)</li>
+<li>Full-frame rect will be passed to <code>hs.window.setFrame()</code> (ignoring menubar and dock)</li>
+</ul>
+</li>
+<li><p>If either the x or y components of frame/full-frame rect are negative, they will be applied as offsets against the opposite edge of the screen (e.g. If x is -100 then the left edge of the window will be 100 pixels from the right edge of the screen)</p>
+</li>
+<li><p>Only one of the rect arguments will apply to any matched windows. If you specify more than one, the first will win</p>
+</li>
+<li><p>An example usage:</p>
+<div class="highlight"><pre><span></span><span class="n">layout1</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span><span class="s2">&quot;Mail&quot;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">&quot;Color LCD&quot;</span><span class="p">,</span> <span class="n">hs</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">maximized</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;Safari&quot;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">&quot;Thunderbolt Display&quot;</span><span class="p">,</span> <span class="n">hs</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">maximized</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;iTunes&quot;</span><span class="p">,</span> <span class="s2">&quot;iTunes&quot;</span><span class="p">,</span> <span class="s2">&quot;Color LCD&quot;</span><span class="p">,</span> <span class="n">hs</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">maximized</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;iTunes&quot;</span><span class="p">,</span> <span class="s2">&quot;MiniPlayer&quot;</span><span class="p">,</span> <span class="s2">&quot;Color LCD&quot;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">hs</span><span class="p">.</span><span class="n">geometry</span><span class="p">.</span><span class="n">rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">48</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">48</span><span class="p">)},</span>
+  <span class="p">}</span><span class="err">```</span>
+</pre></div>
+</li>
+<li><p>An example of a function that works well as a <code>windowTitleComparator</code> is the Lua built-in <code>string.match</code>, which uses Lua Patterns to match strings</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/layout/layout.lua#L69">extensions/layout/layout.lua line 69</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

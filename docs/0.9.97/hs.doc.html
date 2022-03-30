@@ -1,0 +1,350 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.doc</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.doc</h1>
+      <p>Create documentation objects for interactive help within Hammerspoon</p>
+<p>The documentation object created is a table with tostring metamethods allowing access to a specific functions documentation by appending the path to the method or function to the object created.</p>
+<p>From the Hammerspoon console:</p>
+
+<pre><code>  doc = require(&quot;hs.doc&quot;)
+  doc.hs.application
+
+</code></pre>
+<p>Results in:</p>
+
+<pre><code>  Manipulate running applications
+
+  [submodules]
+  hs.application.watcher
+
+  [subitems]
+  hs.application:activate([allWindows]) -&gt; bool
+  hs.application:allWindows() -&gt; window[]
+      ...
+  hs.application:visibleWindows() -&gt; win[]
+
+</code></pre>
+<p>By default, the internal core documentation and portions of the Lua 5.3 manual, located at http://www.lua.org/manual/5.3/manual.html, are already registered for inclusion within this documentation object, but you can register additional documentation from 3rd party modules with <code>hs.registerJSONFile(...)</code>.</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.doc.builder.html">hs.doc.builder</a></li>
+        <li><a href="hs.doc.hsdocs.html">hs.doc.hsdocs</a></li>
+        <li><a href="hs.doc.markdown.html">hs.doc.markdown</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#help">help</a></li>
+            <li><a href="#locateJSONFile">locateJSONFile</a></li>
+            <li><a href="#preloadSpoonDocs">preloadSpoonDocs</a></li>
+            <li><a href="#registeredFiles">registeredFiles</a></li>
+            <li><a href="#registerJSONFile">registerJSONFile</a></li>
+            <li><a href="#unregisterJSONFile">unregisterJSONFile</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="help">
+            <a name="//apple_ref/cpp/Function/help" class="dashAnchor"></a>
+            <h5><a href="#help">help</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.help(identifier)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Prints the documentation for some part of Hammerspoon's API and Lua 5.3.  This function has also been aliased as `hs.help` and `help` as a shorthand for use within the Hammerspoon console.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>identifier - A string containing the signature of some part of Hammerspoon's API (e.g. <code>&quot;hs.reload&quot;</code>)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>This function is mainly for runtime API help while using Hammerspoon's Console</p>
+</li>
+<li><p>Documentation files registered with <a href="#registerJSONFile">hs.doc.registerJSONFile</a> or <a href="#preloadSpoonDocs">hs.doc.preloadSpoonDocs</a> that have not yet been actually loaded will be loaded when this command is invoked in any of the forms described below.</p>
+</li>
+<li><p>You can also access the results of this function by the following methods from the console:</p>
+<ul>
+<li>help(&quot;prefix.path&quot;) -- quotes are required, e.g. <code>help(&quot;hs.reload&quot;)</code></li>
+<li>help.prefix.path -- no quotes are required, e.g. <code>help.hs.reload</code><ul>
+<li><code>prefix</code> can be one of the following:<ul>
+<li><code>hs</code>    - provides documentation for Hammerspoon's builtin commands and modules</li>
+<li><code>spoon</code> - provides documentation for the Spoons installed on your system</li>
+<li><code>lua</code>   - provides documentation for the version of lua Hammerspoon is using, currently 5.3<ul>
+<li><code>lua._man</code> - provides the table of contents for the Lua 5.3 manual.  You can pull up a specific section of the lua manual by including the chapter (and subsection) like this: <code>lua._man._3_4_8</code>.</li>
+<li><code>lua._C</code>   - provides documentation specifically about the Lua C API for use when developing modules which require external libraries.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>path</code> is one or more components, separated by a period specifying the module, submodule, function, or moethod you wish to view documentation for.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/doc.lua#L139">extensions/doc/doc.lua line 139</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="locateJSONFile">
+            <a name="//apple_ref/cpp/Function/locateJSONFile" class="dashAnchor"></a>
+            <h5><a href="#locateJSONFile">locateJSONFile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.locateJSONFile(module) -&gt; path | false, message</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Locates the JSON file corresponding to the specified third-party module or Spoon by searching package.path and package.cpath.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>module - the name of the module to locate a JSON file for</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the path to the JSON file, or <code>false, error</code> if unable to locate a corresponding JSON file.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>The JSON should be named 'docs.json' and located in the same directory as the <code>lua</code> or <code>so</code> file which is used when the module is loaded via <code>require</code>.</p>
+</li>
+<li><p>The documentation for core modules is stored in the JSON file specified by the <code>hs.docstrings_json_file</code> variable; this function is intended for use in locating the documentation file for third party modules and Spoons.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/doc.lua#L171">extensions/doc/doc.lua line 171</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="preloadSpoonDocs">
+            <a name="//apple_ref/cpp/Function/preloadSpoonDocs" class="dashAnchor"></a>
+            <h5><a href="#preloadSpoonDocs">preloadSpoonDocs</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.preloadSpoonDocs()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Locates all installed Spoon documentation files and and marks them for loading the next time the [hs.doc.help](#help) function is invoked.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/doc.lua#L216">extensions/doc/doc.lua line 216</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="registeredFiles">
+            <a name="//apple_ref/cpp/Function/registeredFiles" class="dashAnchor"></a>
+            <h5><a href="#registeredFiles">registeredFiles</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.registeredFiles() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the list of registered JSON files.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the list of registered JSON files</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>The table returned by this function has a metatable including a __tostring method which allows you to see the list of registered files by simply typing <code>hs.doc.registeredFiles()</code> in the Hammerspoon Console.</p>
+</li>
+<li><p>By default, the internal core documentation and portions of the Lua 5.3 manual, located at http://www.lua.org/manual/5.3/manual.html, are already registered for inclusion within this documentation object.</p>
+</li>
+<li><p>You can unregister these defaults if you wish to start with a clean slate with the following commands:</p>
+<ul>
+<li><code>hs.doc.unregisterJSONFile(hs.docstrings_json_file)</code> -- to unregister the Hammerspoon API docs</li>
+<li><code>hs.doc.unregisterJSONFile((hs.docstrings_json_file:gsub(&quot;/docs.json$&quot;,&quot;/lua.json&quot;)))</code> -- to unregister the Lua 5.3 Documentation.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/doc.lua#L109">extensions/doc/doc.lua line 109</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="registerJSONFile">
+            <a name="//apple_ref/cpp/Function/registerJSONFile" class="dashAnchor"></a>
+            <h5><a href="#registerJSONFile">registerJSONFile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.registerJSONFile(jsonfile, [isSpoon]) -&gt; status[, message]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Register a JSON file for inclusion when Hammerspoon generates internal documentation.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>jsonfile - A string containing the location of a JSON file</li>
+<li>isSpoon  - an optional boolean, default false, specifying that the documentation should be added to the <code>spoons</code> sub heading in the documentation hierarchy.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>status - Boolean flag indicating if the file was registered or not.  If the file was not registered, then a message indicating the error is also returned.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function just registers the documentation file; it won't actually be loaded and parsed until <a href="#help">hs.doc.help</a> is invoked.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/libdoc.m#L264">extensions/doc/libdoc.m line 264</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="unregisterJSONFile">
+            <a name="//apple_ref/cpp/Function/unregisterJSONFile" class="dashAnchor"></a>
+            <h5><a href="#unregisterJSONFile">unregisterJSONFile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.unregisterJSONFile(jsonfile) -&gt; status[, message]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Remove a JSON file from the list of registered files.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>jsonfile - A string containing the location of a JSON file</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>status - Boolean flag indicating if the file was unregistered or not.  If the file was not unregistered, then a message indicating the error is also returned.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function requires the rebuilding of the entire documentation tree for all remaining registered files, so the next time help is queried with <a href="#help">hs.doc.help</a>, there may be a slight one-time delay.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/libdoc.m#L303">extensions/doc/libdoc.m line 303</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

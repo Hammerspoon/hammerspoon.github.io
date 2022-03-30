@@ -1,0 +1,897 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.razer</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.razer</h1>
+      <p>Razer device support.</p>
+<p>This extension currently only supports the Razer Tartarus V2.
+It allows you to trigger callbacks when you press buttons and use the
+scroll wheel, as well as allowing you to change the LED backlights
+on the buttons and scroll wheel, and control the three status lights.</p>
+<p>By default, the Razer Tartarus V2 triggers regular keyboard commands
+(i.e. pressing the &quot;01&quot; key will type &quot;1&quot;). However, you can use the
+<code>:defaultKeyboardLayout(false)</code> method to prevent this. This works by
+remapping the default shortcut keys to &quot;dummy&quot; keys, so that they
+don't trigger regular keypresses in macOS.</p>
+<p>Like the <a href="http://www.hammerspoon.org/docs/hs.streamdeck.html"><code>hs.streamdeck</code></a> extension, this extension has been
+designed to be modular, so it's possible for others to develop support
+for other Razer devices later down the line, if there's interest.</p>
+<p>This extension was thrown together by <a href="https://github.com/latenitefilms">Chris Hocking</a> for <a href="https://commandpost.io">CommandPost</a>.</p>
+<p>This extension is based off the <a href="http://www.hammerspoon.org/docs/hs.streamdeck.html"><code>hs.streamdeck</code></a> extension by <a href="https://github.com/cmsj">Chris Jones</a>.</p>
+<p>Special thanks to the authors of these awesome documents &amp; resources:</p>
+<ul>
+<li><a href="https://www.beyondlogic.org/usbnutshell/usb6.shtml">Information on USB Packets</a></li>
+<li><a href="https://lab.qaq.wiki/Lakr233/IOKit-deploy/-/blob/master/IOKit/usb/AppleUSBDefinitions.h">AppleUSBDefinitions.h</a></li>
+<li><a href="https://hidutil-generator.netlify.app">hidutil key remapping generator for macOS</a></li>
+<li><a href="https://www.nanoant.com/mac/macos-function-key-remapping-with-hidutil">macOS function key remapping with hidutil</a></li>
+<li><a href="https://developer.apple.com/documentation/iokit/iohidkeys_h_user-space/hid_device_property_keys">HID Device Property Keys</a></li>
+</ul>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#discoveryCallback">discoveryCallback</a></li>
+            <li><a href="#getDevice">getDevice</a></li>
+            <li><a href="#init">init</a></li>
+            <li><a href="#numDevices">numDevices</a></li>
+            <li><a href="#unitTests">unitTests</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#backlightsBreathing">backlightsBreathing</a></li>
+            <li><a href="#backlightsCustom">backlightsCustom</a></li>
+            <li><a href="#backlightsOff">backlightsOff</a></li>
+            <li><a href="#backlightsReactive">backlightsReactive</a></li>
+            <li><a href="#backlightsSpectrum">backlightsSpectrum</a></li>
+            <li><a href="#backlightsStarlight">backlightsStarlight</a></li>
+            <li><a href="#backlightsStatic">backlightsStatic</a></li>
+            <li><a href="#backlightsWave">backlightsWave</a></li>
+            <li><a href="#blueStatusLight">blueStatusLight</a></li>
+            <li><a href="#brightness">brightness</a></li>
+            <li><a href="#callback">callback</a></li>
+            <li><a href="#defaultKeyboardLayout">defaultKeyboardLayout</a></li>
+            <li><a href="#greenStatusLight">greenStatusLight</a></li>
+            <li><a href="#name">name</a></li>
+            <li><a href="#orangeStatusLight">orangeStatusLight</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="discoveryCallback">
+            <a name="//apple_ref/cpp/Function/discoveryCallback" class="dashAnchor"></a>
+            <h5><a href="#discoveryCallback">discoveryCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer.discoveryCallback(fn) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets/clears a callback for reacting to device discovery events</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - A function that will be called when a Razer device is connected or disconnected. It should take the following arguments:<ul>
+<li>A boolean, true if a device was connected, false if a device was disconnected</li>
+<li>An hs.razer object, being the device that was connected/disconnected</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L48">extensions/razer/librazer.m line 48</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getDevice">
+            <a name="//apple_ref/cpp/Function/getDevice" class="dashAnchor"></a>
+            <h5><a href="#getDevice">getDevice</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer.getDevice(num) -&gt; razerObject | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets an hs.razer object for the specified device</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>num - A number that should be within the bounds of the number of connected devices</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An hs.razer object or <code>nil</code> if something goes wrong</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L92">extensions/razer/librazer.m line 92</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="init">
+            <a name="//apple_ref/cpp/Function/init" class="dashAnchor"></a>
+            <h5><a href="#init">init</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer.init(fn)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Initialises the Razer driver and sets a discovery callback.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - A function that will be called when a Razer device is connected or disconnected. It should take the following arguments:<ul>
+<li>A boolean, true if a device was connected, false if a device was disconnected</li>
+<li>An hs.razer object, being the device that was connected/disconnected</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function must be called before any other parts of this module are used</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L23">extensions/razer/librazer.m line 23</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="numDevices">
+            <a name="//apple_ref/cpp/Function/numDevices" class="dashAnchor"></a>
+            <h5><a href="#numDevices">numDevices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer.numDevices() -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the number of Razer devices connected</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A number containing the number of Razer devices attached to the system</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L75">extensions/razer/librazer.m line 75</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="unitTests">
+            <a name="//apple_ref/cpp/Function/unitTests" class="dashAnchor"></a>
+            <h5><a href="#unitTests">unitTests</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer.unitTests() -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Runs some basic unit tests when a Razer Tartarus V2 is connected.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Because <code>hs.razer</code> relies on a physical device to
+be connected for testing, this method exists so that
+Hammerspoon developers can test the extension outside
+of the usual GitHub tests. It can also be used for
+user troubleshooting.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/razer.lua#L81">extensions/razer/razer.lua line 81</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="backlightsBreathing">
+            <a name="//apple_ref/cpp/Method/backlightsBreathing" class="dashAnchor"></a>
+            <h5><a href="#backlightsBreathing">backlightsBreathing</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:backlightsBreathing([color], [secondaryColor]) -&gt; razerObject, boolean, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Changes the keyboard backlights to the breath mode.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>[color] - An optional <code>hs.drawing.color</code> value</li>
+<li>[secondaryColor] - An optional secondary <code>hs.drawing.color</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> if successful otherwise <code>false</code></li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If neither <code>color</code> nor <code>secondaryColor</code> is provided, then random colors will be used.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L625">extensions/razer/librazer.m line 625</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="backlightsCustom">
+            <a name="//apple_ref/cpp/Method/backlightsCustom" class="dashAnchor"></a>
+            <h5><a href="#backlightsCustom">backlightsCustom</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:backlightsCustom(colors) -&gt; razerObject, boolean, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Changes the keyboard backlights to custom colours.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>colors - A table of <code>hs.drawing.color</code> objects for each individual button on your device (i.e. if there's 20 buttons, you should have twenty colors in the table).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> if successful otherwise <code>false</code></li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The order is top to bottom, left to right. You can use <code>nil</code> for any buttons you don't want to light up.</li>
+<li>Example usage: ```lua</li>
+</ul>
+<p>hs.razer.new(0):backlightsCustom({hs.drawing.color.red, nil, hs.drawing.color.green, hs.drawing.color.blue})</p>
+
+<pre><code>
+</code></pre>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L665">extensions/razer/librazer.m line 665</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="backlightsOff">
+            <a name="//apple_ref/cpp/Method/backlightsOff" class="dashAnchor"></a>
+            <h5><a href="#backlightsOff">backlightsOff</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:backlightsOff() -&gt; razerObject, boolean, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Turns all the keyboard backlights off.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> if successful otherwise <code>false</code>.</li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L450">extensions/razer/librazer.m line 450</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="backlightsReactive">
+            <a name="//apple_ref/cpp/Method/backlightsReactive" class="dashAnchor"></a>
+            <h5><a href="#backlightsReactive">backlightsReactive</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:backlightsReactive(speed, color) -&gt; razerObject, boolean, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Changes the keyboard backlights to the reactive mode.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>speed - A number between 1 (fast) and 4 (slow)</li>
+<li>color - A <code>hs.drawing.color</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> if successful otherwise <code>false</code></li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L541">extensions/razer/librazer.m line 541</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="backlightsSpectrum">
+            <a name="//apple_ref/cpp/Method/backlightsSpectrum" class="dashAnchor"></a>
+            <h5><a href="#backlightsSpectrum">backlightsSpectrum</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:backlightsSpectrum() -&gt; razerObject, boolean, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Changes the keyboard backlights to the spectrum mode.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> if successful otherwise <code>false</code></li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L517">extensions/razer/librazer.m line 517</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="backlightsStarlight">
+            <a name="//apple_ref/cpp/Method/backlightsStarlight" class="dashAnchor"></a>
+            <h5><a href="#backlightsStarlight">backlightsStarlight</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:backlightsStarlight(speed, [color], [secondaryColor]) -&gt; razerObject, boolean, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Changes the keyboard backlights to the Starlight mode.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>speed - A number between 1 (fast) and 3 (slow)</li>
+<li>[color] - An optional <code>hs.drawing.color</code> value</li>
+<li>[secondaryColor] - An optional secondary <code>hs.drawing.color</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> if successful otherwise <code>false</code></li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If neither <code>color</code> nor <code>secondaryColor</code> is provided, then random colors will be used.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L576">extensions/razer/librazer.m line 576</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="backlightsStatic">
+            <a name="//apple_ref/cpp/Method/backlightsStatic" class="dashAnchor"></a>
+            <h5><a href="#backlightsStatic">backlightsStatic</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:backlightsStatic(color) -&gt; razerObject, boolean, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Changes the keyboard backlights to a single static color.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>color - A <code>hs.drawing.color</code> object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> if successful otherwise <code>false</code>.</li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L424">extensions/razer/librazer.m line 424</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="backlightsWave">
+            <a name="//apple_ref/cpp/Method/backlightsWave" class="dashAnchor"></a>
+            <h5><a href="#backlightsWave">backlightsWave</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:backlightsWave(speed, direction) -&gt; razerObject, boolean, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Changes the keyboard backlights to the wave mode.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>speed - A number between 1 (fast) and 255 (slow)</li>
+<li>direction - &quot;left&quot; or &quot;right&quot; as a string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> if successful otherwise <code>false</code></li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L475">extensions/razer/librazer.m line 475</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="blueStatusLight">
+            <a name="//apple_ref/cpp/Method/blueStatusLight" class="dashAnchor"></a>
+            <h5><a href="#blueStatusLight">blueStatusLight</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:blueStatusLight(value) -&gt; razerObject, boolean | nil, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets or sets the blue status light.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>value - <code>true</code> for on, <code>false</code> for off`</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> for on, <code>false</code> for off<code>, or</code>nil` if something has gone wrong</li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L374">extensions/razer/librazer.m line 374</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="brightness">
+            <a name="//apple_ref/cpp/Method/brightness" class="dashAnchor"></a>
+            <h5><a href="#brightness">brightness</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:brightness(value) -&gt; razerObject, number | nil, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets or sets the brightness of a Razer keyboard.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>value - The brightness value - a number between 0 (off) and 100 (brightest).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li>The brightness as a number or <code>nil</code> if something goes wrong.</li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L221">extensions/razer/librazer.m line 221</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="callback">
+            <a name="//apple_ref/cpp/Method/callback" class="dashAnchor"></a>
+            <h5><a href="#callback">callback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:callback(callbackFn) -&gt; razerObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets or removes a callback function for the `hs.razer` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callbackFn</code> - a function to set as the callback for this <code>hs.razer</code> object.  If the value provided is <code>nil</code>, any currently existing callback function is removed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The callback function should expect 4 arguments and should not return anything:<ul>
+<li><code>razerObject</code> - The serial port object that triggered the callback.</li>
+<li><code>buttonName</code> - The name of the button as a string.</li>
+<li><code>buttonAction</code> - A string containing &quot;pressed&quot;, &quot;released&quot;, &quot;up&quot; or &quot;down&quot;.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L147">extensions/razer/librazer.m line 147</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="defaultKeyboardLayout">
+            <a name="//apple_ref/cpp/Method/defaultKeyboardLayout" class="dashAnchor"></a>
+            <h5><a href="#defaultKeyboardLayout">defaultKeyboardLayout</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:defaultKeyboardLayout(enabled) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Allows you to remap the default Keyboard Layout on a Razer device so that the buttons no longer trigger their factory default actions, or restore the default keyboard layout.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>enabled - If <code>true</code> the Razer default will use its default keyboard layout.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> if successful otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This feature currently only works on the Razer Tartarus V2.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/razer.lua#L43">extensions/razer/razer.lua line 43</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="greenStatusLight">
+            <a name="//apple_ref/cpp/Method/greenStatusLight" class="dashAnchor"></a>
+            <h5><a href="#greenStatusLight">greenStatusLight</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:greenStatusLight(value) -&gt; razerObject, boolean | nil, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets or sets the green status light.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>value - <code>true</code> for on, <code>false</code> for off`</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> for on, <code>false</code> for off<code>, or</code>nil` if something has gone wrong</li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L326">extensions/razer/librazer.m line 326</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="name">
+            <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+            <h5><a href="#name">name</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:name() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the human readible device name of the Razer device.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The device name as a string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L125">extensions/razer/librazer.m line 125</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="orangeStatusLight">
+            <a name="//apple_ref/cpp/Method/orangeStatusLight" class="dashAnchor"></a>
+            <h5><a href="#orangeStatusLight">orangeStatusLight</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.razer:orangeStatusLight(value) -&gt; razerObject, boolean | nil, string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets or sets the orange status light.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>value - <code>true</code> for on, <code>false</code> for off`</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.razer</code> object.</li>
+<li><code>true</code> for on, <code>false</code> for off<code>, or</code>nil` if something has gone wrong</li>
+<li>A plain text error message if not successful.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/razer/librazer.m#L278">extensions/razer/librazer.m line 278</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

@@ -1,0 +1,439 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.mouse</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.mouse</h1>
+      <p>Inspect/manipulate the position of the mouse pointer</p>
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+<p>This module uses ManyMouse by Ryan C. Gordon.</p>
+<p>MANYMOUSE LICENSE:</p>
+<p>Copyright (c) 2005-2012 Ryan C. Gordon and others.</p>
+<p>This software is provided 'as-is', without any express or implied warranty.
+In no event will the authors be held liable for any damages arising from
+the use of this software.</p>
+<p>Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it
+freely, subject to the following restrictions:</p>
+<ol>
+<li>The origin of this software must not be misrepresented; you must not</li>
+</ol>
+<p>claim that you wrote the original software. If you use this software in a
+product, an acknowledgment in the product documentation would be
+appreciated but is not required.</p>
+<ol start="2">
+<li>Altered source versions must be plainly marked as such, and must not be</li>
+</ol>
+<p>misrepresented as being the original software.</p>
+<ol start="3">
+<li><p>This notice may not be removed or altered from any source distribution.</p>
+<p>Ryan C. Gordon <a href="mailto:icculus@icculus.org">icculus@icculus.org</a></p>
+</li>
+</ol>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#absolutePosition">absolutePosition</a></li>
+            <li><a href="#count">count</a></li>
+            <li><a href="#getButtons">getButtons</a></li>
+            <li><a href="#getCurrentScreen">getCurrentScreen</a></li>
+            <li><a href="#getRelativePosition">getRelativePosition</a></li>
+            <li><a href="#names">names</a></li>
+            <li><a href="#scrollDirection">scrollDirection</a></li>
+            <li><a href="#setRelativePosition">setRelativePosition</a></li>
+            <li><a href="#trackingSpeed">trackingSpeed</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="absolutePosition">
+            <a name="//apple_ref/cpp/Function/absolutePosition" class="dashAnchor"></a>
+            <h5><a href="#absolutePosition">absolutePosition</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.absolutePosition([point]) -&gt; point</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the absolute co-ordinates of the mouse pointer</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>An optional point table containing the absolute x and y co-ordinates to move the mouse pointer to</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A point table containing the absolute x and y co-ordinates of the mouse pointer</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If no parameters are supplied, the current position will be returned. If a point table parameter is supplied, the mouse pointer poisition will be set and the new co-ordinates returned</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/mouse/libmouse.m#L202">extensions/mouse/libmouse.m line 202</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="count">
+            <a name="//apple_ref/cpp/Function/count" class="dashAnchor"></a>
+            <h5><a href="#count">count</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.count([includeInternal]) -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the total number of mice connected to your system.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>includeInternal - A boolean which sets whether or not you want to include internal Trackpad's in the count. Defaults to false.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The number of mice connected to your system</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function leverages code from <a href="http://icculus.org/manymouse/">ManyMouse</a>.</li>
+<li>This function considers any mouse labelled as &quot;Apple Internal Keyboard / Trackpad&quot; to be an internal mouse.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/mouse/libmouse.m#L154">extensions/mouse/libmouse.m line 154</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getButtons">
+            <a name="//apple_ref/cpp/Function/getButtons" class="dashAnchor"></a>
+            <h5><a href="#getButtons">getButtons</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.getButtons() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table containing the current mouse buttons being pressed *at this instant*.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>Returns an array containing indicies starting from 1 up to the highest numbered button currently being pressed where the index is <code>true</code> if the button is currently pressed or <code>false</code> if it is not.</li>
+<li>Special hash tag synonyms for <code>left</code> (button 1), <code>right</code> (button 2), and <code>middle</code> (button 3) are also set to true if these buttons are currently being pressed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function is a wrapper to <code>hs.eventtap.checkMouseButtons</code></li>
+<li>This is an instantaneous poll of the current mouse buttons, not a callback.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/mouse/mouse.lua#L154">extensions/mouse/mouse.lua line 154</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getCurrentScreen">
+            <a name="//apple_ref/cpp/Function/getCurrentScreen" class="dashAnchor"></a>
+            <h5><a href="#getCurrentScreen">getCurrentScreen</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.getCurrentScreen() -&gt; screen or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the screen the mouse pointer is on</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.screen</code> object that the mouse pointer is on, or nil if an error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/mouse/mouse.lua#L140">extensions/mouse/mouse.lua line 140</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getRelativePosition">
+            <a name="//apple_ref/cpp/Function/getRelativePosition" class="dashAnchor"></a>
+            <h5><a href="#getRelativePosition">getRelativePosition</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.getRelativePosition() -&gt; point or nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the co-ordinates of the mouse pointer, relative to the screen it is on</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A point-table containing the relative x and y co-ordinates of the mouse pointer, or nil if an error occured</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The co-ordinates returned by this function are relative to the top left pixel of the screen the mouse is on (see <code>hs.mouse.getAbsolutePosition</code> if you need the location in the full desktop space)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/mouse/mouse.lua#L84">extensions/mouse/mouse.lua line 84</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="names">
+            <a name="//apple_ref/cpp/Function/names" class="dashAnchor"></a>
+            <h5><a href="#names">names</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.names() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the names of any mice connected to the system.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing strings of all the mice connected to the system.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function leverages code from <a href="http://icculus.org/manymouse/">ManyMouse</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/mouse/libmouse.m#L182">extensions/mouse/libmouse.m line 182</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="scrollDirection">
+            <a name="//apple_ref/cpp/Function/scrollDirection" class="dashAnchor"></a>
+            <h5><a href="#scrollDirection">scrollDirection</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.scrollDirection() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets the system-wide direction of scolling</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string, either &quot;natural&quot; or &quot;normal&quot;</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/mouse/libmouse.m#L257">extensions/mouse/libmouse.m line 257</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setRelativePosition">
+            <a name="//apple_ref/cpp/Function/setRelativePosition" class="dashAnchor"></a>
+            <h5><a href="#setRelativePosition">setRelativePosition</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.setRelativePosition(point[, screen])</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets the co-ordinates of the mouse pointer, relative to a screen</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>point - A point-table containing the relative x and y co-ordinates to move the mouse pointer to</li>
+<li>screen - An optional <code>hs.screen</code> object. Defaults to the screen the mouse pointer is currently on</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/mouse/mouse.lua#L112">extensions/mouse/mouse.lua line 112</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="trackingSpeed">
+            <a name="//apple_ref/cpp/Function/trackingSpeed" class="dashAnchor"></a>
+            <h5><a href="#trackingSpeed">trackingSpeed</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.mouse.trackingSpeed([speed]) -&gt; number</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Gets/Sets the current system mouse tracking speed setting</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>speed - An optional number containing the new tracking speed to set. If this is ommitted, the current setting is returned</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A number indicating the current tracking speed setting for mice</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This is represented in the System Preferences as the &quot;Tracking speed&quot; setting for mice</li>
+<li>Note that not all values will work, they should map to the steps defined in the System Preferences app, which are:<ul>
+<li>0.0, 0.125, 0.5, 0.6875, 0.875, 1.0, 1.5, 2.0, 2.5, 3.0</li>
+</ul>
+</li>
+<li>Note that changes to this value will not be noticed immedaitely by macOS</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/mouse/libmouse.m#L227">extensions/mouse/libmouse.m line 227</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

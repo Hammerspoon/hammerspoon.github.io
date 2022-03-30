@@ -1,0 +1,2271 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.canvas</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.canvas</h1>
+      <p>A different approach to drawing in Hammerspoon</p>
+<p><code>hs.drawing</code> approaches graphical images as independant primitives, each &quot;shape&quot; being a separate drawing object based on the core primitives: ellipse, rectangle, point, line, text, etc.  This model works well with graphical elements that are expected to be managed individually and don't have complex clipping interactions, but does not scale well when more complex combinations or groups of drawing elements need to be moved or manipulated as a group, and only allows for simple inclusionary clipping regions.</p>
+<p>This module works by designating a canvas and then assigning a series of graphical primitives to the canvas.  Included in this assignment list are rules about how the individual elements interact with each other within the canvas (compositing and clipping rules), and direct modification of the canvas itself (move, resize, etc.) causes all of the assigned elements to be adjusted as a group.</p>
+<p>The canvas elements are defined in an array, and each entry of the array is a table of key-value pairs describing the element at that position.  Elements are rendered in the order in which they are assigned to the array (i.e. element 1 is drawn before element 2, etc.).</p>
+<p>Attributes for canvas elements are defined in <a href="#attributes">hs.canvas.attributes</a>. All canvas elements require the <code>type</code> field; all other attributes have default values.  Fields required to properly define the element (for example, <code>frame</code> for the <code>rectangle</code> element type) will be copied into the element definition with their default values if they are not specified at the time of creation. Optional attributes will only be assigned in the element definition if they are specified.  When the module requires the value for an element's attribute it first checks the element definition itself, then the defaults are looked for in the canvas defaults, and then finally in the module's built in defaults (specified in the descriptions below).</p>
+<p>Some examples of how to use this module can be found at https://github.com/asmagill/hammerspoon/wiki/hs.canvas.examples</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.canvas.matrix.html">hs.canvas.matrix</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#compositeTypes">compositeTypes</a></li>
+            <li><a href="#windowBehaviors">windowBehaviors</a></li>
+            <li><a href="#windowLevels">windowLevels</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#defaultTextStyle">defaultTextStyle</a></li>
+            <li><a href="#elementSpec">elementSpec</a></li>
+            <li><a href="#help">help</a></li>
+            <li><a href="#useCustomAccessibilitySubrole">useCustomAccessibilitySubrole</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Fields - Variables which can only be accessed from an object returned by a constructor</li>
+          <ul>
+            <li><a href="#attributes">attributes</a></li>
+            <li><a href="#object">object</a></li>
+            <li><a href="#percentages">percentages</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#_accessibilitySubrole">_accessibilitySubrole</a></li>
+            <li><a href="#alpha">alpha</a></li>
+            <li><a href="#appendElements">appendElements</a></li>
+            <li><a href="#assignElement">assignElement</a></li>
+            <li><a href="#behavior">behavior</a></li>
+            <li><a href="#behaviorAsLabels">behaviorAsLabels</a></li>
+            <li><a href="#bringToFront">bringToFront</a></li>
+            <li><a href="#canvasDefaultFor">canvasDefaultFor</a></li>
+            <li><a href="#canvasDefaultKeys">canvasDefaultKeys</a></li>
+            <li><a href="#canvasDefaults">canvasDefaults</a></li>
+            <li><a href="#canvasElements">canvasElements</a></li>
+            <li><a href="#canvasMouseEvents">canvasMouseEvents</a></li>
+            <li><a href="#clickActivating">clickActivating</a></li>
+            <li><a href="#copy">copy</a></li>
+            <li><a href="#delete">delete</a></li>
+            <li><a href="#draggingCallback">draggingCallback</a></li>
+            <li><a href="#elementAttribute">elementAttribute</a></li>
+            <li><a href="#elementBounds">elementBounds</a></li>
+            <li><a href="#elementCount">elementCount</a></li>
+            <li><a href="#elementKeys">elementKeys</a></li>
+            <li><a href="#frame">frame</a></li>
+            <li><a href="#hide">hide</a></li>
+            <li><a href="#imageFromCanvas">imageFromCanvas</a></li>
+            <li><a href="#insertElement">insertElement</a></li>
+            <li><a href="#isOccluded">isOccluded</a></li>
+            <li><a href="#isShowing">isShowing</a></li>
+            <li><a href="#isVisible">isVisible</a></li>
+            <li><a href="#level">level</a></li>
+            <li><a href="#minimumTextSize">minimumTextSize</a></li>
+            <li><a href="#mouseCallback">mouseCallback</a></li>
+            <li><a href="#orderAbove">orderAbove</a></li>
+            <li><a href="#orderBelow">orderBelow</a></li>
+            <li><a href="#removeElement">removeElement</a></li>
+            <li><a href="#replaceElements">replaceElements</a></li>
+            <li><a href="#rotateElement">rotateElement</a></li>
+            <li><a href="#sendToBack">sendToBack</a></li>
+            <li><a href="#show">show</a></li>
+            <li><a href="#size">size</a></li>
+            <li><a href="#topLeft">topLeft</a></li>
+            <li><a href="#transformation">transformation</a></li>
+            <li><a href="#wantsLayer">wantsLayer</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="compositeTypes">
+            <a name="//apple_ref/cpp/Constant/compositeTypes" class="dashAnchor"></a>
+            <h5><a href="#compositeTypes">compositeTypes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.compositeTypes[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table containing the possible compositing rules for elements within the canvas.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3728">extensions/canvas/libcanvas.m line 3728</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowBehaviors">
+            <a name="//apple_ref/cpp/Constant/windowBehaviors" class="dashAnchor"></a>
+            <h5><a href="#windowBehaviors">windowBehaviors</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.windowBehaviors[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Array of window behavior labels for determining how a canvas or drawing object is handled in Spaces and Exposé</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3757">extensions/canvas/libcanvas.m line 3757</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowLevels">
+            <a name="//apple_ref/cpp/Constant/windowLevels" class="dashAnchor"></a>
+            <h5><a href="#windowLevels">windowLevels</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.windowLevels</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>A table of predefined window levels usable with [hs.canvas:level](#level)</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>These key names map to the constants used in CoreGraphics to specify window levels and may not actually be used for what the name might suggest. For example, tests suggest that an active screen saver actually runs at a level of 2002, rather than at 1000, which is the window level corresponding to kCGScreenSaverWindowLevelKey.</p>
+</li>
+<li><p>Each window level is sorted separately and <a href="#orderAbove">hs.canvas:orderAbove</a> and <a href="#orderBelow">hs.canvas:orderBelow</a> only arrange windows within the same level.</p>
+</li>
+<li><p>If you use Dock hiding (or in 10.11, Menubar hiding) please note that when the Dock (or Menubar) is popped up, it is done so with an implicit orderAbove, which will place it above any items you may also draw at the Dock (or MainMenu) level.</p>
+</li>
+<li><p>A canvas object with a <a href="#draggingCallback">hs.canvas:draggingCallback</a> function can only accept drag-and-drop items when its window level is at <code>hs.canvas.windowLevels.dragging</code> or lower.</p>
+</li>
+<li><p>A canvas object with a <a href="#mouseCallback">hs.canvas:mouseCallback</a> function can only reliably receive mouse click events when its window level is at <code>hs.canvas.windowLevels.desktopIcon</code> + 1 or higher.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3816">extensions/canvas/libcanvas.m line 3816</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="defaultTextStyle">
+            <a name="//apple_ref/cpp/Function/defaultTextStyle" class="dashAnchor"></a>
+            <h5><a href="#defaultTextStyle">defaultTextStyle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.defaultTextStyle() -&gt; <code>hs.styledtext</code> attributes table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table containing the default font, size, color, and paragraphStyle used by `hs.canvas` for text drawing objects.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the default style attributes <code>hs.canvas</code> uses for text drawing objects in the <code>hs.styledtext</code> attributes table format.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method is intended to be used in conjunction with <code>hs.styledtext</code> to create styledtext objects that are based on, or a slight variation of, the defaults used by <code>hs.canvas</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2395">extensions/canvas/libcanvas.m line 2395</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementSpec">
+            <a name="//apple_ref/cpp/Function/elementSpec" class="dashAnchor"></a>
+            <h5><a href="#elementSpec">elementSpec</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.elementSpec() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the list of attributes and their specifications that are recognized for canvas elements by this module.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing the attributes and specifications defined for this module.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This is primarily for debugging purposes and may be removed in the future.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2376">extensions/canvas/libcanvas.m line 2376</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="help">
+            <a name="//apple_ref/cpp/Function/help" class="dashAnchor"></a>
+            <h5><a href="#help">help</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.help([attribute]) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Provides specification information for the recognized attributes, or the specific attribute specified.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>attribute</code> - an optional string specifying an element attribute. If this argument is not provided, all attributes are listed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing some of the information provided by the <a href="#elementSpec">hs.canvas.elementSpec</a> in a manner that is easy to reference from the Hammerspoon console.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L714">extensions/canvas/canvas.lua line 714</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="useCustomAccessibilitySubrole">
+            <a name="//apple_ref/cpp/Function/useCustomAccessibilitySubrole" class="dashAnchor"></a>
+            <h5><a href="#useCustomAccessibilitySubrole">useCustomAccessibilitySubrole</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.useCustomAccessibilitySubrole([state]) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether or not canvas objects use a custom accessibility subrole for the contaning system window.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>state</code> - an optional boolean, default true, specifying whether or not canvas containers should use a custom accessibility subrole.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the current, possibly changed, value as a boolean</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>Under some conditions, it has been observed that Hammerspoon's <code>hs.window.filter</code> module will misidentify Canvas and Drawing objects as windows of the Hammerspoon application that it should consider when evaluating its filters. To eliminate this, <code>hs.canvas</code> objects (and previously <code>hs.drawing</code> objects, which are now deprecated and pass through to <code>hs.canvas</code>) were given a nonstandard accessibilty subrole to prevent them from being included. This has caused some issues with third party tools, like Yabai, which also use the accessibility subroles for determining what actions it may take with Hammerspoon windows.</p>
+</li>
+<li><p>By passing <code>false</code> to this function, all canvas objects will revert to specifying the standard subrole for the containing windows by default and should work as expected with third party tools. Note that this may cause issues or slowdowns if you are also using <code>hs.window.filter</code>; a more permanent solution is being considered.</p>
+</li>
+<li><p>If you need to control the subrole of canvas objects more specifically, or only for some canvas objects, see <a href="#_accessibilitySubrole">hs.canvas:_accessibilitySubrole</a>.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2316">extensions/canvas/libcanvas.m line 2316</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.new(rect) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Create a new canvas object at the specified coordinates</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>rect</code> - A rect-table containing the co-ordinates and size for the canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new, empty, canvas object, or nil if the canvas cannot be created with the specified coordinates</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The size of the canvas defines the visible area of the canvas -- any portion of a canvas element which extends past the canvas's edges will be clipped.</li>
+<li>a rect-table is a table with key-value pairs specifying the top-left coordinate on the screen for the canvas (keys <code>x</code>  and <code>y</code>) and the size (keys <code>h</code> and <code>w</code>) of the canvas. The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2343">extensions/canvas/libcanvas.m line 2343</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Fields</h4>
+          <section id="attributes">
+            <a name="//apple_ref/cpp/Field/attributes" class="dashAnchor"></a>
+            <h5><a href="#attributes">attributes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.attributes</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Field</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Canvas Element Attributes</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L15">extensions/canvas/canvas.lua line 15</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="object">
+            <a name="//apple_ref/cpp/Field/object" class="dashAnchor"></a>
+            <h5><a href="#object">object</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.object[index]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Field</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>An array-like method for accessing the attributes for the canvas element at the specified index</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L602">extensions/canvas/canvas.lua line 602</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="percentages">
+            <a name="//apple_ref/cpp/Field/percentages" class="dashAnchor"></a>
+            <h5><a href="#percentages">percentages</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas.percentages</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Field</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Canvas attributes which specify the location and size of canvas elements can be specified with an absolute position or as a percentage of the canvas size.</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L732">extensions/canvas/canvas.lua line 732</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="_accessibilitySubrole">
+            <a name="//apple_ref/cpp/Method/_accessibilitySubrole" class="dashAnchor"></a>
+            <h5><a href="#_accessibilitySubrole">_accessibilitySubrole</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:_accessibilitySubrole([subrole]) -&gt; canvasObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the accessibility subrole returned by `hs.canvas` objects.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>subrole</code> - an optional string or explicit nil wihch specifies what accessibility subrole value should be returned when canvas objects are queried through the macOS accessibility framework. See Notes for a discussion of how this value is interpreted. Defaults to <code>nil</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is specified, returns the canvasObject; otherwise returns the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>Most people will probably not need to use this method; See <a href="#useCustomAccessibilitySubrole">hs.canvas.useCustomAccessibilitySubrole</a> for a discussion as to why this method may be of use when Hammerspoon is being controlled through the accessibility framework by other applications.</p>
+</li>
+<li><p>If a non empty string is specified as the argument to this method, the string will be returned whenever the canvas object's containing window is queried for its accessibility subrole.</p>
+</li>
+<li><p>The other possible values depend upon the value registerd with <a href="#useCustomAccessibilitySubrole">hs.canvas.useCustomAccessibilitySubrole</a>:</p>
+<ul>
+<li>If <code>useCustomAccessibilitySubrole</code> is set to true (the default):<ul>
+<li>If an explicit <code>nil</code> (the default) is specified fror this method, the string returned when the canvas object's accessibility is queried will be the default macOS subrole for the canvas's window with the string &quot;.Hammerspoon` appended to it.</li>
+<li>If the empty string is specified (e.g. <code>&quot;&quot;</code>), then the default macOS subrole for the canvas's window will be returned.</li>
+</ul>
+</li>
+<li>If <code>useCustomAccessibilitySubrole</code> is set to false:<ul>
+<li>If an explicit <code>nil</code> (the default) is specified fror this method, then the default macOS subrole for the canvas's window will be returned.</li>
+<li>If the empty string is specified (e.g. <code>&quot;&quot;</code>), the string returned when the canvas object's accessibility is queried will be the default macOS subrole for the canvas's window with the string &quot;.Hammerspoon` appended to it.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2474">extensions/canvas/libcanvas.m line 2474</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="alpha">
+            <a name="//apple_ref/cpp/Method/alpha" class="dashAnchor"></a>
+            <h5><a href="#alpha">alpha</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:alpha([alpha]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the alpha level of the window containing the canvasObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>alpha</code> - an optional number specifying the new alpha level (0.0 - 1.0, inclusive) for the canvasObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2986">extensions/canvas/libcanvas.m line 2986</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="appendElements">
+            <a name="//apple_ref/cpp/Method/appendElements" class="dashAnchor"></a>
+            <h5><a href="#appendElements">appendElements</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:appendElements(element...) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Appends the elements specified to the canvas.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>element</code> - a table containing key-value pairs that define the element to be appended to the canvas.  You can specify one or more elements and they will be appended in the order they are listed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>You can also specify multiple elements in a table as an array, where each index in the table contains an element table, and use the array as a single argument to this method if this style works better in your code.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L347">extensions/canvas/canvas.lua line 347</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="assignElement">
+            <a name="//apple_ref/cpp/Method/assignElement" class="dashAnchor"></a>
+            <h5><a href="#assignElement">assignElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:assignElement(elementTable, [index]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Assigns a new element to the canvas at the specified index.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>elementTable</code> - a table containing key-value pairs that define the element to be added to the canvas.</li>
+<li><code>index</code>        - an optional integer between 1 and the canvas element count + 1 specifying the index position to put the new element.  Any element currently at that index will be replaced.  Defaults to the canvas element count + 1 (i.e. after the end of the currently defined elements).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the canvasObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>When the index specified is the canvas element count + 1, the behavior of this method is the same as <a href="#insertElement">hs.canvas:insertElement</a>; i.e. it adds the new element to the end of the currently defined element list.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3664">extensions/canvas/libcanvas.m line 3664</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="behavior">
+            <a name="//apple_ref/cpp/Method/behavior" class="dashAnchor"></a>
+            <h5><a href="#behavior">behavior</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:behavior([behavior]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the window behavior settings for the canvas object using labels defined in [hs.canvas.windowBehaviors](#windowBehaviors).</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>behavior</code> - if present, the behavior should be a combination of values found in <a href="#windowBehaviors">hs.canvas.windowBehaviors</a> describing the window behavior.  The behavior should be specified as one of the following:<ul>
+<li>integer - a number representing the behavior which can be created by combining values found in <a href="#windowBehaviors">hs.canvas.windowBehaviors</a> with the logical or operator.</li>
+<li>string  - a single key from <a href="#windowBehaviors">hs.canvas.windowBehaviors</a> which will be toggled in the current window behavior.</li>
+<li>table   - a list of keys from <a href="#windowBehaviors">hs.canvas.windowBehaviors</a> which will be combined to make the final behavior by combining their values with the logical or operator.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, then the canvasObject is returned; otherwise the current behavior value is returned.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L159">extensions/canvas/canvas.lua line 159</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="behaviorAsLabels">
+            <a name="//apple_ref/cpp/Method/behaviorAsLabels" class="dashAnchor"></a>
+            <h5><a href="#behaviorAsLabels">behaviorAsLabels</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:behaviorAsLabels(behaviorTable) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the window behavior settings for the canvas object using labels defined in [hs.canvas.windowBehaviors](#windowBehaviors).</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>behaviorTable - an optional table of strings and/or integers specifying the desired window behavior for the canvas object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is provided, the canvas object; otherwise the current value as a table of strings.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L203">extensions/canvas/canvas.lua line 203</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="bringToFront">
+            <a name="//apple_ref/cpp/Method/bringToFront" class="dashAnchor"></a>
+            <h5><a href="#bringToFront">bringToFront</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:bringToFront([aboveEverything]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Places the canvas object on top of normal windows</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>aboveEverything - An optional boolean value that controls how far to the front the canvas should be placed. Defaults to false.<ul>
+<li>if true, place the canvas on top of all windows (including the dock and menubar and fullscreen windows).</li>
+<li>if false, place the canvas above normal windows, but below the dock, menubar and fullscreen windows.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>As of macOS Sierra and later, if you want a <code>hs.canvas</code> object to appear above full-screen windows you must hide the Hammerspoon Dock icon first using: <code>hs.dockicon.hide()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L285">extensions/canvas/canvas.lua line 285</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="canvasDefaultFor">
+            <a name="//apple_ref/cpp/Method/canvasDefaultFor" class="dashAnchor"></a>
+            <h5><a href="#canvasDefaultFor">canvasDefaultFor</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:canvasDefaultFor(keyName, [newValue]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the element default specified by keyName.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>keyName</code> - the element default to examine or modify</li>
+<li><code>value</code>   - an optional new value to set as the default fot his canvas when not specified explicitly in an element declaration.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Not all keys will apply to all element types.</li>
+<li>Currently set and built-in defaults may be retrieved in a table with <a href="#canvasDefaults">hs.canvas:canvasDefaults</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3272">extensions/canvas/libcanvas.m line 3272</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="canvasDefaultKeys">
+            <a name="//apple_ref/cpp/Method/canvasDefaultKeys" class="dashAnchor"></a>
+            <h5><a href="#canvasDefaultKeys">canvasDefaultKeys</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:canvasDefaultKeys([module]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a list of the key names for the attributes set for the canvas defaults.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>module</code> - an optional boolean flag, default false, indicating whether the key names for the module defaults (true) should be included in the list.  If false, only those defaults which have been explicitly set for the canvas are included.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the key names for the defaults which are set for this canvas. May also optionally include key names for all attributes which have a default value defined by the module.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3566">extensions/canvas/libcanvas.m line 3566</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="canvasDefaults">
+            <a name="//apple_ref/cpp/Method/canvasDefaults" class="dashAnchor"></a>
+            <h5><a href="#canvasDefaults">canvasDefaults</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:canvasDefaults([module]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get a table of the default key-value pairs which apply to the canvas.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>module</code> - an optional boolean flag, default false, indicating whether module defaults (true) should be included in the table.  If false, only those defaults which have been explicitly set for the canvas are returned.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing key-value pairs for the defaults which apply to the canvas.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Not all keys will apply to all element types.</li>
+<li>To change the defaults for the canvas, use <a href="#canvasDefaultFor">hs.canvas:canvasDefaultFor</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3533">extensions/canvas/libcanvas.m line 3533</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="canvasElements">
+            <a name="//apple_ref/cpp/Method/canvasElements" class="dashAnchor"></a>
+            <h5><a href="#canvasElements">canvasElements</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:canvasElements() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns an array containing the elements defined for this canvas.  Each array entry will be a table containing the key-value pairs which have been set for that canvas element.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an array of element tables which are defined for the canvas.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3594">extensions/canvas/libcanvas.m line 3594</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="canvasMouseEvents">
+            <a name="//apple_ref/cpp/Method/canvasMouseEvents" class="dashAnchor"></a>
+            <h5><a href="#canvasMouseEvents">canvasMouseEvents</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:canvasMouseEvents([down], [up], [enterExit], [move]) -&gt; canvasObject | current values</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether or not regions of the canvas which are not otherwise covered by an element with mouse tracking enabled should generate a callback for mouse events.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>down</code>      - an optional boolean, or nil placeholder, specifying whether or not the mouse button being pushed down should generate a callback for the canvas areas not otherwise covered by an element with mouse tracking enabled.</li>
+<li><code>up</code>        - an optional boolean, or nil placeholder, specifying whether or not the mouse button being released should generate a callback for the canvas areas not otherwise covered by an element with mouse tracking enabled.</li>
+<li><code>enterExit</code> - an optional boolean, or nil placeholder, specifying whether or not the mouse pointer entering or exiting the canvas bounds should generate a callback for the canvas areas not otherwise covered by an element with mouse tracking enabled.</li>
+<li><code>move</code>      - an optional boolean, or nil placeholder, specifying whether or not the mouse pointer moving within the canvas bounds should generate a callback for the canvas areas not otherwise covered by an element with mouse tracking enabled.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If any arguments are provided, returns the canvas Object, otherwise returns the current values as four separate boolean values (i.e. not in a table).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>Each value that you wish to set must be provided in the order given above, but you may specify a position as <code>nil</code> to indicate that whatever it's current state, no change should be applied.  For example, to activate a callback for entering and exiting the canvas without changing the current callback status for up or down button clicks, you could use: <code>hs.canvas:canvasMouseTracking(nil, nil, true)</code>.</p>
+</li>
+<li><p>Use <a href="#mouseCallback">hs.canvas:mouseCallback</a> to set the callback function.  The identifier field in the callback's argument list will be &quot;<em>canvas</em>&quot;, but otherwise identical to those specified in <a href="#mouseCallback">hs.canvas:mouseCallback</a>.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2777">extensions/canvas/libcanvas.m line 2777</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="clickActivating">
+            <a name="//apple_ref/cpp/Method/clickActivating" class="dashAnchor"></a>
+            <h5><a href="#clickActivating">clickActivating</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:clickActivating([flag]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether or not clicking on a canvas with a click callback defined should bring all of Hammerspoon's open windows to the front.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>flag</code> - an optional boolean indicating whether or not clicking on a canvas with a click callback function defined should activate Hammerspoon and bring its windows forward. Defaults to true.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is provided, returns the canvas object; otherwise returns the current setting.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Setting this to false changes a canvas object's AXsubrole value and may affect the results of filters used with <code>hs.window.filter</code>, depending upon how they are defined.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2742">extensions/canvas/libcanvas.m line 2742</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="copy">
+            <a name="//apple_ref/cpp/Method/copy" class="dashAnchor"></a>
+            <h5><a href="#copy">copy</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:copy() -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Creates a copy of the canvas.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a copy of the canvas</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>The copy of the canvas will be identical in all respectes except:</p>
+<ul>
+<li>The new canvas will not have a callback function assigned, even if the original canvas does.</li>
+<li>The new canvas will not initially be visible, even if the original is.</li>
+</ul>
+</li>
+<li><p>The new canvas is an independant entity -- any subsequent changes to either canvas will not be reflected in the other canvas.</p>
+</li>
+<li><p>This method allows you to display a canvas in multiple places or use it as a canvas element multiple times.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L430">extensions/canvas/canvas.lua line 430</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="delete">
+            <a name="//apple_ref/cpp/Method/delete" class="dashAnchor"></a>
+            <h5><a href="#delete">delete</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:delete([fadeOutTime]) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Destroys the canvas object, optionally fading it out first (if currently visible).</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>fadeOutTime</code> - An optional number of seconds over which to fade out the canvas object. Defaults to zero.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method is automatically called during garbage collection, notably during a Hammerspoon termination or reload, with a fade time of 0.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3170">extensions/canvas/libcanvas.m line 3170</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="draggingCallback">
+            <a name="//apple_ref/cpp/Method/draggingCallback" class="dashAnchor"></a>
+            <h5><a href="#draggingCallback">draggingCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:draggingCallback(fn) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets or remove a callback for accepting dragging and dropping items onto the canvas.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>fn</code>   - A function, can be nil, that will be called when an item is dragged onto the canvas.  An explicit nil, the default, disables drag-and-drop for this canvas.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>The callback function should expect 3 arguments and optionally return 1: the canvas object itself, a message specifying the type of dragging event, and a table containing details about the item(s) being dragged.  The key-value pairs of the details table will be the following:</p>
+<ul>
+<li><code>pasteboard</code> - the name of the pasteboard that contains the items being dragged</li>
+<li><code>sequence</code>   - an integer that uniquely identifies the dragging session.</li>
+<li><code>mouse</code>      - a point table containing the location of the mouse pointer within the canvas corresponding to when the callback occurred.</li>
+<li><code>operation</code>  - a table containing string descriptions of the type of dragging the source application supports. Potentially useful for determining if your callback function should accept the dragged item or not.</li>
+</ul>
+</li>
+<li><p>The possible messages the callback function may receive are as follows:</p>
+<ul>
+<li>&quot;enter&quot;   - the user has dragged an item into the canvas.  When your callback receives this message, you can optionally return false to indicate that you do not wish to accept the item being dragged.</li>
+<li>&quot;exit&quot;    - the user has moved the item out of the canvas; if the previous &quot;enter&quot; callback returned false, this message will also occur when the user finally releases the items being dragged.</li>
+<li>&quot;receive&quot; - indicates that the user has released the dragged object while it is still within the canvas frame.  When your callback receives this message, you can optionally return false to indicate to the sending application that you do not want to accept the dragged item -- this may affect the animations provided by the sending application.</li>
+</ul>
+</li>
+<li><p>You can use the sequence number in the details table to match up an &quot;enter&quot; with an &quot;exit&quot; or &quot;receive&quot; message.</p>
+</li>
+<li><p>You should capture the details you require from the drag-and-drop operation during the callback for &quot;receive&quot; by using the pasteboard field of the details table and the <code>hs.pasteboard</code> module.  Because of the nature of &quot;promised items&quot;, it is not guaranteed that the items will still be on the pasteboard after your callback completes handling this message.</p>
+</li>
+<li><p>A canvas object can only accept drag-and-drop items when its window level is at <a href="#windowLevels">hs.canvas.windowLevels.dragging</a> or lower.</p>
+</li>
+<li><p>a canvas object can only accept drag-and-drop items when it accepts mouse events.  You must define a <a href="#mouseCallback">hs.canvas:mouseCallback</a> function, even if it is only a placeholder, e.g. <code>hs.canvas:mouseCallback(function() end)</code></p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2428">extensions/canvas/libcanvas.m line 2428</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementAttribute">
+            <a name="//apple_ref/cpp/Method/elementAttribute" class="dashAnchor"></a>
+            <h5><a href="#elementAttribute">elementAttribute</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:elementAttribute(index, key, [value]) -&gt; canvasObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the attribute `key` for the canvas element at the specified index.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>index</code> - the index of the canvas element whose attribute is to be retrieved or set.</li>
+<li><code>key</code>   - the key name of the attribute to get or set.</li>
+<li><code>value</code> - an optional value to assign to the canvas element's attribute.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if a value for the attribute is specified, returns the canvas object; otherwise returns the current value for the specified attribute.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3411">extensions/canvas/libcanvas.m line 3411</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementBounds">
+            <a name="//apple_ref/cpp/Method/elementBounds" class="dashAnchor"></a>
+            <h5><a href="#elementBounds">elementBounds</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:elementBounds(index) -&gt; rectTable</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the smallest rectangle which can fully contain the canvas element at the specified index.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>index</code> - the index of the canvas element to get the bounds for</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a rect table containing the smallest rectangle which can fully contain the canvas element.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>For many elements, this will be the same as the element frame.  For items without a frame (e.g. <code>segments</code>, <code>circle</code>, etc.) this will be the smallest rectangle which can fully contain the canvas element as specified by it's attributes.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3612">extensions/canvas/libcanvas.m line 3612</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementCount">
+            <a name="//apple_ref/cpp/Method/elementCount" class="dashAnchor"></a>
+            <h5><a href="#elementCount">elementCount</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:elementCount() -&gt; integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns the number of elements currently defined for the canvas object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the number of elements currently defined for the canvas object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3516">extensions/canvas/libcanvas.m line 3516</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementKeys">
+            <a name="//apple_ref/cpp/Method/elementKeys" class="dashAnchor"></a>
+            <h5><a href="#elementKeys">elementKeys</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:elementKeys(index, [optional]) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a list of the key names for the attributes set for the canvas element at the specified index.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>index</code>    - the index of the element to get the assigned key list from.</li>
+<li><code>optional</code> - an optional boolean, default false, indicating whether optional, but unset, keys relevant to this canvas object should also be included in the list returned.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the keys that are set for this canvas element.  May also optionally include keys which are not specifically set for this element but use inherited values from the canvas or module defaults.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Any attribute which has been explicitly set for the element will be included in the key list (even if it is ignored for the element type).  If the <code>optional</code> flag is set to true, the <em>additional</em> attribute names added to the list will only include those which are relevant to the element type.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3475">extensions/canvas/libcanvas.m line 3475</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="frame">
+            <a name="//apple_ref/cpp/Method/frame" class="dashAnchor"></a>
+            <h5><a href="#frame">frame</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:frame([rect]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the frame of the canvasObject.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>rect - An optional rect-table containing the co-ordinates and size the canvas object should be moved and set to</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>a rect-table is a table with key-value pairs specifying the new top-left coordinate on the screen of the canvas (keys <code>x</code>  and <code>y</code>) and the new size (keys <code>h</code> and <code>w</code>).  The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</p>
+</li>
+<li><p>elements in the canvas that have the <code>absolutePosition</code> attribute set to false will be moved so that their relative position within the canvas remains the same with respect to the new size.</p>
+</li>
+<li><p>elements in the canvas that have the <code>absoluteSize</code> attribute set to false will be resized so that their relative size with respect to the canvas remains the same with respect to the new size.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L246">extensions/canvas/canvas.lua line 246</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="hide">
+            <a name="//apple_ref/cpp/Method/hide" class="dashAnchor"></a>
+            <h5><a href="#hide">hide</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:hide([fadeOutTime]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Hides the canvas object</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>fadeOutTime</code> - An optional number of seconds over which to fade out the canvas object. Defaults to zero.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2655">extensions/canvas/libcanvas.m line 2655</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="imageFromCanvas">
+            <a name="//apple_ref/cpp/Method/imageFromCanvas" class="dashAnchor"></a>
+            <h5><a href="#imageFromCanvas">imageFromCanvas</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:imageFromCanvas() -&gt; hs.image object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns an image of the canvas contents as an `hs.image` object.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an <code>hs.image</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The canvas does not have to be visible in order for an image to be generated from it.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2867">extensions/canvas/libcanvas.m line 2867</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="insertElement">
+            <a name="//apple_ref/cpp/Method/insertElement" class="dashAnchor"></a>
+            <h5><a href="#insertElement">insertElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:insertElement(elementTable, [index]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Insert a new element into the canvas at the specified index.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>elementTable</code> - a table containing key-value pairs that define the element to be added to the canvas.</li>
+<li><code>index</code>        - an optional integer between 1 and the canvas element count + 1 specifying the index position to put the new element.  Any element currently at that index, and those that follow, will be moved one position up in the element array.  Defaults to the canvas element count + 1 (i.e. after the end of the currently defined elements).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the canvasObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>see also <a href="#assignElement">hs.canvas:assignElement</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3329">extensions/canvas/libcanvas.m line 3329</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isOccluded">
+            <a name="//apple_ref/cpp/Method/isOccluded" class="dashAnchor"></a>
+            <h5><a href="#isOccluded">isOccluded</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:isOccluded() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether or not the canvas is currently occluded (hidden by other windows, off screen, etc).</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean indicating whether or not the canvas is currently being occluded.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If any part of the canvas is visible (even if that portion of the canvas does not contain any canvas elements), then the canvas is not considered occluded.</li>
+<li>a canvas which is completely covered by one or more opaque windows is considered occluded; however, if the windows covering the canvas are not opaque, then the canvas is not occluded.</li>
+<li>a canvas that is currently hidden or with a height of 0 or a width of 0 is considered occluded.</li>
+<li>See also <a href="#isShowing">hs.canvas:isShowing</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3242">extensions/canvas/libcanvas.m line 3242</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isShowing">
+            <a name="//apple_ref/cpp/Method/isShowing" class="dashAnchor"></a>
+            <h5><a href="#isShowing">isShowing</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:isShowing() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether or not the canvas is currently being shown.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean indicating whether or not the canvas is currently being shown (true) or is currently hidden (false).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method only determines whether or not the canvas is being shown or is hidden -- it does not indicate whether or not the canvas is currently off screen or is occluded by other objects.</li>
+<li>See also <a href="#isOccluded">hs.canvas:isOccluded</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3214">extensions/canvas/libcanvas.m line 3214</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isVisible">
+            <a name="//apple_ref/cpp/Method/isVisible" class="dashAnchor"></a>
+            <h5><a href="#isVisible">isVisible</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:isVisible() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns whether or not the canvas is currently showing and is (at least partially) visible on screen.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean indicating whether or not the canvas is currently visible.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This is syntactic sugar for <code>not hs.canvas:isOccluded()</code>.</li>
+<li>See <a href="#isOccluded">hs.canvas:isOccluded</a> for more details.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L332">extensions/canvas/canvas.lua line 332</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="level">
+            <a name="//apple_ref/cpp/Method/level" class="dashAnchor"></a>
+            <h5><a href="#level">level</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:level([level]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets the window level more precisely than sendToBack and bringToFront.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>level</code> - an optional level, specified as a number or as a string, specifying the new window level for the canvasObject. If it is a string, it must match one of the keys in <a href="#windowLevels">hs.canvas.windowLevels</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3055">extensions/canvas/libcanvas.m line 3055</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="minimumTextSize">
+            <a name="//apple_ref/cpp/Method/minimumTextSize" class="dashAnchor"></a>
+            <h5><a href="#minimumTextSize">minimumTextSize</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:minimumTextSize([index], text) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Returns a table specifying the size of the rectangle which can fully render the text with the specified style so that is will be completely visible.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>index</code> - an optional index specifying the element in the canvas which contains the text attributes which should be used when determining the size of the text. If not provided, the canvas defaults will be used instead. Ignored if <code>text</code> is an hs.styledtext object.</li>
+<li><code>text</code>  - a string or hs.styledtext object specifying the text.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a size table specifying the height and width of a rectangle which could fully contain the text when displayed in the canvas</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Multi-line text (separated by a newline or return) is supported.  The height will be for the multiple lines and the width returned will be for the longest line.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2510">extensions/canvas/libcanvas.m line 2510</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="mouseCallback">
+            <a name="//apple_ref/cpp/Method/mouseCallback" class="dashAnchor"></a>
+            <h5><a href="#mouseCallback">mouseCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:mouseCallback(mouseCallbackFn) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Sets a callback for mouse events with respect to the canvas</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>mouseCallbackFn</code>   - A function, can be nil, that will be called when a mouse event occurs within the canvas, and an element beneath the mouse's current position has one of the <code>trackMouse...</code> attributes set to true.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>The callback function should expect 5 arguments: the canvas object itself, a message specifying the type of mouse event, the canvas element <code>id</code> (or index position in the canvas if the <code>id</code> attribute is not set for the element), the x position of the mouse when the event was triggered within the rendered portion of the canvas element, and the y position of the mouse when the event was triggered within the rendered portion of the canvas element.</p>
+</li>
+<li><p>See also <a href="#canvasMouseEvents">hs.canvas:canvasMouseEvents</a> for tracking mouse events in regions of the canvas not covered by an element with mouse tracking enabled.</p>
+</li>
+<li><p>The following mouse attributes may be set to true for a canvas element and will invoke the callback with the specified message:</p>
+<ul>
+<li><code>trackMouseDown</code>      - indicates that a callback should be invoked when a mouse button is clicked down on the canvas element.  The message will be &quot;mouseDown&quot;.</li>
+<li><code>trackMouseUp</code>        - indicates that a callback should be invoked when a mouse button has been released over the canvas element.  The message will be &quot;mouseUp&quot;.</li>
+<li><code>trackMouseEnterExit</code> - indicates that a callback should be invoked when the mouse pointer enters or exits the  canvas element.  The message will be &quot;mouseEnter&quot; or &quot;mouseExit&quot;.</li>
+<li><code>trackMouseMove</code>      - indicates that a callback should be invoked when the mouse pointer moves within the canvas element.  The message will be &quot;mouseMove&quot;.</li>
+</ul>
+</li>
+<li><p>The callback mechanism uses reverse z-indexing to determine which element will receive the callback -- the topmost element of the canvas which has enabled callbacks for the specified message will be invoked.</p>
+</li>
+<li><p>No distinction is made between the left, right, or other mouse buttons. If you need to determine which specific button was pressed, use <code>hs.eventtap.checkMouseButtons()</code> within your callback to check.</p>
+</li>
+<li><p>The hit point detection occurs by comparing the mouse pointer location to the rendered content of each individual canvas object... if an object which obscures a lower object does not have mouse tracking enabled, the lower object will still receive the event if it does have tracking enabled.</p>
+</li>
+<li><p>Clipping regions which remove content from the visible area of a rendered object are ignored for the purposes of element hit-detection.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2691">extensions/canvas/libcanvas.m line 2691</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="orderAbove">
+            <a name="//apple_ref/cpp/Method/orderAbove" class="dashAnchor"></a>
+            <h5><a href="#orderAbove">orderAbove</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:orderAbove([canvas2]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Moves canvas object above canvas2, or all canvas objects in the same presentation level, if canvas2 is not given.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>canvas2</code> -An optional canvas object to place the canvas object above.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If the canvas object and canvas2 are not at the same presentation level, this method will will move the canvas object as close to the desired relationship as possible without changing the canvas object's presentation level. See <a href="#level">hs.canvas.level</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3023">extensions/canvas/libcanvas.m line 3023</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="orderBelow">
+            <a name="//apple_ref/cpp/Method/orderBelow" class="dashAnchor"></a>
+            <h5><a href="#orderBelow">orderBelow</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:orderBelow([canvas2]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Moves canvas object below canvas2, or all canvas objects in the same presentation level, if canvas2 is not given.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>canvas2</code> -An optional canvas object to place the canvas object below.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If the canvas object and canvas2 are not at the same presentation level, this method will will move the canvas object as close to the desired relationship as possible without changing the canvas object's presentation level. See <a href="#level">hs.canvas.level</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3039">extensions/canvas/libcanvas.m line 3039</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="removeElement">
+            <a name="//apple_ref/cpp/Method/removeElement" class="dashAnchor"></a>
+            <h5><a href="#removeElement">removeElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:removeElement([index]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Insert a new element into the canvas at the specified index.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>index</code>        - an optional integer between 1 and the canvas element count specifying the index of the canvas element to remove. Any elements that follow, will be moved one position down in the element array.  Defaults to the canvas element count (i.e. the last element of the currently defined elements).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the canvasObject</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3378">extensions/canvas/libcanvas.m line 3378</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="replaceElements">
+            <a name="//apple_ref/cpp/Method/replaceElements" class="dashAnchor"></a>
+            <h5><a href="#replaceElements">replaceElements</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:replaceElements(element...) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Replaces all of the elements in the canvas with the elements specified.  Shortens or lengthens the canvas element count if necessary to accomodate the new canvas elements.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>element</code> - a table containing key-value pairs that define the element to be assigned to the canvas.  You can specify one or more elements and they will be appended in the order they are listed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>You can also specify multiple elements in a table as an array, where each index in the table contains an element table, and use the array as a single argument to this method if this style works better in your code.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L366">extensions/canvas/canvas.lua line 366</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="rotateElement">
+            <a name="//apple_ref/cpp/Method/rotateElement" class="dashAnchor"></a>
+            <h5><a href="#rotateElement">rotateElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:rotateElement(index, angle, [point], [append]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Rotates an element about the point specified, or the elements center if no point is specified.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>index</code>  - the index of the element to rotate</li>
+<li><code>angle</code>  - the angle to rotate the object in a clockwise direction</li>
+<li><code>point</code>  - an optional point table, defaulting to the elements center, specifying the point around which the object should be rotated</li>
+<li><code>append</code> - an optional boolean, default false, specifying whether or not the rotation transformation matrix should be appended to the existing transformation assigned to the element (true) or replace it (false).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>a point-table is a table with key-value pairs specifying a coordinate in the canvas (keys <code>x</code>  and <code>y</code>). The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</p>
+</li>
+<li><p>The center of the object is determined by getting the element's bounds with <a href="#elementBounds">hs.canvas:elementBounds</a>.</p>
+</li>
+<li><p>If the third argument is a boolean value, the <code>point</code> argument is assumed to be the element's center and the boolean value is used as the <code>append</code> argument.</p>
+</li>
+<li><p>This method uses <a href="MATRIX.md">hs.canvas.matrix</a> to generate the rotation transformation and provides a wrapper for <code>hs.canvas.matrix.translate(x, y):rotate(angle):translate(-x, -y)</code> which is then assigned or appended to the element's existing <code>transformation</code> attribute.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L386">extensions/canvas/canvas.lua line 386</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendToBack">
+            <a name="//apple_ref/cpp/Method/sendToBack" class="dashAnchor"></a>
+            <h5><a href="#sendToBack">sendToBack</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:sendToBack() -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Places the canvas object behind normal windows, between the desktop wallpaper and desktop icons</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/canvas.lua#L313">extensions/canvas/canvas.lua line 313</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="show">
+            <a name="//apple_ref/cpp/Method/show" class="dashAnchor"></a>
+            <h5><a href="#show">show</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:show([fadeInTime]) -&gt; canvasObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Displays the canvas object</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>fadeInTime</code> - An optional number of seconds over which to fade in the canvas object. Defaults to zero.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The canvas object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>if the canvas is in use as an element in another canvas, this method will result in an error.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2617">extensions/canvas/libcanvas.m line 2617</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="size">
+            <a name="//apple_ref/cpp/Method/size" class="dashAnchor"></a>
+            <h5><a href="#size">size</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:size([size]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the size of a canvas object</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>size</code> - An optional size-table specifying the width and height the canvas object should be resized to</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>a size-table is a table with key-value pairs specifying the size (keys <code>h</code> and <code>w</code>) the canvas should be resized to. The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</p>
+</li>
+<li><p>elements in the canvas that have the <code>absolutePosition</code> attribute set to false will be moved so that their relative position within the canvas remains the same with respect to the new size.</p>
+</li>
+<li><p>elements in the canvas that have the <code>absoluteSize</code> attribute set to false will be resized so that their relative size with respect to the canvas remains the same with respect to the new size.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2892">extensions/canvas/libcanvas.m line 2892</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="topLeft">
+            <a name="//apple_ref/cpp/Method/topLeft" class="dashAnchor"></a>
+            <h5><a href="#topLeft">topLeft</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:topLeft([point]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the top-left coordinate of the canvas object</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>point</code> - An optional point-table specifying the new coordinate the top-left of the canvas object should be moved to</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>a point-table is a table with key-value pairs specifying the new top-left coordinate on the screen of the canvas (keys <code>x</code>  and <code>y</code>). The table may be crafted by any method which includes these keys, including the use of an <code>hs.geometry</code> object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2830">extensions/canvas/libcanvas.m line 2830</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="transformation">
+            <a name="//apple_ref/cpp/Method/transformation" class="dashAnchor"></a>
+            <h5><a href="#transformation">transformation</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:transformation([matrix]) -&gt; canvasObject | current value</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set the matrix transformation which is applied to every element in the canvas before being individually processed and added to the canvas.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>matrix</code> - an optional table specifying the matrix table, as defined by the <a href="MATRIX.md">hs.canvas.matrix</a> module, to be applied to every element of the canvas, or an explicit <code>nil</code> to reset the transformation to the identity matrix.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if an argument is provided, returns the canvasObject, otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>An example use for this method would be to change the canvas's origin point { x = 0, y = 0 } from the lower left corner of the canvas to somewhere else, like the middle of the canvas.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L2588">extensions/canvas/libcanvas.m line 2588</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="wantsLayer">
+            <a name="//apple_ref/cpp/Method/wantsLayer" class="dashAnchor"></a>
+            <h5><a href="#wantsLayer">wantsLayer</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.canvas:wantsLayer([flag]) -&gt; canvasObject | currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>Get or set whether or not the canvas object should be rendered by the view or by Core Animation.</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>flag</code> - optional boolean (default false) which indicates whether the canvas object should be rendered by the containing view (false) or by Core Animation (true).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If an argument is provided, the canvas object; otherwise the current value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method can help smooth the display of small text objects on non-Retina monitors.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/canvas/libcanvas.m#L3105">extensions/canvas/libcanvas.m line 3105</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

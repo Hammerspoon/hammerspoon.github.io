@@ -620,6 +620,8 @@ function ssidChanged()
         hs.messages.iMessage("iphonefriend@hipstermail.com", "Hey! I'm at Baristartisan's, come join me!")
         hs.messages.SMS("+1234567890", "Hey, you don't have an iPhone, but you should still come for a coffee")
     end
+
+    lastSSID = newSSID
 end
 
 wifiWatcher = hs.wifi.watcher.new(ssidChanged)

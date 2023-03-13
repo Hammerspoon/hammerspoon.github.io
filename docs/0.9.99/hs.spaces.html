@@ -1,0 +1,1181 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.spaces</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.spaces</h1>
+      <p>This module provides some basic functions for controlling macOS Spaces.</p>
+<p>The functionality provided by this module is considered experimental and subject to change. By using a combination of private APIs and Accessibility hacks (via hs.axuielement), some basic functions for controlling the use of Spaces is possible with Hammerspoon, but there are some limitations and caveats.</p>
+<p>It should be noted that while the functions provided by this module have worked for some time in third party applications and in a previous experimental module that has received limited testing over the last few years, they do utilize some private APIs which means that Apple could change them at any time.</p>
+<p>The functions which allow you to create new spaes, remove spaces, and jump to a specific space utilize <code>hs.axuielement</code> and perform accessibility actions through the Dock application to manipulate Mission Control. Because we are essentially directing the Dock to perform User Interactions, there is some visual feedback which we cannot entirely suppress. You can minimize, but not entirely remove, this by enabling &quot;Reduce motion&quot; in System Preferences -&gt; Accessibility -&gt; Display.</p>
+<p>It is recommended that you also enable &quot;Displays have separate Spaces&quot; in System Preferences -&gt; Mission Control.</p>
+<p>This module is a distillation of my previous <code>hs._asm.undocumented.spaces</code> module, changes inspired by reviewing the <code>Yabai</code> source, and some experimentation with <code>hs.axuielement</code>. If you require more sophisticated control, I encourage you to check out https://github.com/koekeishiya/yabai -- it does require some additional setup (changes to SIP, possibly edits to <code>sudoers</code>, etc.) but may be worth the extra steps for some power users.</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.spaces.watcher.html">hs.spaces.watcher</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Variables - Configurable values</li>
+          <ul>
+            <li><a href="#MCwaitTime">MCwaitTime</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#activeSpaceOnScreen">activeSpaceOnScreen</a></li>
+            <li><a href="#activeSpaces">activeSpaces</a></li>
+            <li><a href="#addSpaceToScreen">addSpaceToScreen</a></li>
+            <li><a href="#allSpaces">allSpaces</a></li>
+            <li><a href="#closeMissionControl">closeMissionControl</a></li>
+            <li><a href="#data_managedDisplaySpaces">data_managedDisplaySpaces</a></li>
+            <li><a href="#data_missionControlAXUIElementData">data_missionControlAXUIElementData</a></li>
+            <li><a href="#focusedSpace">focusedSpace</a></li>
+            <li><a href="#gotoSpace">gotoSpace</a></li>
+            <li><a href="#missionControlSpaceNames">missionControlSpaceNames</a></li>
+            <li><a href="#moveWindowToSpace">moveWindowToSpace</a></li>
+            <li><a href="#openMissionControl">openMissionControl</a></li>
+            <li><a href="#removeSpace">removeSpace</a></li>
+            <li><a href="#screensHaveSeparateSpaces">screensHaveSeparateSpaces</a></li>
+            <li><a href="#setDefaultMCwaitTime">setDefaultMCwaitTime</a></li>
+            <li><a href="#spaceDisplay">spaceDisplay</a></li>
+            <li><a href="#spacesForScreen">spacesForScreen</a></li>
+            <li><a href="#spaceType">spaceType</a></li>
+            <li><a href="#toggleAppExpose">toggleAppExpose</a></li>
+            <li><a href="#toggleLaunchPad">toggleLaunchPad</a></li>
+            <li><a href="#toggleMissionControl">toggleMissionControl</a></li>
+            <li><a href="#toggleShowDesktop">toggleShowDesktop</a></li>
+            <li><a href="#windowsForSpace">windowsForSpace</a></li>
+            <li><a href="#windowSpaces">windowSpaces</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Variables</h4>
+          <section id="MCwaitTime">
+            <a name="//apple_ref/cpp/Variable/MCwaitTime" class="dashAnchor"></a>
+            <h5><a href="#MCwaitTime">MCwaitTime</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.MCwaitTime</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Variable</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Specifies how long to delay before performing the accessibility actions for <a href="#gotoSpace">hs.spaces.gotoSpace</a> and <a href="#removeSpace">hs.spaces.removeSpace</a></p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The above mentioned functions require that the Mission Control accessibility objects be fully formed before the necessary action can be triggered. This variable specifies how long to delay before performing the action to complete the function. Experimentation on my machine has found that 0.3 seconds provides sufficient time for reliable functionality.</li>
+<li>If you find that the above mentioned functions do not work reliably with your setup, you can try adjusting this variable upwards -- the down side is that the larger this value is, the longer the Mission Control display is visible before returning the user to what they were working on.</li>
+<li>Once you have found a value that works reliably on your system, you can use <a href="#setDefaultMCwaitTime">hs.spaces.setDefaultMCwaitTime</a> to make it the default value for your system each time the <code>hs.spaces</code> module is loaded.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L215">extensions/spaces/spaces.lua line 215</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="activeSpaceOnScreen">
+            <a name="//apple_ref/cpp/Function/activeSpaceOnScreen" class="dashAnchor"></a>
+            <h5><a href="#activeSpaceOnScreen">activeSpaceOnScreen</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.activeSpaceOnScreen([screen]) -&gt; integer | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the currently visible (active) space for the specified screen.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>screen</code> - an optional screen specification identifying the screen to return the active space for. The screen may be specified by its ID (<code>hs.screen:id()</code>), its UUID (<code>hs.screen:getUUID()</code>), the string &quot;Main&quot; (a shortcut for <code>hs.screen.mainScreen()</code>), the string &quot;Primary&quot; (a shortcut for <code>hs.screen.primaryScreen()</code>), or as an <code>hs.screen</code> object. If no screen is specified, the screen returned by <code>hs.screen.mainScreen()</code> is used.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an integer specifying the ID of the space displayed, or nil and an error message if an error occurs.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L425">extensions/spaces/spaces.lua line 425</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="activeSpaces">
+            <a name="//apple_ref/cpp/Function/activeSpaces" class="dashAnchor"></a>
+            <h5><a href="#activeSpaces">activeSpaces</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.activeSpaces() -&gt; table | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a key-value table specifying the active spaces for all screens.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a key-value table in which the keys are the UUIDs for the current screens and the value for each key is the space ID of the active space for that display.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the table returned has its __tostring metamethod set to <code>hs.inspect</code> to simplify inspecting the results when using the Hammerspoon Console.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L488">extensions/spaces/spaces.lua line 488</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="addSpaceToScreen">
+            <a name="//apple_ref/cpp/Function/addSpaceToScreen" class="dashAnchor"></a>
+            <h5><a href="#addSpaceToScreen">addSpaceToScreen</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.addSpaceToScreen([screen], [closeMC]) -&gt; true | nil, errMsg</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Adds a new space on the specified screen</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>screen</code> - an optional screen specification identifying the screen to create the new space on. The screen may be specified by its ID (<code>hs.screen:id()</code>), its UUID (<code>hs.screen:getUUID()</code>), the string &quot;Main&quot; (a shortcut for <code>hs.screen.mainScreen()</code>), the string &quot;Primary&quot; (a shortcut for <code>hs.screen.primaryScreen()</code>), or as an <code>hs.screen</code> object. If no screen is specified, the screen returned by <code>hs.screen.mainScreen()</code> is used.</li>
+<li><code>closeMC</code> - an optional boolean, default true, specifying whether or not the Mission Control display should be closed after adding the new space.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true on success; otherwise return nil and an error message</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function creates a new space by opening up the Mission Control display and then programmatically invoking the button to add a new space. This is unavoidable. You can  minimize, but not entirely remove, the visual shift to the Mission Control display by by enabling &quot;Reduce motion&quot; in System Preferences -&gt; Accessibility -&gt; Display.</li>
+<li>If you intend to perform multiple actions which require the Mission Control display ((<a href="#missionControlSpaceNames">hs.spaces.missionControlSpaceNames</a>, <a href="#addSpaceToScreen">hs.spaces.addSpaceToScreen</a>, <a href="#removeSpace">hs.spaces.removeSpace</a>, or <a href="#gotoSpace">hs.spaces.gotoSpace</a>), you can pass in <code>false</code> as the final argument to prevent the automatic closure of the Mission Control display -- this will reduce the visual side-affects to one transition instead of many.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L686">extensions/spaces/spaces.lua line 686</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="allSpaces">
+            <a name="//apple_ref/cpp/Function/allSpaces" class="dashAnchor"></a>
+            <h5><a href="#allSpaces">allSpaces</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.allSpaces() -&gt; table | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a Kay-Value table containing the IDs of all spaces for all screens.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a key-value table in which the keys are the UUIDs for the current screens and the value for each key is a table of space IDs corresponding to the spaces for that screen. Returns nil and an error message if an error occurs.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the table returned has its __tostring metamethod set to <code>hs.inspect</code> to simplify inspecting the results when using the Hammerspoon Console.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L396">extensions/spaces/spaces.lua line 396</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="closeMissionControl">
+            <a name="//apple_ref/cpp/Function/closeMissionControl" class="dashAnchor"></a>
+            <h5><a href="#closeMissionControl">closeMissionControl</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.closeMissionControl() -&gt; None</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Opens the Mission Control display</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Does nothing if the Mission Control display is not currently visible.</li>
+<li>This function uses Accessibility features provided by the Dock to close Mission Control and is used internally when performing the <a href="#gotoSpace">hs.spaces.gotoSpace</a>, <a href="#addSpaceToScreen">hs.spaces.addSpaceToScreen</a>, and <a href="#removeSpace">hs.spaces.removeSpace</a> functions.</li>
+<li>It is possible to invoke the above mentioned functions and prevent them from auto-closing Mission Control -- this may be useful if you wish to perform multiple actions and want to minimize the visual side-effects. You can then use this function when you are done.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L315">extensions/spaces/spaces.lua line 315</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="data_managedDisplaySpaces">
+            <a name="//apple_ref/cpp/Function/data_managedDisplaySpaces" class="dashAnchor"></a>
+            <h5><a href="#data_managedDisplaySpaces">data_managedDisplaySpaces</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.data_managedDisplaySpaces() -&gt; table | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table containing information about the managed display spaces</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing information about all of the displays and spaces managed by the OS.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the format and detail of this table is too complex and varied to describe here; suffice it to say this is the workhorse for this module and a careful examination of this table may be informative, but is not required in the normal course of using this module.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/libspaces.m#L33">extensions/spaces/libspaces.m line 33</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="data_missionControlAXUIElementData">
+            <a name="//apple_ref/cpp/Function/data_missionControlAXUIElementData" class="dashAnchor"></a>
+            <h5><a href="#data_missionControlAXUIElementData">data_missionControlAXUIElementData</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.data_missionControlAXUIElementData(callback) -&gt; None</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Generate a table containing the results of <code>hs.axuielement.buildTree</code> on the Mission Control Accessibility group of the Dock.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callback</code> - a callback function that should expect a table as the results. The table will be formatted as described in the documentation for <code>hs.axuielement.buildTree</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Like <a href="#data_managedDisplaySpaces">hs.spaces.data_managedDisplaySpaces</a>, this function is not required for general usage of this module; rather it is provided for those who wish to examine the internal data that makes this module possible more closely to see if there might be other information or functionality that they would like to explore.</li>
+<li>Getting Accessibility elements for Mission Control is somewhat tricky -- they only exist when the Mission Control display is visible, which is the exact time that you can't examine them. What this function does is trigger Mission Control and then builds a tree of the elements, capturing all of the properties and property values while the elements are valid, closes Mission Control, and then returns the results in a table by invoking the provided callback function.<ul>
+<li>Note that the <code>hs.axuielement</code> objects within the table returned will be invalid by the time you can examine them -- this is why the attributes and values will also be contained in the resulting tree.</li>
+<li>Example usage: <code>hs.spaces.data_missionControlAXUIElementData(function(results) hs.console.clearConsole() ; print(hs.inspect(results)) end)</code></li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L174">extensions/spaces/spaces.lua line 174</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="focusedSpace">
+            <a name="//apple_ref/cpp/Function/focusedSpace" class="dashAnchor"></a>
+            <h5><a href="#focusedSpace">focusedSpace</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.focusedSpace() -&gt; integer</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the space ID of the currently focused space</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the space ID for the currently focused space. The focused space is the currently active space on the currently active screen (i.e. that the user is working on)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><em>usually</em> the currently active screen will be returned by <code>hs.screen.mainScreen()</code>; however some full screen applications may have focus without updating which screen is considered &quot;main&quot;. You can use this function, and look up the screen UUID with <a href="#spaceDisplay">hs.spaces.spaceDisplay</a> to determine the &quot;true&quot; focused screen if required.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/libspaces.m#L61">extensions/spaces/libspaces.m line 61</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="gotoSpace">
+            <a name="//apple_ref/cpp/Function/gotoSpace" class="dashAnchor"></a>
+            <h5><a href="#gotoSpace">gotoSpace</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.gotoSpace(spaceID) -&gt; true | nil, errMsg</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Change to the specified space.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>spaceID</code> - an integer specifying the ID of the space</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true if the space change was initiated, or nil and an error message if there is an error trying to switch spaces.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function changes to a space by opening up the Mission Control display and then programmatically invoking the button to activate the space. This is unavoidable. You can  minimize, but not entirely remove, the visual shift to the Mission Control display by by enabling &quot;Reduce motion&quot; in System Preferences -&gt; Accessibility -&gt; Display.</li>
+<li>The action of changing to a new space automatically closes the Mission Control display, so unlike (<a href="#missionControlSpaceNames">hs.spaces.missionControlSpaceNames</a>, <a href="#addSpaceToScreen">hs.spaces.addSpaceToScreen</a>, and <a href="#removeSpace">hs.spaces.removeSpace</a>, there is no flag you can specify to leave Mission Control visible. When possible, you should generally invoke this function last if you are performing multiple actions and want to minimize the amount of time the Mission Control display is visible and reduce the visual side affects.</li>
+<li>The Accessibility elements required to change to a space are not created until the Mission Control display is fully visible. Because of this, there is a built in delay when invoking this function that can be adjusted by changing the value of <a href="#MCwaitTime">hs.spaces.MCwaitTime</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L751">extensions/spaces/spaces.lua line 751</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="missionControlSpaceNames">
+            <a name="//apple_ref/cpp/Function/missionControlSpaceNames" class="dashAnchor"></a>
+            <h5><a href="#missionControlSpaceNames">missionControlSpaceNames</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.missionControlSpaceNames([closeMC]) -&gt; table | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table containing the space names as they appear in Mission Control associated with their space ID. This is provided for informational purposes only -- all of the functions of this module use the spaceID to insure accuracy.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>closeMC</code> - an optional boolean, default true, specifying whether or not the Mission Control display should be closed after adding the new space.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a key-value table in which the keys are the UUIDs for each screen and the value is a key-value table where the screen ID is the key and the Mission Control name of the space is the value.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the table returned has its __tostring metamethod set to <code>hs.inspect</code> to simplify inspecting the results when using the Hammerspoon Console.</li>
+<li>This function works by opening up the Mission Control display and then grabbing the names from the Accessibility elements created. This is unavoidable. You can  minimize, but not entirely remove, the visual shift to the Mission Control display by by enabling &quot;Reduce motion&quot; in System Preferences -&gt; Accessibility -&gt; Display.</li>
+<li>If you intend to perform multiple actions which require the Mission Control display (<a href="#missionControlSpaceNames">hs.spaces.missionControlSpaceNames</a>, <a href="#addSpaceToScreen">hs.spaces.addSpaceToScreen</a>, <a href="#removeSpace">hs.spaces.removeSpace</a>, or <a href="#gotoSpace">hs.spaces.gotoSpace</a>), you can pass in <code>false</code> as the final argument to prevent the automatic closure of the Mission Control display -- this will reduce the visual side-affects to one transition instead of many.</li>
+<li>This function attempts to use the localization strings for the Dock application to properly determine the Mission Control names. If you find that it doesn't provide the correct values for your system, please provide the following information when submitting an issue:<ul>
+<li>the desktop or application name(s) as they appear at the top of the Mission Control screen when you invoke it manually (or with <code>hs.spaces.toggleMissionControl()</code> entered into the Hammerspoon console).</li>
+<li>the output from the following commands, issued in the Hammerspoon console:<ul>
+<li><code>hs.host.operatingSystemVersionString()</code></li>
+<li><code>hs.host.locale.current()</code></li>
+<li><code>hs.inspect(hs.host.locale.preferredLanguages())</code></li>
+<li><code>hs.inspect(hs.host.locale.details())</code></li>
+<li><code>hs.spaces.screensHaveSeparateSpaces()</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L632">extensions/spaces/spaces.lua line 632</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="moveWindowToSpace">
+            <a name="//apple_ref/cpp/Function/moveWindowToSpace" class="dashAnchor"></a>
+            <h5><a href="#moveWindowToSpace">moveWindowToSpace</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.moveWindowToSpace(window, spaceID[, force]) -&gt; true | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Moves the window with the specified windowID to the space specified by spaceID.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>window</code>  - an integer specifying the ID of the window, or an <code>hs.window</code> object</li>
+<li><code>spaceID</code> - an integer specifying the ID of the space</li>
+<li><code>force</code> - an optional boolean specifying whether the window should be tried to move even if the spaces aren't compatible</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true if the window was moved; otherwise nil and an error message.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>a window can only be moved from a user space to another user space -- you cannot move the window of a full screen (or tiled) application to another space. you also cannot move a window <em>to</em> the same space as a full screen application unless <code>force</code> is set to true and even then it works for floating windows only.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/libspaces.m#L134">extensions/spaces/libspaces.m line 134</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="openMissionControl">
+            <a name="//apple_ref/cpp/Function/openMissionControl" class="dashAnchor"></a>
+            <h5><a href="#openMissionControl">openMissionControl</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.openMissionControl() -&gt; None</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Opens the Mission Control display</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Does nothing if the Mission Control display is already visible.</li>
+<li>This function uses Accessibility features provided by the Dock to open up Mission Control and is used internally when performing the <a href="#gotoSpace">hs.spaces.gotoSpace</a>, <a href="#addSpaceToScreen">hs.spaces.addSpaceToScreen</a>, and <a href="#removeSpace">hs.spaces.removeSpace</a> functions.</li>
+<li>It is unlikely you will need to invoke this by hand, and the public interface to this function may go away in the future.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L299">extensions/spaces/spaces.lua line 299</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="removeSpace">
+            <a name="//apple_ref/cpp/Function/removeSpace" class="dashAnchor"></a>
+            <h5><a href="#removeSpace">removeSpace</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.removeSpace(spaceID, [closeMC]) -&gt; true | nil, errMsg</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Removes the specified space.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>spaceID</code> - an integer specifying the ID of the space</li>
+<li><code>closeMC</code> - an optional boolean, default true, specifying whether or not the Mission Control display should be closed after removing the space.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true if the space removal was initiated, or nil and an error message if there is an error trying to remove the space.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>You cannot remove a currently active space -- move to another one first with <a href="#gotoSpace">hs.spaces.gotoSpace</a>.</li>
+<li>If a screen has only one user space (i.e. not a full screen application window or tiled set), it cannot be removed.</li>
+<li>This function removes a space by opening up the Mission Control display and then programmatically invoking the button to remove the specified space. This is unavoidable. You can  minimize, but not entirely remove, the visual shift to the Mission Control display by by enabling &quot;Reduce motion&quot; in System Preferences -&gt; Accessibility -&gt; Display.</li>
+<li>If you intend to perform multiple actions which require the Mission Control display ((<a href="#missionControlSpaceNames">hs.spaces.missionControlSpaceNames</a>, <a href="#addSpaceToScreen">hs.spaces.addSpaceToScreen</a>, <a href="#removeSpace">hs.spaces.removeSpace</a>, or <a href="#gotoSpace">hs.spaces.gotoSpace</a>), you can pass in <code>false</code> as the final argument to prevent the automatic closure of the Mission Control display -- this will reduce the visual side-affects to one transition instead of many.</li>
+<li>The Accessibility elements required to change to a space are not created until the Mission Control display is fully visible. Because of this, there is a built in delay when invoking this function that can be adjusted by changing the value of <a href="#MCwaitTime">hs.spaces.MCwaitTime</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L811">extensions/spaces/spaces.lua line 811</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="screensHaveSeparateSpaces">
+            <a name="//apple_ref/cpp/Function/screensHaveSeparateSpaces" class="dashAnchor"></a>
+            <h5><a href="#screensHaveSeparateSpaces">screensHaveSeparateSpaces</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.screensHaveSeparateSpaces() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Determine if the user has enabled the &quot;Displays Have Separate Spaces&quot; option within Mission Control.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true or false representing the status of the &quot;Displays Have Separate Spaces&quot; option within Mission Control.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/libspaces.m#L17">extensions/spaces/libspaces.m line 17</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setDefaultMCwaitTime">
+            <a name="//apple_ref/cpp/Function/setDefaultMCwaitTime" class="dashAnchor"></a>
+            <h5><a href="#setDefaultMCwaitTime">setDefaultMCwaitTime</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.setDefaultMCwaitTime([time]) -&gt; None</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets the initial value for <a href="#MCwaitTime">hs.spaces.MCwaitTime</a> to be set to when this module first loads.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>time</code> - an optional number greater than 0 specifying the initial default for <a href="#MCwaitTime">hs.spaces.MCwaitTime</a>. If you do not specify a value, then the current value of <a href="#MCwaitTime">hs.spaces.MCwaitTime</a> is used.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function uses the <code>hs.settings</code> module to store the default time in the key &quot;hs_spaces_MCwaitTime&quot;.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L225">extensions/spaces/spaces.lua line 225</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="spaceDisplay">
+            <a name="//apple_ref/cpp/Function/spaceDisplay" class="dashAnchor"></a>
+            <h5><a href="#spaceDisplay">spaceDisplay</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.spaceDisplay(spaceID) -&gt; string | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the screen UUID for the screen that the specified space is on.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>spaceID</code> - an integer specifying the ID of the space</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string specifying the UUID of the display the space is on, or nil and error message if an error occurs.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the space does not have to be currently active (visible) to determine which screen the space belongs to.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L517">extensions/spaces/spaces.lua line 517</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="spacesForScreen">
+            <a name="//apple_ref/cpp/Function/spacesForScreen" class="dashAnchor"></a>
+            <h5><a href="#spacesForScreen">spacesForScreen</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.spacesForScreen([screen]) -&gt; table | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table containing the IDs of the spaces for the specified screen in their current order.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>screen</code> - an optional screen specification identifying the screen to return the space array for. The screen may be specified by its ID (<code>hs.screen:id()</code>), its UUID (<code>hs.screen:getUUID()</code>), the string &quot;Main&quot; (a shortcut for <code>hs.screen.mainScreen()</code>), the string &quot;Primary&quot; (a shortcut for <code>hs.screen.primaryScreen()</code>), or as an <code>hs.screen</code> object. If no screen is specified, the screen returned by <code>hs.screen.mainScreen()</code> is used.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing space IDs for the spaces for the screen, or nil and an error message if there is an error.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the table returned has its __tostring metamethod set to <code>hs.inspect</code> to simplify inspecting the results when using the Hammerspoon Console.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L331">extensions/spaces/spaces.lua line 331</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="spaceType">
+            <a name="//apple_ref/cpp/Function/spaceType" class="dashAnchor"></a>
+            <h5><a href="#spaceType">spaceType</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.spaceType(spaceID) -&gt; string | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a string indicating whether the space is a user space or a full screen/tiled application space.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>spaceID</code> - an integer specifying the ID of the space</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the string &quot;user&quot; if the space is a regular user space, or &quot;fullscreen&quot; if the space is a fullscreen or tiled window pair. Returns nil and an error message if the space does not refer to a valid managed space.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L550">extensions/spaces/spaces.lua line 550</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="toggleAppExpose">
+            <a name="//apple_ref/cpp/Function/toggleAppExpose" class="dashAnchor"></a>
+            <h5><a href="#toggleAppExpose">toggleAppExpose</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.toggleAppExpose() -&gt; None</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Toggles the current applications Exposé display</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this is the same functionality as provided by the System Preferences -&gt; Mission Control -&gt; Hot Corners... -&gt; Application Windows setting or the App Exposé trackpad swipe gesture (3 or 4 fingers down).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L271">extensions/spaces/spaces.lua line 271</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="toggleLaunchPad">
+            <a name="//apple_ref/cpp/Function/toggleLaunchPad" class="dashAnchor"></a>
+            <h5><a href="#toggleLaunchPad">toggleLaunchPad</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.toggleLaunchPad() -&gt; None</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Toggles the Launch Pad display.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this is the same functionality as provided by the System Preferences -&gt; Mission Control -&gt; Hot Corners... -&gt; Launch Pad setting, the Launch Pad touchbar icon, or the Launch Pad trackpad swipe gesture (Pinch with thumb and three fingers).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L285">extensions/spaces/spaces.lua line 285</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="toggleMissionControl">
+            <a name="//apple_ref/cpp/Function/toggleMissionControl" class="dashAnchor"></a>
+            <h5><a href="#toggleMissionControl">toggleMissionControl</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.toggleMissionControl() -&gt; None</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Toggles the Mission Control display</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this is the same functionality as provided by the System Preferences -&gt; Mission Control -&gt; Hot Corners... -&gt; Mission Control setting, the Mission Control touchbar icon, or the Mission Control trackpad swipe gesture (3 or 4 fingers up).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L257">extensions/spaces/spaces.lua line 257</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="toggleShowDesktop">
+            <a name="//apple_ref/cpp/Function/toggleShowDesktop" class="dashAnchor"></a>
+            <h5><a href="#toggleShowDesktop">toggleShowDesktop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.toggleShowDesktop() -&gt; None</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Toggles moving all windows on/off screen to display the desktop underneath.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this is the same functionality as provided by the System Preferences -&gt; Mission Control -&gt; Hot Corners... -&gt; Desktop setting, the Show Desktop touchbar icon, or the Show Desktop trackpad swipe gesture (Spread with thumb and three fingers).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/spaces.lua#L243">extensions/spaces/spaces.lua line 243</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowsForSpace">
+            <a name="//apple_ref/cpp/Function/windowsForSpace" class="dashAnchor"></a>
+            <h5><a href="#windowsForSpace">windowsForSpace</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.windowsForSpace(spaceID) -&gt; table | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table containing the window IDs of <em>all</em> windows on the specified space</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>spaceID</code> - an integer specifying the ID of the space</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the window IDs for <em>all</em> windows on the specified space</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the table returned has its __tostring metamethod set to <code>hs.inspect</code> to simplify inspecting the results when using the Hammerspoon Console.</li>
+<li>The list of windows includes all items which are considered &quot;windows&quot; by macOS -- this includes visual elements usually considered unimportant like overlays, tooltips, graphics, off-screen windows, etc. so expect a lot of false positives in the results.</li>
+<li>In addition, due to the way Accessibility objects work, only those window IDs that are present on the currently visible spaces will be finable with <code>hs.window</code> or exist within <code>hs.window.allWindows()</code>.</li>
+<li>This function <em>will</em> prune Hammerspoon canvas elements from the list because we &quot;own&quot; these and can identify their window ID's programmatically. This does not help with other applications, however.</li>
+<li>Reviewing how third-party applications have generally pruned this list, I believe it will be necessary to use <code>hs.window.filter</code> to prune the list and access <code>hs.window</code> objects that are on the non-visible spaces.<ul>
+<li>as <code>hs.window.filter</code> is scheduled to undergo a re-write soon to (hopefully) dramatically speed it up, I am providing this function <em>as is</em> at present for those who wish to experiment with it; however, I hope to make it more useful in the coming months and the contents may change in the future (the format won't, but hopefully the useless extras will disappear requiring less pruning logic on your end).</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/libspaces.m#L80">extensions/spaces/libspaces.m line 80</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowSpaces">
+            <a name="//apple_ref/cpp/Function/windowSpaces" class="dashAnchor"></a>
+            <h5><a href="#windowSpaces">windowSpaces</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.spaces.windowSpaces(window) -&gt; table | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table containing the space IDs for all spaces that the specified window is on.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>window</code> - an integer specifying the ID of the window, or an <code>hs.window</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the space IDs of all spaces the window is on, or nil and an error message if an error occurs.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the table returned has its __tostring metamethod set to <code>hs.inspect</code> to simplify inspecting the results when using the Hammerspoon Console.</li>
+<li>If the window ID does not specify a valid window, then an empty array will be returned.</li>
+<li>For most windows, this will be a single element table; however some applications may create &quot;sticky&quot; windows that may appear on more than one space.<ul>
+<li>For example, the container windows for <code>hs.canvas</code> objects which have the <code>canJoinAllSpaces</code> behavior set will appear on all spaces and the table returned by this function will contain all spaceIDs for the screen which displays the canvas.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/spaces/libspaces.m#L186">extensions/spaces/libspaces.m line 186</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

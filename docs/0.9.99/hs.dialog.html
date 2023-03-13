@@ -1,0 +1,314 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.dialog</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.dialog</h1>
+      <p>A collection of useful dialog boxes, alerts and panels for user interaction.</p>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.dialog.color.html">hs.dialog.color</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#alert">alert</a></li>
+            <li><a href="#blockAlert">blockAlert</a></li>
+            <li><a href="#chooseFileOrFolder">chooseFileOrFolder</a></li>
+            <li><a href="#textPrompt">textPrompt</a></li>
+            <li><a href="#webviewAlert">webviewAlert</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="alert">
+            <a name="//apple_ref/cpp/Function/alert" class="dashAnchor"></a>
+            <h5><a href="#alert">alert</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dialog.alert(x, y, callbackFn, message, [informativeText], [buttonOne], [buttonTwo], [style]) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Displays a simple non-blocking dialog box using <code>NSAlert</code> and a hidden <code>hs.webview</code> that's automatically destroyed when the alert is closed.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>x - A number containing the horizontal co-ordinate of the top-left point of the dialog box. Defaults to 1.</li>
+<li>y - A number containing the vertical co-ordinate of the top-left point of the dialog box. Defaults to 1.</li>
+<li>callbackFn - The callback function that's called when a button is pressed.</li>
+<li>message - The message text to display.</li>
+<li>[informativeText] - Optional informative text to display.</li>
+<li>[buttonOne] - An optional value for the first button as a string. Defaults to &quot;OK&quot;.</li>
+<li>[buttonTwo] - An optional value for the second button as a string. If <code>nil</code> is used, no second button will be displayed.</li>
+<li>[style] - An optional style of the dialog box as a string. Defaults to &quot;warning&quot;.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>nil</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The optional values must be entered in order (i.e. you can't supply <code>style</code> without also supplying <code>buttonOne</code> and <code>buttonTwo</code>).</li>
+<li>[style] can be &quot;warning&quot;, &quot;informational&quot; or &quot;critical&quot;. If something other than these string values is given, it will use &quot;informational&quot;.</li>
+<li>Example:<div class="highlight"><pre><span></span><span class="n">testCallbackFn</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Callback Result: &quot;</span> <span class="o">..</span> <span class="n">result</span><span class="p">)</span> <span class="kr">end</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">dialog</span><span class="p">.</span><span class="n">alert</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">testCallbackFn</span><span class="p">,</span> <span class="s2">&quot;Message&quot;</span><span class="p">,</span> <span class="s2">&quot;Informative Text&quot;</span><span class="p">,</span> <span class="s2">&quot;Button One&quot;</span><span class="p">,</span> <span class="s2">&quot;Button Two&quot;</span><span class="p">,</span> <span class="s2">&quot;NSCriticalAlertStyle&quot;</span><span class="p">)</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">dialog</span><span class="p">.</span><span class="n">alert</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">testCallbackFn</span><span class="p">,</span> <span class="s2">&quot;Message&quot;</span><span class="p">,</span> <span class="s2">&quot;Informative Text&quot;</span><span class="p">,</span> <span class="s2">&quot;Single Button&quot;</span><span class="p">)</span><span class="err">```</span>
+</pre></div>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dialog/dialog.lua#L20">extensions/dialog/dialog.lua line 20</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="blockAlert">
+            <a name="//apple_ref/cpp/Function/blockAlert" class="dashAnchor"></a>
+            <h5><a href="#blockAlert">blockAlert</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dialog.blockAlert(message, informativeText, [buttonOne], [buttonTwo], [style]) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Displays a simple dialog box using <code>NSAlert</code> that will halt Lua code processing until the alert is closed.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>message - The message text to display.</li>
+<li>informativeText - The informative text to display.</li>
+<li>[buttonOne] - An optional value for the first button as a string. Defaults to &quot;OK&quot;.</li>
+<li>[buttonTwo] - An optional value for the second button as a string. If <code>nil</code> is used, no second button will be displayed.</li>
+<li>[style] - An optional style of the dialog box as a string. Defaults to &quot;informational&quot;.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The value of the button as a string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The optional values must be entered in order (i.e. you can't supply <code>style</code> without also supplying <code>buttonOne</code> and <code>buttonTwo</code>).</li>
+<li>[style] can be &quot;warning&quot;, &quot;informational&quot; or &quot;critical&quot;. If something other than these string values is given, it will use &quot;informational&quot;.</li>
+<li>Example:
+  <code>hs.dialog.blockAlert(&quot;Message&quot;, &quot;Informative Text&quot;, &quot;Button One&quot;, &quot;Button Two&quot;, &quot;NSCriticalAlertStyle&quot;)</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dialog/libdialog.m#L564">extensions/dialog/libdialog.m line 564</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="chooseFileOrFolder">
+            <a name="//apple_ref/cpp/Function/chooseFileOrFolder" class="dashAnchor"></a>
+            <h5><a href="#chooseFileOrFolder">chooseFileOrFolder</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dialog.chooseFileOrFolder([message], [defaultPath], [canChooseFiles], [canChooseDirectories], [allowsMultipleSelection], [allowedFileTypes], [resolvesAliases]) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Displays a file and/or folder selection dialog box using NSOpenPanel.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>[message] - The optional message text to display.</li>
+<li>[defaultPath] - The optional path you want to dialog to open to.</li>
+<li>[canChooseFiles] - Whether or not the user can select files. Defaults to <code>true</code>.</li>
+<li>[canChooseDirectories] - Whether or not the user can select folders. Default to <code>false</code>.</li>
+<li>[allowsMultipleSelection] - Allow multiple selections of files and/or folders. Defaults to <code>false</code>.</li>
+<li>[allowedFileTypes] - An optional table of allowed file types. Defaults to <code>true</code>.</li>
+<li>[resolvesAliases] - An optional boolean that indicates whether the panel resolves aliases.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The selected files in a table or <code>nil</code> if cancel was pressed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The optional values must be entered in order (i.e. you can't supply <code>allowsMultipleSelection</code> without also supplying <code>canChooseFiles</code> and <code>canChooseDirectories</code>).</li>
+<li>Example:
+  <code>hs.inspect(hs.dialog.chooseFileOrFolder(&quot;Please select a file:&quot;, &quot;~/Desktop&quot;, true, false, true, {&quot;jpeg&quot;, &quot;pdf&quot;}, true))</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dialog/libdialog.m#L327">extensions/dialog/libdialog.m line 327</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="textPrompt">
+            <a name="//apple_ref/cpp/Function/textPrompt" class="dashAnchor"></a>
+            <h5><a href="#textPrompt">textPrompt</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dialog.textPrompt(message, informativeText, [defaultText], [buttonOne], [buttonTwo], [secureField]) -&gt; string, string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Displays a simple text input dialog box.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>message - The message text to display</li>
+<li>informativeText - The informative text to display</li>
+<li>[defaultText] - The informative text to display</li>
+<li>[buttonOne] - An optional value for the first button as a string</li>
+<li>[buttonTwo] - An optional value for the second button as a string</li>
+<li>[secureField] - An optional boolean. If true, PasswordField instead of TextField. Defaults to false.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The value of the button as a string</li>
+<li>The value of the text input as a string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><code>buttonOne</code> defaults to &quot;OK&quot; if no value is supplied.</li>
+<li><code>buttonOne</code> will also be triggered by pressing <code>ENTER</code>, whereas <code>buttonTwo</code> will be triggered by pressing <code>ESC</code>.</li>
+<li>Examples:
+  <code>hs.dialog.textPrompt(&quot;Main message.&quot;, &quot;Please enter something:&quot;)</code>
+  <code>hs.dialog.textPrompt(&quot;Main message.&quot;, &quot;Please enter something:&quot;, &quot;Default Value&quot;, &quot;OK&quot;)</code>
+  <code>hs.dialog.textPrompt(&quot;Main message.&quot;, &quot;Please enter something:&quot;, &quot;Default Value&quot;, &quot;OK&quot;, &quot;Cancel&quot;)</code>
+  <code>hs.dialog.textPrompt(&quot;Main message.&quot;, &quot;Please enter something:&quot;, &quot;&quot;, &quot;OK&quot;, &quot;Cancel&quot;, true)</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dialog/libdialog.m#L665">extensions/dialog/libdialog.m line 665</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="webviewAlert">
+            <a name="//apple_ref/cpp/Function/webviewAlert" class="dashAnchor"></a>
+            <h5><a href="#webviewAlert">webviewAlert</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dialog.webviewAlert(webview, callbackFn, message, [informativeText], [buttonOne], [buttonTwo], [style]) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Displays a simple dialog box using <code>NSAlert</code> in a <code>hs.webview</code>.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>webview - The <code>hs.webview</code> to display the alert on.</li>
+<li>callbackFn - The callback function that's called when a button is pressed.</li>
+<li>message - The message text to display.</li>
+<li>[informativeText] - Optional informative text to display.</li>
+<li>[buttonOne] - An optional value for the first button as a string. Defaults to &quot;OK&quot;.</li>
+<li>[buttonTwo] - An optional value for the second button as a string. If <code>nil</code> is used, no second button will be displayed.</li>
+<li>[style] - An optional style of the dialog box as a string. Defaults to &quot;warning&quot;.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>nil</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This alert is will prevent the user from interacting with the <code>hs.webview</code> until a button is pressed on the alert.</li>
+<li>The optional values must be entered in order (i.e. you can't supply <code>style</code> without also supplying <code>buttonOne</code> and <code>buttonTwo</code>).</li>
+<li>[style] can be &quot;warning&quot;, &quot;informational&quot; or &quot;critical&quot;. If something other than these string values is given, it will use &quot;informational&quot;.</li>
+<li>Example:<div class="highlight"><pre><span></span><span class="n">testCallbackFn</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Callback Result: &quot;</span> <span class="o">..</span> <span class="n">result</span><span class="p">)</span> <span class="kr">end</span>
+<span class="n">testWebviewA</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">webview</span><span class="p">.</span><span class="n">newBrowser</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">geometry</span><span class="p">.</span><span class="n">rect</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">)):</span><span class="n">show</span><span class="p">()</span>
+<span class="n">testWebviewB</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">webview</span><span class="p">.</span><span class="n">newBrowser</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">geometry</span><span class="p">.</span><span class="n">rect</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">450</span><span class="p">,</span> <span class="mi">450</span><span class="p">,</span> <span class="mi">450</span><span class="p">)):</span><span class="n">show</span><span class="p">()</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">dialog</span><span class="p">.</span><span class="n">webviewAlert</span><span class="p">(</span><span class="n">testWebviewA</span><span class="p">,</span> <span class="n">testCallbackFn</span><span class="p">,</span> <span class="s2">&quot;Message&quot;</span><span class="p">,</span> <span class="s2">&quot;Informative Text&quot;</span><span class="p">,</span> <span class="s2">&quot;Button One&quot;</span><span class="p">,</span> <span class="s2">&quot;Button Two&quot;</span><span class="p">,</span> <span class="s2">&quot;warning&quot;</span><span class="p">)</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">dialog</span><span class="p">.</span><span class="n">webviewAlert</span><span class="p">(</span><span class="n">testWebviewB</span><span class="p">,</span> <span class="n">testCallbackFn</span><span class="p">,</span> <span class="s2">&quot;Message&quot;</span><span class="p">,</span> <span class="s2">&quot;Informative Text&quot;</span><span class="p">,</span> <span class="s2">&quot;Single Button&quot;</span><span class="p">)</span><span class="err">```</span>
+</pre></div>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dialog/libdialog.m#L440">extensions/dialog/libdialog.m line 440</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

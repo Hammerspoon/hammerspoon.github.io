@@ -25,7 +25,8 @@ Lua is a simple programming language. If you have never programmed in Lua before
 
  * [Hello World](#helloworld)
  * [Fancier Hello World](#fancyhelloworld)
- * [Spoons](#spoons)
+ * [Introduction to Spoons](#spoonsintro)
+ * [Using a Spoon](#usingspoon)
  * [Introduction to window movement](#winmoveintro)
  * [A quick aside on colon syntax](#colonsyntax)
  * [A quick aside on variable lifecycles](#variablelife)
@@ -74,7 +75,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
 end)
 ```
 
-### <a name="spoons"></a>Spoons
+### <a name="spoonsintro"></a>Introduction to Spoons
 
 Spoons are pre-made plugins for Hammerspoon.
 
@@ -87,6 +88,20 @@ The official website with the listing of Spoons is
 and the official repository is
 [https://github.com/Hammerspoon/Spoons](https://github.com/Hammerspoon/Spoons).
 
+
+### <a name="usingspoon"></a>Using a Spoon
+
+For this example we'll use the "AClock" Spoon. To install it, please download the zip file from [our Spoon repository](https://www.hammerspoon.org/Spoons/AClock.html), uncompress the zip and double click the `AClock.spoon` file. Hammerspoon will then remove it from your Downloads folder as it installs.
+
+Installing a Spoon doesn't mean it's going to run by default, so we'll now add some configuration to load and use this Spoon:
+
+```lua
+hs.loadSpoon("AClock")
+spoon.AClock:init()
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C", function()
+  spoon.AClock:toggleShow()
+end)
+```
 
 ### <a name="winmoveintro"></a>Introduction to window movement
 

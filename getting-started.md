@@ -399,18 +399,18 @@ function cycle_safari_agents()
     local safari = hs.appfinder.appFromName("Safari")
 
     local str_default = {"Develop", "User Agent", "Default (Automatically Chosen)"}
-    local str_ie10 = {"Develop", "User Agent", "Internet Explorer 10.0"}
+    local str_edge = {"Develop", "User Agent", "Microsoft Edge — macOS"}
     local str_chrome = {"Develop", "User Agent", "Google Chrome — Windows"}
 
     local default = safari:findMenuItem(str_default)
-    local ie10 = safari:findMenuItem(str_ie10)
+    local edge = safari:findMenuItem(str_edge)
     local chrome = safari:findMenuItem(str_chrome)
 
     if (default and default["ticked"]) then
-        safari:selectMenuItem(str_ie10)
-        hs.alert.show("IE10")
+        safari:selectMenuItem(str_edge)
+        hs.alert.show("Edge")
     end
-    if (ie10 and ie10["ticked"]) then
+    if (edge and edge["ticked"]) then
         safari:selectMenuItem(str_chrome)
         hs.alert.show("Chrome")
     end
@@ -426,7 +426,7 @@ What we are doing here is first launching Safari or bringing it to the front if 
 
 We then get a reference to Safari itself using `hs.appfinder.appFromName()`. Using this object we can search the available menu items and interact with them. Specifically, we are looking for the current state of three of the User Agent strings in `Develop→User Agent`. We then check to see which of them is ticked, and then select the next one.
 
-Thus, pressing <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>⌃</kbd>+<kbd>7</kbd> repeatedly will cycle between the default user agent string, an IE10 user agent, and a Chrome user agent. Each time, we display a simple on-screen alert with the name of the user agent we have cycled to.
+Thus, pressing <kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>⌃</kbd>+<kbd>7</kbd> repeatedly will cycle between the default user agent string, an Edge user agent, and a Chrome user agent. Each time, we display a simple on-screen alert with the name of the user agent we have cycled to.
 
 ### <a name="simplemenubar"></a>Creating a simple menubar item
 

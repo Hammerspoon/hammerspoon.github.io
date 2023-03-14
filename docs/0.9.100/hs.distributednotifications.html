@@ -1,0 +1,211 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.distributednotifications</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.distributednotifications</h1>
+      <p>Interact with NSDistributedNotificationCenter
+There are many notifications posted by parts of OS X, and third party apps, which may be interesting to react to using this module.</p>
+<p>You can discover the notifications that are being posted on your system with some code like this:</p>
+
+<pre><code>foo = hs.distributednotifications.new(function(name, object, userInfo) print(string.format(&quot;name: %s\nobject: %s\nuserInfo: %s\n&quot;, name, object, hs.inspect(userInfo))) end)
+foo:start()
+</code></pre>
+<p>Note that distributed notifications are expensive - they involve lots of IPC. Also note that they are not guaranteed to be delivered, particularly if the system is very busy.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#post">post</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="post">
+            <a name="//apple_ref/cpp/Function/post" class="dashAnchor"></a>
+            <h5><a href="#post">post</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.distributednotifications.post(name[, sender[, userInfo]])</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sends a distributed notification</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>name - A string containing the name of the notification</li>
+<li>sender - An optional string containing the name of the sender of the notification (in the form <code>com.domain.application.foo</code>). Defaults to nil.</li>
+<li>userInfo - An optional table containing additional information to post with the notification. Defaults to nil.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/distributednotifications/libdistributednotifications.m#L81">extensions/distributednotifications/libdistributednotifications.m line 81</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.distributednotifications.new(callback[, name[, object]]) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new NSDistributedNotificationCenter watcher</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>callback - A function to be called when a matching notification arrives. The function should accept one argument:<ul>
+<li>notificationName - A string containing the name of the notification</li>
+</ul>
+</li>
+<li>name - An optional string containing the name of notifications to watch for. A value of <code>nil</code> will cause all notifications to be watched on macOS versions earlier than Catalina. Defaults to <code>nil</code>.</li>
+<li>object - An optional string containing the name of sending objects to watch for. A value of <code>nil</code> will cause all sending objects to be watched. Defaults to <code>nil</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.distributednotifications</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>On Catalina and above, it is no longer possible to observe all notifications - the <code>name</code> parameter is effectively now required. See https://mjtsai.com/blog/2019/10/04/nsdistributednotificationcenter-no-longer-supports-nil-names</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/distributednotifications/libdistributednotifications.m#L40">extensions/distributednotifications/libdistributednotifications.m line 40</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="start">
+            <a name="//apple_ref/cpp/Method/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.distributednotifications:start() -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Starts a NSDistributedNotificationCenter watcher</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.distributednotifications</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/distributednotifications/libdistributednotifications.m#L119">extensions/distributednotifications/libdistributednotifications.m line 119</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Method/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.distributednotifications:stop() -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stops a NSDistributedNotificationCenter watcher</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.distributednotifications</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/distributednotifications/libdistributednotifications.m#L142">extensions/distributednotifications/libdistributednotifications.m line 142</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

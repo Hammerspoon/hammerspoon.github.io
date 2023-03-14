@@ -1,0 +1,1037 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.midi</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.midi</h1>
+      <p>MIDI Extension for Hammerspoon.</p>
+<p>This extension supports listening, transmitting and synthesizing MIDI commands.</p>
+<p>This extension was thrown together by <a href="http://latenitefilms.com">Chris Hocking</a> for <a href="http://commandpost.io">CommandPost</a>.</p>
+<p>This extension uses <a href="https://github.com/mixedinkey-opensource/MIKMIDI">MIKMIDI</a>, an easy-to-use Objective-C MIDI library created by Andrew Madsen and developed by him and Chris Flesner of <a href="http://www.mixedinkey.com/">Mixed In Key</a>.</p>
+<p>MIKMIDI LICENSE:
+Copyright (c) 2013 Mixed In Key, LLC.
+Original author: <a href="https://github.com/armadsen">Andrew R. Madsen</a> (andrew@mixedinkey.com)</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#commandTypes">commandTypes</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#deviceCallback">deviceCallback</a></li>
+            <li><a href="#devices">devices</a></li>
+            <li><a href="#virtualSources">virtualSources</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+            <li><a href="#newVirtualSource">newVirtualSource</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#callback">callback</a></li>
+            <li><a href="#displayName">displayName</a></li>
+            <li><a href="#identityRequest">identityRequest</a></li>
+            <li><a href="#isOnline">isOnline</a></li>
+            <li><a href="#isVirtual">isVirtual</a></li>
+            <li><a href="#manufacturer">manufacturer</a></li>
+            <li><a href="#model">model</a></li>
+            <li><a href="#name">name</a></li>
+            <li><a href="#sendCommand">sendCommand</a></li>
+            <li><a href="#sendSysex">sendSysex</a></li>
+            <li><a href="#synthesize">synthesize</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="commandTypes">
+            <a name="//apple_ref/cpp/Constant/commandTypes" class="dashAnchor"></a>
+            <h5><a href="#commandTypes">commandTypes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.commandTypes[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table containing the numeric value for the possible flags returned by the <code>commandType</code> parameter of the callback function.</p>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1513">extensions/midi/libmidi.m line 1513</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="deviceCallback">
+            <a name="//apple_ref/cpp/Function/deviceCallback" class="dashAnchor"></a>
+            <h5><a href="#deviceCallback">deviceCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.deviceCallback(callbackFn) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A callback that's triggered when a physical or virtual MIDI device is added or removed from the system.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>callbackFn - the callback function to trigger.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The callback function should expect 2 argument and should not return anything:<ul>
+<li><code>devices</code> - A table containing the names of any physically connected MIDI devices as strings.</li>
+<li><code>virtualDevices</code> - A table containing the names of any virtual MIDI devices as strings.</li>
+</ul>
+</li>
+<li>Example Usage:<div class="highlight"><pre><span></span><span class="n">hs</span><span class="p">.</span><span class="n">midi</span><span class="p">.</span><span class="n">deviceCallback</span><span class="p">(</span><span class="kr">function</span><span class="p">(</span><span class="n">devices</span><span class="p">,</span> <span class="n">virtualDevices</span><span class="p">)</span>
+     <span class="nb">print</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">devices</span><span class="p">))</span>
+     <span class="nb">print</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">virtualDevices</span><span class="p">))</span>
+<span class="kr">end</span><span class="p">)</span><span class="err">```</span>
+</pre></div>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L342">extensions/midi/libmidi.m line 342</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="devices">
+            <a name="//apple_ref/cpp/Function/devices" class="dashAnchor"></a>
+            <h5><a href="#devices">devices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.devices() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table of currently connected physical MIDI devices.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing the names of any physically connected MIDI devices as strings.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L300">extensions/midi/libmidi.m line 300</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="virtualSources">
+            <a name="//apple_ref/cpp/Function/virtualSources" class="dashAnchor"></a>
+            <h5><a href="#virtualSources">virtualSources</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.virtualSources() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table of currently available Virtual MIDI sources. This includes devices, such as Native Instruments controllers which present as virtual endpoints rather than physical devices.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table containing the names of any virtual MIDI sources as strings.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L321">extensions/midi/libmidi.m line 321</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.new(deviceName) -&gt; <code>hs.midi</code> object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new <code>hs.midi</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>deviceName - A string containing the device name of the MIDI device. A valid device name can be found by checking <code>hs.midi.devices()</code> and/or <code>hs.midi.virtualSources()</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.midi</code> object or <code>nil</code> if an error occurred.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Example Usage:
+<code>hs.midi.new(hs.midi.devices()[1])</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L391">extensions/midi/libmidi.m line 391</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="newVirtualSource">
+            <a name="//apple_ref/cpp/Constructor/newVirtualSource" class="dashAnchor"></a>
+            <h5><a href="#newVirtualSource">newVirtualSource</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi.newVirtualSource(virtualSource) -&gt; <code>hs.midi</code> object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new <code>hs.midi</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>virtualSource - A string containing the virtual source name of the MIDI device. A valid virtual source name can be found by checking <code>hs.midi.virtualSources()</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.midi</code> object or <code>nil</code> if an error occurred.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Example Usage:
+<code>hs.midi.new(hs.midi.virtualSources()[1])</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L418">extensions/midi/libmidi.m line 418</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="callback">
+            <a name="//apple_ref/cpp/Method/callback" class="dashAnchor"></a>
+            <h5><a href="#callback">callback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:callback(callbackFn)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets or removes a callback function for the <code>hs.midi</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callbackFn</code> - a function to set as the callback for this <code>hs.midi</code> object.  If the value provided is <code>nil</code>, any currently existing callback function is removed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.midi</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>Most MIDI keyboards produce a <code>noteOn</code> when you press a key, then <code>noteOff</code> when you release. However, some MIDI keyboards will return a <code>noteOn</code> with 0 <code>velocity</code> instead of <code>noteOff</code>, so you will receive two <code>noteOn</code> commands for every key press/release.</p>
+</li>
+<li><p>The callback function should expect 5 arguments and should not return anything:</p>
+<ul>
+<li><code>object</code>       - The <code>hs.midi</code> object.</li>
+<li><code>deviceName</code>   - The device name as a string.</li>
+<li><code>commandType</code>  - Type of MIDI message as defined as a string. See <code>hs.midi.commandTypes[]</code> for a list of possibilities.</li>
+<li><code>description</code>  - Description of the event as a string. This is only really useful for debugging.</li>
+<li><code>metadata</code>     - A table of data for the MIDI command (see below).</li>
+</ul>
+</li>
+<li><p>The <code>metadata</code> table will return the following, depending on the <code>commandType</code> for the callback:</p>
+<ul>
+<li><p><code>noteOff</code> - Note off command:</p>
+<ul>
+<li>note                - The note number for the command. Must be between 0 and 127.</li>
+<li>velocity            - The velocity for the command. Must be between 0 and 127.</li>
+<li>channel             - The channel for the command. Must be a number between 15.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>noteOn</code> - Note on command:</p>
+<ul>
+<li>note                - The note number for the command. Must be between 0 and 127.</li>
+<li>velocity            - The velocity for the command. Must be between 0 and 127.</li>
+<li>channel             - The channel for the command. Must be a number between 15.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>polyphonicKeyPressure</code> - Polyphonic key pressure command:</p>
+<ul>
+<li>note                - The note number for the command. Must be between 0 and 127.</li>
+<li>pressure            - Key pressure of the polyphonic key pressure message. In the range 0-127.</li>
+<li>channel             - The channel for the command. Must be a number between 15.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>controlChange</code> - Control change command. This is the most common command sent by MIDI controllers:</p>
+<ul>
+<li>controllerNumber    - The MIDI control number for the command.</li>
+<li>controllerValue     - The controllerValue of the command. Only the lower 7-bits of this are used.</li>
+<li>channel             - The channel for the command. Must be a number between 15.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>fourteenBitValue    - The 14-bit value of the command.</li>
+<li>fourteenBitCommand  - <code>true</code> if the command contains 14-bit value data otherwise, <code>false</code>.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>programChange</code> - Program change command:</p>
+<ul>
+<li>programNumber       - The program (aka patch) number. From 0-127.</li>
+<li>channel             - The channel for the command. Must be a number between 15.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>channelPressure</code> - Channel pressure command:</p>
+<ul>
+<li>pressure            - Key pressure of the channel pressure message. In the range 0-127.</li>
+<li>channel             - The channel for the command. Must be a number between 15.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>pitchWheelChange</code> - Pitch wheel change command:</p>
+<ul>
+<li>pitchChange         -  A 14-bit value indicating the pitch bend. Center is 0x2000 (8192). Valid range is from 0-16383.</li>
+<li>channel             - The channel for the command. Must be a number between 15.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemMessage</code> - System message command:</p>
+<ul>
+<li>dataByte1           - Data Byte 1 as integer.</li>
+<li>dataByte2           - Data Byte 2 as integer.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemExclusive</code> - System message command:</p>
+<ul>
+<li>manufacturerID      - The manufacturer ID for the command. This is used by devices to determine if the message is one they support.</li>
+<li>sysexChannel        - The channel of the message. Only valid for universal exclusive messages, will always be 0 for non-universal messages.</li>
+<li>sysexData           - The system exclusive data for the message. For universal messages subID's are included in sysexData, for non-universal messages, any device specific information (such as modelID, versionID or whatever manufactures decide to include) will be included in sysexData.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemTimecodeQuarterFrame</code> - System exclusive (SysEx) command:</p>
+<ul>
+<li>dataByte1           - Data Byte 1 as integer.</li>
+<li>dataByte2           - Data Byte 2 as integer.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemSongPositionPointer</code> - System song position pointer command:</p>
+<ul>
+<li>dataByte1           - Data Byte 1 as integer.</li>
+<li>dataByte2           - Data Byte 2 as integer.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemSongSelect</code> - System song select command:</p>
+<ul>
+<li>dataByte1           - Data Byte 1 as integer.</li>
+<li>dataByte2           - Data Byte 2 as integer.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemTuneRequest</code> - System tune request command:</p>
+<ul>
+<li>dataByte1           - Data Byte 1 as integer.</li>
+<li>dataByte2           - Data Byte 2 as integer.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemTimingClock</code> - System timing clock command:</p>
+<ul>
+<li>dataByte1           - Data Byte 1 as integer.</li>
+<li>dataByte2           - Data Byte 2 as integer.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemStartSequence</code> - System timing clock command:</p>
+<ul>
+<li>dataByte1           - Data Byte 1 as integer.</li>
+<li>dataByte2           - Data Byte 2 as integer.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemContinueSequence</code> - System start sequence command:</p>
+<ul>
+<li>dataByte1           - Data Byte 1 as integer.</li>
+<li>dataByte2           - Data Byte 2 as integer.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemStopSequence</code> -  System continue sequence command:</p>
+<ul>
+<li>dataByte1           - Data Byte 1 as integer.</li>
+<li>dataByte2           - Data Byte 2 as integer.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+<li><p><code>systemKeepAlive</code> - System keep alive message:</p>
+<ul>
+<li>dataByte1           - Data Byte 1 as integer.</li>
+<li>dataByte2           - Data Byte 2 as integer.</li>
+<li>timestamp           - The timestamp for the command as a string.</li>
+<li>data                - Raw MIDI Data as Hex String.</li>
+<li>isVirtual           - <code>true</code> if Virtual MIDI Source otherwise <code>false</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Example Usage:</p>
+<div class="highlight"><pre><span></span><span class="n">midiDevice</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">midi</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">midi</span><span class="p">.</span><span class="n">devices</span><span class="p">()[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">midiDevice</span><span class="p">:</span><span class="n">callback</span><span class="p">(</span><span class="kr">function</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">deviceName</span><span class="p">,</span> <span class="n">commandType</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+           <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;object: &quot;</span> <span class="o">..</span> <span class="nb">tostring</span><span class="p">(</span><span class="n">object</span><span class="p">))</span>
+           <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;deviceName: &quot;</span> <span class="o">..</span> <span class="n">deviceName</span><span class="p">)</span>
+           <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;commandType: &quot;</span> <span class="o">..</span> <span class="n">commandType</span><span class="p">)</span>
+           <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;description: &quot;</span> <span class="o">..</span> <span class="n">description</span><span class="p">)</span>
+           <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;metadata: &quot;</span> <span class="o">..</span> <span class="n">hs</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span>
+           <span class="kr">end</span><span class="p">)</span><span class="err">```</span>
+</pre></div>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L447">extensions/midi/libmidi.m line 447</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="displayName">
+            <a name="//apple_ref/cpp/Method/displayName" class="dashAnchor"></a>
+            <h5><a href="#displayName">displayName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:displayName() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the display name of a <code>hs.midi</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The name as a string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1423">extensions/midi/libmidi.m line 1423</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="identityRequest">
+            <a name="//apple_ref/cpp/Method/identityRequest" class="dashAnchor"></a>
+            <h5><a href="#identityRequest">identityRequest</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:identityRequest() -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sends an Identity Request message to the <code>hs.midi</code> device. You can use <code>hs.midi:callback()</code> to receive the <code>systemExclusive</code> response.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Example Usage:</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="n">midiDevice</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">midi</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">midi</span><span class="p">.</span><span class="n">devices</span><span class="p">()[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">midiDevice</span><span class="p">:</span><span class="n">callback</span><span class="p">(</span><span class="kr">function</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">deviceName</span><span class="p">,</span> <span class="n">commandType</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+                      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;object: &quot;</span> <span class="o">..</span> <span class="nb">tostring</span><span class="p">(</span><span class="n">object</span><span class="p">))</span>
+                      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;deviceName: &quot;</span> <span class="o">..</span> <span class="n">deviceName</span><span class="p">)</span>
+                      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;commandType: &quot;</span> <span class="o">..</span> <span class="n">commandType</span><span class="p">)</span>
+                      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;description: &quot;</span> <span class="o">..</span> <span class="n">description</span><span class="p">)</span>
+                      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;metadata: &quot;</span> <span class="o">..</span> <span class="n">hs</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span>
+                    <span class="kr">end</span><span class="p">)</span>
+<span class="n">midiDevice</span><span class="p">:</span><span class="n">identityRequest</span><span class="p">()</span><span class="err">```</span>
+</pre></div>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1343">extensions/midi/libmidi.m line 1343</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isOnline">
+            <a name="//apple_ref/cpp/Method/isOnline" class="dashAnchor"></a>
+            <h5><a href="#isOnline">isOnline</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:isOnline() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the online status of a <code>hs.midi</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if online, otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1477">extensions/midi/libmidi.m line 1477</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isVirtual">
+            <a name="//apple_ref/cpp/Method/isVirtual" class="dashAnchor"></a>
+            <h5><a href="#isVirtual">isVirtual</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:isVirtual() -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns <code>true</code> if an <code>hs.midi</code> object is virtual, otherwise <code>false</code>.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if virtual, otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1494">extensions/midi/libmidi.m line 1494</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="manufacturer">
+            <a name="//apple_ref/cpp/Method/manufacturer" class="dashAnchor"></a>
+            <h5><a href="#manufacturer">manufacturer</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:manufacturer() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the manufacturer name of a <code>hs.midi</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The manufacturer name as a string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1459">extensions/midi/libmidi.m line 1459</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="model">
+            <a name="//apple_ref/cpp/Method/model" class="dashAnchor"></a>
+            <h5><a href="#model">model</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:model() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the model name of a <code>hs.midi</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The model name as a string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1441">extensions/midi/libmidi.m line 1441</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="name">
+            <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+            <h5><a href="#name">name</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:name() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the name of a <code>hs.midi</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The name as a string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1405">extensions/midi/libmidi.m line 1405</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendCommand">
+            <a name="//apple_ref/cpp/Method/sendCommand" class="dashAnchor"></a>
+            <h5><a href="#sendCommand">sendCommand</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:sendCommand(commandType, metadata) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sends a command to the <code>hs.midi</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>commandType</code>    - The type of command you want to send as a string. See <code>hs.midi.commandTypes[]</code>.</li>
+<li><code>metadata</code>       - A table of data for the MIDI command (see notes below).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if successful, otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>The <code>metadata</code> table can accept following, depending on the <code>commandType</code> supplied:</p>
+<ul>
+<li><p><code>noteOff</code> - Note off command:</p>
+<ul>
+<li>note                - The note number for the command. Must be between 0 and 127. Defaults to 0.</li>
+<li>velocity            - The velocity for the command. Must be between 0 and 127. Defaults to 0.</li>
+<li>channel             - The channel for the command. Must be a number between 0 and 16. Defaults to 0, which sends the command to All Channels.</li>
+</ul>
+</li>
+<li><p><code>noteOn</code> - Note on command:</p>
+<ul>
+<li>note                - The note number for the command. Must be between 0 and 127. Defaults to 0.</li>
+<li>velocity            - The velocity for the command. Must be between 0 and 127. Defaults to 0.</li>
+<li>channel             - The channel for the command. Must be a number between 0 and 16. Defaults to 0, which sends the command to All Channels.</li>
+</ul>
+</li>
+<li><p><code>polyphonicKeyPressure</code> - Polyphonic key pressure command:</p>
+<ul>
+<li>note                - The note number for the command. Must be between 0 and 127. Defaults to 0.</li>
+<li>pressure            - Key pressure of the polyphonic key pressure message. In the range 0-127. Defaults to 0.</li>
+<li>channel             - The channel for the command. Must be a number between 0 and 16. Defaults to 0, which sends the command to All Channels.</li>
+</ul>
+</li>
+<li><p><code>controlChange</code> - Control change command. This is the most common command sent by MIDI controllers:</p>
+<ul>
+<li>controllerNumber    - The MIDI control number for the command. Defaults to 0.</li>
+<li>controllerValue     - The controllerValue of the command. Only the lower 7-bits of this are used. Defaults to 0.</li>
+<li>channel             - The channel for the command. Must be a number between 0 and 16. Defaults to 0, which sends the command to All Channels.</li>
+<li>fourteenBitValue    - The 14-bit value of the command. Must be between 0 and 16383. Defaults to 0. <code>fourteenBitCommand</code> must be <code>true</code>.</li>
+<li>fourteenBitCommand  - <code>true</code> if the command contains 14-bit value data otherwise, <code>false</code>. <code>controllerValue</code> will be ignored if this is set to <code>true</code>.</li>
+</ul>
+</li>
+<li><p><code>programChange</code> - Program change command:</p>
+<ul>
+<li>programNumber       - The program (aka patch) number. From 0-127. Defaults to 0.</li>
+<li>channel             - The channel for the command. Must be a number between 0 and 16. Defaults to 0, which sends the command to All Channels.</li>
+</ul>
+</li>
+<li><p><code>channelPressure</code> - Channel pressure command:</p>
+<ul>
+<li>pressure            - Key pressure of the channel pressure message. In the range 0-127. Defaults to 0.</li>
+<li>channel             - The channel for the command. Must be a number between 0 and 16. Defaults to 0, which sends the command to All Channels.</li>
+</ul>
+</li>
+<li><p><code>pitchWheelChange</code> - Pitch wheel change command:</p>
+<ul>
+<li>pitchChange         -  A 14-bit value indicating the pitch bend. Center is 0x2000 (8192). Valid range is from 0-16383. Defaults to 0.</li>
+<li>channel             - The channel for the command. Must be a number between 0 and 16. Defaults to 0, which sends the command to All Channels.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Example Usage:</p>
+<div class="highlight"><pre><span></span><span class="n">midiDevice</span> <span class="o">=</span> <span class="n">hs</span><span class="p">.</span><span class="n">midi</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">hs</span><span class="p">.</span><span class="n">midi</span><span class="p">.</span><span class="n">devices</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">midiDevice</span><span class="p">:</span><span class="n">sendCommand</span><span class="p">(</span><span class="s2">&quot;noteOn&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="p">[</span><span class="s2">&quot;note&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">72</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;velocity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">usleep</span><span class="p">(</span><span class="mi">500000</span><span class="p">)</span>
+<span class="n">midiDevice</span><span class="p">:</span><span class="n">sendCommand</span><span class="p">(</span><span class="s2">&quot;noteOn&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="p">[</span><span class="s2">&quot;note&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">74</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;velocity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">usleep</span><span class="p">(</span><span class="mi">500000</span><span class="p">)</span>
+<span class="n">midiDevice</span><span class="p">:</span><span class="n">sendCommand</span><span class="p">(</span><span class="s2">&quot;noteOn&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="p">[</span><span class="s2">&quot;note&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">76</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;velocity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="n">midiDevice</span><span class="p">:</span><span class="n">sendCommand</span><span class="p">(</span><span class="s2">&quot;pitchWheelChange&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="p">[</span><span class="s2">&quot;pitchChange&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">usleep</span><span class="p">(</span><span class="mi">100000</span><span class="p">)</span>
+<span class="n">midiDevice</span><span class="p">:</span><span class="n">sendCommand</span><span class="p">(</span><span class="s2">&quot;pitchWheelChange&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="p">[</span><span class="s2">&quot;pitchChange&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="n">hs</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">usleep</span><span class="p">(</span><span class="mi">100000</span><span class="p">)</span>
+<span class="n">midiDevice</span><span class="p">:</span><span class="n">sendCommand</span><span class="p">(</span><span class="s2">&quot;pitchWheelChange&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="p">[</span><span class="s2">&quot;pitchChange&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">})</span><span class="err">```</span>
+</pre></div>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1033">extensions/midi/libmidi.m line 1033</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sendSysex">
+            <a name="//apple_ref/cpp/Method/sendSysex" class="dashAnchor"></a>
+            <h5><a href="#sendSysex">sendSysex</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:sendSysex(command) -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sends a System Exclusive Command to the <code>hs.midi</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>command</code> - The system exclusive command you wish to send as a string. White spaces in the string will be ignored.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Example Usage:<div class="highlight"><pre><span></span><span class="n">midiDevice</span><span class="p">:</span><span class="n">sendSysex</span><span class="p">(</span><span class="s2">&quot;f07e7f06 01f7&quot;</span><span class="p">)</span><span class="err">```</span>
+</pre></div>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1011">extensions/midi/libmidi.m line 1011</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="synthesize">
+            <a name="//apple_ref/cpp/Method/synthesize" class="dashAnchor"></a>
+            <h5><a href="#synthesize">synthesize</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.midi:synthesize([value]) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set or display whether or not the MIDI device should synthesize audio on your computer.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>[value] - <code>true</code> if you want to synthesize audio, otherwise <code>false</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li><code>true</code> if enabled otherwise <code>false</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/midi/libmidi.m#L1377">extensions/midi/libmidi.m line 1377</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

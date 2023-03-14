@@ -22,6 +22,10 @@
       <ul>
         <li>Functions - API calls offered directly by the extension</li>
           <ul>
+            <li><a href="#bMD5">bMD5</a></li>
+            <li><a href="#bSHA1">bSHA1</a></li>
+            <li><a href="#bSHA256">bSHA256</a></li>
+            <li><a href="#bSHA512">bSHA512</a></li>
             <li><a href="#hmacMD5">hmacMD5</a></li>
             <li><a href="#hmacSHA1">hmacSHA1</a></li>
             <li><a href="#hmacSHA256">hmacSHA256</a></li>
@@ -34,6 +38,154 @@
       </ul>
       <h3>API Documentation</h3>
         <h4 class="documentation-section">Functions</h4>
+          <section id="bMD5">
+            <a name="//apple_ref/cpp/Function/bMD5" class="dashAnchor"></a>
+            <h5><a href="#bMD5">bMD5</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.bMD5(data) -&gt; data</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates a binary MD5 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>data - A string containing some data to hash</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the binary hash of the supplied data</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L169">extensions/hash/libhash.m line 169</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="bSHA1">
+            <a name="//apple_ref/cpp/Function/bSHA1" class="dashAnchor"></a>
+            <h5><a href="#bSHA1">bSHA1</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.bSHA1(data) -&gt; data</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates a binary SHA1 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>data - A string containing some data to hash</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the binary hash of the supplied data</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L103">extensions/hash/libhash.m line 103</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="bSHA256">
+            <a name="//apple_ref/cpp/Function/bSHA256" class="dashAnchor"></a>
+            <h5><a href="#bSHA256">bSHA256</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.bSHA256(data) -&gt; data</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates a binary SHA256 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>data - A string containing some data to hash</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the binary hash of the supplied data</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L125">extensions/hash/libhash.m line 125</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="bSHA512">
+            <a name="//apple_ref/cpp/Function/bSHA512" class="dashAnchor"></a>
+            <h5><a href="#bSHA512">bSHA512</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.bSHA512(data) -&gt; data</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates a binary SHA512 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>data - A string containing some data to hash</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the binary hash of the supplied data</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L147">extensions/hash/libhash.m line 147</a></td>
+              </tr>
+            </table>
+          </section>
           <section id="hmacMD5">
             <a name="//apple_ref/cpp/Function/hmacMD5" class="dashAnchor"></a>
             <h5><a href="#hmacMD5">hmacMD5</a></h5>
@@ -68,7 +220,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L145">extensions/hash/libhash.m line 145</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L236">extensions/hash/libhash.m line 236</a></td>
               </tr>
             </table>
           </section>
@@ -106,7 +258,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L103">extensions/hash/libhash.m line 103</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L194">extensions/hash/libhash.m line 194</a></td>
               </tr>
             </table>
           </section>
@@ -144,7 +296,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L117">extensions/hash/libhash.m line 117</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L208">extensions/hash/libhash.m line 208</a></td>
               </tr>
             </table>
           </section>
@@ -182,7 +334,7 @@
               </tr>
               <tr>
                 <th>Source</th>
-                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L131">extensions/hash/libhash.m line 131</a></td>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L222">extensions/hash/libhash.m line 222</a></td>
               </tr>
             </table>
           </section>
@@ -213,7 +365,7 @@
               <tr>
                   <th>Returns</th>
                   <td><ul>
-<li>A string containing the hash of the supplied data</li>
+<li>A string containing the hash of the supplied data, encoded as hexadecimal</li>
 </ul>
 </td>
               </tr>
@@ -250,7 +402,7 @@
               <tr>
                   <th>Returns</th>
                   <td><ul>
-<li>A string containing the hash of the supplied data</li>
+<li>A string containing the hash of the supplied data, encoded as hexadecimal</li>
 </ul>
 </td>
               </tr>
@@ -287,7 +439,7 @@
               <tr>
                   <th>Returns</th>
                   <td><ul>
-<li>A string containing the hash of the supplied data</li>
+<li>A string containing the hash of the supplied data, encoded as hexadecimal</li>
 </ul>
 </td>
               </tr>
@@ -324,7 +476,7 @@
               <tr>
                   <th>Returns</th>
                   <td><ul>
-<li>A string containing the hash of the supplied data</li>
+<li>A string containing the hash of the supplied data, encoded as hexadecimal</li>
 </ul>
 </td>
               </tr>

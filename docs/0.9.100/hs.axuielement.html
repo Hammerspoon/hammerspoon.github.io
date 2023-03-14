@@ -1,0 +1,1778 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.axuielement</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.axuielement</h1>
+      <p>This module allows you to access the accessibility objects of running applications, their windows, menus, and other user interface elements that support the OS X accessibility API.</p>
+<p>This module works through the use of axuielementObjects, which is the Hammerspoon representation for an accessibility object.  An accessibility object represents any object or component of an OS X application which can be manipulated through the OS X Accessibility API -- it can be an application, a window, a button, selected text, etc.  As such, it can only support those features and objects within an application that the application developers make available through the Accessibility API.</p>
+<p>In addition to the formal methods described in this documentation, dynamic methods exist for accessing element attributes and actions. These will differ somewhat between objects as the specific attributes and actions will depend upon the accessibility object's role and purpose, but the following outlines the basics.</p>
+<p>Getting and Setting Attribute values:</p>
+<ul>
+<li><code>object.attribute</code> is a shortcut for <code>object:attributeValue(attribute)</code></li>
+<li><code>object.attribute = value</code> is a shortcut for <code>object:setAttributeValue(attribute, value)</code><ul>
+<li>If detecting accessibility errors that may occur is necessary, you must use the formal methods <a href="#attributeValue">hs.axuielement:attributeValue</a> and <a href="#setAttributeValue">hs.axuielement:setAttributeValue</a></li>
+<li>Note that setting an attribute value is not guaranteed to work with either method:<ul>
+<li>internal logic within the receiving application may decline to accept the newly assigned value</li>
+<li>an accessibility error may occur</li>
+<li>the element may not be settable (surprisingly this does not return an error, even when <a href="#isAttributeSettable">hs.axuielement:isAttributeSettable</a> returns false for the attribute specified)</li>
+</ul>
+</li>
+<li>If you require confirmation of the change, you will need to check the value of the attribute with one of the methods described above after setting it.</li>
+</ul>
+</li>
+</ul>
+<p>Iteration over Attributes:</p>
+<ul>
+<li><code>for k,v in pairs(object) do ... end</code> is a shortcut for <code>for k,_ in ipairs(object:attributeNames()) do local v = object:attributeValue(k) ; ... end</code> or <code>for k,v in pairs(object:allAttributeValues()) do ... end</code> (though see note below)<ul>
+<li>If detecting accessibility errors that may occur is necessary, you must use one of the formal approaches <a href="#allAttributeValues">hs.axuielement:allAttributeValues</a> or <a href="#attributeNames">hs.axuielement:attributeNames</a> and <a href="#attributeValue">hs.axuielement:attributeValue</a></li>
+<li>By default, <a href="#allAttributeValues">hs.axuielement:allAttributeValues</a> will not include key-value pairs for which the attribute (key) exists for the element but has no assigned value (nil) at the present time. This is because the value of <code>nil</code> prevents the key from being retained in the table returned. See <a href="#allAttributeValues">hs.axuielement:allAttributeValues</a> for details and a workaround.</li>
+</ul>
+</li>
+</ul>
+<p>Iteration over Child Elements (AXChildren):</p>
+<ul>
+<li><code>for i,v in ipairs(object) do ... end</code> is a shortcut for <code>for i,v in pairs(object:attributeValue(&quot;AXChildren&quot;) or {}) do ... end</code><ul>
+<li>Note that <code>object:attributeValue(&quot;AXChildren&quot;)</code> <em>may</em> return nil if the object does not have the <code>AXChildren</code> attribute; the shortcut does not have this limitation.</li>
+</ul>
+</li>
+<li><code>#object</code> is a shortcut for <code>#object:attributeValue(&quot;AXChildren&quot;)</code></li>
+<li><code>object[i]</code> is a shortcut for <code>object:attributeValue(&quot;AXChildren&quot;)[i]</code><ul>
+<li>If detecting accessibility errors that may occur is necessary, you must use the formal method <a href="#attributeValue">hs.axuielement:attributeValue</a> to get the &quot;AXChildren&quot; attribute.</li>
+</ul>
+</li>
+</ul>
+<p>Actions (<a href="#actionNames">hs.axuielement:actionNames</a>):</p>
+<ul>
+<li><code>object:do&lt;action&gt;()</code> is a shortcut for <code>object:performAction(action)</code><ul>
+<li>See <a href="#performAction">hs.axuielement:performAction</a> for a description of the return values and <a href="#actionNames">hs.axuielement:actionNames</a> to get a list of actions that the element supports.</li>
+</ul>
+</li>
+</ul>
+<p>ParameterizedAttributes:</p>
+<ul>
+<li><p><code>object:&lt;attribute&gt;WithParameter(value)</code> is a shortcut for `object:parameterizedAttributeValue(attribute, value)</p>
+<ul>
+<li><p>See <a href="#parameterizedAttributeValue">hs.axuielement:parameterizedAttributeValue</a> for a description of the return values and <a href="#parameterizedAttributeNames">hs.axuielement:parameterizedAttributeNames</a> to get a list of parameterized values that the element supports</p>
+</li>
+<li><p>The specific value required for a each parameterized attribute is different and is often application specific thus requiring some experimentation. Notes regarding identified parameter types and thoughts on some still being investigated will be provided in the Hammerspoon Wiki, hopefully shortly after this module becomes part of a Hammerspoon release.</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      </header>
+        <h3>Submodules</h3>
+        <ul>
+        <li><a href="hs.axuielement.axtextmarker.html">hs.axuielement.axtextmarker</a></li>
+        <li><a href="hs.axuielement.observer.html">hs.axuielement.observer</a></li>
+        </ul>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#actions">actions</a></li>
+            <li><a href="#attributes">attributes</a></li>
+            <li><a href="#orientations">orientations</a></li>
+            <li><a href="#parameterizedAttributes">parameterizedAttributes</a></li>
+            <li><a href="#roles">roles</a></li>
+            <li><a href="#rulerMarkers">rulerMarkers</a></li>
+            <li><a href="#sortDirections">sortDirections</a></li>
+            <li><a href="#subroles">subroles</a></li>
+            <li><a href="#units">units</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#searchCriteriaFunction">searchCriteriaFunction</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#applicationElement">applicationElement</a></li>
+            <li><a href="#applicationElementForPID">applicationElementForPID</a></li>
+            <li><a href="#systemElementAtPosition">systemElementAtPosition</a></li>
+            <li><a href="#systemWideElement">systemWideElement</a></li>
+            <li><a href="#windowElement">windowElement</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#actionDescription">actionDescription</a></li>
+            <li><a href="#actionNames">actionNames</a></li>
+            <li><a href="#allAttributeValues">allAttributeValues</a></li>
+            <li><a href="#allDescendantElements">allDescendantElements</a></li>
+            <li><a href="#asHSApplication">asHSApplication</a></li>
+            <li><a href="#asHSWindow">asHSWindow</a></li>
+            <li><a href="#attributeNames">attributeNames</a></li>
+            <li><a href="#attributeValue">attributeValue</a></li>
+            <li><a href="#attributeValueCount">attributeValueCount</a></li>
+            <li><a href="#buildTree">buildTree</a></li>
+            <li><a href="#childrenWithRole">childrenWithRole</a></li>
+            <li><a href="#copy">copy</a></li>
+            <li><a href="#elementAtPosition">elementAtPosition</a></li>
+            <li><a href="#elementSearch">elementSearch</a></li>
+            <li><a href="#isAttributeSettable">isAttributeSettable</a></li>
+            <li><a href="#isValid">isValid</a></li>
+            <li><a href="#matchesCriteria">matchesCriteria</a></li>
+            <li><a href="#parameterizedAttributeNames">parameterizedAttributeNames</a></li>
+            <li><a href="#parameterizedAttributeValue">parameterizedAttributeValue</a></li>
+            <li><a href="#path">path</a></li>
+            <li><a href="#performAction">performAction</a></li>
+            <li><a href="#pid">pid</a></li>
+            <li><a href="#setAttributeValue">setAttributeValue</a></li>
+            <li><a href="#setTimeout">setTimeout</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="actions">
+            <a name="//apple_ref/cpp/Constant/actions" class="dashAnchor"></a>
+            <h5><a href="#actions">actions</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.actions[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of common accessibility object action names, provided for reference.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this table is provided for reference only and is not intended to be comprehensive.</li>
+<li>you can view the contents of this table from the Hammerspoon console by typing in <code>hs.axuielement.actions</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L966">extensions/axuielement/libaxuielement.m line 966</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="attributes">
+            <a name="//apple_ref/cpp/Constant/attributes" class="dashAnchor"></a>
+            <h5><a href="#attributes">attributes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.attributes[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of common accessibility object attribute names which may be used with <a href="#elementSearch">hs.axuielement:elementSearch</a> or <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> as keys in the match criteria argument.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This table is provided for reference only and is not intended to be comprehensive.</li>
+<li>You can view the contents of this table from the Hammerspoon console by typing in <code>hs.axuielement.attributes</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L743">extensions/axuielement/libaxuielement.m line 743</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="orientations">
+            <a name="//apple_ref/cpp/Constant/orientations" class="dashAnchor"></a>
+            <h5><a href="#orientations">orientations</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.orientations[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of orientation types which may be used with <a href="#elementSearch">hs.axuielement:elementSearch</a> or <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> as attribute values for &quot;AXOrientation&quot; in the match criteria argument.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this table is provided for reference only and may not be comprehensive.</li>
+<li>you can view the contents of this table from the Hammerspoon console by typing in <code>hs.axuielement.orientations</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L1127">extensions/axuielement/libaxuielement.m line 1127</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="parameterizedAttributes">
+            <a name="//apple_ref/cpp/Constant/parameterizedAttributes" class="dashAnchor"></a>
+            <h5><a href="#parameterizedAttributes">parameterizedAttributes</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.parameterizedAttributes[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of common accessibility object parameterized attribute names, provided for reference.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this table is provided for reference only and is not intended to be comprehensive.</li>
+<li>you can view the contents of this table from the Hammerspoon console by typing in <code>hs.axuielement.parameterizedAttributes</code></li>
+<li>Parameterized attributes are attributes that take an argument when querying the element. There is very little documentation available for most of these and application developers can implement their own for which we may never be able to get any documentation. This table contains parameterized attribute names that are defined within the Apple documentation and a few others that have been discovered.</li>
+<li>Documentation covering what has been discovered through experimentation about parameterized attributes is planned and should be added to the Hammerspoon wiki shortly after this module becomes part of a formal release.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L926">extensions/axuielement/libaxuielement.m line 926</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="roles">
+            <a name="//apple_ref/cpp/Constant/roles" class="dashAnchor"></a>
+            <h5><a href="#roles">roles</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.roles[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of common accessibility object roles which may be used with <a href="#elementSearch">hs.axuielement:elementSearch</a> or <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> as attribute values for &quot;AXRole&quot; in the match criteria argument.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this table is provided for reference only and is not intended to be comprehensive.</li>
+<li>you can view the contents of this table from the Hammerspoon console by typing in <code>hs.axuielement.roles</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L990">extensions/axuielement/libaxuielement.m line 990</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="rulerMarkers">
+            <a name="//apple_ref/cpp/Constant/rulerMarkers" class="dashAnchor"></a>
+            <h5><a href="#rulerMarkers">rulerMarkers</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.rulerMarkers[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of ruler marker types which may be used with <a href="#elementSearch">hs.axuielement:elementSearch</a> or <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> as attribute values for &quot;AXMarkerType&quot; in the match criteria argument.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this table is provided for reference only and may not be comprehensive.</li>
+<li>you can view the contents of this table from the Hammerspoon console by typing in <code>hs.axuielement.rulerMarkers</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L1159">extensions/axuielement/libaxuielement.m line 1159</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="sortDirections">
+            <a name="//apple_ref/cpp/Constant/sortDirections" class="dashAnchor"></a>
+            <h5><a href="#sortDirections">sortDirections</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.sortDirections[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of sort direction types which may be used with <a href="#elementSearch">hs.axuielement:elementSearch</a> or <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> as attribute values for &quot;AXSortDirection&quot; in the match criteria argument.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this table is provided for reference only and may not be comprehensive.</li>
+<li>you can view the contents of this table from the Hammerspoon console by typing in <code>hs.axuielement.sortDirections</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L1143">extensions/axuielement/libaxuielement.m line 1143</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="subroles">
+            <a name="//apple_ref/cpp/Constant/subroles" class="dashAnchor"></a>
+            <h5><a href="#subroles">subroles</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.subroles[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of common accessibility object subroles which may be used with <a href="#elementSearch">hs.axuielement:elementSearch</a> or <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> as attribute values for &quot;AXSubrole&quot; in the match criteria argument.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this table is provided for reference only and is not intended to be comprehensive.</li>
+<li>you can view the contents of this table from the Hammerspoon console by typing in <code>hs.axuielement.subroles</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L1067">extensions/axuielement/libaxuielement.m line 1067</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="units">
+            <a name="//apple_ref/cpp/Constant/units" class="dashAnchor"></a>
+            <h5><a href="#units">units</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.units[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A table of measurement unit types which may be used with <a href="#elementSearch">hs.axuielement:elementSearch</a> or <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> as attribute values for attributes which specify measurement unit types (e.g. &quot;AXUnits&quot;, &quot;AXHorizontalUnits&quot;, and &quot;AXVerticalUnits&quot;) in the match criteria argument.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this table is provided for reference only and may not be comprehensive.</li>
+<li>you can view the contents of this table from the Hammerspoon console by typing in <code>hs.axuielement.units</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L1180">extensions/axuielement/libaxuielement.m line 1180</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="searchCriteriaFunction">
+            <a name="//apple_ref/cpp/Function/searchCriteriaFunction" class="dashAnchor"></a>
+            <h5><a href="#searchCriteriaFunction">searchCriteriaFunction</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.searchCriteriaFunction(criteria) -&gt; function</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a function for use with <a href="#elementSearch">hs.axuielement:elementSearch</a> that uses <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> with the specified criteria.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>criteria</code> - a criteria definition as defined for the <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> method.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a function which can be used as the <code>criteriaFunction</code> for <a href="#elementSearch">hs.axuielement:elementSearch</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/axuielement.lua#L464">extensions/axuielement/axuielement.lua line 464</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="applicationElement">
+            <a name="//apple_ref/cpp/Constructor/applicationElement" class="dashAnchor"></a>
+            <h5><a href="#applicationElement">applicationElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.applicationElement(applicationObject) -&gt; axuielementObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the top-level accessibility object for the application specified by the <code>hs.application</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>applicationObject</code> - the <code>hs.application</code> object for the Application or a string or number which will be passed to <code>hs.application.find</code> to get an <code>hs.application</code> object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an axuielementObject for the application specified</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>if <code>applicationObject</code> is a string or number, only the first item found with <code>hs.application.find</code> will be used by this function to create an axuielementObject.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L98">extensions/axuielement/libaxuielement.m line 98</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="applicationElementForPID">
+            <a name="//apple_ref/cpp/Constructor/applicationElementForPID" class="dashAnchor"></a>
+            <h5><a href="#applicationElementForPID">applicationElementForPID</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.applicationElementForPID(pid) -&gt; axuielementObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the top-level accessibility object for the application with the specified process ID.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>pid</code> - the process ID of the application.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an axuielementObject for the application specified, or nil if it cannot be determined</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L144">extensions/axuielement/libaxuielement.m line 144</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="systemElementAtPosition">
+            <a name="//apple_ref/cpp/Constructor/systemElementAtPosition" class="dashAnchor"></a>
+            <h5><a href="#systemElementAtPosition">systemElementAtPosition</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.systemElementAtPosition(x, y | pointTable) -&gt; axuielementObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the accessibility object at the specified position on the screen. The top-left corner of the primary screen is 0, 0.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>x</code> - the x coordinate of the screen location to test. If this parameter is provided, then the <code>y</code> parameter must also be provided and the <code>pointTable</code> parameter must not be provided.</li>
+<li><code>y</code> - the y coordinate of the screen location to test. This parameter is required if the <code>x</code> parameter is provided.</li>
+<li><code>pointTable</code> - the x and y coordinates of the screen location to test provided as a point-table, like the one returned by <code>hs.mouse.getAbsolutePosition</code> (a point-table is a table with key-value pairs for keys <code>x</code> and <code>y</code>). If this parameter is provided, then separate <code>x</code> and <code>y</code> parameters must not also be present.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an axuielementObject for the object at the specified coordinates, or nil if no object could be identified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>See also <a href="#elementAtPosition">hs.axuielement:elementAtPosition</a> -- this function is a shortcut for <code>hs.axuielement.systemWideElement():elementAtPosition(...)</code>.</li>
+<li>This function does hit-testing based on window z-order (that is, layering). If one window is on top of another window, the returned accessibility object comes from whichever window is topmost at the specified location.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/axuielement.lua#L86">extensions/axuielement/axuielement.lua line 86</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="systemWideElement">
+            <a name="//apple_ref/cpp/Constructor/systemWideElement" class="dashAnchor"></a>
+            <h5><a href="#systemWideElement">systemWideElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.systemWideElement() -&gt; axuielementObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns an accessibility object that provides access to system attributes.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the axuielementObject for the system attributes</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L126">extensions/axuielement/libaxuielement.m line 126</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="windowElement">
+            <a name="//apple_ref/cpp/Constructor/windowElement" class="dashAnchor"></a>
+            <h5><a href="#windowElement">windowElement</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement.windowElement(windowObject) -&gt; axuielementObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the accessibility object for the window specified by the <code>hs.window</code> object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>windowObject</code> - the <code>hs.window</code> object for the window or a string or number which will be passed to <code>hs.window.find</code> to get an <code>hs.window</code> object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an axuielementObject for the window specified</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>if <code>windowObject</code> is a string or number, only the first item found with <code>hs.window.find</code> will be used by this function to create an axuielementObject.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L70">extensions/axuielement/libaxuielement.m line 70</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="actionDescription">
+            <a name="//apple_ref/cpp/Method/actionDescription" class="dashAnchor"></a>
+            <h5><a href="#actionDescription">actionDescription</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:actionDescription(action) -&gt; string | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a localized description of the specified accessibility object's action.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>action</code> - the name of the action, as specified by <a href="#actionNames">hs.axuielement:actionNames</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing a description of the object's action, nil if no description is available, or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The action descriptions are provided by the target application; as such their accuracy and usefulness rely on the target application's developers.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L254">extensions/axuielement/libaxuielement.m line 254</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="actionNames">
+            <a name="//apple_ref/cpp/Method/actionNames" class="dashAnchor"></a>
+            <h5><a href="#actionNames">actionNames</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:actionNames() -&gt; table | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a list of all the actions the specified accessibility object can perform.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an array of the names of all actions supported by the axuielementObject or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Common action names can be found in the <a href="#actions">hs.axuielement.actions</a> table; however, this method will list only those names which are supported by this object, and is not limited to just those in the referenced table.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L221">extensions/axuielement/libaxuielement.m line 221</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="allAttributeValues">
+            <a name="//apple_ref/cpp/Method/allAttributeValues" class="dashAnchor"></a>
+            <h5><a href="#allAttributeValues">allAttributeValues</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:allAttributeValues([includeErrors]) -&gt; table | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table containing key-value pairs for all attributes of the accessibility object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>includeErrors</code> - an optional boolean, default false, that specifies whether attribute names which generate an error when retrieved are included in the returned results.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table with key-value pairs corresponding to the attributes of the accessibility object or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>if <code>includeErrors</code> is not specified or is false, then attributes which exist for the element, but currently have no value assigned, will not appear in the table. This is because Lua treats a nil value for a table's key-value pair as an instruction to remove the key from the table, if it currently exists.</li>
+<li>To include attributes which exist but are currently unset, you need to specify <code>includeErrors</code> as true.<ul>
+<li>attributes for which no value is currently assigned will be given a table value with the following key-value pairs:<ul>
+<li><code>_code</code> = -25212</li>
+<li><code>error</code> = &quot;Requested value does not exist&quot;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L315">extensions/axuielement/libaxuielement.m line 315</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="allDescendantElements">
+            <a name="//apple_ref/cpp/Method/allDescendantElements" class="dashAnchor"></a>
+            <h5><a href="#allDescendantElements">allDescendantElements</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:allDescendantElements(callback, [withParents]) -&gt; elementSearchObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Query the accessibility object for all child accessibility objects and their descendants</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callback</code>    - a required function which should expect two arguments: a <code>msg</code> string specifying how the search ended, and a table containing the discovered descendant elements. <code>msg</code> will be &quot;completed&quot; when the traversal has completed normally and will contain a string starting with &quot;**&quot; if it terminates early for some reason (see Notes: section for more information)</li>
+<li><code>withParents</code> - an optional boolean, default false, indicating that the parent of objects (and their descendants) should be collected as well.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an elementSearchObject as described in <a href="#elementSearch">hs.axuielement:elementSearch</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method is syntactic sugar for <code>hs.axuielement:elementSearch(callback, { [includeParents = withParents] })</code>. Please refer to <a href="#elementSearch">hs.axuielement:elementSearch</a> for details about the returned object and callback arguments.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/axuielement.lua#L502">extensions/axuielement/axuielement.lua line 502</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="asHSApplication">
+            <a name="//apple_ref/cpp/Method/asHSApplication" class="dashAnchor"></a>
+            <h5><a href="#asHSApplication">asHSApplication</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:asHSApplication() -&gt; hs.application object | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>If the element refers to an application, return an <code>hs.application</code> object for the element.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the element refers to an application, return an <code>hs.application</code> object for the element ; otherwise return nil</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>An element is considered an application by this method if it has an AXRole of AXApplication and has a process identifier (pid).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L645">extensions/axuielement/libaxuielement.m line 645</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="asHSWindow">
+            <a name="//apple_ref/cpp/Method/asHSWindow" class="dashAnchor"></a>
+            <h5><a href="#asHSWindow">asHSWindow</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:asHSWindow() -&gt; hs.window object | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>If the element refers to a window, return an <code>hs.window</code> object for the element.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the element refers to a window, return an <code>hs.window</code> object for the element ; otherwise return nil</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>An element is considered a window by this method if it has an AXRole of AXWindow.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L680">extensions/axuielement/libaxuielement.m line 680</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="attributeNames">
+            <a name="//apple_ref/cpp/Method/attributeNames" class="dashAnchor"></a>
+            <h5><a href="#attributeNames">attributeNames</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:attributeNames() -&gt; table | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a list of all the attributes supported by the specified accessibility object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an array of the names of all attributes supported by the axuielementObject or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Common attribute names can be found in the <a href="#attributes">hs.axuielement.attributes</a> tables; however, this method will list only those names which are supported by this object, and is not limited to just those in the referenced table.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L188">extensions/axuielement/libaxuielement.m line 188</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="attributeValue">
+            <a name="//apple_ref/cpp/Method/attributeValue" class="dashAnchor"></a>
+            <h5><a href="#attributeValue">attributeValue</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:attributeValue(attribute) -&gt; value | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the value of an accessibility object's attribute.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>attribute</code> - the name of the attribute, as specified by <a href="#attributeNames">hs.axuielement:attributeNames</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the current value of the attribute, nil if the attribute has no value, or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L286">extensions/axuielement/libaxuielement.m line 286</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="attributeValueCount">
+            <a name="//apple_ref/cpp/Method/attributeValueCount" class="dashAnchor"></a>
+            <h5><a href="#attributeValueCount">attributeValueCount</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:attributeValueCount(attribute) -&gt; integer | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the count of the array of an accessibility object's attribute value.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>attribute</code> - the name of the attribute, as specified by <a href="#attributeNames">hs.axuielement:attributeNames</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the number of items in the value for the attribute, if it is an array, or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L365">extensions/axuielement/libaxuielement.m line 365</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="buildTree">
+            <a name="//apple_ref/cpp/Method/buildTree" class="dashAnchor"></a>
+            <h5><a href="#buildTree">buildTree</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:buildTree(callback, [depth], [withParents]) -&gt; elementSearchObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Captures all of the available information for the accessibility object and its descendants and returns it in a table for inspection.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callback</code> - a required function which should expect two arguments: a <code>msg</code> string specifying how the search ended, and a table containing the recorded information. <code>msg</code> will be &quot;completed&quot; when the search has completed normally (or reached the specified depth) and will contain a string starting with &quot;**&quot; if it terminates early for some reason (see Notes: section for more information)</li>
+<li><code>depth</code>    - an optional integer, default <code>math.huge</code>, specifying the maximum depth from the initial accessibility object that should be visited to identify descendant elements and their attributes.</li>
+<li><code>withParents</code> - an optional boolean, default false, specifying whether or not an element's (or descendant's) attributes for <code>AXParent</code> and <code>AXTopLevelUIElement</code> should also be visited when identifying additional elements to include in the results table.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an elementSearchObject as described in <a href="#elementSearch">hs.axuielement:elementSearch</a></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The format of the <code>results</code> table passed to the callback for this method is primarily for debugging and exploratory purposes and may not be arranged for easy programatic evaluation.</li>
+<li>This method is syntactic sugar for <code>hs.axuielement:elementSearch(callback, { objectOnly = false, asTree = true, [depth = depth], [includeParents = withParents] })</code>. Please refer to <a href="#elementSearch">hs.axuielement:elementSearch</a> for details about the returned object and callback arguments.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/axuielement.lua#L478">extensions/axuielement/axuielement.lua line 478</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="childrenWithRole">
+            <a name="//apple_ref/cpp/Method/childrenWithRole" class="dashAnchor"></a>
+            <h5><a href="#childrenWithRole">childrenWithRole</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:childrenWithRole(role) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table containing only those immediate children of the element that perform the specified role.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>role</code> - a string specifying the role that the returned children must perform. Example values can be found in <a href="#roles">hs.axuielement.roles</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing zero or more axuielementObjects.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>only the immediate children of the object are searched.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/axuielement.lua#L972">extensions/axuielement/axuielement.lua line 972</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="copy">
+            <a name="//apple_ref/cpp/Method/copy" class="dashAnchor"></a>
+            <h5><a href="#copy">copy</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:copy() -&gt; axuielementObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Return a duplicate userdata reference to the Accessibility object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new userdata object representing a new reference to the Accessibility object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L171">extensions/axuielement/libaxuielement.m line 171</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementAtPosition">
+            <a name="//apple_ref/cpp/Method/elementAtPosition" class="dashAnchor"></a>
+            <h5><a href="#elementAtPosition">elementAtPosition</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:elementAtPosition(x, y | pointTable) -&gt; axuielementObject | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the accessibility object at the specified position on the screen. The top-left corner of the primary screen is 0, 0.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>x</code> - the x coordinate of the screen location to test. If this parameter is provided, then the <code>y</code> parameter must also be provided and the <code>pointTable</code> parameter must not be provided.</li>
+<li><code>y</code> - the y coordinate of the screen location to test. This parameter is required if the <code>x</code> parameter is provided.</li>
+<li><code>pointTable</code> - the x and y coordinates of the screen location to test provided as a point-table, like the one returned by <code>hs.mouse.getAbsolutePosition</code> (a point-table is a table with key-value pairs for keys <code>x</code> and <code>y</code>). If this parameter is provided, then separate <code>x</code> and <code>y</code> parameters must not also be present.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an axuielementObject for the object at the specified coordinates, or nil and an error string if no object could be identified or an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method can only be called on an axuielementObject that represents an application or the system-wide element (see <a href="#systemWideElement">hs.axuielement.systemWideElement</a>).</li>
+<li>This function does hit-testing based on window z-order (that is, layering). If one window is on top of another window, the returned accessibility object comes from whichever window is topmost at the specified location.</li>
+<li>If this method is called on an axuielementObject representing an application, the search is restricted to the application.</li>
+<li>If this method is called on an axuielementObject representing the system-wide element, the search is not restricted to any particular application.  See <a href="#systemElementAtPosition">hs.axuielement.systemElementAtPosition</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L533">extensions/axuielement/libaxuielement.m line 533</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="elementSearch">
+            <a name="//apple_ref/cpp/Method/elementSearch" class="dashAnchor"></a>
+            <h5><a href="#elementSearch">elementSearch</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:elementSearch(callback, [criteria], [namedModifiers]) -&gt; elementSearchObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Search for and generate a table of the accessibility elements for the attributes and descendants of this object based on the specified criteria.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>callback</code>       - a (usually) required function which will receive the results of this search. The callback should expect three arguments and return none. The arguments to the callback function will be <code>msg</code>, a string specifying how the search ended and <code>results</code>, the elementSearchObject containing the requested results, and the number of items added to the results (see <code>count</code> in <code>namedModifiers</code>). <code>msg</code> will be &quot;completed&quot; if the search completes normally, or a string starting with &quot;**&quot; if it is terminated early (see Returns: and Notes: for more details).</li>
+<li><code>criteria</code>       - an optional function which should accept one argument (the current element being examined) and return true if it should be included in the results or false if it should be rejected. See <a href="#searchCriteriaFunction">hs.axuielement.searchCriteriaFunction</a> to create a search function that uses <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> for evaluation.</li>
+<li><code>namedModifiers</code> - an optional table specifying key-value pairs that further modify or control the search. This table may contain 0 or more of the following keys:<ul>
+<li><code>count</code>          - an optional integer, default <code>math.huge</code>, specifying the maximum number of matches to collect before ending the search and invoking the callback. You can continue the search to find additional elements by invoking <code>elementSearchObject:next()</code> (described below in the <code>Returns</code> section) on the return value of this method, or on the results argument passed to the callback.</li>
+<li><code>depth</code>          - an optional integer, default <code>math.huge</code>, specifying the maximum number of steps (descendants) from the initial accessibility element the search should visit. If you know that your desired element(s) are relatively close to your starting element, setting this to a lower value can significantly speed up the search.</li>
+<li>The following are also recognized, but may impact the speed of the search, the responsiveness of Hammerspoon, or the format of the results in ways that limit further filtering and are not recommended except when you know that you require them: * <code>asTree</code>         - an optional boolean, default false, and ignored if <code>criteria</code> is specified and non-empty, <code>objectOnly</code> is true, or <code>count</code> is specified. This modifier specifies whether the search results should return as an array table of tables containing each element's details (false) or as a tree where in which the root node details are the key-value pairs of the returned table and descendant elements are likewise described in subtables attached to the attribute name they belong to (true). This format is primarily for debugging and exploratory purposes and may not be arranged for easy programatic evaluation. * <code>includeParents</code> - a boolean, default false, specifying whether or not parent attributes (<code>AXParent</code> and <code>AXTopLevelUIElement</code>) should be examined during the search. Note that in most cases, setting this value to true will end up traversing the entire Accessibility structure for the target application and may significantly slow down the search. * <code>noCallback</code>     - an optional boolean, default false, and ignored if <code>callback</code> is not also nil, allowing you to specify nil as the callback when set to true. This feature requires setting this named argument to true <em>and</em> specifying the callback field as nil because starting a query from an element with a lot of descendants <strong>WILL</strong> block Hammerspoon and slow down the responsiveness of your computer (I've seen blocking for over 5 minutes in extreme cases) and should be used <em>only</em> when you know you are starting from close to the end of the element hierarchy. * <code>objectOnly</code>     - an optional boolean, default true, specifying whether each result in the final table will be the accessibility element discovered (true) or a table containing details about the element include the attribute names, actions, etc. for the element (false). This latter format is primarily for debugging and exploratory purposes and may not be arranged for easy programatic evaluation.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an elementSearchObject which contains metamethods allowing you to check to see if the process has completed and cancel it early if desired. The methods include:<ul>
+<li><code>elementSearchObject:cancel([reason])</code> - cancels the current search and invokes the callback with the partial results already collected. If you specify <code>reason</code>, the <code>msg</code> argument for the callback will be <code>** &lt;reason&gt;</code>; otherwise it will be &quot;** cancelled&quot;.</li>
+<li><code>elementSearchObject:isRunning()</code>      - returns true if the search is currently ongoing or false if it has completed or been cancelled.</li>
+<li><code>elementSearchObject:matched()</code>        - returns an integer specifying the number of elements which have already been found that meet the specified criteria function.</li>
+<li><code>elementSearchObject:runTime()</code>        - returns an integer specifying the number of seconds spent performing this search. Note that this is <em>not</em> an accurate measure of how much time a given search will always take because the time will be greatly affected by how much other activity is occurring within Hammerspoon and on the users computer. Resuming a cancelled search or a search which invoked the callback because it reached <code>count</code> items with the <code>next</code> method (described below) will cause this number to begin increasing again to provide a cumulative total of time spent performing the search; time between when the callback is invoked and the <code>next</code> method is invoked is not included.</li>
+<li><code>elementSearchObject:visited()</code>        - returns an integer specifying the number of elements which have been examined during the search so far.</li>
+<li>If <code>asTree</code> is false or not specified, the following additional methods will be available:<ul>
+<li><code>elementSearchObject:filter(criteria, [callback]) -&gt; filterObject</code><ul>
+<li>returns a new table containing elements in the search results that match the specified criteria.<ul>
+<li><code>criteria</code>  - a required function which should accept one argument (the current element being examined) and return true if it should be included in the results or false if it should be rejected. See <a href="#searchCriteriaFunction">hs.axuielement.searchCriteriaFunction</a> to create a search function that uses <a href="#matchesCriteria">hs.axuielement:matchesCriteria</a> for evaluation.</li>
+<li><code>callback</code>  - an optional callback which should expect two arguments and return none. If a callback is specified, the callback will receive two arguments, a msg indicating how the callback ended (the message format matches the style defined for this method) and the filterObject which contains the matching elements.</li>
+</ul>
+</li>
+<li>The filterObject returned by this method and passed to the callback, if defined, will support the following methods as defined here: <code>cancel</code>, <code>filter</code>, <code>isRunning</code>, <code>matched</code>, <code>runTime</code>, and <code>visited</code>.</li>
+</ul>
+</li>
+<li><code>elementSearchObject:next()</code> - if the search was cancelled or reached the count of matches specified, this method will continue the search where it left off. The elementSearchObject returned when the callback is next invoked will have up to <code>count</code> items added to the existing results (calls to <code>next</code> are cumulative for the total results captured in the elementSearchObject). The third argument to the callback will be the number of items <em>added</em> to the search results, not the number of items <em>in</em> the search results.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method utilizes coroutines to keep Hammerspoon responsive, but may be slow to complete if <code>includeParents</code> is true, if you do not specify <code>depth</code>, or if you start from an element that has a lot of descendants (e.g. the application element for a web browser). This is dependent entirely upon how many active accessibility elements the target application defines and where you begin your search and cannot reliably be determined up front, so you may need to experiment to find the best balance for your specific requirements.</li>
+<li>The search performed is a breadth-first search, so in general earlier elements in the results table will be &quot;closer&quot; in the Accessibility hierarchy to the starting point than later elements.</li>
+<li>The <code>elementSearchObject</code> returned by this method and the results passed in as the second argument to the callback function are the same object -- you can use either one in your code depending upon which makes the most sense. Results that match the criteria function are added to the <code>elementSearchObject</code> as they are found, so if you examine the object/table returned by this method and determine that you have located the element or elements you require before the callback has been invoked, you can safely invoke the cancel method to end the search early.<ul>
+<li>The exception to this is when <code>asTree</code> is true and <code>objectsOnly</code> is false and the search criteria is nil -- see <a href="#buildTree">hs.axuielement:buildTree</a>. In this case, the results passed to the callback will be equal to <code>elementSearchObject[1]</code>.</li>
+</ul>
+</li>
+<li>If <code>objectsOnly</code> is specified as false, it may take some time after <code>cancel</code> is invoked for the mapping of element attribute tables to the descendant elements in the results set -- this is a by product of the need to iterate through the results to match up all of the instances of each element to it's attribute table.</li>
+<li><a href="#allDescendantElements">hs.axuielement:allDescendantElements</a> is syntactic sugar for <code>hs.axuielement:elementSearch(callback, { [includeParents = withParents] })</code></li>
+<li><a href="#buildTree">hs.axuielement:buildTree</a> is syntactic sugar for <code>hs.axuielement:elementSearch(callback, { objectOnly = false, asTree = true, [depth = depth], [includeParents = withParents] })</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/axuielement.lua#L766">extensions/axuielement/axuielement.lua line 766</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isAttributeSettable">
+            <a name="//apple_ref/cpp/Method/isAttributeSettable" class="dashAnchor"></a>
+            <h5><a href="#isAttributeSettable">isAttributeSettable</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:isAttributeSettable(attribute) -&gt; boolean | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether the specified accessibility object's attribute can be modified.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>attribute</code> - the name of the attribute, as specified by <a href="#attributeNames">hs.axuielement:attributeNames</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean value indicating whether or not the value of the parameter can be modified or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L421">extensions/axuielement/libaxuielement.m line 421</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="isValid">
+            <a name="//apple_ref/cpp/Method/isValid" class="dashAnchor"></a>
+            <h5><a href="#isValid">isValid</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:isValid() -&gt; boolean | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns whether the specified accessibility object is still valid.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a boolean value indicating whether or not the accessibility object is still valid or nil and an error string if any other accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>an accessibilityObject can become invalid for a variety of reasons, including but not limited to the element referred to no longer being available (e.g. an element referring to a window or one of its descendants that has been closed) or the application terminating.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L447">extensions/axuielement/libaxuielement.m line 447</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="matchesCriteria">
+            <a name="//apple_ref/cpp/Method/matchesCriteria" class="dashAnchor"></a>
+            <h5><a href="#matchesCriteria">matchesCriteria</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:matchesCriteria(criteria) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns true if the axuielementObject matches the specified criteria or false if it does not.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>criteria</code>  - the criteria to compare against the accessibility object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>true if the axuielementObject matches the criteria, false if it does not.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>the <code>criteria</code> argument must be one of the following:</p>
+<ul>
+<li><p>a single string, specifying the value the element's AXRole attribute must equal for a positive match</p>
+</li>
+<li><p>an array table of strings specifying a list of possible values the element's AXRole attribute can equal for a positive match</p>
+</li>
+<li><p>a table of key-value pairs specifying a more complex criteria. The table should be defined as follows:</p>
+<ul>
+<li>one or more of the following must be specified (though all specified must match):<ul>
+<li><code>attribute</code>              -- a string, or table of strings, specifying attributes that the element must support.</li>
+<li><code>action</code>                 -- a string, or table of strings, specifying actions that the element must be able to perform.</li>
+<li><code>parameterizedAttribute</code> -- a string, or table of strings, specifying parametrized attributes that the element must support.</li>
+</ul>
+</li>
+<li>if the <code>attribute</code> key is specified, you can use one of the following to specify a specific value the attribute must equal for a positive match. No more than one of these should be provided. If neither are present, then only the existence of the attributes specified by <code>attribute</code> are required.<ul>
+<li><code>value</code>                  -- a value, or table of values, that a specified attribute must equal. If it's a table, then only one of the values has to match the attribute value for a positive match. Note that if you specify more than one attribute with the <code>attribute</code> key, you must provide at least one value for each attribute in this table (order does not matter, but the match will fail if any attribute does not match at least one value provided).<ul>
+<li>when specifying a value which is itself a table with keys (e.g. frame, size, url, color, etc.) then you <em>must</em> provide the value or values as a table of tables, e.g. <code>{ { y = 22 } }</code>.<ul>
+<li>only those keys which are specified within the value are checked for equality (or pattern matching). Values which are present in the attribute's value but are not specified in the comparison value are ignored (i.e. the previous example of <code>y = 22</code> would only check the <code>y</code> component of an AXFrame attribute -- the <code>x</code>, <code>h</code>, and <code>w</code> values would be ignored).</li>
+<li>For value components which are numeric, e.g. <code>22</code> in the previous example, the default comparison is equality. You may change this with the <code>comparison</code> key described below in the optional keys.</li>
+<li>For possible keys when trying to match a color, see the documentation for <code>hs.drawing.color</code>.</li>
+<li>For possible keys when trying to match a URL, use <code>url = &lt;string&gt;</code> and/or <code>filePath = &lt;string&gt;</code>. The string for the specified table key will be compared in accordance with the <code>pattern</code> optional key described below.</li>
+</ul>
+</li>
+<li>when specifying a value which is itself a table of values (e.g. a list of axuielementObjects) you <em>must</em> provide the value or values as a table of tables, e.g. <code>{ { obj1, obj2 } }</code>.<ul>
+<li>Order of the elements provided in the comparison value does not matter -- this only tests for existence within the attributes value.</li>
+<li>The test is for inclusion only -- the attribute's value may contain other elements as well, but must contain those specified within the comparison value.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>nilValue</code>               -- a boolean, specifying that the attributes must not have an assigned value (true) or may be assigned any value except nil (false). If the <code>value</code> key is specified, this key is ignored. Note that this applies to <em>all</em> of the attributes specified with the <code>attribute</code> key.</li>
+</ul>
+</li>
+<li>the following are optional keys and are not required:<ul>
+<li><code>pattern</code>                -- a boolean, default false, specifying whether string matches for attribute values should be evaluated with <code>string.match</code> (true) or as exact matches (false). See the Lua manual, section 6.4.1 (<code>help.lua._man._6_4_1</code> in the Hammerspoon console). If the <code>value</code> key is not set, than this key is ignored.</li>
+<li><code>invert</code>                 -- a boolean, default false, specifying inverted logic for the criteria result --- if this is true and the criteria matches, evaluate criteria as false; otherwise evaluate as true.</li>
+<li><code>comparison</code>             -- a string, default &quot;==&quot;, specifying the comparison to be used when comparing numeric values. Possible comparison strings are: &quot;==&quot; for equality, &quot;&lt;&quot; for less than, &quot;&lt;=&quot; for less than or equal to, &quot;&gt;&quot; for greater than, &quot;&gt;=&quot; for greater than or equal to, or &quot;~=&quot; for not equal to.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>an array table of one or more key-value tables as described immediately above; the element must be a positive match for all of the individual criteria tables specified (logical AND).</p>
+</li>
+</ul>
+</li>
+<li><p>This method is used by <a href="#searchCriteriaFunction">hs.axuielement.searchCriteriaFunction</a> to create criteria functions compatible with <a href="#elementSearch">hs.axuielement:elementSearch</a>.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/axuielement.lua#L265">extensions/axuielement/axuielement.lua line 265</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="parameterizedAttributeNames">
+            <a name="//apple_ref/cpp/Method/parameterizedAttributeNames" class="dashAnchor"></a>
+            <h5><a href="#parameterizedAttributeNames">parameterizedAttributeNames</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:parameterizedAttributeNames() -&gt; table | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a list of all the parameterized attributes supported by the specified accessibility object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>an array of the names of all parameterized attributes supported by the axuielementObject or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L391">extensions/axuielement/libaxuielement.m line 391</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="parameterizedAttributeValue">
+            <a name="//apple_ref/cpp/Method/parameterizedAttributeValue" class="dashAnchor"></a>
+            <h5><a href="#parameterizedAttributeValue">parameterizedAttributeValue</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:parameterizedAttributeValue(attribute, parameter) -&gt; value | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the value of an accessibility object's parameterized attribute.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>attribute</code> - the name of the attribute, as specified by <a href="#parameterizedAttributeNames">hs.axuielement:parameterizedAttributeNames</a>.</li>
+<li><code>parameter</code> - the parameter required by the parameterized attribute.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the current value of the parameterized attribute, nil if the parameterized attribute has no value, or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The specific parameter required for a each parameterized attribute is different and is often application specific thus requiring some experimentation. Notes regarding identified parameter types and thoughts on some still being investigated will be provided in the Hammerspoon Wiki, hopefully shortly after this module becomes part of a Hammerspoon release.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L582">extensions/axuielement/libaxuielement.m line 582</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="path">
+            <a name="//apple_ref/cpp/Method/path" class="dashAnchor"></a>
+            <h5><a href="#path">path</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:path() -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table of axuielements tracing this object through its parent objects to the root for this element, most likely an application object or the system wide object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing this object and 0 or more parent objects representing the path from the root object to this element.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this object will always exist as the last element in the table (e.g. at <code>table[#table]</code>) with its most immediate parent at <code>#table - 1</code>, etc. until the rootmost object for this element is reached at index position 1.</li>
+<li>an axuielement object representing an application or the system wide object is its own rootmost object and will return a table containing only itself (i.e. <code>#table</code> will equal 1)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/axuielement.lua#L211">extensions/axuielement/axuielement.lua line 211</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="performAction">
+            <a name="//apple_ref/cpp/Method/performAction" class="dashAnchor"></a>
+            <h5><a href="#performAction">performAction</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:performAction(action) -&gt; axuielement | false | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Requests that the specified accessibility object perform the specified action.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>action</code> - the name of the action, as specified by <a href="#actionNames">hs.axuielement:actionNames</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if the requested action was accepted by the target, returns the axuielementObject; if the requested action was rejected, returns false; otherwise returns nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The return value only suggests success or failure, but is not a guarantee.  The receiving application may have internal logic which prevents the action from occurring at this time for some reason, even though this method returns success (the axuielementObject).  Contrawise, the requested action may trigger a requirement for a response from the user and thus appear to time out, causing this method to return false or nil.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L503">extensions/axuielement/libaxuielement.m line 503</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="pid">
+            <a name="//apple_ref/cpp/Method/pid" class="dashAnchor"></a>
+            <h5><a href="#pid">pid</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:pid() -&gt; integer | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the process ID associated with the specified accessibility object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the process ID for the application to which the accessibility object ultimately belongs or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L478">extensions/axuielement/libaxuielement.m line 478</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setAttributeValue">
+            <a name="//apple_ref/cpp/Method/setAttributeValue" class="dashAnchor"></a>
+            <h5><a href="#setAttributeValue">setAttributeValue</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:setAttributeValue(attribute, value) -&gt; axuielementObject  | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets the accessibility object's attribute to the specified value.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>attribute</code> - the name of the attribute, as specified by <a href="#attributeNames">hs.axuielement:attributeNames</a>.</li>
+<li><code>value</code>     - the value to assign to the attribute</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the axuielementObject on success; nil and an error string if the attribute could not be set or an accessibility error occurred.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L617">extensions/axuielement/libaxuielement.m line 617</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setTimeout">
+            <a name="//apple_ref/cpp/Method/setTimeout" class="dashAnchor"></a>
+            <h5><a href="#setTimeout">setTimeout</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.axuielement:setTimeout(value) -&gt; axuielementObject | nil, errString</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets the timeout value used accessibility queries performed from this element.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>value</code> - the number of seconds for the new timeout value. Must be 0 or positive.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the axuielementObject or nil and an error string if an accessibility error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>To change the global timeout affecting all queries on elements which do not have a specific timeout set, use this method on the systemwide element (see <a href="#systemWideElement">hs.axuielement.systemWideElement</a>.</li>
+<li>Changing the timeout value for an axuielement object only changes the value for that specific element -- other axuieleement objects that may refer to the identical accessibility item are not affected.</li>
+<li>Setting the value to 0.0 resets the timeout -- if applied to the <code>systemWideElement</code>, the global default will be reset to its default value; if applied to another axuielement object, the timeout will be reset to the current global value as applied to the systemWideElement.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/axuielement/libaxuielement.m#L710">extensions/axuielement/libaxuielement.m line 710</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

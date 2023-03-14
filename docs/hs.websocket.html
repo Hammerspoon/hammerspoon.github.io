@@ -69,16 +69,20 @@
                   <th>Notes</th>
                   <td><ul>
 <li>The callback should accept two parameters.</li>
-<li>The first parameter is a string with the following possible options:</li>
+<li>The first parameter is a string with the following possible options:<ul>
 <li>open - The websocket connection has been opened</li>
 <li>closed - The websocket connection has been closed</li>
 <li>fail - The websocket connection has failed</li>
 <li>received - The websocket has received a message</li>
 <li>pong - A pong request has been received</li>
+</ul>
+</li>
 <li>The second parameter is a string with the received message or an error message.</li>
-<li>Given a path '/mysock' and a port of 8000, the websocket URL is as follows:</li>
+<li>Given a path '/mysock' and a port of 8000, the websocket URL is as follows:<ul>
 <li>ws://localhost:8000/mysock</li>
 <li>wss://localhost:8000/mysock (if SSL enabled)</li>
+</ul>
+</li>
 </ul>
 </td>
               </tr>

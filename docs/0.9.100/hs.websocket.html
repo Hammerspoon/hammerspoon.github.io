@@ -1,0 +1,224 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.websocket</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.websocket</h1>
+      <p>Simple websocket client.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#close">close</a></li>
+            <li><a href="#send">send</a></li>
+            <li><a href="#status">status</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Function/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.websocket.new(url, callback) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new websocket connection.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>url - The URL to the websocket</li>
+<li>callback - A function that's triggered by websocket actions.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.websocket</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The callback should accept two parameters.</li>
+<li>The first parameter is a string with the following possible options:<ul>
+<li>open - The websocket connection has been opened</li>
+<li>closed - The websocket connection has been closed</li>
+<li>fail - The websocket connection has failed</li>
+<li>received - The websocket has received a message</li>
+<li>pong - A pong request has been received</li>
+</ul>
+</li>
+<li>The second parameter is a string with the received message or an error message.</li>
+<li>Given a path '/mysock' and a port of 8000, the websocket URL is as follows:<ul>
+<li>ws://localhost:8000/mysock</li>
+<li>wss://localhost:8000/mysock (if SSL enabled)</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/websocket/libwebsocket.m#L120">extensions/websocket/libwebsocket.m line 120</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="close">
+            <a name="//apple_ref/cpp/Method/close" class="dashAnchor"></a>
+            <h5><a href="#close">close</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.websocket:close() -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Closes a websocket connection.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.websocket</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/websocket/libwebsocket.m#L230">extensions/websocket/libwebsocket.m line 230</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="send">
+            <a name="//apple_ref/cpp/Method/send" class="dashAnchor"></a>
+            <h5><a href="#send">send</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.websocket:send(message[, isData]) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sends a message to the websocket client.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>message - A string containing the message to send.</li>
+<li>isData - An optional boolean that sends the message as binary data (defaults to true).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The <code>hs.websocket</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Forcing a text representation by setting isData to <code>false</code> may alter the data if it</li>
+</ul>
+<p>contains invalid UTF8 character sequences (the default string behavior is to make
+  sure everything is &quot;printable&quot; by converting invalid sequences into the Unicode
+  Invalid Character sequence).</p>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/websocket/libwebsocket.m#L164">extensions/websocket/libwebsocket.m line 164</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="status">
+            <a name="//apple_ref/cpp/Method/status" class="dashAnchor"></a>
+            <h5><a href="#status">status</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.websocket:status() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the status of a websocket.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing one of the following options:</li>
+<li>connecting</li>
+<li>open</li>
+<li>closing</li>
+<li>closed</li>
+<li>unknown</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/websocket/libwebsocket.m#L194">extensions/websocket/libwebsocket.m line 194</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

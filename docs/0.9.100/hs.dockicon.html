@@ -1,0 +1,356 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.dockicon</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.dockicon</h1>
+      <p>Control Hammerspoon's dock icon</p>
+<p>This module is based primarily on code from the previous incarnation of Mjolnir by <a href="https://github.com/sdegutis/">Steven Degutis</a>.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#bounce">bounce</a></li>
+            <li><a href="#hide">hide</a></li>
+            <li><a href="#setBadge">setBadge</a></li>
+            <li><a href="#show">show</a></li>
+            <li><a href="#tileCanvas">tileCanvas</a></li>
+            <li><a href="#tileSize">tileSize</a></li>
+            <li><a href="#tileUpdate">tileUpdate</a></li>
+            <li><a href="#visible">visible</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="bounce">
+            <a name="//apple_ref/cpp/Function/bounce" class="dashAnchor"></a>
+            <h5><a href="#bounce">bounce</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dockicon.bounce(indefinitely)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Bounce Hammerspoon's dock icon</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>indefinitely - A boolean value, true if the dock icon should bounce until the dock icon is clicked, false if the dock icon should only bounce briefly</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dockicon/libdockicon.m#L50">extensions/dockicon/libdockicon.m line 50</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="hide">
+            <a name="//apple_ref/cpp/Function/hide" class="dashAnchor"></a>
+            <h5><a href="#hide">hide</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dockicon.hide()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Hide Hammerspoon's dock icon</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dockicon/libdockicon.m#L36">extensions/dockicon/libdockicon.m line 36</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setBadge">
+            <a name="//apple_ref/cpp/Function/setBadge" class="dashAnchor"></a>
+            <h5><a href="#setBadge">setBadge</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dockicon.setBadge(badge)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Set Hammerspoon's dock icon badge</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>badge - A string containing the label to place inside the dock icon badge. If the string is empty, the badge will be cleared</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dockicon/libdockicon.m#L64">extensions/dockicon/libdockicon.m line 64</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="show">
+            <a name="//apple_ref/cpp/Function/show" class="dashAnchor"></a>
+            <h5><a href="#show">show</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dockicon.show()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Make Hammerspoon's dock icon visible</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dockicon/libdockicon.m#L22">extensions/dockicon/libdockicon.m line 22</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="tileCanvas">
+            <a name="//apple_ref/cpp/Function/tileCanvas" class="dashAnchor"></a>
+            <h5><a href="#tileCanvas">tileCanvas</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dockicon.tileCanvas([canvas]) -&gt; canvasObject | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set a canvas object to be displayed as the Hammerspoon dock icon</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>canvas</code> - an optional <code>hs.canvas</code> object specifying the canvas to be displayed as the dock icon for Hammerspoon. If an explicit <code>nil</code> is specified, the dock icon will revert to the Hammerspoon application icon.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If the dock icon is assigned a canvas object, that canvas object will be returned, otherwise returns nil.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If you update the canvas object by changing any of its components, it will not be reflected in the dock icon until you invoke <a href="#tileUpdate">hs.dockicon.tileUpdate</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dockicon/libdockicon.m#L83">extensions/dockicon/libdockicon.m line 83</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="tileSize">
+            <a name="//apple_ref/cpp/Function/tileSize" class="dashAnchor"></a>
+            <h5><a href="#tileSize">tileSize</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dockicon.tileSize() -&gt; size table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a table containing the size of the tile representing the dock icon.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a table containing the size of the tile representing the dock icon for Hammerspoon. This table will contain <code>h</code> and <code>w</code> keys specifying the tile height and width as numbers.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>the size returned specifies the display size of the dock icon tile. If your canvas item is larger than this, then only the top left portion corresponding to the size returned will be displayed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dockicon/libdockicon.m#L118">extensions/dockicon/libdockicon.m line 118</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="tileUpdate">
+            <a name="//apple_ref/cpp/Function/tileUpdate" class="dashAnchor"></a>
+            <h5><a href="#tileUpdate">tileUpdate</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dockicon.tileUpdate() -&gt; none</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Force an update of the dock icon.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Changes made to a canvas object are not reflected automatically like they are when a canvas is being displayed on the screen; you must invoke this method after making changes to the canvas for the updates to be reflected in the dock icon.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dockicon/libdockicon.m#L139">extensions/dockicon/libdockicon.m line 139</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="visible">
+            <a name="//apple_ref/cpp/Function/visible" class="dashAnchor"></a>
+            <h5><a href="#visible">visible</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.dockicon.visible() -&gt; bool</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Determine whether Hammerspoon's dock icon is visible</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A boolean, true if the dock icon is visible, false if not</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/dockicon/libdockicon.m#L7">extensions/dockicon/libdockicon.m line 7</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

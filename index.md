@@ -22,6 +22,8 @@ Typically you would write a configuration file in Lua that connects events to ac
 
 [Download the latest release](https://github.com/Hammerspoon/hammerspoon/releases/latest) and then drag the application to `/Applications/`.
 
+If you are using an older Mac which is not running a recent version of macOS, please consult our [Release Notes](/releasenotes) for a version which is compatible with your system.
+
 ## How do I use it?
 
 Out of the box, Hammerspoon does nothing. You will need to create a Lua script in  `~/.hammerspoon/init.lua` using our APIs and standard Lua APIs.

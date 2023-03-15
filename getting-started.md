@@ -467,7 +467,7 @@ if caffeine then
 end
 ```
 
-This code snippet will create a menubar item that displays either the text `SLEEPY` if your machine is allowed to go to sleep when you're not using it, or `AWAKE` if it will refuse to sleep. The `hs.caffeine` extension provides the ability to prevent the display from sleeping, but `hs.menubar` is providing the menubar item.
+This code snippet will create a menubar item that displays either the text `SLEEPY` if your machine is allowed to go to sleep when you're not using it, or `AWAKE` if it will refuse to sleep. The `hs.caffeinate` extension provides the ability to prevent the display from sleeping, but `hs.menubar` is providing the menubar item.
 
 In this case we create the menubar item and connect a callback (in this case `caffeineClicked()`) to click events on the menubar item. You can also use icons instead of text, by placing small image files in `~/.hammerspoon/` and using the `:setIcon()` method on your menubar object. See the full API docs for `hs.menubar` for more information about this.
 

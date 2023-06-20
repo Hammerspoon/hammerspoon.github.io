@@ -40,9 +40,7 @@ Bugs found on http://www.hammerspoon.org/ can be reported on [GitHub](https://gi
 
 ## Where can I get help?
 
-You can usually get a quick answer in our IRC channel, #hammerspoon on [Libera](https://libera.chat).
-
-We have a Google Group mailing list [here](https://groups.google.com/forum/#!forum/hammerspoon/)
+We have a Discord server to chat about Hammerspoon. [Click here to join](https://discord.gg/vxchqkRbkR)
 
 If you find a bug, or have a suggestion, you can also file an issue on the [issue tracker](https://github.com/Hammerspoon/hammerspoon/issues).
 

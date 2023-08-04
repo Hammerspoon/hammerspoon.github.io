@@ -97,7 +97,6 @@ Installing a Spoon doesn't mean it's going to run by default, so we'll now add s
 
 ```lua
 hs.loadSpoon("AClock")
-spoon.AClock:init()
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C", function()
   spoon.AClock:toggleShow()
 end)

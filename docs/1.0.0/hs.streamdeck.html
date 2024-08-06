@@ -1,0 +1,699 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.streamdeck</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.streamdeck</h1>
+      <p>Configure/control an Elgato Stream Deck.</p>
+<p>Please note that in order for this module to work, the official Elgato Stream Deck app should not be running.</p>
+<p>This extension supports the following devices:</p>
+<ul>
+<li>Stream Deck (Original)</li>
+<li>Stream Deck (Original V2)</li>
+<li>Stream Deck Plus</li>
+<li>Stream Deck Mini</li>
+<li>Stream Deck Mini (V2)</li>
+<li>Stream Deck XL</li>
+<li>Stream Deck XL (Mk2)</li>
+<li>Stream Deck Pedal</li>
+</ul>
+<p>This module would not have been possible without standing on the shoulders of others:</p>
+<ul>
+<li>https://github.com/OpenStreamDeck/StreamDeckSharp</li>
+<li>https://github.com/Lange/node-elgato-stream-deck</li>
+<li>Hopper</li>
+</ul>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#discoveryCallback">discoveryCallback</a></li>
+            <li><a href="#getDevice">getDevice</a></li>
+            <li><a href="#init">init</a></li>
+            <li><a href="#numDevices">numDevices</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#buttonCallback">buttonCallback</a></li>
+            <li><a href="#buttonLayout">buttonLayout</a></li>
+            <li><a href="#encoderCallback">encoderCallback</a></li>
+            <li><a href="#firmwareVersion">firmwareVersion</a></li>
+            <li><a href="#imageSize">imageSize</a></li>
+            <li><a href="#reset">reset</a></li>
+            <li><a href="#screenCallback">screenCallback</a></li>
+            <li><a href="#serialNumber">serialNumber</a></li>
+            <li><a href="#setBrightness">setBrightness</a></li>
+            <li><a href="#setButtonColor">setButtonColor</a></li>
+            <li><a href="#setButtonImage">setButtonImage</a></li>
+            <li><a href="#setScreenImage">setScreenImage</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="discoveryCallback">
+            <a name="//apple_ref/cpp/Function/discoveryCallback" class="dashAnchor"></a>
+            <h5><a href="#discoveryCallback">discoveryCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck.discoveryCallback(fn)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets/clears a callback for reacting to device discovery events</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - A function that will be called when a Stream Deck is connected or disconnected. It should take the following arguments:<ul>
+<li>A boolean, true if a device was connected, false if a device was disconnected</li>
+<li>An hs.streamdeck object, being the device that was connected/disconnected</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L51">extensions/streamdeck/libstreamdeck.m line 51</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="getDevice">
+            <a name="//apple_ref/cpp/Function/getDevice" class="dashAnchor"></a>
+            <h5><a href="#getDevice">getDevice</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck.getDevice(num)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets an hs.streamdeck object for the specified device</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>num - A number that should be within the bounds of the number of connected devices</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An hs.streamdeck object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L92">extensions/streamdeck/libstreamdeck.m line 92</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="init">
+            <a name="//apple_ref/cpp/Function/init" class="dashAnchor"></a>
+            <h5><a href="#init">init</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck.init(fn)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Initialises the Stream Deck driver and sets a discovery callback</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - A function that will be called when a Stream Deck is connected or disconnected. It should take the following arguments:<ul>
+<li>A boolean, true if a device was connected, false if a device was disconnected</li>
+<li>An hs.streamdeck object, being the device that was connected/disconnected</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function must be called before any other parts of this module are used</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L25">extensions/streamdeck/libstreamdeck.m line 25</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="numDevices">
+            <a name="//apple_ref/cpp/Function/numDevices" class="dashAnchor"></a>
+            <h5><a href="#numDevices">numDevices</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck.numDevices()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the number of Stream Deck devices connected</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A number containing the number of Stream Deck devices attached to the system</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L75">extensions/streamdeck/libstreamdeck.m line 75</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="buttonCallback">
+            <a name="//apple_ref/cpp/Method/buttonCallback" class="dashAnchor"></a>
+            <h5><a href="#buttonCallback">buttonCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:buttonCallback(fn)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets/clears the button callback function for a Stream Deck device</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - A function to be called when a button is pressed/released on the stream deck. It should receive three arguments:<ul>
+<li>The hs.streamdeck userdata object</li>
+<li>A number containing the button that was pressed/released</li>
+<li>A boolean indicating whether the button was pressed (true) or released (false)</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The hs.streamdeck device</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L109">extensions/streamdeck/libstreamdeck.m line 109</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="buttonLayout">
+            <a name="//apple_ref/cpp/Method/buttonLayout" class="dashAnchor"></a>
+            <h5><a href="#buttonLayout">buttonLayout</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:buttonLayout()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the layout of buttons a Stream Deck device has</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The number of columns</li>
+<li>The number of rows</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L274">extensions/streamdeck/libstreamdeck.m line 274</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="encoderCallback">
+            <a name="//apple_ref/cpp/Method/encoderCallback" class="dashAnchor"></a>
+            <h5><a href="#encoderCallback">encoderCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:encoderCallback(fn)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets/clears the knob/encoder callback function for a Stream Deck Plus.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - A function to be called when an encoder button is pressed/released/rotated on a Stream Deck Plus. It should receive five arguments:<ul>
+<li>The hs.streamdeck userdata object</li>
+<li>A number containing the button that was pressed/released/rotated</li>
+<li>A boolean indicating whether the button was pressed (true) or released (false)</li>
+<li>A boolean indicating that the button was turned left</li>
+<li>A boolean indicating that the button was turned right</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The hs.streamdeck device</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L136">extensions/streamdeck/libstreamdeck.m line 136</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="firmwareVersion">
+            <a name="//apple_ref/cpp/Method/firmwareVersion" class="dashAnchor"></a>
+            <h5><a href="#firmwareVersion">firmwareVersion</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:firmwareVersion()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the firmware version of a Stream Deck device</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the firmware version of the deck</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L255">extensions/streamdeck/libstreamdeck.m line 255</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="imageSize">
+            <a name="//apple_ref/cpp/Method/imageSize" class="dashAnchor"></a>
+            <h5><a href="#imageSize">imageSize</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:imageSize()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the width and height of the buttons in pixels</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An table with keys <code>w</code> and <code>h</code> containing the width and height, respectively, of images expected by the Stream Deck</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L295">extensions/streamdeck/libstreamdeck.m line 295</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="reset">
+            <a name="//apple_ref/cpp/Method/reset" class="dashAnchor"></a>
+            <h5><a href="#reset">reset</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:reset()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Resets a Stream Deck device</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The hs.streamdeck object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L216">extensions/streamdeck/libstreamdeck.m line 216</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="screenCallback">
+            <a name="//apple_ref/cpp/Method/screenCallback" class="dashAnchor"></a>
+            <h5><a href="#screenCallback">screenCallback</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:screenCallback(fn)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets/clears the screen callback function for a Stream Deck Plus's touch screen (above the encoder knobs).</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fn - A function to be called when a screen is pressed/released/swiped on a Stream Deck Plus. It should receive six arguments:<ul>
+<li>The hs.streamdeck userdata object</li>
+<li>A string either containing &quot;shortPress&quot;, &quot;longPress&quot; or &quot;swipe&quot;</li>
+<li>The X position of where the screen was first touched</li>
+<li>The Y position of where the screen was first touched</li>
+<li>The X position of where the screen was last touched (if swiping)</li>
+<li>The Y position of where the screen was last touched (if swiping)</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The hs.streamdeck device</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L165">extensions/streamdeck/libstreamdeck.m line 165</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="serialNumber">
+            <a name="//apple_ref/cpp/Method/serialNumber" class="dashAnchor"></a>
+            <h5><a href="#serialNumber">serialNumber</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:serialNumber()</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the serial number of a Stream Deck device</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string containing the serial number of the deck</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L236">extensions/streamdeck/libstreamdeck.m line 236</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setBrightness">
+            <a name="//apple_ref/cpp/Method/setBrightness" class="dashAnchor"></a>
+            <h5><a href="#setBrightness">setBrightness</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:setBrightness(brightness)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets the brightness of a Stream Deck device</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>brightness - A whole number between 0 and 100 indicating the percentage brightness level to set</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The hs.streamdeck device</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L195">extensions/streamdeck/libstreamdeck.m line 195</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setButtonColor">
+            <a name="//apple_ref/cpp/Method/setButtonColor" class="dashAnchor"></a>
+            <h5><a href="#setButtonColor">setButtonColor</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:setButtonColor(button, color)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets a button on the Stream Deck device to the specified color</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>button - A number (from 1 to 15) describing which button to set the color on</li>
+<li>color - An hs.drawing.color object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The hs.streamdeck object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L359">extensions/streamdeck/libstreamdeck.m line 359</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setButtonImage">
+            <a name="//apple_ref/cpp/Method/setButtonImage" class="dashAnchor"></a>
+            <h5><a href="#setButtonImage">setButtonImage</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:setButtonImage(button, image)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets the image of a button on the Stream Deck device</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>button - A number (from 1 to 15) describing which button to set the image for</li>
+<li>image - An hs.image object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The hs.streamdeck object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L315">extensions/streamdeck/libstreamdeck.m line 315</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setScreenImage">
+            <a name="//apple_ref/cpp/Method/setScreenImage" class="dashAnchor"></a>
+            <h5><a href="#setScreenImage">setScreenImage</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.streamdeck:setScreenImage(encoder, image)</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Sets the image of the screen on the Stream Deck device</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>encoder - A number (from 1 to 4) describing which encoder to set the image for</li>
+<li>image - An hs.image object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>The hs.streamdeck object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/streamdeck/libstreamdeck.m#L337">extensions/streamdeck/libstreamdeck.m line 337</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

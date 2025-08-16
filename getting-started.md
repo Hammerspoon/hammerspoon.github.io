@@ -53,7 +53,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
 
 All good programming tutorials start with a Hello World example of some kind, so we will use Hammerspoon's ability to bind keyboard hotkeys to demonstrate saying Hello World with a simple notification.
 
-In your `init.lua` place the following:
+In your `~/.hammerspoon/init.lua` place the following:
 
 ```lua
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()

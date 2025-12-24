@@ -1,0 +1,850 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.hash</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.hash</h1>
+      <p>This module provides various hashing algorithms for use within Hammerspoon.</p>
+<p>The currently supported hash types can be viewed by examining the <a href="#types">hs.hash.types</a> constant.</p>
+<p>In keeping with common hash library conventions to simplify the future addition of additional hash types, hash calculations in this module are handled in a three step manner, which is reflected in the constructor and methods defined for this module:</p>
+<ul>
+<li>First, the hash context is initialized. For this module, this occurs when you create a new hash object with <a href="#new">hs.hash.new(name, [secret])</a>.</li>
+<li>Second, data is &quot;input&quot; or appended to the hash with the <a href="#append">hs.hash:append(data)</a> method. This may be invoked one or more times for the hash object before finalizing it, and order <em>is</em> important: <code>hashObject:append(data1):append(data2)</code> is different than <code>hashObject:append(data2):append(data1)</code>.</li>
+<li>Finally, you finalize or finish the hash with <a href="#finish">hs.hash:finish()</a>, which generates the final hash value. You can then retrieve the hash value with <a href="#value">hs.hash:value()</a>.</li>
+</ul>
+<p>Most of the time, we only want to generate a hash value for a single data object; for this reason, meta-methods for this module allow you to use the following shortcut when computing a hash value:</p>
+<ul>
+<li><code>hs.hash.&lt;name&gt;(data)</code> will return the hexadecimal version of the hash for the hash type <code>&lt;name&gt;</code> where <code>&lt;name&gt;</code> is one of the entries in <a href="#types">hs.hash.types</a>. This is syntacticly identical to <code>hs.hash.new(&lt;name&gt;):append(data):finish():value()</code>.</li>
+<li><code>hs.hash.b&lt;name&gt;(data)</code> will return the binary version of the hash for the hash type '&lt;name&gt;'. This is syntacticly identical to <code>hs.hash.new(&lt;name&gt;):append(data):finish():value(true)</code>.</li>
+<li>In both cases above, if the hash name begins with <code>hmac</code>, the arguments should be <code>(secret, data)</code>, but otherwise act as described above. If additional shared key hash algorithms are added, this will be adjusted to continue to allow the shortcuts for the most common usage patterns.</li>
+</ul>
+<p>The SHA3 code is based on code from the https://github.com/rhash/RHash project.
+https://github.com/krzyzanowskim/CryptoSwift may also prove useful for future additions.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Deprecateds - API features which will be removed in an future release</li>
+          <ul>
+            <li><a href="#bMD5">bMD5</a></li>
+            <li><a href="#bSHA1">bSHA1</a></li>
+            <li><a href="#bSHA256">bSHA256</a></li>
+            <li><a href="#bSHA512">bSHA512</a></li>
+            <li><a href="#hmacMD5">hmacMD5</a></li>
+            <li><a href="#hmacSHA1">hmacSHA1</a></li>
+            <li><a href="#hmacSHA256">hmacSHA256</a></li>
+            <li><a href="#hmacSHA512">hmacSHA512</a></li>
+            <li><a href="#MD5">MD5</a></li>
+            <li><a href="#SHA1">SHA1</a></li>
+            <li><a href="#SHA256">SHA256</a></li>
+            <li><a href="#SHA512">SHA512</a></li>
+          </ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#types">types</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#convertBinaryHashToHex">convertBinaryHashToHex</a></li>
+            <li><a href="#convertHexHashToBinary">convertHexHashToBinary</a></li>
+            <li><a href="#forFile">forFile</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#new">new</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#append">append</a></li>
+            <li><a href="#appendFile">appendFile</a></li>
+            <li><a href="#finish">finish</a></li>
+            <li><a href="#type">type</a></li>
+            <li><a href="#value">value</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Deprecateds</h4>
+          <section id="bMD5">
+            <a name="//apple_ref/cpp/Deprecated/bMD5" class="dashAnchor"></a>
+            <h5><a href="#bMD5">bMD5</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.bMD5(data) -&gt; data</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates a binary MD5 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;MD5&quot;):append(data):finish():value(true)</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L119">extensions/hash/hash.lua line 119</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="bSHA1">
+            <a name="//apple_ref/cpp/Deprecated/bSHA1" class="dashAnchor"></a>
+            <h5><a href="#bSHA1">bSHA1</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.bSHA1(data) -&gt; data</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates a binary SHA1 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;SHA1&quot;):append(data):finish():value(true)</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L80">extensions/hash/hash.lua line 80</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="bSHA256">
+            <a name="//apple_ref/cpp/Deprecated/bSHA256" class="dashAnchor"></a>
+            <h5><a href="#bSHA256">bSHA256</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.bSHA256(data) -&gt; data</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates a binary SHA256 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;SHA256&quot;):append(data):finish():value(true)</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L93">extensions/hash/hash.lua line 93</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="bSHA512">
+            <a name="//apple_ref/cpp/Deprecated/bSHA512" class="dashAnchor"></a>
+            <h5><a href="#bSHA512">bSHA512</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.bSHA512(data) -&gt; data</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates a binary SHA512 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;SHA512&quot;):append(data):finish():value(true)</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L106">extensions/hash/hash.lua line 106</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="hmacMD5">
+            <a name="//apple_ref/cpp/Deprecated/hmacMD5" class="dashAnchor"></a>
+            <h5><a href="#hmacMD5">hmacMD5</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.hmacMD5(key, data) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates an HMAC using a key and an MD5 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;hmacMD5&quot;, key):append(data):finish():value()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L174">extensions/hash/hash.lua line 174</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="hmacSHA1">
+            <a name="//apple_ref/cpp/Deprecated/hmacSHA1" class="dashAnchor"></a>
+            <h5><a href="#hmacSHA1">hmacSHA1</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.hmacSHA1(key, data) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates an HMAC using a key and a SHA1 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;hmacSHA1&quot;, key):append(data):finish():value()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L132">extensions/hash/hash.lua line 132</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="hmacSHA256">
+            <a name="//apple_ref/cpp/Deprecated/hmacSHA256" class="dashAnchor"></a>
+            <h5><a href="#hmacSHA256">hmacSHA256</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.hmacSHA256(key, data) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates an HMAC using a key and a SHA256 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;hmacSHA256&quot;, key):append(data):finish():value()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L146">extensions/hash/hash.lua line 146</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="hmacSHA512">
+            <a name="//apple_ref/cpp/Deprecated/hmacSHA512" class="dashAnchor"></a>
+            <h5><a href="#hmacSHA512">hmacSHA512</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.hmacSHA512(key, data) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates an HMAC using a key and a SHA512 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;hmacSHA512&quot;, key):append(data):finish():value()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L160">extensions/hash/hash.lua line 160</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="MD5">
+            <a name="//apple_ref/cpp/Deprecated/MD5" class="dashAnchor"></a>
+            <h5><a href="#MD5">MD5</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.MD5(data) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates an MD5 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;MD5&quot;):append(data):finish():value()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L67">extensions/hash/hash.lua line 67</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="SHA1">
+            <a name="//apple_ref/cpp/Deprecated/SHA1" class="dashAnchor"></a>
+            <h5><a href="#SHA1">SHA1</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.SHA1(data) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates an SHA1 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;SHA1&quot;):append(data):finish():value()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L28">extensions/hash/hash.lua line 28</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="SHA256">
+            <a name="//apple_ref/cpp/Deprecated/SHA256" class="dashAnchor"></a>
+            <h5><a href="#SHA256">SHA256</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.SHA256(data) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates an SHA256 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;SHA256&quot;):append(data):finish():value()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L41">extensions/hash/hash.lua line 41</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="SHA512">
+            <a name="//apple_ref/cpp/Deprecated/SHA512" class="dashAnchor"></a>
+            <h5><a href="#SHA512">SHA512</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.SHA512(data) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Deprecated</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates an SHA512 hash</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this function is provided for backwards compatibility with a previous version of this module and is functionally equivalent to: <code>hs.hash.new(&quot;SHA512&quot;):append(data):finish():value()</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L54">extensions/hash/hash.lua line 54</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="types">
+            <a name="//apple_ref/cpp/Constant/types" class="dashAnchor"></a>
+            <h5><a href="#types">types</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.types</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>A tale containing the names of the hashing algorithms supported by this module.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><p>At present, this module supports the following hash functions:</p>
+<ul>
+<li><code>CRC32</code>      - Technically a checksum, not a hash, but often used for similar purposes, like verifying file integrity. Produces a 32bit value.</li>
+<li><code>MD5</code>        - A message digest algorithm producing a 128bit hash value. MD5 is no longer consider secure for cryptographic purposes, but is still widely used to verify file integrity and other non cryptographic uses.</li>
+<li><code>SHA1</code>       - A message digest algorithm producing a 160bit hash value. SHA-1 is no longer consider secure for cryptographic purposes, but is still widely used to verify file integrity and other non cryptographic uses.</li>
+<li><code>SHA256</code>     - A cryptographic hash function that produces a 256bit hash value. While there has been some research into attack vectors on the SHA-2 family of algorithms, this is still considered sufficiently secure for many cryptographic purposes and for data validation and verification.</li>
+<li><code>SHA512</code>     - A cryptographic hash function that produces a 512bit hash value. While there has been some research into attack vectors on the SHA-2 family of algorithms, this is still considered sufficiently secure for many cryptographic purposes and for data validation and verification.</li>
+<li><code>hmacMD5</code>    - Combines the MD5 hash algorithm with a hash-based message authentication code, or pre-shared secret.</li>
+<li><code>hmacSHA1</code>   - Combines the SHA1 hash algorithm with a hash-based message authentication code, or pre-shared secret.</li>
+<li><code>hmacSHA256</code> - Combines the SHA-2 256bit hash algorithm with a hash-based message authentication code, or pre-shared secret.</li>
+<li><code>hmacSHA512</code> - Combines the SHA-2 512bit hash algorithm with a hash-based message authentication code, or pre-shared secret.</li>
+<li><code>SHA3_224</code>   - A SHA3 based cryptographic hash function that produces a 224bit hash value. The SHA3 family of algorithms use a different process than that which is used in the MD5, SHA1 and SHA2 families of algorithms and is considered the most cryptographically secure at present, though at the cost of additional computational complexity.</li>
+<li><code>SHA3_256</code>   - A SHA3 based cryptographic hash function that produces a 256bit hash value. The SHA3 family of algorithms use a different process than that which is used in the MD5, SHA1 and SHA2 families of algorithms and is considered the most cryptographically secure at present, though at the cost of additional computational complexity.</li>
+<li><code>SHA3_384</code>   - A SHA3 based cryptographic hash function that produces a 384bit hash value. The SHA3 family of algorithms use a different process than that which is used in the MD5, SHA1 and SHA2 families of algorithms and is considered the most cryptographically secure at present, though at the cost of additional computational complexity.</li>
+<li><code>SHA3_512</code>   - A SHA3 based cryptographic hash function that produces a 512bit hash value. The SHA3 family of algorithms use a different process than that which is used in the MD5, SHA1 and SHA2 families of algorithms and is considered the most cryptographically secure at present, though at the cost of additional computational complexity.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L188">extensions/hash/hash.lua line 188</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="convertBinaryHashToHex">
+            <a name="//apple_ref/cpp/Function/convertBinaryHashToHex" class="dashAnchor"></a>
+            <h5><a href="#convertBinaryHashToHex">convertBinaryHashToHex</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.convertBinaryHashToHex(input) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Converts a string containing a binary hash value to its equivalent hexadecimal digits.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>input - a string containing the binary hash value you wish to convert into its equivalent hexadecimal digits.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the equivalent hash as a string of hexadecimal digits</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this is a convenience function for use when you already have a binary hash value that you wish to convert to its hexadecimal equivalent -- the value is not actually validated as the actual hash value for anything specific.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L231">extensions/hash/hash.lua line 231</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="convertHexHashToBinary">
+            <a name="//apple_ref/cpp/Function/convertHexHashToBinary" class="dashAnchor"></a>
+            <h5><a href="#convertHexHashToBinary">convertHexHashToBinary</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.convertHexHashToBinary(input) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Converts a string containing a hash value as a string of hexadecimal digits into its binary equivalent.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>input - a string containing the hash value you wish to convert into its binary equivalent. The string must be a sequence of hexadecimal digits with an even number of characters.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the equivalent binary hash</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this is a convenience function for use when you already have a hash value that you wish to convert to its binary equivalent. Beyond checking that the input string contains only hexadecimal digits and is an even length, the value is not actually validated as the actual hash value for anything specific.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L210">extensions/hash/hash.lua line 210</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="forFile">
+            <a name="//apple_ref/cpp/Function/forFile" class="dashAnchor"></a>
+            <h5><a href="#forFile">forFile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.forFile(hash, [secret], path) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Calculates the specified hash value for the file at the given path.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>hash</code>   - the name of the type of hash to calculate. This must be one of the string values found in the <a href="#types">hs.hash.types</a> constant.</li>
+<li><code>secret</code> - an optional string specifying the shared secret to prepare the hmac hash function with. For all other hash types this field is ignored. Leaving this parameter off when specifying an hmac hash function is equivalent to specifying an empty secret or a secret composed solely of null values.</li>
+<li><code>path</code>   - the path to the file to calculate the hash value for.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the hexadecimal version of the calculated hash for the specified file.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>this is a convenience function that performs the equivalent of <code>hs.new.hash(hash, [secret]):appendFile(path):finish():value()</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/hash.lua#L252">extensions/hash/hash.lua line 252</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="new">
+            <a name="//apple_ref/cpp/Constructor/new" class="dashAnchor"></a>
+            <h5><a href="#new">new</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash.new(hash, [secret]) -&gt; hashObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new context for the specified hash function.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>hash</code>    - a string specifying the name of the hash function to use. This must be one of the string values found in the <a href="#types">hs.hash.types</a> constant.</li>
+<li><code>secret</code>  - an optional string specifying the shared secret to prepare the hmac hash function with. For all other hash types this field is ignored. Leaving this parameter off when specifying an hmac hash function is equivalent to specifying an empty secret or a secret composed solely of null values.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the new hash object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L86">extensions/hash/libhash.m line 86</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="append">
+            <a name="//apple_ref/cpp/Method/append" class="dashAnchor"></a>
+            <h5><a href="#append">append</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash:append(data) -&gt; hashObject | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Adds the provided data to the input of the hash function currently in progress for the hashObject.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>data</code> - a string containing the data to add to the hash functions input.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hash object, or if the hash has already been calculated (finished), nil and an error string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L126">extensions/hash/libhash.m line 126</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="appendFile">
+            <a name="//apple_ref/cpp/Method/appendFile" class="dashAnchor"></a>
+            <h5><a href="#appendFile">appendFile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash:appendFile(path) -&gt; hashObject | nil, error</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Adds the contents of the file at the specified path to the input of the hash function currently in progress for the hashObject.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>path</code> - a string containing the path of the file to add to the hash functions input.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hash object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L154">extensions/hash/libhash.m line 154</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="finish">
+            <a name="//apple_ref/cpp/Method/finish" class="dashAnchor"></a>
+            <h5><a href="#finish">finish</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash:finish() -&gt; hashObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Finalizes the hash and computes the resulting value.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the hash object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>a hash that has been finished can no longer have data appended to it.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L190">extensions/hash/libhash.m line 190</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="type">
+            <a name="//apple_ref/cpp/Method/type" class="dashAnchor"></a>
+            <h5><a href="#type">type</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash:type() -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the name of the hash type the object refers to</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the hash type name.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L246">extensions/hash/libhash.m line 246</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="value">
+            <a name="//apple_ref/cpp/Method/value" class="dashAnchor"></a>
+            <h5><a href="#value">value</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.hash:value([binary]) -&gt; string | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the value of a completed hash, or nil if it is still in progress.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>binary</code> - an optional boolean, default false, specifying whether or not the value should be provided as raw binary bytes (true) or as a string of hexadecimal numbers (false).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a string containing the hash value or nil if the hash has not been finished.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/hash/libhash.m#L213">extensions/hash/libhash.m line 213</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

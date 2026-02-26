@@ -1,0 +1,508 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.doc.hsdocs</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.doc.hsdocs</h1>
+      <p>Manage the internal documentation web server.</p>
+<p>This module provides functions for managing the Hammerspoon built-in documentation web server.  Currently, this is the same documentation available in the Dash docset for Hammerspoon, but does not require third party software for viewing.</p>
+<p>Future enhancements to this module under consideration include:</p>
+<ul>
+<li>Support for third-party modules to add to the documentation set at run-time</li>
+<li>Markdown/HTML based tutorials and How-To examples</li>
+<li>Documentation for the LuaSkin Objective-C Framework</li>
+<li>Lua Reference documentation</li>
+</ul>
+<p>The intent of this sub-module is to provide as close a rendering of the same documentation available at the Hammerspoon GitHub site and Dash documentation as possible in a manner suitable for run-time modification so module developers can test out documentation additions without requiring a complete recompilation of the Hammerspoon source.  As always, the most current and official documentation can be found at https://www.hammerspoon.org and in the official Hammerspoon Dash docset.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#browserDarkMode">browserDarkMode</a></li>
+            <li><a href="#browserFrame">browserFrame</a></li>
+            <li><a href="#forceExternalBrowser">forceExternalBrowser</a></li>
+            <li><a href="#help">help</a></li>
+            <li><a href="#interface">interface</a></li>
+            <li><a href="#moduleEntitiesInSidebar">moduleEntitiesInSidebar</a></li>
+            <li><a href="#port">port</a></li>
+            <li><a href="#start">start</a></li>
+            <li><a href="#stop">stop</a></li>
+            <li><a href="#trackBrowserFrame">trackBrowserFrame</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="browserDarkMode">
+            <a name="//apple_ref/cpp/Function/browserDarkMode" class="dashAnchor"></a>
+            <h5><a href="#browserDarkMode">browserDarkMode</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.hsdocs.browserDarkMode([value]) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not the Hammerspoon browser renders output in Dark mode.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>value - an optional boolean, number, or nil specifying whether or not the documentation browser renders in Dark mode.<ul>
+<li>if value is <code>true</code>, then the HTML output will always be inverted</li>
+<li>if value is <code>false</code>, then the HTML output will never be inverted</li>
+<li>if value is <code>nil</code>, then the output will be inverted only when the OS X theme is set to Dark mode</li>
+<li>if the value is a number between 0 and 100, the number specifies the inversion ratio, where 0 means no inversion, 100 means full inversion, and 50 is completely unreadable because the foreground and background are equally adjusted.</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the current, possibly new, value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>Inversion is applied through the use of CSS filtering, so while numeric values other than 0 (false) and 100 (true) are allowed, the result is generally not what is desired.</p>
+</li>
+<li><p>Changes made with this function are saved with <code>hs.settings</code> with the label &quot;_documentationServer.invertDocs&quot; and will persist through a reload or restart of Hammerspoon.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/hsdocs/init.lua#L635">extensions/doc/hsdocs/init.lua line 635</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="browserFrame">
+            <a name="//apple_ref/cpp/Function/browserFrame" class="dashAnchor"></a>
+            <h5><a href="#browserFrame">browserFrame</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.hsdocs.browserFrame([frameTable]) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the currently saved initial frame location for the documentation browser.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>frameTable - a frame table containing x, y, h, and w values specifying the browser's initial position when Hammerspoon starts.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the current, possibly new, value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>If <a href="#trackBrowserFrame">hs.doc.hsdocs.trackBrowserFrame</a> is false or nil (the default), then you can use this function to specify the initial position of the documentation browser.</p>
+</li>
+<li><p>If <a href="#trackBrowserFrame">hs.doc.hsdocs.trackBrowserFrame</a> is true, then this any value set with this function will be overwritten whenever the browser window is moved or resized.</p>
+</li>
+<li><p>Changes made with this function are saved with <code>hs.settings</code> with the label &quot;_documentationServer.browserFrame&quot; and will persist through a reload or restart of Hammerspoon.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/hsdocs/init.lua#L567">extensions/doc/hsdocs/init.lua line 567</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="forceExternalBrowser">
+            <a name="//apple_ref/cpp/Function/forceExternalBrowser" class="dashAnchor"></a>
+            <h5><a href="#forceExternalBrowser">forceExternalBrowser</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.hsdocs.forceExternalBrowser([value]) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not <a href="#help">hs.doc.hsdocs.help</a> uses an external browser.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>value - an optional boolean or string, default false, specifying whether or not documentation requests will be displayed in an external browser or the internal one handled by <code>hs.webview</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the current, possibly new, value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>If this value is set to true, help requests invoked by <a href="#help">hs.doc.hsdocs.help</a> will be invoked by your system's default handler for the <code>http</code> scheme.</p>
+</li>
+<li><p>If this value is set to a string, the string specifies the bundle ID of an application which will be used to handle the url request for the documentation.  The string should match one of the items returned by <code>hs.urlevent.getAllHandlersForScheme(&quot;http&quot;)</code>.</p>
+</li>
+<li><p>This behavior is triggered automatically, regardless of this setting, if you are running with a version of OS X prior to 10.10, since <code>hs.webview</code> requires OS X 10.10 or later.</p>
+</li>
+<li><p>Changes made with this function are saved with <code>hs.settings</code> with the label &quot;_documentationServer.forceExternalBrowser&quot; and will persist through a reload or restart of Hammerspoon.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/hsdocs/init.lua#L663">extensions/doc/hsdocs/init.lua line 663</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="help">
+            <a name="//apple_ref/cpp/Function/help" class="dashAnchor"></a>
+            <h5><a href="#help">help</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.hsdocs.help([identifier]) -&gt; nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Display the documentation for the specified Hammerspoon function, or the Table of Contents for the Hammerspoon documentation in a built-in mini browser.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>an optional string specifying a Hammerspoon module, function, or method to display documentation for. If you leave out this parameter, the table of contents for the Hammerspoon built-in documentation is displayed instead.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/hsdocs/init.lua#L532">extensions/doc/hsdocs/init.lua line 532</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="interface">
+            <a name="//apple_ref/cpp/Function/interface" class="dashAnchor"></a>
+            <h5><a href="#interface">interface</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.hsdocs.interface([interface]) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the network interface that the Hammerspoon documentation web server will be served on</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>interface - an optional string, or nil, specifying the network interface the Hammerspoon documentation web server will be served on.  An explicit nil specifies that the web server should listen on all active interfaces for the machine.  Defaults to &quot;localhost&quot;.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the current, possibly new, value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>See <code>hs.httpserver.setInterface</code> for a description of valid values that can be specified as the <code>interface</code> argument to this function.</p>
+</li>
+<li><p>A change to the interface can only occur when the documentation server is not running. If the server is currently active when you call this function with an argument, the server will be temporarily stopped and then restarted after the interface has been changed.</p>
+</li>
+<li><p>Changes made with this function are saved with <code>hs.settings</code> with the label &quot;_documentationServer.interface&quot; and will persist through a reload or restart of Hammerspoon.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/hsdocs/init.lua#L409">extensions/doc/hsdocs/init.lua line 409</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="moduleEntitiesInSidebar">
+            <a name="//apple_ref/cpp/Function/moduleEntitiesInSidebar" class="dashAnchor"></a>
+            <h5><a href="#moduleEntitiesInSidebar">moduleEntitiesInSidebar</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.hsdocs.moduleEntitiesInSidebar([value]) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not a module's entity list is displayed as a column on the left of the rendered page.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>value - an optional boolean specifying whether or not a module's entity list is displayed inline in the documentation (false) or in a sidebar on the left (true).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the current, possibly new, value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>This is experimental and is disabled by default. It was inspired by a Userscript written by krasnovpro.  The original can be found at https://openuserjs.org/scripts/krasnovpro/hammerspoon.org_Documentation/source.</p>
+</li>
+<li><p>Changes made with this function are saved with <code>hs.settings</code> with the label &quot;_documentationServer.entitiesInSidebar&quot; and will persist through a reload or restart of Hammerspoon.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/hsdocs/init.lua#L613">extensions/doc/hsdocs/init.lua line 613</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="port">
+            <a name="//apple_ref/cpp/Function/port" class="dashAnchor"></a>
+            <h5><a href="#port">port</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.hsdocs.port([value]) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the Hammerspoon documentation server HTTP port.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>value - an optional number specifying the port for the Hammerspoon documentation web server</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the current, possibly new, value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>The default port number is 12345.</p>
+</li>
+<li><p>Changes made with this function are saved with <code>hs.settings</code> with the label &quot;_documentationServer.serverPort&quot; and will persist through a reload or restart of Hammerspoon.</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/hsdocs/init.lua#L453">extensions/doc/hsdocs/init.lua line 453</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="start">
+            <a name="//apple_ref/cpp/Function/start" class="dashAnchor"></a>
+            <h5><a href="#start">start</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.hsdocs.start() -&gt; <code>hs.doc.hsdocs</code></code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Start the Hammerspoon internal documentation web server.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the table representing the <code>hs.doc.hsdocs</code> module</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This function is automatically called, if necessary, when <a href="#help">hs.doc.hsdocs.help</a> is invoked.</li>
+<li>The documentation web server can be viewed from a web browser by visiting &quot;http://localhost:port&quot; where <code>port</code> is the port the server is running on, 12345 by default -- see <a href="#port">hs.doc.hsdocs.port</a>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/hsdocs/init.lua#L479">extensions/doc/hsdocs/init.lua line 479</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="stop">
+            <a name="//apple_ref/cpp/Function/stop" class="dashAnchor"></a>
+            <h5><a href="#stop">stop</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.hsdocs.stop() -&gt; <code>hs.doc.hsdocs</code></code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Stop the Hammerspoon internal documentation web server.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the table representing the <code>hs.doc.hsdocs</code> module</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/hsdocs/init.lua#L513">extensions/doc/hsdocs/init.lua line 513</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="trackBrowserFrame">
+            <a name="//apple_ref/cpp/Function/trackBrowserFrame" class="dashAnchor"></a>
+            <h5><a href="#trackBrowserFrame">trackBrowserFrame</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.doc.hsdocs.trackBrowserFrame([value]) -&gt; currentValue</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether or not changes in the documentation browsers location and size persist through launches of Hammerspoon.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>value - an optional boolean specifying whether or not the browsers location should be saved across launches of Hammerspoon.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the current, possibly new, value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Changes made with this function are saved with <code>hs.settings</code> with the label &quot;_documentationServer.trackBrowserFrameChanges&quot; and will persist through a reload or restart of Hammerspoon.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/doc/hsdocs/init.lua#L593">extensions/doc/hsdocs/init.lua line 593</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

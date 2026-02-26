@@ -1,0 +1,1037 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hammerspoon docs: hs.image</title>
+    <style type="text/css">
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      th { background-color: #DDDDDD; vertical-align: top; padding: 3px; }
+      td { width: 100%; background-color: #EEEEEE; vertical-align: top; padding: 3px; }
+      table { width: 100% ; border: 1px solid #0; text-align: left; }
+      section > table table td { width: 0; }
+    </style>
+    <link rel="stylesheet" href="docs.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="./index.html">docs</a> &raquo; hs.image</h1>
+      <p>A module for capturing and manipulating image objects from other modules for use with hs.drawing.</p>
+
+      </header>
+      <h3>API Overview</h3>
+      <ul>
+        <li>Constants - Useful values which cannot be changed</li>
+          <ul>
+            <li><a href="#additionalImageNames">additionalImageNames</a></li>
+            <li><a href="#systemImageNames">systemImageNames</a></li>
+          </ul>
+        <li>Functions - API calls offered directly by the extension</li>
+          <ul>
+            <li><a href="#getExifFromPath">getExifFromPath</a></li>
+          </ul>
+        <li>Constructors - API calls which return an object, typically one that offers API methods</li>
+          <ul>
+            <li><a href="#iconForFile">iconForFile</a></li>
+            <li><a href="#iconForFileType">iconForFileType</a></li>
+            <li><a href="#imageFromAppBundle">imageFromAppBundle</a></li>
+            <li><a href="#imageFromASCII">imageFromASCII</a></li>
+            <li><a href="#imageFromMediaFile">imageFromMediaFile</a></li>
+            <li><a href="#imageFromName">imageFromName</a></li>
+            <li><a href="#imageFromPath">imageFromPath</a></li>
+            <li><a href="#imageFromURL">imageFromURL</a></li>
+          </ul>
+        <li>Methods - API calls which can only be made on an object returned by a constructor</li>
+          <ul>
+            <li><a href="#bitmapRepresentation">bitmapRepresentation</a></li>
+            <li><a href="#colorAt">colorAt</a></li>
+            <li><a href="#copy">copy</a></li>
+            <li><a href="#croppedCopy">croppedCopy</a></li>
+            <li><a href="#encodeAsURLString">encodeAsURLString</a></li>
+            <li><a href="#name">name</a></li>
+            <li><a href="#saveToFile">saveToFile</a></li>
+            <li><a href="#setName">setName</a></li>
+            <li><a href="#setSize">setSize</a></li>
+            <li><a href="#size">size</a></li>
+            <li><a href="#template">template</a></li>
+            <li><a href="#toASCII">toASCII</a></li>
+          </ul>
+      </ul>
+      <h3>API Documentation</h3>
+        <h4 class="documentation-section">Constants</h4>
+          <section id="additionalImageNames">
+            <a name="//apple_ref/cpp/Constant/additionalImageNames" class="dashAnchor"></a>
+            <h5><a href="#additionalImageNames">additionalImageNames</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.additionalImageNames[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Table of arrays containing the names of additional internal system images which may also be available for use with <code>hs.drawing.image</code> and <a href="#imageFromName">hs.image.imageFromName</a>.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>The list of these images was pulled from a collection located in the repositories at https://github.com/hetima?tab=repositories.  As these image names are (for the most part) not formally listed in Apple's documentation or published APIs, their use cannot be guaranteed across all OS X versions.  If you identify any images which may be missing or could be added, please file an issue at https://github.com/Hammerspoon/hammerspoon.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L283">extensions/image/libimage.m line 283</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="systemImageNames">
+            <a name="//apple_ref/cpp/Constant/systemImageNames" class="dashAnchor"></a>
+            <h5><a href="#systemImageNames">systemImageNames</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.systemImageNames[]</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constant</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Table containing the names of internal system images for use with hs.drawing.image</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Image names pulled from NSImage.h</li>
+<li>This table has a __tostring() metamethod which allows listing it's contents in the Hammerspoon console by typing <code>hs.image.systemImageNames</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L131">extensions/image/libimage.m line 131</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Functions</h4>
+          <section id="getExifFromPath">
+            <a name="//apple_ref/cpp/Function/getExifFromPath" class="dashAnchor"></a>
+            <h5><a href="#getExifFromPath">getExifFromPath</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.getExifFromPath(path) -&gt; table | nil</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Function</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Gets the EXIF metadata information from an image file.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - The path to the image file.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A table of EXIF metadata, or <code>nil</code> if no metadata can be found or the file path is invalid.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L759">extensions/image/libimage.m line 759</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Constructors</h4>
+          <section id="iconForFile">
+            <a name="//apple_ref/cpp/Constructor/iconForFile" class="dashAnchor"></a>
+            <h5><a href="#iconForFile">iconForFile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.iconForFile(file) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates an <code>hs.image</code> object for the file or files specified</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>file - the path to a file or an array of files to generate an icon for.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.image</code> object or nil, if there was an error.  The image will be the icon for the specified file or an icon representing multiple files if an array of multiple files is specified.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1097">extensions/image/libimage.m line 1097</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="iconForFileType">
+            <a name="//apple_ref/cpp/Constructor/iconForFileType" class="dashAnchor"></a>
+            <h5><a href="#iconForFileType">iconForFileType</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.iconForFileType(fileType) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates an <code>hs.image</code> object of the icon for the specified file type.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>fileType - the file type, specified as a filename extension or a universal type identifier (UTI).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.image</code> object or nil, if there was an error</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1132">extensions/image/libimage.m line 1132</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="imageFromAppBundle">
+            <a name="//apple_ref/cpp/Constructor/imageFromAppBundle" class="dashAnchor"></a>
+            <h5><a href="#imageFromAppBundle">imageFromAppBundle</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.imageFromAppBundle(bundleID) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates an <code>hs.image</code> object using the icon from an App</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>bundleID - A string containing the bundle identifier of an application</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.image</code> object or nil, if no app icon was found</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1068">extensions/image/libimage.m line 1068</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="imageFromASCII">
+            <a name="//apple_ref/cpp/Constructor/imageFromASCII" class="dashAnchor"></a>
+            <h5><a href="#imageFromASCII">imageFromASCII</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.imageFromASCII(ascii[, context]) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates an image from an ASCII representation with the specified context.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>ascii - A string containing a representation of an image</li>
+<li>context - An optional table containing the context for each shape in the image.  A shape is considered a single drawing element (point, ellipse, line, or polygon) as defined at https://github.com/cparnot/ASCIImage and http://cocoamine.net/blog/2015/03/20/replacing-photoshop-with-nsstring/.<ul>
+<li>The context table is an optional (possibly sparse) array in which the index represents the order in which the shapes are defined.  The last (highest) numbered index in the sparse array specifies the default settings for any unspecified index and any settings which are not explicitly set in any other given index.</li>
+<li>Each index consists of a table which can contain one or more of the following keys: * fillColor - the color with which the shape will be filled (defaults to black)  Color is defined in a table containing color component values between 0.0 and 1.0 for each of the keys: * red (default 0.0) * green (default 0.0) * blue (default 0.0) * alpha (default 1.0) * strokeColor - the color with which the shape will be stroked (defaults to black) * lineWidth - the line width (number) for the stroke of the shape (defaults to 1 if anti-aliasing is on or (√2)/2 if it is off -- approximately 0.7) * shouldClose - a boolean indicating whether or not the shape should be closed (defaults to true) * antialias - a boolean indicating whether or not the shape should be antialiased (defaults to true)</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.image</code> object, or nil if an error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>To use the ASCII diagram image support, see https://github.com/cparnot/ASCIImage and http://cocoamine.net/blog/2015/03/20/replacing-photoshop-with-nsstring</li>
+<li>The default for lineWidth, when antialiasing is off, is defined within the ASCIImage library. Geometrically it represents one half of the hypotenuse of the unit right-triangle and is a more accurate representation of a &quot;real&quot; point size when dealing with arbitrary angles and lines than 1.0 would be.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L838">extensions/image/libimage.m line 838</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="imageFromMediaFile">
+            <a name="//apple_ref/cpp/Constructor/imageFromMediaFile" class="dashAnchor"></a>
+            <h5><a href="#imageFromMediaFile">imageFromMediaFile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.imageFromMediaFile(file) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates an <code>hs.image</code> object from a video file or the album artwork of an audio file or directory</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>file - A string containing the path to an audio or video file or an album directory</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.image</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If a thumbnail can be generated for a video file, it is returned as an <code>hs.image</code> object, otherwise the filetype icon</li>
+<li>For audio files, this function first determines the containing directory (if not already a directory)</li>
+<li>It checks if any of the following common filenames for album art are present:</li>
+<li>cover.jpg</li>
+<li>front.jpg</li>
+<li>art.jpg</li>
+<li>album.jpg</li>
+<li>folder.jpg</li>
+<li>If one of the common album art filenames is found, it is returned as an <code>hs.image</code> object</li>
+<li>This is faster than extracting image metadata and allows for obtaining artwork associated with file formats such as .flac/.ogg</li>
+<li>If no common album art filenames are found, it attempts to extract image metadata from the file. This works for .mp3/.m4a files</li>
+<li>If embedded image metadata is found, it is returned as an <code>hs.image</code> object, otherwise the filetype icon</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1154">extensions/image/libimage.m line 1154</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="imageFromName">
+            <a name="//apple_ref/cpp/Constructor/imageFromName" class="dashAnchor"></a>
+            <h5><a href="#imageFromName">imageFromName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.imageFromName(string) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns the hs.image object for the specified name, if it exists.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>Name - the name of the image to return.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An hs.image object or nil, if no image was found with the specified name.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Some predefined labels corresponding to OS X System default images can be found in <code>hs.image.systemImageNames</code>.</li>
+<li>Names are not required to be unique: The search order is as follows, and the first match found is returned:<ul>
+<li>an image whose name was explicitly set with the <code>setName</code> method since the last full restart of Hammerspoon</li>
+<li>Hammerspoon's main application bundle</li>
+<li>the Application Kit framework (this is where most of the images listed in <code>hs.image.systemImageNames</code> are located)</li>
+</ul>
+</li>
+<li>Image names can be assigned by the image creator or by calling the <code>hs.image:setName</code> method on an hs.image object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L986">extensions/image/libimage.m line 986</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="imageFromPath">
+            <a name="//apple_ref/cpp/Constructor/imageFromPath" class="dashAnchor"></a>
+            <h5><a href="#imageFromPath">imageFromPath</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.imageFromPath(path) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Loads an image file</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>path - A string containing the path to an image file on disk</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.image</code> object, or nil if an error occurred</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L811">extensions/image/libimage.m line 811</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="imageFromURL">
+            <a name="//apple_ref/cpp/Constructor/imageFromURL" class="dashAnchor"></a>
+            <h5><a href="#imageFromURL">imageFromURL</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image.imageFromURL(url[, callbackFn]) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Constructor</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates an <code>hs.image</code> object from the contents of the specified URL.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>url - a web url specifying the location of the image to retrieve</li>
+<li>callbackFn - an optional callback function to be called when the image fetching is complete</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>An <code>hs.image</code> object or nil, if the url does not specify image contents or is unreachable, or if a callback function is supplied</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>If a callback function is supplied, this function will return nil immediately and the image will be fetched asynchronously</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1016">extensions/image/libimage.m line 1016</a></td>
+              </tr>
+            </table>
+          </section>
+        <h4 class="documentation-section">Methods</h4>
+          <section id="bitmapRepresentation">
+            <a name="//apple_ref/cpp/Method/bitmapRepresentation" class="dashAnchor"></a>
+            <h5><a href="#bitmapRepresentation">bitmapRepresentation</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:bitmapRepresentation([size], [gray]) -&gt; imageObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Creates a new bitmap representation of the image and returns it as a new hs.image object</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>size</code> - an optional table specifying the height and width the image should be scaled to in the bitmap. The size is specified as table with <code>h</code> and <code>w</code> keys set. Defaults to the size of the source image object.</li>
+<li><code>gray</code> - an optional boolean, default false, specifying whether or not the bitmap should be converted to grayscale (true) or left as RGB color (false).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new hs.image object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li><p>a bitmap representation of an image is rendered at the specific size specified (or inherited) when it is generated -- if you later scale it to a different size, the bitmap will be scaled as larger or smaller pixels rather than smoothly.</p>
+</li>
+<li><p>this method may be useful when preparing images for other devices (e.g. <code>hs.streamdeck</code>).</p>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1662">extensions/image/libimage.m line 1662</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="colorAt">
+            <a name="//apple_ref/cpp/Method/colorAt" class="dashAnchor"></a>
+            <h5><a href="#colorAt">colorAt</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:colorAt(point) -&gt; table</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Reads the color of the pixel at the specified location.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>point</code> - a <code>hs.geometry.point</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A <code>hs.drawing.color</code> object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1315">extensions/image/libimage.m line 1315</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="copy">
+            <a name="//apple_ref/cpp/Method/copy" class="dashAnchor"></a>
+            <h5><a href="#copy">copy</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:copy() -&gt; imageObject</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a copy of the image</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>None</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a new hs.image object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1613">extensions/image/libimage.m line 1613</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="croppedCopy">
+            <a name="//apple_ref/cpp/Method/croppedCopy" class="dashAnchor"></a>
+            <h5><a href="#croppedCopy">croppedCopy</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:croppedCopy(rectangle) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a copy of the portion of the image specified by the rectangle specified.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>rectangle - a table with 'x', 'y', 'h', and 'w' keys specifying the portion of the image to return in the new image.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a copy of the portion of the image specified</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1347">extensions/image/libimage.m line 1347</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="encodeAsURLString">
+            <a name="//apple_ref/cpp/Method/encodeAsURLString" class="dashAnchor"></a>
+            <h5><a href="#encodeAsURLString">encodeAsURLString</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:encodeAsURLString([scale], [type]) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a bitmap representation of the image as a base64 encoded URL string</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>scale - an optional boolean, default false, which indicates that the image size (which macOS represents as points) should be scaled to pixels.  For images that have Retina scale representations, this may result in an encoded image which is scaled down from the original source.</li>
+<li>type  - optional case-insensitive string parameter specifying the bitmap image type for the encoded string (default PNG)<ul>
+<li>PNG  - save in Portable Network Graphics (PNG) format</li>
+<li>TIFF - save in Tagged Image File Format (TIFF) format</li>
+<li>BMP  - save in Windows bitmap image (BMP) format</li>
+<li>GIF  - save in Graphics Image Format (GIF) format</li>
+<li>JPEG - save in Joint Photographic Experts Group (JPEG) format</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>the bitmap image representation as a Base64 encoded string</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>You can convert the string back into an image object with <a href="#URL">hs.image.imageFromURL</a>, e.g. <code>hs.image.imageFromURL(string)</code></li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1397">extensions/image/libimage.m line 1397</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="name">
+            <a name="//apple_ref/cpp/Method/name" class="dashAnchor"></a>
+            <h5><a href="#name">name</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:name([name]) -&gt; imageObject | string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the name of the image represented by the hs.image object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>name</code> - an optional string specifying the new name for the hs.image object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if no argument is provided, returns the current name.  If a new name is specified, returns the hs.image object or nil if the name cannot be changed.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>see also <a href="#setName">hs.image:setName</a> for a variant that returns a boolean instead.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1252">extensions/image/libimage.m line 1252</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="saveToFile">
+            <a name="//apple_ref/cpp/Method/saveToFile" class="dashAnchor"></a>
+            <h5><a href="#saveToFile">saveToFile</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:saveToFile(filename, [scale], [filetype]) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Save the hs.image object as an image of type <code>filetype</code> to the specified filename.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>filename - the path and name of the file to save.</li>
+<li>scale    - an optional boolean, default false, which indicates that the image size (which macOS represents as points) should be scaled to pixels.  For images that have Retina scale representations, this may result in a saved image which is scaled down from the original source.</li>
+<li>filetype - optional case-insensitive string parameter specifying the file type to save (default PNG)<ul>
+<li>PNG  - save in Portable Network Graphics (PNG) format</li>
+<li>TIFF - save in Tagged Image File Format (TIFF) format</li>
+<li>BMP  - save in Windows bitmap image (BMP) format</li>
+<li>GIF  - save in Graphics Image Format (GIF) format</li>
+<li>JPEG - save in Joint Photographic Experts Group (JPEG) format</li>
+</ul>
+</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>Status - a boolean value indicating success (true) or failure (false)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Saves image at the size in points (or pixels, if <code>scale</code> is true) as reported by <a href="#size">hs.image:size()</a> for the image object</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1487">extensions/image/libimage.m line 1487</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setName">
+            <a name="//apple_ref/cpp/Method/setName" class="dashAnchor"></a>
+            <h5><a href="#setName">setName</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:setName(Name) -&gt; boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Assigns the name assigned to the hs.image object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>Name - the name to assign to the hs.image object.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>Status - a boolean value indicating success (true) or failure (false) when assigning the specified name.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method is included for backwards compatibility and is considered deprecated.  It is equivalent to <code>hs.image:name(name) and true or false</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/image.lua#L39">extensions/image/image.lua line 39</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="setSize">
+            <a name="//apple_ref/cpp/Method/setSize" class="dashAnchor"></a>
+            <h5><a href="#setSize">setSize</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:setSize(size [, absolute]) -&gt; object</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Returns a copy of the image resized to the height and width specified in the size table.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>size     - a table with 'h' and 'w' keys specifying the size for the new image.</li>
+<li>absolute - an optional boolean specifying whether or not the copied image should be resized to the height and width specified (true), or whether the copied image should be scaled proportionally to fit within the height and width specified (false).  Defaults to false.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>a copy of the image object at the new size</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>This method is included for backwards compatibility and is considered deprecated.  It is equivalent to <code>hs.image:copy():size(size, [absolute])</code>.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/image.lua#L53">extensions/image/image.lua line 53</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="size">
+            <a name="//apple_ref/cpp/Method/size" class="dashAnchor"></a>
+            <h5><a href="#size">size</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:size([size, [absolute]] ) -&gt; imageObject | size</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set the size of the image represented by the hs.image object.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>size</code>     - an optional table with 'h' and 'w' keys specifying the size for the image.</li>
+<li><code>absolute</code> - when specifying a new size, an optional boolean, default false, specifying whether or not the image should be resized to the height and width specified (true), or whether the copied image should be scaled proportionally to fit within the height and width specified (false).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>If arguments are provided, return the hs.image object; otherwise returns the current size</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>See also <a href="#setSize">hs.image:setSize</a> for creating a copy of the image at a new size.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1280">extensions/image/libimage.m line 1280</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="template">
+            <a name="//apple_ref/cpp/Method/template" class="dashAnchor"></a>
+            <h5><a href="#template">template</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:template([state]) -&gt; imageObject | boolean</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Get or set whether the image is considered a template image.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li><code>state</code> - an optional boolean specifying whether or not the image should be a template.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>if a parameter is provided, returns the hs.image object; otherwise returns the current value</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Notes</th>
+                  <td><ul>
+<li>Template images consist of black and clear colors (and an alpha channel). Template images are not intended to be used as standalone images and are usually mixed with other content to create the desired final appearance.</li>
+<li>Images with this flag set to true usually appear lighter than they would with this flag set to false.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1587">extensions/image/libimage.m line 1587</a></td>
+              </tr>
+            </table>
+          </section>
+          <section id="toASCII">
+            <a name="//apple_ref/cpp/Method/toASCII" class="dashAnchor"></a>
+            <h5><a href="#toASCII">toASCII</a></h5>
+            <table>
+              <tr>
+                <th>Signature</th>
+                <td><code>hs.image:toASCII([width, height]) -&gt; string</code></td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>Method</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><p>Converts an image to an ASCII representation of the image in the form of a string.</p>
+</td>
+              </tr>
+              <tr>
+                  <th>Parameters</th>
+                  <td><ul>
+<li>width - An optional width in pixels (defaults to image width if nothing supplied).</li>
+<li>height - An optional height in pixels (defaults to image height if nothing supplied).</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                  <th>Returns</th>
+                  <td><ul>
+<li>A string.</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <th>Source</th>
+                <td><a href="https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/image/libimage.m#L1630">extensions/image/libimage.m line 1630</a></td>
+              </tr>
+            </table>
+          </section>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+name: Deploy site
+
+# Builds www.hammerspoon.org and deploys it to GitHub Pages.
+#
+# The Jekyll build uses the same github-pages gem as GitHub's legacy
+# branch-based Pages build, so the site comes out the same as it always has.
+
+on:
+  # The v1 release process commits docs and release notes to master.
+  push:
+    branches: [master]
+  # Build, but don't deploy, pull requests, to check they still build.
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Deployments must not interleave.
+concurrency:
+  group: pages-${{ github.event_name == 'pull_request' && github.ref || 'deploy' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout site
+        uses: actions/checkout@v7
+
+      - name: Build site with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

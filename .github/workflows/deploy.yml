@@ -4,6 +4,11 @@ name: Deploy site
 #
 # The Jekyll build uses the same github-pages gem as GitHub's legacy
 # branch-based Pages build, so the site comes out the same as it always has.
+#
+# Hammerspoon 2 is served at /2/, straight from the gh-pages branch of
+# Hammerspoon/Hammerspoon2, which holds every published version of its docs
+# and its signed Sparkle appcast. Its CI and release script trigger this
+# workflow whenever that branch changes.
 
 on:
   # The v1 release process commits docs and release notes to master.
@@ -12,6 +17,9 @@ on:
   # Build, but don't deploy, pull requests, to check they still build.
   pull_request:
   workflow_dispatch:
+  # Hammerspoon2's publish-docs.yml, after it updates its gh-pages branch.
+  repository_dispatch:
+    types: [hs2-docs]
 
 permissions:
   contents: read
@@ -36,6 +44,22 @@ jobs:
         with:
           source: ./
           destination: ./_site
+
+      - name: Checkout Hammerspoon 2 docs and appcast
+        uses: actions/checkout@v7
+        with:
+          repository: Hammerspoon/Hammerspoon2
+          ref: gh-pages
+          path: hs2-gh-pages
+          persist-credentials: false
+
+      - name: Add Hammerspoon 2 at /2/
+        run: |
+          # The Jekyll build runs in a container as root, so _site is root's.
+          sudo chown -R "$(id -u):$(id -g)" _site
+          rm -rf hs2-gh-pages/.git
+          mv hs2-gh-pages _site/2
+          du -sh _site _site/2
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5

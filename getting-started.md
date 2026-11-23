@@ -20,6 +20,7 @@ Lua is a simple programming language. If you have never programmed in Lua before
  * Run Hammerspoon.app and follow the prompts to enable Accessibility access for the app
  * Click on the Hammerspoon menu bar icon and choose `Open Config` from the menu
  * Open the Hammerspoon [API docs](http://www.hammerspoon.org/docs/) in your browser, to explore the extensions we provide, and the functions they offer
+ * To avoid Mac safety features intervening with the API go to System Settings > Privacy & Security > Accessibility and enable Hammerspoon
 
 ## Table of Contents
 
